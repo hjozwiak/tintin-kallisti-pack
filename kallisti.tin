@@ -1,0 +1,16 @@
+#nop {Legends of Kallisti
+Feature pack by Hunter Jozwiak and contributors
+License: GNU GPL v3
+Purpose: Base file for starting the game}
+#nop Stuff we do after the program loads
+#event {PROGRAM START}
+ { #echo {Welcome to the Legends of Kallisti feature pack! Code is 
+written by Hunter Jozwiak and contributors. Type login to connect!}
+
+}
+#nop the Login alias
+#alias {login} {#session km kallistimud.com 4000}
+#nop Post connection activities
+#event {SESSION CONNECTED} {#config repeat on
+#var soundDir ./sounds
+}
