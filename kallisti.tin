@@ -1,16 +1,86 @@
-#nop {Legends of Kallisti
-Feature pack by Hunter Jozwiak and contributors
-License: GNU GPL v3
-Purpose: Base file for starting the game}
-#nop Stuff we do after the program loads
-#event {PROGRAM START}
- { #echo {Welcome to the Legends of Kallisti feature pack! Code is 
-written by Hunter Jozwiak and contributors. Type login to connect!}
+#ALIAS {^{aa|login}$}
+{
+	#if {!&{connected}}
+	{
+		#if {$mudPort == 3102 || $mudPort == 3110}
+		{
+			#ssl {$mudSessionName} {$mudAddress} {$mudPort}
+		};
+		#else
+		{
+			#session {$mudSessionName} {$mudAddress} {$mudPort}
+		}
+	};
+	#else
+	{
+		#send {%0}
+	}
+}
+{8}
 
+#ALIAS {^CMOTD$}
+{
+	#echo {@separator{}};
+	#system {fold -w $(tput cols) -s MOTD}
+	#echo {@separator{}}
 }
-#nop the Login alias
-#alias {login} {#session km kallistimud.com 4000}
-#nop Post connection activities
-#event {SESSION CONNECTED} {#config repeat on
-#var soundDir ./sounds
+{9}
+
+#ALIAS {^mod{kill|load|reload} %S$}
+{
+	#nop {reload all modules};
+	#if {"%0" == "modreload all"}
+	{
+		#script {for module in modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {$(basename "$module" .tin)} {read} {$module}";done};
+		#echo {All modules reloaded}
+	};
+	#else
+	{
+		#nop {Kill, load, or reload a specified module.};
+		#if {"%1" == "{kill|reload}"}
+		{
+			#class {%2} {kill};
+			#showme {Class %2 has been killed.}
+		};
+		#if {"%1" == "{load|reload}"}
+		{
+			#showme {Loading modules/%2.tin};
+			#class {%2} {read} {modules/%2.tin};
+			#class {gameData} {open}
+		}
+	}
 }
+{9}
+
+#EVENT {PROGRAM START}
+{
+	#nop {Set the home directory variable.};
+	#script {HOME} {if [ -z "$XDG_CONFIG_HOME" ] ; then if ! [ -d "$HOME/.config/${tintinPackName}/" ] ; then mkdir -p "$HOME/.config/${tintinPackName}";fi;echo -n "$HOME/.config/${tintinPackName}";else if ! [ -d "$XDG_CONFIG_HOME/${tintinPackName}/" ] ; then mkdir -p "$XDG_CONFIG_HOME/-${tintinPackName}/";fi;echo -n "$XDG_CONFIG_HOME/${tintinPackName}";fi};
+	#variable {HOME} {${HOME[1]}};
+	#replace {HOME} {-n } {};
+	#nop {Run the soundpack_manager script.};
+	#script {scripts/soundpack_manager.sh ${HOME}/sounds};
+	#nop {Load all the .tin files in the modules directory in classes named after the module name.};
+	#script {for module in modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {read} {$module}";done};
+	#nop {Display intro message.};
+	#echo {@separator{}};
+	#system {fold -w $(tput cols) -s MOTD};
+	#echo {@separator{}};
+	#echo {To get started type login};
+}
+
+#EVENT {SESSION CONNECTED}
+{
+	SYNTH_PLAY connectedSound;
+	#nop {Set connected to true so if you accidently type login it won't try to login twice.};
+	#variable {connected} {true};
+	#nop {Create the log directory if it doesn't exist. Log files are based on date and time.};
+	#script {logFilePath} {date +'log/%Y/%B/%d/'};
+	#variable {logFilePath} {${HOME}/${logFilePath[1]}};
+	#script {logFileName} {date +'%I_%M%p.log'};
+	#system {mkdir -p $logFilePath};
+	#log {overwrite} {${logFilePath}${logFileName[1]}}
+}
+
+#VARIABLE         {motd}  {}
+#VARIABLE         {tintinPackName}  {tintin-kallisti-pack}
