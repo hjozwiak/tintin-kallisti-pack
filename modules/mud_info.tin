@@ -1,0 +1,3 @@
+#VARIABLE         {mudAddress}  {legendsofkallisti.com}
+#VARIABLE         {mudPort}  {4000}
+#VARIABLE         {mudSessionName}  {Legends of Kallisti}

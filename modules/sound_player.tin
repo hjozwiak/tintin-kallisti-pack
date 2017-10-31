@@ -1,0 +1,52 @@
+#ACTION {^!!SOUND(%1)$}
+{
+	PLAY %1
+}
+{9}
+
+#ALIAS {PLAY %S}
+{
+	#system {play -qV0 "${HOME}/sounds/%1" gain $volume &> /dev/null &}
+}
+{9}
+
+#ALIAS {^SYNTH_PLAY %1}
+{
+	#system {play -qV0 ${%1} gain $volume&}
+}
+{9}
+
+#EVENT {IAC WILL MSP}
+{
+	#send {\xFF\xFD\x5A\};
+	#unevent {IAC WILL MSP}
+}
+
+#GAG              {^!!SOUND%*}
+#MACRO {\e>}
+{
+	#if {$volume <= -40}
+	{
+		#variable {volume} {-40}
+	};
+	#else
+	{
+		#math {volume} {$volume - 2}
+	};
+	SYNTH_PLAY newVolumeSound;
+}
+
+#MACRO {\e?}
+{
+	#if {$volume >= 0}
+	{
+		#variable {volume} {0}
+	};
+	#else
+	{
+		#math {volume} {$volume + 2}
+	};
+	SYNTH_PLAY newVolumeSound;
+}
+
+#VARIABLE         {volume}  {0}

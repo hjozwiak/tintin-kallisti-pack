@@ -1,0 +1,2 @@
+#VARIABLE         {connectedSound}  {"|sox -np synth tri C6 fade 0 0.02 0.01" repeat 6}
+#VARIABLE         {newVolumeSound}  {"|sox -np synth .05 sq B5" gain -5}

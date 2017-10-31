@@ -1,0 +1,6 @@
+#nop {file: vars.tin
+Author: Hunter Jozwiak and contributors
+Purpose: Keeping track of variables necessary for the client to run.}
+#nop The sound directory
+#var {soundDir} {./sounds}
+
