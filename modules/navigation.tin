@@ -1,4 +1,4 @@
-#action {The %1 to the %2 is closed.} {open %1}
+#action {The %1 to the %2 seems to be closed.} {open %1}
 #action {%1 {crawls|limps|staggers} %S.$}
 {
 #variable {runAway} {%1};
