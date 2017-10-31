@@ -1,5 +1,8 @@
 TODO List for Kallisti Pack
-Implement triggers for MSP events, as well as get audio playing working 
+
+Items marked with * are done.
+
+* Implement triggers for MSP events, as well as get audio playing working 
 in a decent manner.
 Set up a run script to allow for easy connection to the game; possibly 
 will need to enable config settings after startup event. Unsure.
