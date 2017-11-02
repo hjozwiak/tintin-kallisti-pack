@@ -4,6 +4,12 @@ Items marked with * are done.
 
 * Implement triggers for MSP events, as well as get audio playing working 
 in a decent manner.
-Set up a run script to allow for easy connection to the game; possibly 
+* Set up a run script to allow for easy connection to the game; possibly 
 will need to enable config settings after startup event. Unsure.
+Verify that the pack works properly under Windows environments; the 
+author does not have a box to do this with.
+Determine the sMSDP features, if any.
+Set up a system for managing skills and player information, i.e., 
+experience, gold, etc.
+Impllement social network sharing on events.
 
