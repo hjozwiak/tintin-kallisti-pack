@@ -1,18 +1,18 @@
-#action {^<%w: %S> '%3'$}
+#ACTION {^%w {say|tell}%3 '%4'$}
 {
-Channel_Event %1 %0
+	Channel_Event %2 %0
 }
 {9}
 
-#alias {^display_channel %w %d}
+#ACTION {^<%w: %S> '%3'$}
 {
-#echo {${%1List[%2]}}
+	Channel_Event %1 %0
 }
 {9}
 
 #ALIAS {^Channel_Event %S %2}
 {
-SYNTH_PLAY %1Channel;
+	SYNTH_PLAY %1Channel;
 	#list {AllList} {insert} {1} {%2};
 	#list {%1List} {insert} {1} {%2};
 	#list {%1List} {size} {i};
@@ -23,6 +23,18 @@ SYNTH_PLAY %1Channel;
 	#unvariable {i}
 }
 {9}
+
+#ALIAS {^display_channel %w %d}
+{
+	#echo {${%1List[%2]}}
+}
+{9}
+
+#FUNCTION {total_channels}
+{
+	#list {channelBuffer} {size} {result};
+	#math {result} {${result} - 1}
+}
 
 #MACRO {\e!}
 {
@@ -36,9 +48,21 @@ SYNTH_PLAY %1Channel;
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
-#MACRO {\e*}
+#MACRO {\e$}
 {
-	#variable {channelBufferIndex} {7};
+	#variable {channelBufferIndex} {3};
+	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+}
+
+#MACRO {\e%}
+{
+	#variable {channelBufferIndex} {4};
+	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+}
+
+#MACRO {\e&}
+{
+	#variable {channelBufferIndex} {6};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
@@ -48,9 +72,9 @@ SYNTH_PLAY %1Channel;
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
-#MACRO {\e$}
+#MACRO {\e*}
 {
-	#variable {channelBufferIndex} {3};
+	#variable {channelBufferIndex} {7};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
@@ -119,9 +143,9 @@ SYNTH_PLAY %1Channel;
 
 #MACRO {\e=}
 {
-	#if {!&{channelBufferIndex} || $channelBufferIndex >= $totalChannels}
+	#if {!&{channelBufferIndex} || $channelBufferIndex >= @total_channels{}}
 	{
-		#variable {channelBufferIndex} {$totalChannels}
+		#variable {channelBufferIndex} {@total_channels{}}
 	};
 	#else
 	{
@@ -136,9 +160,16 @@ SYNTH_PLAY %1Channel;
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
-#MACRO {\e&}
+#MACRO {\e[1;3C}
 {
-	#variable {channelBufferIndex} {6};
+	#if {!&{channelBufferIndex} || $channelBufferIndex >= @total_channels{}}
+	{
+		#variable {channelBufferIndex} {@total_channels{}}
+	};
+	#else
+	{
+		#math {channelBufferIndex} {$channelBufferIndex + 1}
+	};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
@@ -148,30 +179,12 @@ SYNTH_PLAY %1Channel;
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
-#MACRO {\e%}
-{
-	#variable {channelBufferIndex} {4};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
-}
-
-#MACRO {\e[1;3C}
-{
-	#if {!&{channelBufferIndex} || $channelBufferIndex >= $totalChannels}
-	{
-		#variable {channelBufferIndex} {$totalChannels}
-	};
-	#else
-	{
-		#math {channelBufferIndex} {$channelBufferIndex + 1}
-	};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
-}
-
-#VARIABLE         {awayMessage}  {false}
-#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Gossip}{3}{Music}}
-#variable {channelBufferIndex} {0}
-#VARIABLE         {AllList}  {}
 #VARIABLE         {AdviceList}  {}
+#VARIABLE         {AllList}  {}
 #VARIABLE         {GossipList}  {}
 #VARIABLE         {MusicList}  {}
-#VARIABLE         {totalChannels}  {4}
+#VARIABLE         {SayList}  {}
+#VARIABLE         {TellList}  {}
+#VARIABLE         {awayMessage}  {false}
+#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Gossip}{3}{Music}{4}{Say}{5}{Tell}}
+#VARIABLE         {channelBufferIndex}  {0}

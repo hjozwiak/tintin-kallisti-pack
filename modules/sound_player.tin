@@ -12,7 +12,7 @@
 
 #ALIAS {^SYNTH_PLAY %1}
 {
-	#system {play -qV0 ${%1} gain $volume&}
+	#system {play -qV0 ${%1} gain $volume &> /dev/null &}
 }
 {9}
 

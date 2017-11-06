@@ -1,0 +1,23 @@
+#alias {^{noc|c}spam$}
+{
+#if {"%0" == "cspam"}
+{
+#class {applied_spam_settings} {read} {modules/spam.rules};
+#variable {cspam} {true};
+#echo {Client side spam filters applied.}
+};
+#else
+{
+#class {applied_spam_settings} {kill};
+#unvariable {cspam};
+#echo {Client side spam filters removed.}
+}
+}
+{9}
+
+#macro {\e/}
+{
+#nop {toggle the locked state of the buffer};
+#echo {buffer lock toggled.};
+#buffer {lock}
+}
