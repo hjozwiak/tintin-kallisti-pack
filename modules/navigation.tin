@@ -33,9 +33,9 @@
 }
 {9}
 
-#ACTION {^Alas, you cannot go that way.$}
+#ACTION {^Alas, you cannot go {east|north|south|west}...$}
 {
-	#system {play -qnV0 synth 0.5 tri 400:300 tri 700:500 remix - fade 0 0.2 0.5&}
+SYNTH_PLAY cannot_go_%1
 }
 {9}
 

@@ -1,0 +1,6 @@
+#action {^You receive your reward for the kill, %d experience points.$}
+{
+look in corpse
+}
+{9}
+
