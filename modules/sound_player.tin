@@ -6,7 +6,7 @@
 
 #ALIAS {PLAY %S}
 {
-	#system {play -qV0 "${HOME}/sounds/%1" gain $volume &> /dev/null &}
+	#system {play -qV0 "${HOME}/sounds/$(shuf -n1 -e %1)" gain $volume &> /dev/null &}
 }
 {9}
 
