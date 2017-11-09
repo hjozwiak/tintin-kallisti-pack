@@ -33,7 +33,7 @@
 }
 {9}
 
-#ACTION {^Alas, you cannot go {east|north|south|west}...$}
+#ACTION {^Alas, you cannot go {down|east|north|south|up|west}...$}
 {
 SYNTH_PLAY cannot_go_%1
 }

@@ -3,9 +3,11 @@
 #VARIABLE         {MusicChannel}  {"|sox -np synth pl E4 pl C4 pl A3 pl E3 pl A2 delay 0 .05 .1 .15 .2 remix - fade 0 0.5 .1 flanger norm -1 vol 0.4"}
 #VARIABLE         {SayChannel}  {"|sox -np synth pl E1 pl B1 remix - gain -6 fade 0 0.2 0.5"}
 #VARIABLE         {TellChannel}  {"|sox -np synth pl G2 pl G3 pl D3 pl D4 pl E3 pl E4 delay 0 .05 .25 .3 .5 .55 remix - fade p 0 .74 .75 flanger norm -10 tempo 1.8"}
+#VARIABLE         {cannot_go_down}  {"|sox -np synth 0.5 tri 200:100 tri 500:300 remix - fade 0 0.2 0.5"}
 #VARIABLE         {cannot_go_east}  {"|sox -np synth 0.5 tri 400:300 tri 700:500 remix - fade 0 0.2 0.5" remix v0.3 v0.9}
 #VARIABLE         {cannot_go_north}  {"|sox -np synth 0.5 tri 300:400 tri 500:700 remix - fade 0 0.2 0.5"}
 #VARIABLE         {cannot_go_south}  {"|sox -np synth 0.5 tri 400:300 tri 700:500 remix - fade 0 0.2 0.5"}
+#VARIABLE         {cannot_go_up}  {"|sox -np synth 0.5 tri 500:600 tri 700:900 remix - fade 0 0.2 0.5"}
 #VARIABLE         {cannot_go_west}  {"|sox -np synth 0.5 tri 400:300 tri 700:500 remix - fade 0 0.2 0.5" remix v0.9 v0.3}
 #VARIABLE         {connectedSound}  {"|sox -np synth tri C6 fade 0 0.02 0.01" repeat 6}
 #VARIABLE         {newVolumeSound}  {"|sox -np synth .05 sq B5" gain -5}
