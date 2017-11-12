@@ -1,7 +1,6 @@
-<script src="https://liberapay.com/hjozwiak/widgets/button.js"></script>
-<noscript><a href="https://liberapay.com/hjozwiak/donate"><img 
-alt="Donate using Liberapay" 
-src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
+
+<a href="https://liberapay.com/hjozwiak/donate"> Donate Using Liberapay 
+</a>
 # tintin-kallisti-pack
 A feature pack for the Legends of Kallisti, using the TinTin client.
 Code contributions are welcome. For feature requests or bugs, please use 
