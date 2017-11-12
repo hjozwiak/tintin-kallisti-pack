@@ -1,41 +1,16 @@
-#action {The %1 to the %2 seems to be closed.} {open %1}
-#action {%1 {crawls|limps|staggers} %S.$}
+#ACTION {The %1 to the %2 seems to be closed.}
 {
-#variable {runAway} {%1};
-#variable {fleeDirection} {%3}
-}
-{5}
-
-#action {%1 has fled!$}
-{
-#if {"%1" == "$runAway"}
-{
-#switch {"$fleeDirection"}
-{
-#case {"east"}
-{
-#system {play -qV0 "|sox -np synth 0.1 wh" "|sox -np synth 0.1 wh remix v0.5 v1" "|sox -np synth 0.1 wh remix v0 v1" gain $volume&}
-};
-#case {"north"}
-{
-#system {play -qV0 "|sox -np synth 0.1 wh" "|sox -np synth 0.1 wh remix v0.5 v0.5" "|sox -np synth 0.1 wh remix v0.2 v0.2" gain $volume&}
-};
-#case {"south"}
-{
-#system {play -qV0 "|sox -np synth 0.1 br" "|sox -np synth 0.1 br remix v0.5 v0.5" "|sox -np synth 0.1 br remix v0.2 v0.2" gain $volume&}
-};
-#case {"west"}
-{
-#system {play -qV0 "|sox -np synth 0.1 wh" "|sox -np synth 0.1 wh remix v1 v0.5" "|sox -np synth 0.1 wh remix v1 v0" gain $volume&}
-};
-}
-}
+	#regexp {%1} {{.*} {.*}} {open &2};
+	#else
+	{
+		open %1
+	}
 }
 {9}
 
 #ACTION {^Alas, you cannot go {down|east|north|south|up|west}...$}
 {
-SYNTH_PLAY cannot_go_%1
+	SYNTH_PLAY cannot_go_%1
 }
 {9}
 
@@ -62,6 +37,11 @@ SYNTH_PLAY cannot_go_%1
 #MACRO {\ej}
 {
 	w
+}
+
+#MACRO {\ek}
+{
+	scan
 }
 
 #MACRO {\el}
