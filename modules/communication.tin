@@ -1,3 +1,9 @@
+#ACTION {^%w tell%2, '%3'$}
+{
+	Channel_Event Tell %0
+}
+{9}
+
 #ACTION {^%w {say|tell}%3 '%4'$}
 {
 	Channel_Event %2 %0
@@ -184,7 +190,6 @@
 	#variable {channelBufferIndex} {5};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
-
 #VARIABLE         {AdviceList}  {}
 #VARIABLE         {AllList}  {}
 #VARIABLE         {GossipList}  {}
