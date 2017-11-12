@@ -10,6 +10,12 @@
 }
 {9}
 
+#ACTION {^{\*\*|You }%w: %2}
+{
+	Channel_Event GroupTell %0
+}
+{9}
+
 #ALIAS {^Channel_Event %S %2}
 {
 	SYNTH_PLAY %1Channel;
@@ -186,5 +192,5 @@
 #VARIABLE         {SayList}  {}
 #VARIABLE         {TellList}  {}
 #VARIABLE         {awayMessage}  {false}
-#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Gossip}{3}{Music}{4}{Say}{5}{Tell}}
+#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Gossip}{3}{GroupTell}{4}{Music}{5}{Say}{6}{Tell}}
 #VARIABLE         {channelBufferIndex}  {0}

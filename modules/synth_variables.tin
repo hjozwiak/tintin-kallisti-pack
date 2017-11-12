@@ -1,5 +1,6 @@
 #VARIABLE         {AdviceChannel}  {"|sox -np synth sine 480 sine 660 sine 550 sine 770 sine 990 sine 1200 delay 0 0 .1 .1 .2 .2 remix - fade 0 0.35"}
 #VARIABLE         {GossipChannel}  {"|sox -np synth .1 pink pl G3 pl A3" remix - reverse}
+#VARIABLE         {GroupTellChannel}  {"|sox -np synth .2 sq B3 tri E3" "|sox -np synth .55 tri B2 sq E2" remix - phaser gain -3}
 #VARIABLE         {MusicChannel}  {"|sox -np synth pl E4 pl C4 pl A3 pl E3 pl A2 delay 0 .05 .1 .15 .2 remix - fade 0 0.5 .1 flanger norm -1 vol 0.4"}
 #VARIABLE         {SayChannel}  {"|sox -np synth pl E1 pl B1 remix - gain -6 fade 0 0.2 0.5"}
 #VARIABLE         {TellChannel}  {"|sox -np synth pl G2 pl G3 pl D3 pl D4 pl E3 pl E4 delay 0 .05 .25 .3 .5 .55 remix - fade p 0 .74 .75 flanger norm -10 tempo 1.8"}
