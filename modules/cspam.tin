@@ -21,3 +21,4 @@
 #echo {buffer lock toggled.};
 #buffer {lock}
 }
+#variable {oldPrompt} {}
