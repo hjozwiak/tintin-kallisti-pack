@@ -192,10 +192,11 @@
 }
 #VARIABLE         {AdviceList}  {}
 #VARIABLE         {AllList}  {}
+#VARIABLE         {BarterList}  {}
 #VARIABLE         {GossipList}  {}
 #VARIABLE         {MusicList}  {}
 #VARIABLE         {SayList}  {}
 #VARIABLE         {TellList}  {}
 #VARIABLE         {awayMessage}  {false}
-#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Gossip}{3}{GroupTell}{4}{Music}{5}{Say}{6}{Tell}}
+#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Gossip}{4}{GroupTell}{5}{Music}{6}{Say}{7}{Tell}}
 #VARIABLE         {channelBufferIndex}  {0}
