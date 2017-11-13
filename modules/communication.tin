@@ -16,7 +16,7 @@
 }
 {9}
 
-#ACTION {^{\*\*|You }%w: %2}
+#ACTION {^{\*\*\w|You grouptell}: %2}
 {
 	Channel_Event GroupTell %0
 }
