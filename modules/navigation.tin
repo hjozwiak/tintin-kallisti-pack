@@ -1,9 +1,9 @@
 #ACTION {The %1 to the %2 seems to be closed.}
 {
-	#regexp {%1} {{.*} {.*}} {open &2};
+	#regexp {%1} {{.*} {.*}} {open &2 %2};
 	#else
 	{
-		open %1
+		open %1 %2
 	}
 }
 {9}
