@@ -1,9 +1,0 @@
-#alias {tankfor} {
-#variable {tankTarget} {%1};
-#showme You are now rescuing $tankTarget
-}
-#macro {\ez} {deathstroke}
-#macro {\ex} {berserk}
-#macro {\ec} {kick}
-#macro {\ev} {rescue $tankTarget}
-
