@@ -1,4 +1,17 @@
-#NOP {tintin++ specific settings. For help on a sepcific setting, type #help option name, for example #help log.}
+#ACTION {^ %s*** PRESS ENTER ***$}
+{
+	#nop {Insert the enter command because repeat enter is on by default};
+	#history {insert} {#cr}
+}
+{9}
+
+#ACTION {^ %s--> Press <ENTER> to continue scrolling text, Q to quit (PAGES LEFT: 1) <--$}
+{
+	#nop {Insert the enter command because repeat enter is on by default};
+	#history {insert} {#cr}
+}
+{9}
+
 #CONFIG           {256 COLORS}  {OFF}
 #CONFIG           {AUTO TAB}  {5000}
 #CONFIG           {BUFFER SIZE}  {20000}
