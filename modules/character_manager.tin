@@ -4,7 +4,7 @@
 #if {"${character.active}" == "$character.name}"
 ]{
 #class {character} {write} {${HOME}/${character.name}};
-#history {write} {${HOME}/${character.name}\.history}
+#history {write} {${HOME}/${character.name}_history}
 }
 }
 {9}
@@ -13,7 +13,7 @@
 {
 #variable {character.name} {${character.active}};
 #class {character} {kill};
-#history {read} {${HOME}/${character.name}\.history};
+#history {read} {${HOME}/${character.name}_history};
 #class {character} {read} {${HOME}/${character.name}};
 #if {"${cspam}" == "true"}
 {
