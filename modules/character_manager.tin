@@ -1,0 +1,25 @@
+#action {^ %sActive: %w [Level %d %S]$}
+{
+#variable {character.active} {%2};
+#if {"${character.active}" == "$character.name}"
+]{
+#class {character} {write} {${HOME}/${character.name}};
+#history {write} {${HOME}/${character.name}\.history}
+}
+}
+{9}
+
+#action {^Welcome to the Legendary Lands of Kallisti.$}
+{
+#variable {character.name} {${character.active}};
+#class {character} {kill};
+#history {read} {${HOME}/${character.name}\.history};
+#class {character} {read} {${HOME}/${character.name}};
+#if {"${cspam}" == "true"}
+{
+#class {applied_spam_settings} {read} {modules/spam.rules}
+};
+#class {character} {open}
+}
+{9}
+#variable {character.active} {none}
