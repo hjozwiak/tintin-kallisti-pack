@@ -1,7 +1,8 @@
 #ALIAS {^{test|login}$}
 {
-	#if {!&{connected}}
+	#if {"%0" == "test"}
 	{
+		#nop {Change to the test port.};
 		#variable {mudPort} {4001}
 	};
 	#if {!&{connected}}
