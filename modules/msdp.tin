@@ -17,9 +17,9 @@
 #ALIAS {MSDP_REPORT}
 {
 	#variable result {$IAC$SB$MSDP_PROTOCOL${VAR}REPORT};
-	#forall {${MSDP.REPORTABLE_VARIABLES}[]}
+	#forall {${MSDP_REPORTABLE_VARIABLES}[]}
 	{
-		#variable result {$result${VAL}${MSDP.REPORTABLE_VARIABLES}[&0]}
+		#variable result {$result${VAL}${MSDP_REPORTABLE_VARIABLES}[&0]}
 	};
 	#send {$result$IAC$SE\}
 }
@@ -34,7 +34,7 @@
 #EVENT {IAC SB MSDP}
 {
 	#nop Save all variables in an MSDP list.;
-	#variable {MSDP[%0]} {%1};
+	#variable {MSDP_%0} {%1};
 	#switch {"%0"}
 	{
 		#case {"PLAY_SOUND"}
