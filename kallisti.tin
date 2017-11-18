@@ -1,5 +1,10 @@
-#ALIAS {^{aa|login}$}
+#ALIAS {^{test|login}$}
 {
+	#if {"%0" == "test"}
+	{
+		#nop {Change to the test port.};
+		#variable {mudPort} {4001}
+	};
 	#if {!&{connected}}
 	{
 		#if {$mudPort == 3102 || $mudPort == 3110}
