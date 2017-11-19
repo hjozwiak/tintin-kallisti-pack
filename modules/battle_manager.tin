@@ -1,3 +1,18 @@
+#action {%1 flies from your grasp.$}
+{
+#regexp {%1} {{.*} {.*}} {get &2;wield &2} {get %1;wield %1}
+}
+{9}
+
+#action {^%w places something%*}
+{
+#if {"%1" == "{${autorescueList}}"}
+{
+rescue %1
+}
+}
+{9}
+
 #alias {^{noautorescue|autorescue .+}$}
 {
 #if {"%0" == "noautorescue"}
