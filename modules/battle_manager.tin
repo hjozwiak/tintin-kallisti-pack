@@ -1,6 +1,58 @@
+#alias {^{noautorescue|autorescue .+}$}
+{
+#if {"%0" == "noautorescue"}
+{
+#echo {You will no longer automatically rescue anyone.};
+#variable {autorescueList} {}
+};
+#else
+{
+#variable {autorescueList} {};
+#regexp {%0} {{\w+} {.*}} {#variable {tmp.battle_manager} {&2}};
+#replace {tmp.battle_manager} { } {;};
+#forall {${tmp.battle_manager}} {#format {i} {%n} {&0};#variable {autorescueList} {${autorescueList} $i}};
+#format {autorescueList} {%p} {$autorescueList};
+#echo {You are automatically rescuing: ${autorescueList}};
+#replace {autorescueList} { } {|}
+}
+}
+{9}
+
+#action {%1 hits %w {${DAMAGE}}{\.|!}$}
+{
+#if {"%2" == "{${autorescueList}}"}
+{
+#if {!&{spam.rescue%2}}
+{
+rescue %2;
+spamset rescue%2
+}
+}
+}
+{9}
+
 #action {^You receive your reward for the kill, %d experience points.$}
 {
+#if {"${tankName}" != ""}
+{
+reform $tankName fr
+};
 look in corpse
 }
 {9}
 
+#alias {^{notank|tank|tank \w+}$}
+{
+#if {"%0" == "notank"}
+{
+#variable {tankName} {}
+};
+#else
+{
+#regexp {%0} {{.*} {.*}} {#variable {tankName} {&2}} {#variable {tankName} {me}}
+}
+}
+{9}
+#variable {tankName} {}
+#variable {DAMAGE} {tickle|barely hit|hit|hard|very hard|extremely hard|massacre to small fragments|obliterate|annihilate|mutilate|immolate|liquify|vaporize|critically vaporize}
+#variable {autorescueList} {}
