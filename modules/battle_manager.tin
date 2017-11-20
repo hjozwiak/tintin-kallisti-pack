@@ -53,6 +53,8 @@ spamset rescue%2
 reform $tankName fr
 };
 look in corpse
+#nop You need to do this if you are wearing invisibility equipment
+save
 }
 {9}
 
