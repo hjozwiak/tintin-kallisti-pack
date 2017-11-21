@@ -1,0 +1,22 @@
+#event {RECEIVED INPUT}
+{
+#script {idle.lastUse} {date '+%s'};
+#variable {idle.lastUse} {${idle.lastUse[1]}}
+}
+
+#event {MINUTE}
+{
+#script {idle.time} {date '+%s'};
+#variable {idle.time} {${idle.time[1]}};
+#math {idle.seconds} {${idle.time} - ${idle.lastUse}};
+#if {${idle.seconds} > 120}
+{
+#switch {1d4}
+{
+#case {1} {l};
+#case {2} {lo};
+#case {3} {loo};
+#default {look}
+}
+}
+}
