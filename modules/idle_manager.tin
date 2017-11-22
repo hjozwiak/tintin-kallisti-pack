@@ -1,4 +1,4 @@
-#event {RECEIVED INPUT}
+#event {SEND OUTPUT}
 {
 #script {idle.lastUse} {date '+%s'};
 #variable {idle.lastUse} {${idle.lastUse[1]}}
