@@ -63,7 +63,8 @@ MSDP_REPORT
 {
 	#send {$IAC$DO$MSDP_PROTOCOL\};
         MSDP_LIST;
-	MSDP_CONFIGURE sound,1;
+	#nop {Uncooment the next line to use MSDP for sound instead of MSP};
+	#nop {MSDP_CONFIGURE sound,1};
 	#variable {MSDP} {supported.}
 }
 
