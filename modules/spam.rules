@@ -4,11 +4,12 @@
 }
 {9}
 
-#action {^< %w | %1h %2m %3s%4}
+#action {^< %w | %2h %3m %4s%5}
 {
-#variable {currenthp} {%1};
-#variable {currentmn} {%2};
-#variable {currentmv} {%3};
+#variable {name} {%1};
+#variable {currenthp} {%2};
+#variable {currentmn} {%3};
+#variable {currentmv} {%4};
 #if {"%0" != "$oldPrompt"}
 {
 #variable {oldPrompt} {%0}
