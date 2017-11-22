@@ -1,5 +1,14 @@
-#action {^< %w | %dh %*}
+#alias {^{hp|mn|mv}$}
 {
+#echo {${current%0}%0}
+}
+{9}
+
+#action {^< %w | %1h %2m %3s%4}
+{
+#variable {currenthp} {%1};
+#variable {currentmn} {%2};
+#variable {currentmv} {%3};
 #if {"%0" != "$oldPrompt"}
 {
 #variable {oldPrompt} {%0}
