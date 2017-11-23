@@ -24,6 +24,7 @@
 #substitute {%1 quickly avoids your backstab and you nearly cut your own finger!$} {%1 avoids your backstab!} {9}
 #substitute {%1 is mortally wounded and will die soon, if not aided.$} {%1 is morted.} {9}
 #substitute {%1 is incapacitated and will slowly die, if not aided.$} {%1 is is incapacitated.} {9}
+#substitute {\x7BRp\x7D} {} {9}
 #action {^At least %d other {person|people} heard you.$}
 {
 #if {%1 > 0}
