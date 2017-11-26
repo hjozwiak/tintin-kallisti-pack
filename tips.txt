@@ -1,0 +1,14 @@
+Tips for making the game less spammy for blind players. For modes, type toggle mode to turn it on or off.
+
+modes 
+
+briefcombat (on)
+melee (on)
+brief (on) 
+channelconfirm (off)
+compass (off)
+
+
+Client side filtering:
+
+Use the command cspam to apply client side spam filters. This is a constantly evolving setting, but should help with several things including making combat less spammy.
