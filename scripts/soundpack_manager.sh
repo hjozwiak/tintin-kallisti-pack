@@ -18,7 +18,7 @@ get_soundpack() {
   # Create a safe place to download the file
   local zipFile="$(mktemp -p /tmp XXXXXX.zip)"
   # Get the zip file
-  curl -s "$soundpackURL" -o "$zipFile"
+  curl -s --connect-timeout 5 "$soundpackURL" -o "$zipFile"
   # md5sum the file so we can check for updates.
   md5sum "$zipFile" | cut -d ' '  -f 1 > "$soundpackPath/version.txt"
   # Extract the file into the directory, overwrite existing files with the same name because of possible updates.
