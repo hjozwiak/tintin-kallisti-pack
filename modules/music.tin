@@ -1,3 +1,13 @@
+#action {^Your title is now <%1>.$}
+{
+#if {"%1" == "${music.newAutoTitleString}"}
+{
+	#line {gag};
+	#line {gag}
+}
+}
+{9}
+
 #ALIAS {^Get_Music_Message_String$}
 {
 	#switch {"${music.player}"}
@@ -509,4 +519,4 @@
 	}
 }
 
-#TICKER           {autotitle}  {#if {"${auto.title}" == "true" && "$editorMode" != "true"}{Get_Music_Message_String;#if {"${music.newAutoTitleString}" != "${music.oldAutoTitleString}"}{#variable {music.oldAutoTitleString} {${music.newAutoTitleString}};title ${music.newAutoTitleString} | prefix silent_}}}                                                                                                                                                                                                                                                         {1.50}
+#TICKER           {autotitle}  {#if {"${auto.title}" == "true" && "$editorMode" != "true"}{Get_Music_Message_String;#if {"${music.newAutoTitleString}" != "${music.oldAutoTitleString}"}{#variable {music.oldAutoTitleString} {${music.newAutoTitleString}};title ${music.newAutoTitleString}}}}                                                                                                                                                                                                                                                         {1.50}
