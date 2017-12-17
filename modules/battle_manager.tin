@@ -1,7 +1,9 @@
 #action {%1 flies from your grasp.$}
 {
 gt OH GODS NOOOO! I have been disarmed!;
-#regexp {%1} {{.*} {.*}} {get &2;wield &2} {get %1;wield %1}
+rem buckler;
+#regexp {%1} {{.*} {.*}} {get &2;wield &2} {get %1;wield %1};
+wear buckler
 }
 {9}
 

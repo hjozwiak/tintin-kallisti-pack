@@ -1,3 +1,9 @@
+#action {^The winds whisper, '%1'$}
+{
+Channel_Event Info %0
+}
+{9}
+
 #ACTION {^%w tell%2, '%3'$}
 {
 	Channel_Event Tell %0
@@ -194,9 +200,10 @@
 #VARIABLE         {AllList}  {}
 #VARIABLE         {BarterList}  {}
 #VARIABLE         {GossipList}  {}
+#VARIABLE         {InfoList}  {}
 #VARIABLE         {MusicList}  {}
 #VARIABLE         {SayList}  {}
 #VARIABLE         {TellList}  {}
 #VARIABLE         {awayMessage}  {false}
-#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Gossip}{4}{GroupTell}{5}{Music}{6}{Say}{7}{Tell}}
+#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Gossip}{4}{Info}{5}{GroupTell}{6}{Music}{7}{Say}{8}{Tell}}
 #VARIABLE         {channelBufferIndex}  {0}
