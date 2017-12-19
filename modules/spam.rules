@@ -1,3 +1,15 @@
+#gag {^You swiftly dodge %1 attack.$}
+#gag {^You hit %d of %d attac{k|ks} for %d damage.$}
+#action {^You are hit %d tim{e|es} for %d damage.$}
+{
+#if {%3 < ${currenthp} / 8}
+{
+#line {gag}
+}
+}
+{9}
+
+#gag {^You are hit 0 times.$}
 #alias {^{hp|mn|mv}$}
 {
 #echo {${current%0}%0}

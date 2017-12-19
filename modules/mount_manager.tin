@@ -1,0 +1,20 @@
+#ACTION {^You dismount from %1.$}
+{
+	#regexp {%1} {{.*} {.*}} {tether &2};
+	#else
+	{
+		tether %1
+	}
+}
+{9}
+
+#ACTION {^You try to ride %1, but you fall on your butt.$}
+{
+	stand;
+	#regexp {%1} {{.*} {.*}} {mount &2};
+	#else
+	{
+		mount %1
+	}
+}
+{9}
