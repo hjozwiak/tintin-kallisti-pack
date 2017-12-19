@@ -55,9 +55,18 @@ spamset rescue%2
 {
 reform $tankName fr
 };
+#nop {Do anything that needs to be scheduled on death.};
+#if {"${onDeath}" != ""}
+{
+#forall {${onDeath[]}}
+{
+${onDeath[&0]}
+};
+#list {onDeath} {clear}
+};
 look in corpse
 #nop You need to do this if you are wearing invisibility equipment
-save
+save;
 }
 {9}
 
@@ -76,3 +85,4 @@ save
 #variable {tankName} {}
 #variable {DAMAGE} {tickle|barely hit|hit|hard|very hard|extremely hard|massacre to small fragments|obliterate|annihilate|mutilate|immolate|liquify|vaporize|critically vaporize}
 #variable {autorescueList} {}
+#variable {onDeath} {}

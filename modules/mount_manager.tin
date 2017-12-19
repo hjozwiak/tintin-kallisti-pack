@@ -18,3 +18,14 @@
 	}
 }
 {9}
+
+#action {^You lose control and fall off of %1.$}
+{
+	#regexp {%1} {{.*} {.*}} {#list {onDeath} {add} {&2}};
+	#else
+	{
+		#list {onDeath} {add} {%1}
+	}
+}
+{9}
+
