@@ -1,0 +1,19 @@
+#ALIAS {^{get|give|put} %2, %3 {.*[^,].*}$}
+{
+	#variable {items} {%2, %3};
+	#replace {items} {,} {;};
+	#forall {$items}{%1 &0 %4};
+	#variable {items} {}
+}
+{8}
+
+#ALIAS {^{buy|donate|drop|get|give|take} %2, %3}
+{
+	#variable {items} {%2, %3};
+	#replace {items} {,} {;};
+	#forall {$items}{%1 &0};
+	#variable {items} {}
+}
+{9}
+
+#VARIABLE         {itemList}  {}

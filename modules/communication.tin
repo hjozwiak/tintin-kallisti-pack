@@ -1,3 +1,9 @@
+#action {^[%w:] '%2'$}
+{
+Channel_Event Chat %0
+}
+{9}
+
 #action {^The winds whisper, '%1'$}
 {
 Channel_Event Info %0
@@ -10,9 +16,16 @@ Channel_Event Info %0
 }
 {9}
 
-#ACTION {^%w {say|tell}%3 '%4'$}
+#ACTION {^%w {ask|exclaim|say|tell}%3 '%4'$}
+{
+#if {"%2" == "{ask|exclaim|say}"}
+{
+	Channel_Event Say %0
+};
+#else
 {
 	Channel_Event %2 %0
+}
 }
 {9}
 
@@ -30,6 +43,7 @@ Channel_Event Info %0
 
 #ALIAS {^Channel_Event %S %2}
 {
+	#history {delete};
 	SYNTH_PLAY %1Channel;
 	#list {AllList} {insert} {1} {%2};
 	#list {%1List} {insert} {1} {%2};
@@ -199,11 +213,12 @@ Channel_Event Info %0
 #VARIABLE         {AdviceList}  {}
 #VARIABLE         {AllList}  {}
 #VARIABLE         {BarterList}  {}
+#VARIABLE         {ChatList}  {}
 #VARIABLE         {GossipList}  {}
 #VARIABLE         {InfoList}  {}
 #VARIABLE         {MusicList}  {}
 #VARIABLE         {SayList}  {}
 #VARIABLE         {TellList}  {}
 #VARIABLE         {awayMessage}  {false}
-#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Gossip}{4}{Info}{5}{GroupTell}{6}{Music}{7}{Say}{8}{Tell}}
+#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Chat}{4}{Gossip}{5}{Info}{6}{GroupTell}{7}{Music}{8}{Say}{9}{Tell}}
 #VARIABLE         {channelBufferIndex}  {0}
