@@ -104,6 +104,12 @@ Channel_Event Info %0
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
+#MACRO {\e)}
+{
+	#variable {channelBufferIndex} {9};
+	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+}
+
 #MACRO {\e*}
 {
 	#variable {channelBufferIndex} {7};
