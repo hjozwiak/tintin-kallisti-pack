@@ -1,0 +1,8 @@
+#script {browser} {if hash elinks &> /dev/null; then echo "elinks";elif hash lynx &> /dev/null; then echo "lynx"; else echo "false";fi}
+#script {operatingSystem} {uname -s}
+#script {sed} {if [[ "$(uname -s)" == "Darwin" ]] ; then echo "gsed";else echo "sed";fi}
+#script {shuf} {if [[ "$(uname -s)" == "Darwin" ]] ; then echo "gshuf";else echo "shuf";fi}
+#variable {browser} {${browser[1]}}
+#variable {operatingSystem} {${operatingSystem[1]}}
+#variable {sed} {${sed[1]}}
+#variable {shuf} {${shuf[1]}}
