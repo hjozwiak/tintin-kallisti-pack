@@ -1,14 +1,8 @@
-#action {^[%w:] '%2'$}
+#ACTION {^{\*\*\w+|You grouptell}: %2}
 {
-Channel_Event Chat %0
+	Channel_Event GroupTell %0
 }
-{9}
-
-#action {^The winds whisper, '%1'$}
-{
-Channel_Event Info %0
-}
-{9}
+{8}
 
 #ACTION {^%w tell%2, '%3'$}
 {
@@ -18,14 +12,14 @@ Channel_Event Info %0
 
 #ACTION {^%w {ask|exclaim|say|tell}%3 '%4'$}
 {
-#if {"%2" == "{ask|exclaim|say}"}
-{
-	Channel_Event Say %0
-};
-#else
-{
-	Channel_Event %2 %0
-}
+	#if {"%2" == "{ask|exclaim|say}"}
+	{
+		Channel_Event Say %0
+	};
+	#else
+	{
+		Channel_Event %2 %0
+	}
 }
 {9}
 
@@ -35,11 +29,17 @@ Channel_Event Info %0
 }
 {9}
 
-#ACTION {^{\*\*\w+|You grouptell}: %2}
+#ACTION {^The winds whisper, '%1'$}
 {
-	Channel_Event GroupTell %0
+	Channel_Event Info %0
 }
-{8}
+{9}
+
+#ACTION {^[%w{:|:\(.*\)}] '%2'$}
+{
+	Channel_Event Chat %0
+}
+{9}
 
 #ALIAS {^Channel_Event %S %2}
 {
@@ -216,6 +216,7 @@ Channel_Event Info %0
 	#variable {channelBufferIndex} {5};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
+
 #VARIABLE         {AdviceList}  {}
 #VARIABLE         {AllList}  {}
 #VARIABLE         {BarterList}  {}
