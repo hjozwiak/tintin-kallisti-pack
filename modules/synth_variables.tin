@@ -1,4 +1,3 @@
-#VARIABLE         {AdviceChannel}  {"|sox -np synth sine 480 sine 660 sine 550 sine 770 sine 990 sine 1200 delay 0 0 .1 .1 .2 .2 remix - fade 0 0.35"}
 #VARIABLE         {BarterChannel}  {"|sox -np synth .2 tri F2 tri C3" "|sox -np synth .55 tri F3 tri C4" remix - phaser}
 #VARIABLE         {ChatChannel}  {"|sox -np synth .35 pl E2 pl G2" remix - flanger reverse gain -8}
 #VARIABLE         {GroupTellChannel}  {"|sox -np synth .2 sq B3 tri E3" "|sox -np synth .55 tri B2 sq E2" remix - phaser gain -3}
