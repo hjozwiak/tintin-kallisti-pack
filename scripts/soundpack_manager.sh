@@ -16,7 +16,11 @@ get_soundpack() {
   # If the path doesn't exist for sounds, creat it.
   mkdir -p "$soundpackPath"
   # Create a safe place to download the file
-  local zipFile="$(mktemp -p /tmp XXXXXX.zip)"
+  if [[ "$(uname -s)" == "Darwin" ]];then
+    local zipFile="$(mktemp /tmp/XXXXXX.zip)"
+    else
+    local zipFile="$(mktemp -p /tmp XXXXXX.zip)"
+  fi
   # Get the zip file
   curl -s --connect-timeout 5 "$soundpackURL" -o "$zipFile"
   # md5sum the file so we can check for updates.
