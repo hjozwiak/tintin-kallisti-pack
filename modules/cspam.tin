@@ -1,3 +1,46 @@
+#action {^A ! means the object is unusable by you currently.$}
+{
+#if {"${cspam.filter}" == "true"}
+{
+#echo {Filters applied, to remove them type nofilter.};
+#line {gag}
+}
+}
+{9}
+
+#action {%1 %d %s!$}
+{
+#if {"${cspam.filter}" == "true"}
+{
+#line {gag}
+}
+}
+{9}
+
+#action {%1 (%*!%*)$}
+{
+#if {"${cspam.filter}" == "true"}
+{
+#line {gag}
+}
+}
+{9}
+
+#alias {^{nof|f}ilter$}
+{
+#if {"%0" == "filter"}
+{
+#echo {Filters enabled.};
+#variable {cspam.filter} {true}
+};
+#else
+{
+#echo {Filters disabled.};
+#variable {cspam.filter} {false}
+}
+}
+{9}
+
 #alias {^{noc|c}spam$}
 {
 #if {"%0" == "cspam"}
