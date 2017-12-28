@@ -1,25 +1,32 @@
-#action {^ %sActive: %w [Level %d %S]$}
+#event {VARIABLE UPDATE MSDP_CHARACTER_NAME}
 {
-#variable {character.active} {%2};
-#if {"${character.active}" == "$character.name}"
-]{
-#class {character} {write} {${HOME}/${character.name}};
-#history {write} {${HOME}/${character.name}_history}
-}
-}
-{9}
-
-#action {^Welcome to the Legendary Lands of Kallisti.$}
+#if {&{OLD_MSDP_CHARACTER_NAME} && "${OLD_MSDP_CHARACTER_NAME" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
 {
-#variable {character.name} {${character.active}};
-#class {character} {kill};
-#history {read} {${HOME}/${character.name}_history};
-#class {character} {read} {${HOME}/${character.name}};
+#history {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.history};
+#class {${MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
+#class {${OLD_MSDP_CHARACTER_NAME}} {kill}
+};
+#variable {OLD_MSDP_CHARACTER_NAME} {%1};
+#history {read} {${HOME}/%1.history};
+#class {%1} {read} {${HOME}/%1};
 #if {"${cspam}" == "true"}
 {
 #class {applied_spam_settings} {read} {modules/spam.rules}
 };
-#class {character} {open}
+#class {%1} {open}
 }
 {9}
-#variable {character.active} {none}
+
+#alias {^CSAVE$}
+{
+#if {&{MSDP_CHARACTER_NAME} && "$MSDP_CHARACTER_NAME" != ""}
+{
+#history {write} {${HOME}/${MSDP_CHARACTER_NAME}\.history};
+#class {${MSDP_CHARACTER_NAME}} {write} {${HOME}/${MSDP_CHARACTER_NAME}};
+#class {${MSDP_CHARACTER_NAME}} {open}
+}
+}
+{9}
+
+#ticker {CSAVE} {CSAVE} {60}
+#variable {old_MSDP} {}
