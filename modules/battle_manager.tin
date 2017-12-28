@@ -1,3 +1,39 @@
+#action {^You take %w's position in the formation.$}
+{
+rescue %1
+}
+{9}
+
+#action {^%w is {moderately hurt|severely hurt|near death}.$}
+{
+#if {"%1" == "{${autorescueList}}"}
+{
+Rescue %1
+}
+}
+{9}
+
+#action {^%w tries to backstab %2 but nearly cuts {her|his|its} own finger!$}
+{
+#if {"%1" == "{${autorescueList}}"}
+{
+Rescue %1
+}
+}
+{9}
+
+#action {^You try but are unable to head off {her|his|its} opponent.$}
+{
+#if {"${autorescueList}" != ""}
+{
+#forall {$autorescueList}
+{
+rescue &0
+}
+}
+}
+{9}
+
 #action {%1 flies from your grasp.$}
 {
 gt OH GODS NOOOO! I have been disarmed!;
