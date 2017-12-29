@@ -1,87 +1,102 @@
-#alias {^show %S$}
+#ALIAS {^show %S$}
 {
-#format {tmp} {%u} {%1};
-#if {&{MSDP_${tmp}}}
-{
-#variable {msg} {${MSDP_${tmp}} %1};
-#if {&{MSDP_${tmp}_PERM}}
-{
-#variable {msg} {${msg} of ${MSDP_${tmp}_PERM}}
-};
-#elseif {&{MSDP_${tmp}_MAX}}
-{
-#variable {msg} {${msg} of ${MSDP_${tmp}_MAX}}
-};
-};
-#else
-{
-#variable {msg} {Nothing to show}
-};
-#variable {msg} {${msg}\.};
-#echo {${msg}}
+	#format {tmp} {%u} {%1};
+	#if {&{MSDP_${tmp}}}
+	{
+		#variable {msg} {${MSDP_${tmp}} %1};
+		#if {&{MSDP_${tmp}_PERM}}
+		{
+			#variable {msg} {${msg} of ${MSDP_${tmp}_PERM}}
+		};
+		#elseif {&{MSDP_${tmp}_MAX}}
+		{
+			#variable {msg} {${msg} of ${MSDP_${tmp}_MAX}}
+		}
+	};
+	#else
+	{
+		#variable {msg} {Nothing to show}
+	};
+	#variable {msg} {${msg}\.};
+	#echo {${msg}}
 }
 {9}
 
-#alias {^{bp|hp|mn|mv}$}
+#ALIAS {^{bp|hp|mn|mv}$}
 {
-#if {"%0" == "hp"}
-{
-show health
-};
-#if {"%0" == "mv"}
-{
-show movement
-};
-#if {"%0" == "mn"}
-{
-show mana
-}
-}
-{9}
-
-#alias {^{noaudio|audio}prompt$}
-{
-#if {"%0" == "audioprompt"}
-{
-#variable {character.audioprompt} {true};
-#showme {Audio prompt enabled.}
-};
-#else
-{
-#variable {character.audioprompt} {false};
-#showme {Audio prompt disabled.}
-}
+	#if {"%0" == "hp"}
+	{
+		show health
+	};
+	#if {"%0" == "mv"}
+	{
+		show stamina
+	};
+	#if {"%0" == "mn"}
+	{
+		show mana
+	}
 }
 {9}
 
-#event {VARIABLE UPDATE MSDP_HEALTH}
+#ALIAS {^{noaudio|audio}prompt$}
 {
-#math {audioprompt.health} {(%1 / $MSDP_HEALTH_MAX) *100.0};
-#if {${audioprompt.health} < 100}
-{
-#format {audioprompt.health} {%.1s} {${audioprompt.health}};
-#variable {audioprompt.health} {${audioprompt.health}0};
-#if {${audioprompt.health} != ${audioprompt.oldHealth}}
-{
-SYNTH_PLAY health${audioprompt.health};
-#variable {audioprompt.oldHealth} {${audioprompt.health}}
+	#if {"%0" == "audioprompt"}
+	{
+		#variable {character.audioprompt} {true};
+		#showme {Audio prompt enabled.}
+	};
+	#else
+	{
+		#variable {character.audioprompt} {false};
+		#showme {Audio prompt disabled.}
+	}
 }
-}
+{9}
+
+#EVENT {VARIABLE UPDATE MSDP_HEALTH}
+{
+	#math {audioprompt.health} {(%1 / $MSDP_HEALTH_MAX) *100.0};
+	#if {${audioprompt.health} < 100}
+	{
+		#format {audioprompt.health} {%.1s} {${audioprompt.health}};
+		#variable {audioprompt.health} {${audioprompt.health}0};
+		#if {${audioprompt.health} != ${audioprompt.oldHealth}}
+		{
+			SYNTH_PLAY health${audioprompt.health};
+			#variable {audioprompt.oldHealth} {${audioprompt.health}}
+		}
+	}
 }
 
-#event {VARIABLE UPDATE MSDP_MANA}
+#EVENT {VARIABLE UPDATE MSDP_MANA}
 {
-#math {audioprompt.mana} {(%1 / $MSDP_MANA_MAX) *100.0};
-#if {${audioprompt.mana} < 100}
-{
-#format {audioprompt.mana} {%.1s} {${audioprompt.mana}};
-#variable {audioprompt.mana} {${audioprompt.mana}0};
-#if {${audioprompt.mana} != ${audioprompt.oldMana}}
-{
-SYNTH_PLAY health${audioprompt.mana};
-#variable {audioprompt.oldMana} {${audioprompt.mana}}
-}
-}
+	#math {audioprompt.mana} {(%1 / $MSDP_MANA_MAX) *100.0};
+	#if {${audioprompt.mana} < 100}
+	{
+		#format {audioprompt.mana} {%.1s} {${audioprompt.mana}};
+		#variable {audioprompt.mana} {${audioprompt.mana}0};
+		#if {${audioprompt.mana} != ${audioprompt.oldMana}}
+		{
+			SYNTH_PLAY mana${audioprompt.mana};
+			#variable {audioprompt.oldMana} {${audioprompt.mana}}
+		}
+	}
 }
 
-#variable {audioprompt} {{oldHealth}{0}{oldMana}{0}{oldMovement}{0}}
+#EVENT {VARIABLE UPDATE MSDP_STAMINA}
+{
+	#math {audioprompt.movement} {(%1 / $MSDP_STAMINA_MAX) *100.0};
+	#if {${audioprompt.movement} < 100}
+	{
+		#format {audioprompt.movement} {%.1s} {${audioprompt.movement}};
+		#variable {audioprompt.movement} {${audioprompt.movement}0};
+		#if {${audioprompt.movement} != ${audioprompt.oldMovement}}
+		{
+			SYNTH_PLAY movement${audioprompt.movement};
+			#variable {audioprompt.oldMovement} {${audioprompt.movement}}
+		}
+	}
+}
+
+#VARIABLE         {audioprompt}  {{oldHealth}{0}{oldMana}{0}{oldMovement}{0}}
