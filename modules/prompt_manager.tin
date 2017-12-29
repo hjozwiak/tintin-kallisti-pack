@@ -1,0 +1,72 @@
+#alias {^show %S$}
+{
+#format {tmp} {%u} {%1};
+#if {&{MSDP_${tmp}}}
+{
+#variable {msg} {${MSDP_${tmp}} %1};
+#if {&{MSDP_${tmp}_PERM}}
+{
+#variable {msg} {${msg} of ${MSDP_${tmp}_PERM}}
+};
+#elseif {&{MSDP_${tmp}_MAX}}
+{
+#variable {msg} {${msg} of ${MSDP_${tmp}_MAX}}
+};
+};
+#else
+{
+#variable {msg} {Nothing to show}
+};
+#variable {msg} {${msg}\.};
+#echo {${msg}}
+}
+{9}
+
+#alias {^{bp|hp|mn|mv}$}
+{
+#if {"%0" == "hp"}
+{
+show health
+};
+#if {"%0" == "mv"}
+{
+show movement
+};
+#if {"%0" == "mn"}
+{
+show mana
+}
+}
+{9}
+
+#alias {^{noaudio|audio}prompt$}
+{
+#if {"%0" == "audioprompt"}
+{
+#variable {audioprompt} {true};
+#showme {Audio prompt enabled.}
+};
+#else
+{
+#unvariable {audioprompt};
+#showme {Audio prompt disabled.}
+}
+}
+{9}
+
+#event {VARIABLE UPDATE MSDP_HEALTH}
+{
+#math {audioprompt.health} {(%1 / $MSDP_HEALTH_MAX) *100.0};
+#if {${audioprompt.health} < 100}
+{
+#format {audioprompt.health} {%.1s} {${audioprompt.health}};
+#variable {audioprompt.health} {${audioprompt.health}0};
+#if {${audioprompt.health} != ${audioprompt.oldHealth}}
+{
+SYNTH_PLAY health${audioprompt.health};
+#variable {audioprompt.oldHealth} {${audioprompt.health}}
+}
+}
+}
+
+#variable {audioprompt} {{oldHealth}{0}{oldMana}{0}{oldMovement}{0}}
