@@ -84,6 +84,15 @@
 	}
 }
 
+#EVENT {VARIABLE UPDATE MSDP_OPPONENT_HEALTH}
+{
+	#if {%1 != 0}
+	{
+		#math {enemyConditionTone} {%1 * 10 + 200};
+		#system {play -q -V0 -n synth 0.06 tri $enemyConditionTone fade 0.01 0.09 remix v0.4 v0.9 gain $volume&}
+	}
+}
+
 #EVENT {VARIABLE UPDATE MSDP_STAMINA}
 {
 	#math {audioprompt.movement} {(%1 / $MSDP_STAMINA_MAX) *100.0};
