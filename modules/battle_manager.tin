@@ -4,6 +4,15 @@ rescue %1
 }
 {9}
 
+#action {^%w attempts to backstab %2, but flies right through {her|him|it}.$}
+{
+#if {"%1" == "{${autorescueList}}"}
+{
+Rescue %1
+}
+}
+{9}
+
 #action {^%w is {moderately hurt|severely hurt|near death}.$}
 {
 #if {"%1" == "{${autorescueList}}"}
