@@ -3,7 +3,7 @@
 	#if {"%0" == "test"}
 	{
 		#nop {Change to the test port.};
-		#variable {mudPort} {4001}
+		#variable {mudPort} {4069}
 	};
 	#if {!&{connected}}
 	{
@@ -64,7 +64,7 @@
 	#variable {HOME} {${HOME[1]}};
 	#replace {HOME} {-n } {};
 	#nop {Run the soundpack_manager script.};
-	#script {scripts/soundpack_manager.sh ${HOME}/sounds};
+	#system {scripts/soundpack_manager.sh ${HOME}/sounds};
 	#nop {Load all the .tin files in the modules directory in classes named after the module name.};
 	#script {for module in modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {read} {$module}";done};
 	#nop {Display intro message.};
