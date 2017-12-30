@@ -10,6 +10,12 @@
 }
 {9}
 
+#ALIAS {^MSP$}
+{
+	#echo {MSP is $msp\.}
+}
+{9}
+
 #ALIAS {^SYNTH_PLAY %1}
 {
 	#system {play -qV0 ${%1} gain $volume &> /dev/null &}
@@ -19,6 +25,7 @@
 #EVENT {IAC WILL MSP}
 {
 	#send {\xFF\xFD\x5A\};
+	#variable {msp} {enabled};
 	#unevent {IAC WILL MSP}
 }
 
@@ -33,7 +40,7 @@
 	{
 		#math {volume} {$volume - 2}
 	};
-	SYNTH_PLAY newVolumeSound;
+	SYNTH_PLAY newVolumeSound
 }
 
 #MACRO {\e?}
@@ -46,7 +53,8 @@
 	{
 		#math {volume} {$volume + 2}
 	};
-	SYNTH_PLAY newVolumeSound;
+	SYNTH_PLAY newVolumeSound
 }
 
+#VARIABLE         {msp}  {not enabled}
 #VARIABLE         {volume}  {0}

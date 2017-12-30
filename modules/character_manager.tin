@@ -6,6 +6,8 @@
 #class {${MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
 #class {${OLD_MSDP_CHARACTER_NAME}} {kill}
 };
+#nop {Make sure the character file exists so there's no error on read.};
+#system {if ! [[ -f "$HOME/%1" ]]; then if [[ "%1" != "" ]]; then echo "#nop" > "$HOME/%1";fi;fi};
 #variable {OLD_MSDP_CHARACTER_NAME} {%1};
 #history {read} {${HOME}/%1.history};
 #class {%1} {read} {${HOME}/%1};
@@ -19,7 +21,7 @@
 
 #alias {^CSAVE$}
 {
-#if {&{MSDP_CHARACTER_NAME} && "$MSDP_CHARACTER_NAME" != ""}
+#if {"$MSDP_CHARACTER_NAME" != ""}
 {
 #history {write} {${HOME}/${MSDP_CHARACTER_NAME}\.history};
 #class {${MSDP_CHARACTER_NAME}} {write} {${HOME}/${MSDP_CHARACTER_NAME}};
