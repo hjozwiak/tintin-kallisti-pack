@@ -89,7 +89,7 @@
 	#if {%1 != 0}
 	{
 		#math {enemyConditionTone} {%1 * 10 + 200};
-		#system {play -q -V0 -n synth 0.06 tri $enemyConditionTone fade 0.01 0.09 remix v0.4 v0.9 gain $volume&}
+		#system {play -q -V0 -n synth 0.06 tri $enemyConditionTone fade 0.01 0.09 gain $volume&}
 	}
 }
 
