@@ -11,28 +11,6 @@
 {9}
 
 #gag {^You are hit 0 times.$}
-#alias {^{hp|mn|mv}$}
-{
-#echo {${current%0}%0}
-}
-{9}
-
-#action {^< %w | %2h %3m %4s%5}
-{
-#variable {name} {%1};
-#variable {currenthp} {%2};
-#variable {currentmn} {%3};
-#variable {currentmv} {%4};
-#if {"%0" != "$oldPrompt"}
-{
-#variable {oldPrompt} {%0}
-};
-#else
-{
-#line {gag}
-}
-}
-{9}
 
 #substitute {%1 quickly avoids your backstab and you nearly cut your own finger!$} {%1 avoids your backstab!} {9}
 #substitute {%1 is mortally wounded and will die soon, if not aided.$} {%1 is morted.} {9}

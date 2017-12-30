@@ -1,3 +1,27 @@
+#action {^< %w | %2h %3m %4s%5}
+{
+#if {"${character.prompt}" == "false"}
+{
+#line {gag}
+}
+}
+{9}
+
+#alias {^noprompt$}
+{
+#if {"${character.prompt}" != "false"}
+{
+#variable {character.prompt} {false};
+#echo {Your prompt vanishes...}
+};
+#else
+{
+#variable {character.prompt} {true};
+#echo {Your prompt returns from its long absents.}
+}
+}
+{9}
+
 #action {^A ! means the object is unusable by you currently.$}
 {
 #if {"${cspam.filter}" == "true"}
@@ -64,4 +88,3 @@
 #echo {buffer lock toggled.};
 #buffer {lock}
 }
-#variable {oldPrompt} {}
