@@ -1,3 +1,12 @@
+#action {^Saving %w.$}
+{
+#if {"${spam.save}" == "true"}
+{
+#line {gag}
+}
+}
+{9}
+
 #action {^You take %w's position in the formation.$}
 {
 rescue %1
@@ -111,7 +120,11 @@ ${onDeath[&0]}
 };
 look in corpse
 #nop {Save after every battle.};
-save
+#if {!&{spam.save}}
+{
+save;
+spamset save
+};
 }
 {9}
 
