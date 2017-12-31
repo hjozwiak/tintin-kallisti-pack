@@ -1,90 +1,91 @@
-#action {^< %w | %2h %3m %4s%5}
+#ACTION {%1 %d %s!$}
 {
-#if {"${character.prompt}" == "false"}
-{
-#line {gag}
-}
-}
-{9}
-
-#alias {^noprompt$}
-{
-#if {"${character.prompt}" != "false"}
-{
-#variable {character.prompt} {false};
-#echo {Your prompt vanishes...}
-};
-#else
-{
-#variable {character.prompt} {true};
-#echo {Your prompt returns from its long absents.}
-}
+	#if {"${cspam.filter}" == "true"}
+	{
+		#line {gag}
+	}
 }
 {9}
 
-#action {^A ! means the object is unusable by you currently.$}
+#ACTION {%1 (%*!%*)$}
 {
-#if {"${cspam.filter}" == "true"}
-{
-#echo {Filters applied, to remove them type nofilter.};
-#line {gag}
-}
-}
-{9}
-
-#action {%1 %d %s!$}
-{
-#if {"${cspam.filter}" == "true"}
-{
-#line {gag}
-}
+	#if {"${cspam.filter}" == "true"}
+	{
+		#line {gag}
+	}
 }
 {9}
 
-#action {%1 (%*!%*)$}
+#ACTION {^< %1{>|>\s*}$}
 {
-#if {"${cspam.filter}" == "true"}
-{
-#line {gag}
-}
-}
-{9}
-
-#alias {^{nof|f}ilter$}
-{
-#if {"%0" == "filter"}
-{
-#echo {Filters enabled.};
-#variable {cspam.filter} {true}
-};
-#else
-{
-#echo {Filters disabled.};
-#variable {cspam.filter} {false}
-}
+	#if {"${character.prompt}" == "false"}
+	{
+		#line {gag}
+	}
 }
 {9}
 
-#alias {^{noc|c}spam$}
+#ACTION {^A ! means the object is unusable by you currently.$}
 {
-#if {"%0" == "cspam"}
-{
-#class {applied_spam_settings} {read} {modules/spam.rules};
-#variable {cspam} {true};
-#echo {Client side spam filters applied.}
-};
-#else
-{
-#class {applied_spam_settings} {kill};
-#unvariable {cspam};
-#echo {Client side spam filters removed.}
-}
+	#if {"${cspam.filter}" == "true"}
+	{
+		#echo {Filters applied, to remove them type nofilter.};
+		#line {gag}
+	}
 }
 {9}
 
-#macro {\e/}
+#ALIAS {^noprompt$}
 {
-#nop {toggle the locked state of the buffer};
-#echo {buffer lock toggled.};
-#buffer {lock}
+	#if {"${character.prompt}" != "false"}
+	{
+		#variable {character.prompt} {false};
+		#echo {Your prompt vanishes...}
+	};
+	#else
+	{
+		#variable {character.prompt} {true};
+		#echo {Your prompt returns from its long absents.}
+	}
+}
+{9}
+
+#ALIAS {^{noc|c}spam$}
+{
+	#if {"%0" == "cspam"}
+	{
+		#class {applied_spam_settings} {read} {modules/spam.rules};
+		#class {$MSDP_CHARACTER_NAME} {open};
+		#variable {cspam} {true};
+		#echo {Client side spam filters applied.}
+	};
+	#else
+	{
+		#class {applied_spam_settings} {kill};
+		#unvariable {cspam};
+		#echo {Client side spam filters removed.}
+	}
+}
+{9}
+
+#ALIAS {^{nof|f}ilter$}
+{
+	#if {"%0" == "filter"}
+	{
+		#echo {Filters enabled.};
+		#variable {cspam.filter} {true}
+	};
+	#else
+	{
+		#echo {Filters disabled.};
+		#variable {cspam.filter} {false}
+	}
+}
+{9}
+
+#MACRO {\e/}
+{
+	#nop {toggle the locked state of the buffer};
+	#echo {buffer lock toggled.};
+	#buffer {lock}
 }
