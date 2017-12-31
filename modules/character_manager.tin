@@ -57,7 +57,8 @@
 	#script {if [[ -d "$HOME/%1.modules" ]]; then for module in $HOME/%1.modules/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
 	#if {"${cspam}" == "true"}
 	{
-		cspam
+		#class {applied_spam_settings} {read} {modules/spam.rules};
+		#echo {Client side spam filters applied.}
 	};
 	#class {%1} {open}
 }
