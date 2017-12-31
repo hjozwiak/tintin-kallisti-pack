@@ -9,6 +9,36 @@
 }
 {9}
 
+#ALIAS {^cmod{kill|load|reload} %S$}
+{
+	#nop {character module path};
+	#variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}\.modules};
+	#replace {modpath} {\\} {};
+	#nop {reload all modules};
+	#if {"%0" == "cmodreload all"}
+	{
+		#script {for module in $modpath/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {character_$(basename "$module" .tin)} {read} {$module}";done};
+		#echo {All character modules reloaded}
+	};
+	#else
+	{
+		#nop {Kill, load, or reload a specified module.};
+		#if {"%1" == "{kill|reload}"}
+		{
+			#class {character_%2} {kill};
+			#showme {Character module %2 has been killed.}
+		};
+		#if {"%1" == "{load|reload}"}
+		{
+			#showme {Loading character module %2.tin};
+			#class {character_%2} {read} {$modpath/%2.tin};
+			#class {$MSDP_CHARACTER_NAME} {open}
+		}
+	};
+	#unvariable {modpath}
+}
+{9}
+
 #EVENT {VARIABLE UPDATE MSDP_CHARACTER_NAME}
 {
 	#if {&{OLD_MSDP_CHARACTER_NAME} && "${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
