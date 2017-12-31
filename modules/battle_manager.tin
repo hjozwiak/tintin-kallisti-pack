@@ -110,8 +110,8 @@ ${onDeath[&0]}
 #list {onDeath} {clear}
 };
 look in corpse
-#nop You need to do this if you are wearing invisibility equipment
-save;
+#nop {Save after every battle.};
+save
 }
 {9}
 
