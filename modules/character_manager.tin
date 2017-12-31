@@ -2,7 +2,10 @@
 {
 	#if {"$MSDP_CHARACTER_NAME" != ""}
 	{
-		#history {write} {${HOME}/${MSDP_CHARACTER_NAME}\.history};
+		#variable {historyPath} {${HOME}/${MSDP_CHARACTER_NAME}\.history};
+		#replace {historyPath} {\\} {};
+		#history {write} {$historyPath};
+		#unvariable {historyPath};
 		#class {${MSDP_CHARACTER_NAME}} {write} {${HOME}/${MSDP_CHARACTER_NAME}};
 		#class {${MSDP_CHARACTER_NAME}} {open}
 	}
@@ -43,7 +46,10 @@
 {
 	#if {&{OLD_MSDP_CHARACTER_NAME} && "${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
 	{
-		#history {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.history};
+		#variable {historyPath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}\.history};
+		#replace {historyPath} {\\} {};
+		#history {write} {$historyPath};
+		#unvariable {historyPath};
 		#class {${MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
 		#class {${OLD_MSDP_CHARACTER_NAME}} {kill};
 		#class {character_%*} {kill}
@@ -64,4 +70,4 @@
 }
 
 #TICKER           {CSAVE}  {CSAVE}  {60}
-#VARIABLE         {old_MSDP}  {}
+#VARIABLE         {OLD_MSDP}  {}
