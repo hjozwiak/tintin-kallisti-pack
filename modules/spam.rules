@@ -1,3 +1,5 @@
+#gag {^%w {floats|lights|puts|slides|straps|sticks|wears}%3{ancles|arm|arms|belt|body|ear|face|finger|feet|foot|neck+wrist}{\.|\.\s*}$}
+#gag {^%w {starts|stops} using %2{\.|\.\s*}$}
 #gag {^You use %1 to focus your spell.$}
 #gag {^You swiftly dodge %1 attack.$}
 #gag {^You hit %d of %d attac{k|ks} for %d damage.$}
