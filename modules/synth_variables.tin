@@ -1,7 +1,8 @@
+#VARIABLE         {notificationSound}  {"|sox -np synth sin 900 sin 1100 delay 0 .1 fade h 0 .25 .2"}
 #NOP #VARIABLE         {BarterChannel}  {"|sox -np synth .2 tri F2 tri C3" "|sox -np synth .55 tri F3 tri C4" remix - phaser}
 #NOP #VARIABLE         {ChatChannel}  {"|sox -np synth .35 pl E2 pl G2" remix - flanger reverse gain -8}
 #VARIABLE         {GroupTellChannel}  {"|sox -np synth .2 sq B3 tri E3" "|sox -np synth .55 tri B2 sq E2" remix - phaser gain -3}
-#NOP #VARIABLE         {SayChannel}  {"|sox -np synth pl E1 pl B1 remix - gain -6 fade 0 0.2 0.5"}
+NOP #VARIABLE         {SayChannel}  {"|sox -np synth pl E1 pl B1 remix - gain -6 fade 0 0.2 0.5"}
 #VARIABLE         {TellChannel}  {"|sox -np synth pl G2 pl G3 pl D3 pl D4 pl E3 pl E4 delay 0 .05 .25 .3 .5 .55 remix - fade p 0 .74 .75 flanger norm -10 tempo 1.8"}
 #VARIABLE         {cannot_go_down}  {"|sox -np synth 0.5 tri 200:100 tri 500:300 remix - fade 0 0.2 0.5"}
 #VARIABLE         {cannot_go_east}  {"|sox -np synth 0.5 tri 400:300 tri 700:500 remix - fade 0 0.2 0.5" remix v0.3 v0.9}

@@ -10,9 +10,9 @@
 }
 {9}
 
-#ACTION {^%w {ask|exclaim|say|tell}%3 '%4'$}
+#ACTION {^%w {ask|exclaim|grunt|say|tell}%3 '%4'$}
 {
-	#if {"%2" == "{ask|exclaim|say}"}
+	#if {"%2" == "{ask|exclaim|grunt|say}"}
 	{
 		Channel_Event Say %0
 	};
