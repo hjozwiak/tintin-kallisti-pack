@@ -66,6 +66,19 @@
 			SYNTH_PLAY health${audioprompt.health};
 			#variable {audioprompt.oldHealth} {${audioprompt.health}}
 		}
+	};
+	#nop {Use the autorecall command if hp is below 20%};
+	#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= 20}
+	{
+		#if {"${spam.recall}" != "true"}
+		{
+			#if {&{auto.recall}}
+			{
+				breakout;
+				${auto.recall};
+				spamset recall 90
+			}
+		}
 	}
 }
 

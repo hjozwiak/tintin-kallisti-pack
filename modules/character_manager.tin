@@ -42,6 +42,13 @@
 }
 {9}
 
+#ALIAS {^container %s%w$}
+{
+	#variable {character.container} {%2};
+	#echo {Your container is now %2.}
+}
+{9}
+
 #EVENT {VARIABLE UPDATE MSDP_CHARACTER_NAME}
 {
 	#if {&{OLD_MSDP_CHARACTER_NAME} && "${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}

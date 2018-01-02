@@ -1,0 +1,63 @@
+#alias {^{noauto|auto}{drink \w*|eat \w*|recall .*}$}
+{
+#if {"%0" == "noauto%*"}
+{
+#echo {auto%2 disabled.};
+#unvariable {auto.%2}
+};
+#else
+{
+#regexp {%0} {auto{\w*} {.*}} {#echo {auto&1 set to &2.};#variable {auto.&1} {&2}}
+}
+}
+{9}
+
+#alias {^/$}
+{
+#if {$MSDP_LEVEL <= 20}
+{
+recall
+};
+#else
+{
+get recall $character.container;
+recite recall
+}
+}
+{9}
+
+#action {^You are {hungry|thirsty}.$}
+{
+#if {"%1" == "hungry"}
+{
+#if {&{auto.eat}}
+{
+#if {&{character.container}}
+{
+get ${auto.eat} ${character.container};
+eat ${auto.eat}
+};
+#else
+{
+#echo {In order to use autoeat, you need to set your container. To do so, type container name, as in container bag.}
+}
+}
+}
+};
+#else
+{
+#if {&{auto.drink}}
+{
+#if {&{character.container}}
+{
+get ${auto.drink} ${character.container};
+drink ${auto.drink}
+};
+#else
+{
+#echo {In order to use autodrink, you need to set your container. To do so, type container name, as in container bag.}
+}
+}
+}
+{9}
+
