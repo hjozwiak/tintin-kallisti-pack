@@ -28,6 +28,15 @@
 }
 {9}
 
+#ACTION {^You're on FIRE, the flames burn your skin!}
+{
+	#if {"${auto.tumble}" == "true"}
+	{
+		tumble
+	}
+}
+{9}
+
 #ACTION {^[* You fail to find the tracks. *]$}
 {
 	#unvariable {auto.track}
@@ -67,7 +76,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{drink \w*|eat \w*|recall .*}$}
+#ALIAS {^{noauto|auto}{drink \w*|eat \w*|recall .*|tumble}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
@@ -76,7 +85,12 @@
 	};
 	#else
 	{
-		#regexp {%0} {auto{\w*} {.*}} {#echo {auto&1 set to &2.};#variable {auto.&1} {&2}}
+		#regexp {%0} {auto{\w*} {.*}} {#echo {auto&1 set to &2.};#variable {auto.&1} {&2}};
+		#else
+		{
+			#variable {auto.%2} {true};
+			#echo {auto%2 enabled.}
+		}
 	}
 }
 {9}
