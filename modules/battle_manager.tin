@@ -103,7 +103,7 @@ spamset rescue%2
 }
 {9}
 
-#action {^You receive your reward for the kill, %d experience poin{t|ts}.$}
+#action {^You receive your reward for the kill, %d experience poin{t|ts}.}
 {
 #if {"${tankName}" != ""}
 {
