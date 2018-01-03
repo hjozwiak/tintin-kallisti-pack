@@ -1,10 +1,10 @@
 # tintin-kallisti-pack
-#
-Welcome to the tintin++ accessibility pack for [Legends of Kallisti][kallisti]. Features include
+
+Welcome to the TinTin++ accessibility pack for [Legends of Kallisti][kallisti] written by [Hunter Jozwiak][hjozwiak] and [Storm Dragon][storm]. Features include
 
 - MSP support for sound
 - MSDP support for audio queues  like your prompt and your opponent's condition
-- automation of some mundane and repetitive tasks like eating and drinking. 
+- Automation of some mundane and repetitive tasks like eating and drinking. 
 
 The pack is under heavy development and will be expanded quite often. To stay up to date with the latest changes and bug fixes it is recommended you run from git.
 
@@ -13,11 +13,11 @@ The pack is under heavy development and will be expanded quite often. To stay up
 
 #### Linux
 
-The requirements are few. You just need tintin++of course and sox for sound capabilities. Both of these should be available in your distribution's package manager.
+The requirements are few. You just need TinTin++ of course and SoX for sound capabilities. Both of these should be available in your distribution's package manager.
 
 #### Mac
 
-Getting tintin++ and sox in the Mac environment is a bit more tricky. Here are some steps to get you going.
+Getting TinTin++ and SoX in the Mac environment is a bit more tricky. Here are some steps to get you going.
 
 1. Install Homebrew
 2. Using Homebrew, install coreutils, gnu-sed, tintin++, and sox
@@ -41,7 +41,7 @@ To enable sound, while in the game, you will need to type toggle sound. You only
 
 If you use a command a lot, such as kick in combat, you may not want to type kick and hit enter over and over again. The pack is configured to repeat the last action on the press of the enter key, but what if you want to do several different things during combat. For this, the pack has set keys. To create one of the keys, just type set followed immediately by the character you want to assign. Then space and enter the command. Here is an example of setting c to kick:
 
-` setc kick
+    setc kick
 
 To use the command, hold the alt key and press the letter. So, now to kick, you can just press alt+c. You can use shift with some of the keybindings too. Here are all the keys available to set keys, a, b, c, d, e, f, g, h, n, q, r, s, t, v, w, x, y, z, A, D, F, H, Q, W, and E.
 
@@ -49,19 +49,21 @@ This feature is made even more powerful because it is infinitely expandable than
 
 To see if a key is bound already or not, just type set and the etter with no arguments. If the key is already bound it will show what it does, if not it will say the key is not set.
 
-## Automation
+#### Automation
 
-When in charge of protecting your comrades  in a group, it can be easy to miss someone being attacked until it's too late. To make things easier for you, we offer autorescue. You can rescue multipe people, just add them to the list separated by spaces. So, autorescue jack jill will enable automatic rescuing for Jack and Jill. To turn it off, just type noautorescue.
+When in charge of protecting your comrades  in a group, it can be easy to miss someone being attacked until it's too late. To make things easier for you, we offer autorescue. You can rescue multiple people, just add them to the list separated by spaces. So, autorescue jack jill will enable automatic rescuing for Jack and Jill. To turn it off, just type noautorescue.
 
 Eating and drinking can be a chore. With the pack's autoeat and autodrink, however, it's a snap. Just turn them on with autoeat item and autodrink drinkcontainer. For example, to eat breat you would type autoeat bread and to autodrink from at waterskin you would type autodrink waterskin.
 
+If you want to hunt something and walk to it, use track target. When you reach the target you will hear a notification tone. This does not pass through closed doors without help currently. If you can't reach your target or need to cancel for any reason, type notrack.
+
 Sometimes, it's nice to have a little buffer against death. It is kind of frustrating when your level 50 Paragon dies, and you realize long after the fact that you probably could have saved them with a bit more fast thinking and even faster typing. Autorecall offers a way to hopefully avoid getting killed. It is by no means 100% affective, but if you do get killed, you can rest assured that the pack did everything in is power to prevent it. To enable autorecall, simply type autorecall followed by the command you would like to use to recall.
 
-This is a good time to bring up the / character. Normally it is a shortcut for say in the game. We have repurposed it, however, to the more standard function of recall. If you are below level 20, it will use the standard recall command. After level 20, however, it  will try to get a recall scroll from your container and recite it. So, you could just do autorecall / and the pack will try to use the best option to recall you if your hitpoints drop below 20%. Another good options for bards may be to set autorecall play gelsewhere. Just make sure that whatever command you use will work during combat. The paragon version of recall, for example, does not work during combat. Check in game help files to make the best decision for your character.
+This is a good time to bring up the / character. Normally it is a shortcut for say in the game. We have repurposed it, however, to the more standard function of recall. If you are below level 20, it will use the standard recall command. After level 20, however, it  will try to get a recall scroll from your container and recite it. So, you could just do autorecall / and the pack will try to use the best option to recall you if your hitpoints drop below 20%. Another good option for bards may be to set autorecall play gelsewhere. Just make sure that whatever command you use will work during combat. The paragon version of recall, for example, does not work during combat. Check in game help files to make the best decision for your character.
 
-## Container
+#### Container
 
-A lot of things depend on your container. You can set your container with the container command. Container bag will use a bag as your container. Of course, thanks to the in game label command, you need not worry about conflicting names. Do you have a bag and a baguette?  Simply labe your bag something else like a stuffholder, set container stuffholder, and the pack won't try to store your stuff in your bread. In game, see help label for more information.
+A lot of things depend on your container. You can set your container with the container command. Container bag will use a bag as your container. Of course, thanks to the in game label command, you need not worry about conflicting names. Do you have a bag and a baguette?  Simply label your bag something else like a stuffholder, set container stuffholder, and the pack won't try to store your stuff in your bread. In game, see help label for more information.
 
 #### Multiple Items
 
@@ -119,7 +121,7 @@ Modules should mostly just run in the background and do their thing. Occasionall
 
 Although we try our best, we just can't handle all situations for all characters. This is where custom modules come in. To create your own modules that are loaded when you login your character, simply go to the settings directory, normally ~/.config/tintin-kallisti/ and create a new directory called Character.modules. So, for example, if I have a character named Jack, the directory name will need to be Jack.modules. Name modules with the .tin extension and they will be automatically loaded.
 
-The pack's components are normally set to precedence 9 and move up to 8 if something needs to be overridden. So, for character modules, make your actions and aliases 5 or higher and there should not be any conflicts.
+The pack's components are normally set to precedence 9 and move up to 8 if something needs to be overridden. So, for character modules, make your actions and aliases 5 or less and there should not be any conflicts. For clarification, the lower the number, the higher the precedence.
 
 If you need to work with character modules after the pack has loaded you can use the cmod command.
 
@@ -130,10 +132,12 @@ If you need to work with character modules after the pack has loaded you can use
 So, if you have a module in Jack.modules called awesome.tin, and you've just made some changes to it, just issue the command cmodreload awesome to have the changes applied. You can see all the loaded modules with the #class command. All character modules are prefixed with character_ and everything else is in the modules directory of the pack.
 
 
-Donations
+## Donations
 
-If you like our work and would like to donate, please take a look at [the Linux Accessibility Organization][a11y] page.A
+If you like our work and would like to donate, please take a look at [the Linux Accessibility Organization][a11y] page.
 
 
 [a11y]: https://www.bountysource.com/teams/linux-a11y
+[hjozwiak]: https://liberapay.com/hjozwiak/donate
 [kallisti]: http://kallistimud.com
+[storm]: https://liberapay.com/stormdragon2976/donate 
