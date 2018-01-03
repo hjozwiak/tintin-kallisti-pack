@@ -23,7 +23,7 @@ Getting TinTin++ and SoX in the Mac environment is a bit more tricky. Here are s
 2. Using Homebrew, install coreutils, gnu-sed, tintin++, and sox
 
 
- ## Launching the pack
+## Launching the pack
 
 To start the pack, switch to the tintin-kallisti-pack directory and type tt++ kallisti.tin. When the pack first opens it will check for the latest sound pack. This can take several seconds. If a new soundpack is found, it will be downloaded and extracted for you.
 
@@ -32,7 +32,10 @@ To connect to the game, simply type login. You will be connected and once the co
 
 ## Usage
 
-To enable sound, while in the game, you will need to type toggle sound. You only need to do this once and the setting will be applied to your whole account.
+To enable sound, while in the game, you will need to type toggle sound. You only need to do this once and the setting will be applied to your whole account. You can raise or lower the volume of sound with the keybindings listed below.
+
+- alt+shift+>: Volume down
+- shift+alt+?: Volume up
 
 
 ## Getting the Most out of the Pack
@@ -105,6 +108,19 @@ In  addition to the listed keybindings there are some commands  to change settin
 - musiclinks: Adds a shortened youtube search link for the posted song. Disable with nomusiclinks. You can use your own custom installation of yourls by supplying an api key after the musiclinks command.
 - mpost: Same as alt+shift+M listed above.
 - mplyrics: Post the lyrics to the currently playing track to the music channel. Be careful with this, it has been known to misfire. It requires fortune-mod and clyrics be installed to work.
+
+
+#### Navigation
+
+There are some keys that will make it easier for you to walk around. Instead of typing scan, north, south, east, west, up or down, you can simply hold alt and walk around with the following keys:
+
+- i: North
+- ,: South
+- l: East
+- j: West
+- k: Scan
+- shift+I Up
+- shift+<: Down
 
 
 #### Paths and Modules
