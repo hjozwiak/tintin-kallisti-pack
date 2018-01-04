@@ -28,6 +28,12 @@
 }
 {9}
 
+#ACTION {^You wake and sit up.$}
+{
+	stand
+}
+{9}
+
 #ACTION {^You're on FIRE, the flames burn your skin!}
 {
 	#if {"${auto.tumble}" == "true"}
@@ -107,4 +113,5 @@
 		#regexp {%0} {track {.*}} {#variable {auto.track} {&1};hunt &1}
 	}
 }
+
 {9}
