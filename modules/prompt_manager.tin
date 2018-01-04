@@ -59,8 +59,7 @@
 	#math {audioprompt.health} {(%1 / $MSDP_HEALTH_MAX) *100.0};
 	#if {${audioprompt.health} < 100}
 	{
-		#format {audioprompt.health} {%.1s} {${audioprompt.health}};
-		#variable {audioprompt.health} {${audioprompt.health}0};
+		#format {audioprompt.health} {%d} {${audioprompt.health}};
 		#if {${audioprompt.health} != ${audioprompt.oldHealth}}
 		{
 			SYNTH_PLAY health${audioprompt.health};
@@ -87,8 +86,7 @@
 	#math {audioprompt.mana} {(%1 / $MSDP_MANA_MAX) *100.0};
 	#if {${audioprompt.mana} < 100}
 	{
-		#format {audioprompt.mana} {%.1s} {${audioprompt.mana}};
-		#variable {audioprompt.mana} {${audioprompt.mana}0};
+		#format {audioprompt.mana} {%d} {${audioprompt.mana}};
 		#if {${audioprompt.mana} != ${audioprompt.oldMana}}
 		{
 			SYNTH_PLAY mana${audioprompt.mana};
@@ -111,8 +109,7 @@
 	#math {audioprompt.movement} {(%1 / $MSDP_STAMINA_MAX) *100.0};
 	#if {${audioprompt.movement} < 100}
 	{
-		#format {audioprompt.movement} {%.1s} {${audioprompt.movement}};
-		#variable {audioprompt.movement} {${audioprompt.movement}0};
+		#format {audioprompt.movement} {%d} {${audioprompt.movement}};
 		#if {${audioprompt.movement} != ${audioprompt.oldMovement}}
 		{
 			SYNTH_PLAY movement${audioprompt.movement};
