@@ -56,6 +56,8 @@ To see if a key is bound already or not, just type set and the etter with no arg
 
 When in charge of protecting your comrades  in a group, it can be easy to miss someone being attacked until it's too late. To make things easier for you, we offer autorescue. You can rescue multiple people, just add them to the list separated by spaces. So, autorescue jack jill will enable automatic rescuing for Jack and Jill. To turn it off, just type noautorescue.
 
+The same convenience is available for healers. Just use the autoheal command instead of autorescue. The autoheal command will try to use the most sensible option for your class, e.g. heal for priest based classes and lay hands for paladins.
+
 Eating and drinking can be a chore. With the pack's autoeat and autodrink, however, it's a snap. Just turn them on with autoeat item and autodrink drinkcontainer. For example, to eat breat you would type autoeat bread and to autodrink from at waterskin you would type autodrink waterskin.
 
 If you want to hunt something and walk to it, use track target. When you reach the target you will hear a notification tone. This does not pass through closed doors without help currently. If you can't reach your target or need to cancel for any reason, type notrack.
