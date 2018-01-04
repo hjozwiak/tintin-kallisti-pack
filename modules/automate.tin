@@ -18,6 +18,20 @@
 }
 {5}
 
+#ACTION {^The white aura around your body fades.$}
+{
+	#if {"${auto.sanc}" == "{pot|potion|purple|purps|purp}"}
+	{
+		get sanctuary ${character.container};
+		quaff sanctuary
+	};
+	#else
+	{
+		${auto.sanc}
+	}
+}
+{9}
+
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
 	#if {&{auto.track}}
@@ -82,7 +96,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{drink \w*|eat \w*|recall .*|tumble}$}
+#ALIAS {^{noauto|auto}{drink \w*|eat \w*|recall .*|sanc \w*|tumble}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
@@ -113,5 +127,4 @@
 		#regexp {%0} {track {.*}} {#variable {auto.track} {&1};hunt &1}
 	}
 }
-
 {9}
