@@ -1,146 +1,184 @@
-#action {^Saving %w.$}
+#ACTION {%1 flies from your grasp.$}
 {
-#if {"${spam.save}" == "true"}
-{
-#line {gag}
-}
-}
-{9}
-
-#action {^You take %w's position in the formation.$}
-{
-rescue %1
-}
-{9}
-
-#action {^%w attempts to backstab %2, but flies right through {her|him|it}.$}
-{
-#if {"%1" == "{${autorescueList}}"}
-{
-Rescue %1
-}
+	gt OH GODS NOOOO! I have been disarmed!;
+	rem buckler;
+	#regexp {%1} {{.*} {.*}} {get &2;wield &2};
+	#else
+	{
+		get %1;
+		wield %1
+	};
+	wear buckler
 }
 {9}
 
-#action {^%w is {moderately hurt|severely hurt|near death}.$}
+#ACTION {%1 hits %w {}{\.|!}$}
 {
-#if {"%1" == "{${autorescueList}}"}
-{
-Rescue %1
-}
-}
-{9}
-
-#action {^%w tries to backstab %2 but nearly cuts {her|his|its} own finger!$}
-{
-#if {"%1" == "{${autorescueList}}"}
-{
-Rescue %1
-}
+	#if {"%2" == "{${autorescueList}}"}
+	{
+		#if {!&{spam.rescue%2}}
+		{
+			rescue %2;
+			spamset rescue%2
+		}
+	}
 }
 {9}
 
-#action {^You try but are unable to head off {her|his|its} opponent.$}
+#ACTION {^%w attempts to backstab %2, but flies right through {her|him|it}.$}
 {
-#if {"${autorescueList}" != ""}
-{
-#forall {$autorescueList}
-{
-rescue &0
-}
-}
+	#if {"%1" == "{${autorescueList}}"}
+	{
+		Rescue %1
+	}
 }
 {9}
 
-#action {%1 flies from your grasp.$}
+#ACTION {^%w is {moderately hurt|severely hurt|near death}.$}
 {
-gt OH GODS NOOOO! I have been disarmed!;
-rem buckler;
-#regexp {%1} {{.*} {.*}} {get &2;wield &2} {get %1;wield %1};
-wear buckler
+	#if {"%1" == "{${autohealList}}"}
+	{
+		#switch {"${MSDP_CLASS}"}
+		{
+			#case {Paladin}
+			{
+				lay %1
+			};
+			#default
+			{
+				HEAL %1
+			}
+		}
+	};
+	#if {"%1" == "{${autorescueList}}"}
+	{
+		Rescue %1
+	}
 }
 {9}
 
-#action {^%w places something%*}
+#ACTION {^%w places something%*}
 {
-#if {"%1" == "{${autorescueList}}"}
-{
-rescue %1
-}
-}
-{9}
-
-#alias {^{noautorescue|autorescue .+}$}
-{
-#if {"%0" == "noautorescue"}
-{
-#echo {You will no longer automatically rescue anyone.};
-#variable {autorescueList} {}
-};
-#else
-{
-#variable {autorescueList} {};
-#regexp {%0} {{\w+} {.*}} {#variable {tmp.battle_manager} {&2}};
-#replace {tmp.battle_manager} { } {;};
-#forall {${tmp.battle_manager}} {#format {i} {%n} {&0};#variable {autorescueList} {${autorescueList} $i}};
-#format {autorescueList} {%p} {$autorescueList};
-#echo {You are automatically rescuing: ${autorescueList}};
-#replace {autorescueList} { } {|}
-}
+	#if {"%1" == "{${autorescueList}}"}
+	{
+		rescue %1
+	}
 }
 {9}
 
-#action {%1 hits %w {${DAMAGE}}{\.|!}$}
+#ACTION {^%w tries to backstab %2 but nearly cuts {her|his|its} own finger!$}
 {
-#if {"%2" == "{${autorescueList}}"}
-{
-#if {!&{spam.rescue%2}}
-{
-rescue %2;
-spamset rescue%2
-}
-}
+	#if {"%1" == "{${autorescueList}}"}
+	{
+		Rescue %1
+	}
 }
 {9}
 
-#action {^You receive your reward for the kill, %d experience poin{t|ts}.}
+#ACTION {^Saving %w.$}
 {
-#if {"${tankName}" != ""}
-{
-reform $tankName fr
-};
-#nop {Do anything that needs to be scheduled on death.};
-#if {"${onDeath}" != ""}
-{
-#forall {${onDeath[]}}
-{
-${onDeath[&0]}
-};
-#list {onDeath} {clear}
-};
-look in corpse
-#nop {Save after every battle.};
-#if {!&{spam.save}}
-{
-save;
-spamset save
-};
+	#if {"${spam.save}" == "true"}
+	{
+		#line {gag}
+	}
 }
 {9}
 
-#alias {^{notank|tank|tank \w+}$}
+#ACTION {^You receive your reward for the kill, %d experience poin{t|ts}.}
 {
-#if {"%0" == "notank"}
-{
-#variable {tankName} {}
-};
-#else
-{
-#regexp {%0} {{.*} {.*}} {#variable {tankName} {&2}} {#variable {tankName} {me}}
-}
+	#if {"${tankName}" != ""}
+	{
+		reform $tankName fr
+	};
+	#nop {Do anything that needs to be scheduled on death.};
+	#if {"${onDeath}" != ""}
+	{
+		#forall {${onDeath[]}}{${onDeath[&0]}};
+		#list {onDeath} {clear}
+	};
+	look in corpse #nop {Save after every battle.};
+	#if {!&{spam.save}}
+	{
+		save;
+		spamset save
+	}
 }
 {9}
-#variable {tankName} {}
-#variable {DAMAGE} {tickle|barely hit|hit|hard|very hard|extremely hard|massacre to small fragments|obliterate|annihilate|mutilate|immolate|liquify|vaporize|critically vaporize}
-#variable {autorescueList} {}
-#variable {onDeath} {}
+
+#ACTION {^You take %w's position in the formation.$}
+{
+	rescue %1
+}
+{9}
+
+#ACTION {^You try but are unable to head off {her|his|its} opponent.$}
+{
+	#if {"${autorescueList}" != ""}
+	{
+		#forall {$autorescueList}{rescue &0}
+	}
+}
+{9}
+
+#ALIAS {^{noautoheal|autoheal .+}$}
+{
+	#if {"%0" == "noautoheal"}
+	{
+		#echo {You will no longer automatically heal anyone.};
+		#variable {autohealList} {}
+	};
+	#else
+	{
+		#variable {autohealList} {};
+		#regexp {%0} {{\w+} {.*}} {#variable {tmp.battle_manager} {&2}};
+		#replace {tmp.battle_manager} { } {;};
+		#forall {${tmp.battle_manager}} {#format {i} {%n} {&0};#variable {autohealList} {${autohealList} $i}};
+		#format {autohealList} {%p} {$autohealList};
+		#echo {You are automatically healing: ${autohealList}};
+		#replace {autohealList} { } {|}
+	}
+}
+{9}
+
+#ALIAS {^{noautorescue|autorescue .+}$}
+{
+	#if {"%0" == "noautorescue"}
+	{
+		#echo {You will no longer automatically rescue anyone.};
+		#variable {autorescueList} {}
+	};
+	#else
+	{
+		#variable {autorescueList} {};
+		#regexp {%0} {{\w+} {.*}} {#variable {tmp.battle_manager} {&2}};
+		#replace {tmp.battle_manager} { } {;};
+		#forall {${tmp.battle_manager}} {#format {i} {%n} {&0};#variable {autorescueList} {${autorescueList} $i}};
+		#format {autorescueList} {%p} {$autorescueList};
+		#echo {You are automatically rescuing: ${autorescueList}};
+		#replace {autorescueList} { } {|}
+	}
+}
+{9}
+
+#ALIAS {^{notank|tank|tank \w+}$}
+{
+	#if {"%0" == "notank"}
+	{
+		#variable {tankName} {}
+	};
+	#else
+	{
+		#regexp {%0} {{.*} {.*}} {#variable {tankName} {&2}};
+		#else
+		{
+			#variable {tankName} {me}
+		}
+	}
+}
+{9}
+
+#VARIABLE         {DAMAGE}  {tickle|barely hit|hit|hard|very hard|extremely hard|massacre to small fragments|obliterate|annihilate|mutilate|immolate|liquify|vaporize|critically vaporize}
+#VARIABLE         {autohealList}  {}
+#VARIABLE         {autorescueList}  {}
+#VARIABLE         {onDeath}  {}
+#VARIABLE         {tankName}  {}
