@@ -27,7 +27,15 @@
 	};
 	#else
 	{
-		${auto.sanc}
+		#nop {Sanc and unholy aura can't be cast in combat, so this is a bit of a safety measure.};
+		#if {$MSDP_OPPOMENT_HEALTH == 0}
+		{
+			${auto.sanc}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto.sanc}}
+		}
 	}
 }
 {9}
