@@ -40,6 +40,21 @@
 }
 {9}
 
+#ACTION {^You just can't concentrate enough.$}
+{
+	#line {gag};
+	meditate
+}
+{9}
+
+#ACTION {^You must be sitting to concentrate.$}
+{
+	#line {gag};
+	sit;
+	meditate
+}
+{9}
+
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
 	#if {&{auto.track}}
