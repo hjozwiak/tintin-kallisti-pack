@@ -113,8 +113,8 @@
 	};
 	#else
 	{
-		get recall $character.container;
-		recite recall
+		recite recall;
+		get recall $character.container
 	}
 }
 {9}
