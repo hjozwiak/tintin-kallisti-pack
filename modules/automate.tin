@@ -119,7 +119,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{drink \w*|eat \w*|recall .*|sanc \w*|tumble}$}
+#ALIAS {^{noauto|auto}{drink \w*|eat \w*|recall .*|sanc .*|tumble}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
