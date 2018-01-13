@@ -1,3 +1,8 @@
+#function {list_rand}
+{
+#math {result} {1d@list_size{%1}}
+}
+
 #FUNCTION {cut}
 {
 	#nop {Can cut with specified field and delimiter, defaults are space for the delimiter and 1 for field.};

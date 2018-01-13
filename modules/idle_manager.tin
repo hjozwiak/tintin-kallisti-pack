@@ -31,7 +31,7 @@
 		{
 			#list {idleList} {add} {look;where}
 		};
-		${idleList[1d@list_size{idleList}]}
+		${idleList[@list_rand{idleList}]}
 	}
 }
 
