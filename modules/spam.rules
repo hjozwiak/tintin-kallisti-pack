@@ -1,3 +1,5 @@
+#gag {^%w pokes Ptam the God of the Ancients in the ribs.$}
+#gag {^Ptam the God of the Ancients gives a purple potion of sanctuary to {[A-Z].*}.}
 #gag {^%w {floats|lights|puts|slides|straps|sticks|wears}%3{ancles|arm|arms|belt|body|ear|face|finger|feet|foot|neck+wrist}{\.|\.\s*}$}
 #gag {^%w {starts|stops} using %2{\.|\.\s*}$}
 #gag {^You use %1 to focus your spell.$}
