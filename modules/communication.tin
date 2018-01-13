@@ -61,12 +61,6 @@
 }
 {9}
 
-#FUNCTION {total_channels}
-{
-	#list {channelBuffer} {size} {result};
-	#math {result} {${result} - 1}
-}
-
 #MACRO {\e!}
 {
 	#variable {channelBufferIndex} {0};
@@ -180,9 +174,9 @@
 
 #MACRO {\e=}
 {
-	#if {!&{channelBufferIndex} || $channelBufferIndex >= @total_channels{}}
+	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer}}
 	{
-		#variable {channelBufferIndex} {@total_channels{}}
+		#variable {channelBufferIndex} {@list_size{channelBuffer}}
 	};
 	#else
 	{
@@ -199,9 +193,9 @@
 
 #MACRO {\e[1;3C}
 {
-	#if {!&{channelBufferIndex} || $channelBufferIndex >= @total_channels{}}
+	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer}}
 	{
-		#variable {channelBufferIndex} {@total_channels{}}
+		#variable {channelBufferIndex} {@list_size{channelBuffer}}
 	};
 	#else
 	{
