@@ -174,9 +174,9 @@
 
 #MACRO {\e=}
 {
-	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer}}
+	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer} - 1}
 	{
-		#variable {channelBufferIndex} {@list_size{channelBuffer}}
+		#math {channelBufferIndex} {@list_size{channelBuffer} - 1}
 	};
 	#else
 	{
