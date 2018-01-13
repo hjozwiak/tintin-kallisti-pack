@@ -34,8 +34,7 @@
 
 #FUNCTION {list_size}
 {
-	#list {%1} {size} {result};
-	#math {result} {${result} - 1}
+	#list {%1} {size} {result}
 }
 
 #FUNCTION {separator}
