@@ -4,6 +4,10 @@
 	#else
 	{
 		open %1 %2
+	};
+	#if {&{auto.track}}
+	{
+		look
 	}
 }
 {9}
