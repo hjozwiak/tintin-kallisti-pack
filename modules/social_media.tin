@@ -1,0 +1,74 @@
+#ACTION {^You now have meta'd a total of %d sessions.$}
+{
+	#if {%1 % 10 == 0}
+	{
+		POST $MSDP_CHARACTER_NAME has meta'd  a total of %1 sessions. ${socialmedia.hashtag} {socialmedia.url}
+	}
+}
+{9}
+
+#ALIAS {^POST %1}
+{
+	#if {"$twitter" == "true"}
+	{
+		#system {oysttyer -silent -norc -status="%1" &> /dev/null&}
+	};
+	#if {"$gnusocial" == "true"}
+	{
+		#if {!&{gusername} || !&{gpassword}}
+		{
+			#showme {Before you can post, you need to set your username and password. To do so please type ginfo username@node.ext password.};
+			#break
+		};
+		#if {!&{gurl}}
+		{
+			#variable {gurl} {http://2mb.social}
+		};
+		#if {!&{gnuSocialMudGroup}}
+		{
+			#variable {gnuSocialMudGroup} {muds}
+		};
+		#system {curl -s -u "$gusername:$gpassword" --data-binary status="$(echo -e "%1") !$gnuSocialMudGroup" -d source="tintin-kallisti-pack" $gurl/api/statuses/update.xml &> /dev/null&}
+	}
+}
+{9}
+
+#ALIAS {^ginfo %S@%S %s%4$}
+{
+	#variable {gusername} {%1};
+	#variable {gurl} {https://%2};
+	#variable {gpassword} {%4};
+	#showme {Now posting to GNU Social as %1@%2.};
+	#history {delete}
+}
+{9}
+
+#ALIAS {^{gnusocial|twitter|nognusocial|notwitter}$}
+{
+	#switch {"%0"}
+	{
+		#case {"gnusocial"}
+		{
+			#variable {gnusocial} {true};
+			#showme {Achievements will now be posted to GNU Social. Remember to set your information with ginfo webfinger password.}
+		};
+		#case {"nognusocial"}
+		{
+			#unvariable {gnusocial};
+			#showme {Achievements will no longer be posted to GNU Social.}
+		};
+		#case {"twitter"}
+		{
+			#variable {twitter} {true};
+			#showme {Achievements will now be posted to Twitter.}
+		};
+		#case {"notwitter"}
+		{
+			#unvariable {twitter};
+			#showme {Achievements will no longer be posted to Twitter.}
+		}
+	}
+}
+{9}
+
+#VARIABLE         {socialmedia}  {{hashtag}{#LoK}{url}{http://kallistimud.com}}
