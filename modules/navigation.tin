@@ -5,7 +5,7 @@
 	{
 		open %1 %2
 	};
-	#if {&{auto.track}}
+	#if {"${auto.track}" != ""}
 	{
 		look
 	}

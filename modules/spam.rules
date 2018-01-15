@@ -1,30 +1,22 @@
-#gag {^%w pokes Ptam the God of the Ancients in the ribs.$}
-#gag {^Ptam the God of the Ancients gives a purple potion of sanctuary to {[A-Z].*}.}
-#gag {^%w {floats|lights|puts|slides|straps|sticks|wears}%3{ancles|arm|arms|belt|body|ear|face|finger|feet|foot|neck+wrist}{\.|\.\s*}$}
-#gag {^%w {starts|stops} using %2{\.|\.\s*}$}
-#gag {^You use %1 to focus your spell.$}
-#gag {^You swiftly dodge %1 attack.$}
-#gag {^You hit %d of %d attac{k|ks} for %d damage.$}
-#action {^You are hit %d tim{e|es} for %d damage.$}
+#ACTION {^You are hit %d tim{e|es} for %d damage.$}
 {
-#if {%3 < ${currenthp} / 8}
-{
-#line {gag}
-}
+	#if {%3 < ${currenthp} / 8}
+	{
+		#line {gag}
+	}
 }
 {9}
 
-#gag {^You are hit 0 times.$}
-
-#substitute {%1 quickly avoids your backstab and you nearly cut your own finger!$} {%1 avoids your backstab!} {9}
-#substitute {%1 is mortally wounded and will die soon, if not aided.$} {%1 is morted.} {9}
-#substitute {%1 is incapacitated and will slowly die, if not aided.$} {%1 is is incapacitated.} {9}
-#substitute {\x7BRp\x7D} {} {9}
-#action {^At least %d other {person|people} heard you.$}
-{
-#if {%1 > 0}
-{
-#line {gag};
-}
-}
-{9}
+#GAG              {^%w pokes Ptam the God of the Ancients in the ribs.$}
+#GAG              {^%w {floats|lights|puts|slides|straps|sticks|wears}%3{ancles|arm|arms|belt|body|ear|face|finger|feet|foot|neck+wrist}{\.|\.\s*}$}
+#GAG              {^%w {starts|stops} using %2{\.|\.\s*}$}
+#GAG              {^Ptam the God of the Ancients gives a purple potion of sanctuary to {[A-Z].*}.}
+#GAG              {^You are hit 0 times.$}
+#GAG              {^You can't get any coins from the corpse.$}
+#GAG              {^You hit %d of %d attac{k|ks} for %d damage.$}
+#GAG              {^You swiftly dodge %1 attack.$}
+#GAG              {^You use %1 to focus your spell.$}
+#SUBSTITUTE       {%1 is incapacitated and will slowly die, if not aided.$}                                     {%1 is is incapacitated.}  {9}
+#SUBSTITUTE       {%1 is mortally wounded and will die soon, if not aided.$}                                      {%1 is morted.}  {9}
+#SUBSTITUTE       {%1 quickly avoids your backstab and you nearly cut your own finger!$}                                                  {%1 avoids your backstab!}  {9}
+#SUBSTITUTE       {\x7BRp\x7D}  {}  {9}
