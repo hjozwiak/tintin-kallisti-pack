@@ -18,6 +18,15 @@
 }
 {5}
 
+#ACTION {^The effects of battle cry are gone.$}
+{
+	#if {"${auto.warcry}" == "true"}
+	{
+		warcry
+	}
+}
+{9}
+
 #ACTION {^The white aura around your body fades.$}
 {
 	#if {"${auto.sanc}" == "{pot|potion|purple|purps|purp}"}
@@ -65,6 +74,15 @@
 }
 {9}
 
+#ACTION {^You try to work up a battle song but just can't muster up the enthusiasm.$}
+{
+	#if {"${auto.warcry}" == "true"}
+	{
+		warcry
+	}
+}
+{9}
+
 #ACTION {^You wake and sit up.$}
 {
 	stand
@@ -76,6 +94,19 @@
 	#if {"${auto.tumble}" == "true"}
 	{
 		tumble
+	}
+}
+{9}
+
+#ACTION {^Your metabolism slows.$}
+{
+	#if {$MSDP_OPPONENT_HEALTH > 0 && "${auto.vigor}" == "vig%*"}
+	{
+		#list {onDeath} {add} {${auto.vigor}}
+	};
+	#else
+	{
+		${auto.vigor}
 	}
 }
 {9}
@@ -119,7 +150,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{drink \w*|eat \w*|recall .*|sanc .*|tumble}$}
+#ALIAS {^{noauto|auto}{drink \w*|eat \w*|recall .*|sanc .*|tumble|vigor .*|warcry}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
