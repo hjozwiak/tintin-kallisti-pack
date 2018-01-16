@@ -10,6 +10,17 @@
 }
 {9}
 
+#ACTION {^You lose %d exp, %d hps, %d mana, and %d stamina.%*}
+{
+	#if {"${spam.death}" != "true"}
+	{
+		POST $MSDP_CHARACTER_NAME was killed by $OLD_MSDP_OPPONENT_NAME and lost %1 exp, %2 hps, %3 mana, and %4 stamina. ${socialmedia.hashtag} ${socialmedia.url};
+		spamset death 600
+	};
+	#variable {character.lastDeath} {You were last killed by $OLD_MSDP_OPPONENT_NAME and lost %1  exp, %2 hps, %3 mana, and %4 stamina.}
+}
+{9}
+
 #ACTION {^You now have meta'd a total of %d sessions.$}
 {
 	#if {%1 % 10 == 0}
