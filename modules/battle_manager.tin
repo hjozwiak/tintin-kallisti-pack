@@ -1,3 +1,13 @@
+#ACTION {%1 diverts its attention to %w.$}
+{
+	#list {autorescueList} {find} {%2} {i};
+	#if {$i != 0}
+	{
+		rescue ${autorescueList[$i]}
+	}
+}
+{9}
+
 #ACTION {%1 flies from your grasp.$}
 {
 	gt OH GODS NOOOO! I have been disarmed!;
@@ -14,44 +24,42 @@
 
 #ACTION {%1 hits %w {}{\.|!}$}
 {
-	#if {"%2" == "{${autorescueList}}"}
+	#list {autorescueList} {find} {%2} {i};
+	#if {$i != 0}
 	{
-		#if {!&{spam.rescue%2}}
-		{
-			rescue %2;
-			spamset rescue%2
-		}
-	}
-}
-{9}
-
-#ACTION {%1 diverts its attention to %w.$}
-{
-	#if {"%2" == "{${autorescueList}}"}
-	{
-		Rescue %2
+		rescue ${autorescueList[$i]};
+		spamset rescue%2
 	}
 }
 {9}
 
 #ACTION {^%w attempts to backstab %2, but flies right through {her|him|it}.$}
 {
-	#if {"%1" == "{${autorescueList}}"}
+	#list {autorescueList} {find} {%2} {i};
+	#if {$i != 0}
 	{
-		Rescue %1
+		rescue ${autorescueList[$i]}
 	}
 }
 {9}
 
 #ACTION {^%w is {moderately hurt|severely hurt|near death}.$}
 {
-	#if {"%1" == "{${autohealList}}"}
+	#list {autohealList} {find} {%1} {i};
+	#if {$i != 0}
 	{
 		#switch {"${MSDP_CLASS}"}
 		{
 			#case {Paladin}
 			{
-				lay %1
+				#if {$OPPONENT_HEALTH == 0}
+				{
+					lay %1
+				};
+				#else
+				{
+					#list {onDeath} {add} {lay %1}
+				}
 			};
 			#default
 			{
@@ -59,7 +67,8 @@
 			}
 		}
 	};
-	#if {"%1" == "{${autorescueList}}"}
+	#list {autorescueList} {find} {%1} {i};
+	#if {$i != 0}
 	{
 		Rescue %1
 	}
@@ -68,18 +77,20 @@
 
 #ACTION {^%w places something%*}
 {
-	#if {"%1" == "{${autorescueList}}"}
+	#list {autorescueList} {find} {%2} {i};
+	#if {$i != 0}
 	{
-		rescue %1
+		rescue ${autorescueList[$i]}
 	}
 }
 {9}
 
 #ACTION {^%w tries to backstab %2 but nearly cuts {her|his|its} own finger!$}
 {
-	#if {"%1" == "{${autorescueList}}"}
+	#list {autorescueList} {find} {%2} {i};
+	#if {$i != 0}
 	{
-		Rescue %1
+		rescue ${autorescueList[$i]}
 	}
 }
 {9}
@@ -95,9 +106,10 @@
 
 #ACTION {^You receive your reward for the kill, %d experience poin{t|ts}.}
 {
-	#if {"${tankName}" != ""}
+	#if {"${battle_manager.tankName}" != ""}
 	{
-		reform $tankName fr
+		reform ${battle_manager.tankName} fr;
+		march ${battle_manager.tankName}
 	};
 	#nop {Do anything that needs to be scheduled on death.};
 	#if {"${onDeath}" != ""}
@@ -122,50 +134,69 @@
 
 #ACTION {^You try but are unable to head off {her|his|its} opponent.$}
 {
-	#if {"${autorescueList}" != ""}
+	#forall {${autorescueList[]}}{rescue ${autorescueList[&0]}}
+}
+{9}
+
+#ACTION {^You {now follow|stop following} %w.$}
+{
+	#if {"%1" == "stop following"}
 	{
-		#forall {$autorescueList}{rescue &0}
+		#unvariable {leader}
+	};
+	#else
+	{
+		#variable {leader} {%2}
 	}
 }
 {9}
 
-#ALIAS {^{noautoheal|autoheal .+}$}
+#ALIAS {^auto{heal|rescue} %s{add|remove} %s%w$}
 {
-	#if {"%0" == "noautoheal"}
+	#format {battle_manager.tmp} {%n} {%5};
+	#list {auto%1List} {find} {${battle_manager.tmp}} {i};
+	#if {"%3" == "remove"}
 	{
-		#echo {You will no longer automatically heal anyone.};
-		#variable {autohealList} {}
+		#if {$i == 0}
+		{
+			#echo {You are not current automatically %1ing ${battle_manager.tmp}\.}
+		};
+		#else
+		{
+			#list {auto%1List} {delete} {$i};
+			#echo {You are no longer automatically %1ing ${battle_manager.tmp}\.}
+		}
 	};
 	#else
 	{
-		#variable {autohealList} {};
-		#regexp {%0} {{\w+} {.*}} {#variable {tmp.battle_manager} {&2}};
-		#replace {tmp.battle_manager} { } {;};
-		#forall {${tmp.battle_manager}} {#format {i} {%n} {&0};#variable {autohealList} {${autohealList} $i}};
-		#format {autohealList} {%p} {$autohealList};
-		#echo {You are automatically healing: ${autohealList}};
-		#replace {autohealList} { } {|}
+		#if {$i != 0}
+		{
+			#echo {You are already automatically %1ing ${battle_manager.tmp}\.}
+		};
+		#else
+		{
+			#list {auto%1List} {add} {${battle_manager.tmp}};
+			#echo {You are now automatically %1ing ${battle_manager.tmp}\.}
+		}
 	}
 }
 {9}
 
-#ALIAS {^{noautorescue|autorescue .+}$}
+#ALIAS {^auto{heal|rescue}$}
 {
-	#if {"%0" == "noautorescue"}
+	#echo {You are currently automatically %1ing:};
+	#list {auto%1List} {size} {i};
+	#if {$i > 0}
 	{
-		#echo {You will no longer automatically rescue anyone.};
-		#variable {autorescueList} {}
-	};
-	#else
-	{
-		#variable {autorescueList} {};
-		#regexp {%0} {{\w+} {.*}} {#variable {tmp.battle_manager} {&2}};
-		#replace {tmp.battle_manager} { } {;};
-		#forall {${tmp.battle_manager}} {#format {i} {%n} {&0};#variable {autorescueList} {${autorescueList} $i}};
-		#format {autorescueList} {%p} {$autorescueList};
-		#echo {You are automatically rescuing: ${autorescueList}};
-		#replace {autorescueList} { } {|}
+		#forall {${auto%1List[]}}{#echo {${auto%1List[&0]}}}
 	}
+}
+{9}
+
+#ALIAS {^noauto{heal|rescue}$}
+{
+	#list {auto%1List} {clear};
+	#echo {You are no longer %1ing anyone.}
 }
 {9}
 
@@ -173,15 +204,17 @@
 {
 	#if {"%0" == "notank"}
 	{
-		#variable {tankName} {}
+		#variable {battle_manager.tankName} {};
+		#echo {Tank cleared.}
 	};
 	#else
 	{
-		#regexp {%0} {{.*} {.*}} {#variable {tankName} {&2}};
+		#regexp {%0} {{.*} {.*}} {#variable {battle_manager.tankName} {&2}};
 		#else
 		{
-			#variable {tankName} {me}
-		}
+			#variable {battle_manager.tankName} {self}
+		};
+		#echo {tank set to ${battle_manager.tankName}\.}
 	}
 }
 {9}
@@ -197,5 +230,5 @@
 #VARIABLE         {DAMAGE}  {tickle|barely hit|hit|hard|very hard|extremely hard|massacre to small fragments|obliterate|annihilate|mutilate|immolate|liquify|vaporize|critically vaporize}
 #VARIABLE         {autohealList}  {}
 #VARIABLE         {autorescueList}  {}
+#VARIABLE         {battle_manager}  {}
 #VARIABLE         {onDeath}  {}
-#VARIABLE         {tankName}  {}
