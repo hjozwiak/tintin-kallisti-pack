@@ -89,7 +89,7 @@
 }
 {9}
 
-#ACTION {^You're on FIRE, the flames burn your skin!}
+#ACTION {^You're {coated in ACID|on FIRE}, {it eats away at|the flames burn} your skin!}
 {
 	#if {"${auto.tumble}" == "true"}
 	{
