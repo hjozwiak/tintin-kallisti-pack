@@ -59,7 +59,6 @@
 {
 	#if {"${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
 	{
-		#echo {closing old character classes.};
 		#variable {historyPath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}\.history};
 		#replace {historyPath} {\\} {};
 		#history {write} {$historyPath};

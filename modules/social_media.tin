@@ -1,6 +1,12 @@
+#ACTION {^--+  Congratulations, you are now level %d!  +--%s}
+{
+	POST $MSDP_CHARACTER_NAME is now a level %1 $MSDP_CLASS\. ${socialmedia.hashtag} ${socialmedia.url}
+}
+{9}
+
 #ACTION {^You are now ranked #%1 on the %2 top%3 list.$}
 {
-	POST $MSDP_CHARACTER_NAME is now ranked #%1 on the %2 top%3 list. ${socialmedia.hashtag} {socialmedia.url}
+	POST $MSDP_CHARACTER_NAME is now ranked #%1 on the %2 top%3 list. ${socialmedia.hashtag} ${socialmedia.url}
 }
 {9}
 
@@ -18,6 +24,10 @@
 	#if {"$twitter" == "true"}
 	{
 		#system {oysttyer -silent -norc -status="%1" &> /dev/null&}
+	};
+	#if {"$mastodon" == "true"}
+	{
+		#system {madonctl toot "%1" &> /dev/null&}
 	};
 	#if {"$gnusocial" == "true"}
 	{
@@ -49,7 +59,7 @@
 }
 {9}
 
-#ALIAS {^{gnusocial|twitter|nognusocial|notwitter}$}
+#ALIAS {^{gnusocial||mastodon|twitter|nognusocial|nomastodon|notwitter}$}
 {
 	#switch {"%0"}
 	{
@@ -63,10 +73,20 @@
 			#unvariable {gnusocial};
 			#showme {Achievements will no longer be posted to GNU Social.}
 		};
+		#case {"mastodon"}
+		{
+			#variable {mastodon} {true};
+			#showme {Achievements will now be posted to Mastodon. You will need to have madonctl installed and configured.}
+		};
+		#case {"nomastodon"}
+		{
+			#unvariable {mastodon};
+			#showme {Achievements will no longer be posted to Mastodon.}
+		};
 		#case {"twitter"}
 		{
 			#variable {twitter} {true};
-			#showme {Achievements will now be posted to Twitter.}
+			#showme {Achievements will now be posted to Twitter. You will need to have oysttyer installed and configured.}
 		};
 		#case {"notwitter"}
 		{
