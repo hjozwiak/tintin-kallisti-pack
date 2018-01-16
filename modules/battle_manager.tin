@@ -25,6 +25,15 @@
 }
 {9}
 
+#ACTION {%1 diverts its attention to %w.$}
+{
+	#if {"%2" == "{${autorescueList}}"}
+	{
+		Rescue %2
+	}
+}
+{9}
+
 #ACTION {^%w attempts to backstab %2, but flies right through {her|him|it}.$}
 {
 	#if {"%1" == "{${autorescueList}}"}
