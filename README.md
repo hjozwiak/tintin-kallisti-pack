@@ -157,6 +157,15 @@ If you need to work with character modules after the pack has loaded you can use
 So, if you have a module in Jack.modules called awesome.tin, and you've just made some changes to it, just issue the command cmodreload awesome to have the changes applied. You can see all the loaded modules with the #class command. All character modules are prefixed with character_ and everything else is in the modules directory of the pack.
 
 
+## Social Media
+
+The pack supports posting some accomplishments to a few different social media platforms. The list of things that can be automatically posted is growing, but so far it will do every 10 meta sessions, when your position changes on a top 10 board, and when you level. Supported platforms are GNU Social, Mastodon, and Twitter. To enable type the following commands, prefix them with no to turn it off, as in nomastodon:
+
+- gnusocial: Built in support using curl. Set your info with ginfo you@gnusocial.domain PASSWORD
+- mastodon: Available if [madonctl][madonctl] is installed and configured.
+- twitter: Available if [oysttyer][oysttyer] is installed and configured.
+
+
 ## Donations
 
 If you like our work and would like to donate, please take a look at [the Linux Accessibility Organization][a11y] page.
@@ -165,4 +174,6 @@ If you like our work and would like to donate, please take a look at [the Linux 
 [a11y]: https://www.bountysource.com/teams/linux-a11y
 [hjozwiak]: https://liberapay.com/hjozwiak/donate
 [kallisti]: http://kallistimud.com
+[madonctl]: https://github.com/McKael/madonctl
+[oysttyer]: https://github.com/oysttyer/oysttyer
 [storm]: https://liberapay.com/stormdragon2976/donate 
