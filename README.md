@@ -57,8 +57,9 @@ To see if a key is bound already or not, just type set and the etter with no arg
 You can automate recasting of spells, or send a message when they drop. This section is being updated constantly, so if what ou want isn't there, just let one of us know, or wait and we'll get it eventually. To use one of these, set autokeyword and the command to use. In the case of autosanc, you can use pot, potion, purps, or purple to get a sanctuary potion from your container and use it when your sanctuary falls. You can unset the automation of these spells by prefixing the command with no as in noautosanc.
 
 - autosanc (args): Triggers when sanctuary falls.
-- autovigor (args): Triggers when vigor falls.
 - autotumble: Causes you to tumble if you are set on fire.
+- autovigor (args): Triggers when vigor falls.
+- autowarcry: Renews warcry automatically.
 
 When in charge of protecting your comrades  in a group, it can be easy to miss someone being attacked until it's too late. To make things easier for you, we offer autorescue. You can rescue multiple people, just add them to the list separated by spaces. So, autorescue jack jill will enable automatic rescuing for Jack and Jill. To turn it off, just type noautorescue.
 
@@ -156,6 +157,15 @@ If you need to work with character modules after the pack has loaded you can use
 So, if you have a module in Jack.modules called awesome.tin, and you've just made some changes to it, just issue the command cmodreload awesome to have the changes applied. You can see all the loaded modules with the #class command. All character modules are prefixed with character_ and everything else is in the modules directory of the pack.
 
 
+## Social Media
+
+The pack supports posting some accomplishments to a few different social media platforms. The list of things that can be automatically posted is growing, but so far it will do every 10 meta sessions, when your position changes on a top 10 board, and when you level. Supported platforms are GNU Social, Mastodon, and Twitter. To enable type the following commands, prefix them with no to turn it off, as in nomastodon:
+
+- gnusocial: Built in support using curl. Set your info with ginfo you@gnusocial.domain PASSWORD
+- mastodon: Available if [madonctl][madonctl] is installed and configured.
+- twitter: Available if [oysttyer][oysttyer] is installed and configured.
+
+
 ## Donations
 
 If you like our work and would like to donate, please take a look at [the Linux Accessibility Organization][a11y] page.
@@ -164,4 +174,6 @@ If you like our work and would like to donate, please take a look at [the Linux 
 [a11y]: https://www.bountysource.com/teams/linux-a11y
 [hjozwiak]: https://liberapay.com/hjozwiak/donate
 [kallisti]: http://kallistimud.com
+[madonctl]: https://github.com/McKael/madonctl
+[oysttyer]: https://github.com/oysttyer/oysttyer
 [storm]: https://liberapay.com/stormdragon2976/donate 
