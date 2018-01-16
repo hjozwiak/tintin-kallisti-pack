@@ -35,7 +35,7 @@
 
 #ACTION {^%w attempts to backstab %2, but flies right through {her|him|it}.$}
 {
-	#list {autorescueList} {find} {%2} {i};
+	#list {autorescueList} {find} {%1} {i};
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]}
@@ -77,7 +77,7 @@
 
 #ACTION {^%w places something%*}
 {
-	#list {autorescueList} {find} {%2} {i};
+	#list {autorescueList} {find} {%1} {i};
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]}
@@ -87,7 +87,7 @@
 
 #ACTION {^%w tries to backstab %2 but nearly cuts {her|his|its} own finger!$}
 {
-	#list {autorescueList} {find} {%2} {i};
+	#list {autorescueList} {find} {%1} {i};
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]}
