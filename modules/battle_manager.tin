@@ -1,4 +1,4 @@
-#ACTION {%1 diverts its attention to %w.$}
+#ACTION {%1 diverts {her|his|its} attention to %w.$}
 {
 	#list {autorescueList} {find} {%2} {i};
 	#if {$i != 0}
