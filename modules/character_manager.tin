@@ -51,7 +51,11 @@
 
 #ALIAS {^whoami$}
 {
-	#echo {You are $MSDP_CHARACTER_NAME, the level $MSDP_LEVEL $MSDP_CLASS\.}
+	#echo {You are $MSDP_CHARACTER_NAME, the level $MSDP_LEVEL $MSDP_CLASS\.};
+	#if {&{character.lastDeath}}
+	{
+		#echo {${character.lastDeath}}
+	}
 }
 {9}
 

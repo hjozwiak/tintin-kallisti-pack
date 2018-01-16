@@ -177,6 +177,14 @@
 }
 {9}
 
+#EVENT {VARIABLE UPDATE MSDP_OPPONENT_NAME}
+{
+	#if {"%1" != ""}
+	{
+		#variable {OLD_MSDP_OPPONENT_NAME} {%1}
+	}
+}
+
 #VARIABLE         {DAMAGE}  {tickle|barely hit|hit|hard|very hard|extremely hard|massacre to small fragments|obliterate|annihilate|mutilate|immolate|liquify|vaporize|critically vaporize}
 #VARIABLE         {autohealList}  {}
 #VARIABLE         {autorescueList}  {}
