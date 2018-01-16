@@ -49,19 +49,27 @@
 }
 {9}
 
+#ALIAS {^whoami$}
+{
+	#echo {You are $MSDP_CHARACTER_NAME, the level $MSDP_LEVEL $MSDP_CLASS\.}
+}
+{9}
+
 #EVENT {VARIABLE UPDATE MSDP_CHARACTER_NAME}
 {
-	#if {&{OLD_MSDP_CHARACTER_NAME} && "${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
+	#if {"${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
 	{
+		#echo {closing old character classes.};
 		#variable {historyPath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}\.history};
 		#replace {historyPath} {\\} {};
 		#history {write} {$historyPath};
 		#unvariable {historyPath};
-		#class {${MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
+		#class {${OLD_MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
 		#class {${OLD_MSDP_CHARACTER_NAME}} {kill};
 		#nop {unload any old character classes};
-	#variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}\.modules};
-		#script {for module in $modpath/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill}";done}
+		#variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}\.modules};
+		#replace {modpath} {\\} {};
+		#script {for module in $modpath/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {kill}";done}
 	};
 	#nop {Make sure the character file exists so there's no error on read.};
 	#system {if ! [[ -f "$HOME/%1" ]]; then if [[ "%1" != "" ]]; then echo "#nop" > "$HOME/%1";fi;fi};
