@@ -90,6 +90,8 @@ A lot of things depend on your container. You can set your container with the co
 
 These commands are available to present important information quickly, or to change the output of the game. To turn them off, prefix them with no as in nocspam.
 
+- audioprompt: Audible prompts for your condition. Hp is left, Mana is centered,  stamina is right. (enabled by default)
+- beeps: Audible indication of opponent's condition, the lower the beep the more hurt your enemy. (enabled by default)
 - cspam: Cuts down on or shortens some of the game's output.
 - filter: Filters out items you can not use when listing from shops or looking in containers. Will also work on inventory.
 - whoami: Shows your name, level, and class. Will also show last death information if available.
