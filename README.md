@@ -54,14 +54,22 @@ To see if a key is bound already or not, just type set and the etter with no arg
 
 #### Automation
 
-You can automate recasting of spells, or send a message when they drop. This section is being updated constantly, so if what ou want isn't there, just let one of us know, or wait and we'll get it eventually. To use one of these, set autokeyword and the command to use. In the case of autosanc, you can use pot, potion, purps, or purple to get a sanctuary potion from your container and use it when your sanctuary falls. You can unset the automation of these spells by prefixing the command with no as in noautosanc.
+You can automate recasting of spells, or send a message when they drop. This section is being updated constantly, so if what ou want isn't there, just let one of us know, or wait and we'll get it eventually. To use one of these, set autokeyword and the command to use. If you want to have multiple arguments, just put them in braces. For example autosanc {get sanctuary bag;quaff sanctuary}. You can unset the automation of these spells by prefixing the command with no as in noautosanc.
 
+- autoheal: Show the people you are automatically healing. (see below)
+- autoheal add name: Add person to autoheal list. (see below)
+- autoheal remove name: Remove person from autoheal list. (see below)
+- autoheal self args: Set commands used to automatically heal yourself when your hitpoints drop below 50%.
+- autorecall args: Commands to be used when hitpoints drop below 20%. (see below)
+- autorescue: Show the people you are automatically rescuing. (see below)
+- autorescue add name: Add person to autorescue list. (see below)
+- autorescue remove name: Remove person from autorescue list. (see below)
 - autosanc (args): Triggers when sanctuary falls.
 - autotumble: Causes you to tumble if you are set on fire.
 - autovigor (args): Triggers when vigor falls.
 - autowarcry: Renews warcry automatically.
 
-When in charge of protecting your comrades  in a group, it can be easy to miss someone being attacked until it's too late. To make things easier for you, we offer autorescue. You can rescue multiple people, just add them to the list separated by spaces. So, autorescue jack jill will enable automatic rescuing for Jack and Jill. To turn it off, just type noautorescue.
+When in charge of protecting your comrades  in a group, it can be easy to miss someone being attacked until it's too late. To make things easier for you, we offer autorescue. You can rescue multiple people, just add them to the list as in autorescue add name. So, autorescue add jack;autorescue add jill will enable automatic rescuing for Jack and Jill. To turn it off, just type noautorescue.
 
 The same convenience is available for healers. Just use the autoheal command instead of autorescue. The autoheal command will try to use the most sensible option for your class, e.g. heal for priest based classes and lay hands for paladins.
 
@@ -76,6 +84,15 @@ This is a good time to bring up the / character. Normally it is a shortcut for s
 #### Container
 
 A lot of things depend on your container. You can set your container with the container command. Container bag will use a bag as your container. Of course, thanks to the in game label command, you need not worry about conflicting names. Do you have a bag and a baguette?  Simply label your bag something else like a stuffholder, set container stuffholder, and the pack won't try to store your stuff in your bread. In game, see help label for more information.
+
+
+#### Miscellaneous Client Side Commands
+
+These commands are available to present important information quickly, or to change the output of the game. To turn them off, prefix them with no as in nocspam.
+
+- cspam: Cuts down on or shortens some of the game's output.
+- filter: Filters out items you can not use when listing from shops or looking in containers. Will also work on inventory.
+- whoami: Shows your name, level, and class. Will also show last death information if available.
 
 #### Multiple Items
 
