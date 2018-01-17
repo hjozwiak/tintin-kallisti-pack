@@ -56,11 +56,15 @@
 
 #EVENT {VARIABLE UPDATE MSDP_HEALTH}
 {
+	#if {!&{character.audioprompt}}
+	{
+		#variable {character.audioprompt} {true}
+	};
 	#math {audioprompt.health} {(%1 / $MSDP_HEALTH_MAX) *100.0};
 	#if {${audioprompt.health} < 100}
 	{
 		#format {audioprompt.health} {%d} {${audioprompt.health} - ${audioprompt.health} % 10};
-		#if {${audioprompt.health} != ${audioprompt.oldHealth}}
+		#if {${audioprompt.health} != ${audioprompt.oldHealth} && "${character.audioprompt}" == "true" && "${MSP.SOUND}" == "true"}
 		{
 			SYNTH_PLAY health${audioprompt.health};
 			#variable {audioprompt.oldHealth} {${audioprompt.health}}
@@ -83,9 +87,9 @@
 	#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= 50}
 	{
 		#if {&{autoHealSelf}}
-			{
-				${autoHealSelf};
-			}
+		{
+			${autoHealSelf}
+		}
 	}
 }
 
@@ -105,7 +109,11 @@
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_HEALTH}
 {
-	#if {%1 != 0}
+	#if {!&{character.beeps}}
+	{
+		#variable {character.beeps} {true}
+	};
+	#if {%1 != 0 && "${character.beeps}" == "true" && "${MSP.SOUND}" == "true"}
 	{
 		#math {enemyConditionTone} {%1 * 10 + 200};
 		#system {play -q -V0 -n synth 0.06 tri $enemyConditionTone fade 0.01 0.09 gain $volume&}

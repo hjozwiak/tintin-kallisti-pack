@@ -4,29 +4,54 @@
 }
 {9}
 
+#ACTION {^Audible sound is now {ON|OFF}.$}
+{
+	#variable {MSP.SOUND} {%1};
+	#replace {MSP.SOUND} {ON} {true};
+	#replace {MSP.SOUND} {OFF} {false}
+}
+{9}
+
 #ALIAS {PLAY %S}
 {
-	#system {play -qV0 "$($shuf -n1 -e ${HOME}/sounds/%1)" gain $volume &> /dev/null &}
+	#if {!&{MSP.SOUND}}
+	{
+		#variable {MSP.SOUND} {true}
+	};
+	#if {"${MSP.SOUND}" == "true"}
+	{
+		#system {play -qV0 "$($shuf -n1 -e ${HOME}/sounds/%1)" gain $volume &> /dev/null &}
+	}
 }
 {9}
 
 #ALIAS {^MSP$}
 {
-	#echo {MSP is $msp\.}
+	#if {!&{MSP.PROTOCOL}}
+	{
+		#variable {MSP.PROTOCOL} {not enabled}
+	};
+	#echo {MSP is ${MSP.PROTOCOL}\.}
 }
 {9}
 
 #ALIAS {^SYNTH_PLAY %1}
 {
-	#system {play -qV0 ${%1} gain $volume &> /dev/null &}
+	#if {!&{MSP.SOUND}}
+	{
+		#variable {MSP.SOUND} {true}
+	};
+	#if {"${MSP.SOUND}" == "true"}
+	{
+		#system {play -qV0 ${%1} gain $volume &> /dev/null &}
+	}
 }
 {9}
 
 #EVENT {IAC WILL MSP}
 {
 	#send {\xFF\xFD\x5A\};
-	#variable {msp} {enabled};
-	#unevent {IAC WILL MSP}
+	#variable {MSP.PROTOCOL} {enabled}
 }
 
 #GAG              {^!!SOUND%*}
@@ -56,5 +81,4 @@
 	SYNTH_PLAY newVolumeSound
 }
 
-#VARIABLE         {msp}  {not enabled}
 #VARIABLE         {volume}  {0}
