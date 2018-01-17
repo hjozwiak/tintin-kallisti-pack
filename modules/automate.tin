@@ -29,12 +29,7 @@
 
 #ACTION {^The white aura around your body fades.$}
 {
-	#if {"${auto.sanc}" == "{pot|potion|purple|purps|purp}"}
-	{
-		get sanctuary ${character.container};
-		quaff sanctuary
-	};
-	#else
+	#if {&{auto.sanc}}
 	{
 		#nop {Sanc and unholy aura can't be cast in combat, so this is a bit of a safety measure.};
 		#if {$MSDP_OPPOMENT_HEALTH == 0}
@@ -100,13 +95,16 @@
 
 #ACTION {^Your metabolism slows.$}
 {
-	#if {$MSDP_OPPONENT_HEALTH > 0 && "${auto.vigor}" == "vig%*"}
+	#if {&{auto.vigor}}
 	{
-		#list {onDeath} {add} {${auto.vigor}}
-	};
-	#else
-	{
-		${auto.vigor}
+		#if {$MSDP_OPPONENT_HEALTH > 0}
+		{
+			#list {onDeath} {add} {${auto.vigor}}
+		};
+		#else
+		{
+			${auto.vigor}
+		}
 	}
 }
 {9}
@@ -173,7 +171,7 @@
 	};
 	#else
 	{
-		#regexp {%0} {auto{\w*} {.*}} {#echo {auto&1 set to &2.};#variable {auto.&1} {&2}};
+		#regexp {%0} {auto{\w*} {.*}} {#echo {auto&1 set to &2.};#variable {auto.&1} {@strip_braces{&2}}};
 		#else
 		{
 			#variable {auto.%2} {true};

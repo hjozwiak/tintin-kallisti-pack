@@ -4,9 +4,7 @@
 	{
 		#variable {keySetName} {Default}
 	};
-	#script {tmp} {echo "%2" | tr -d "{}"};
-	#replace {tmp[1]} {\\} {};
-	#variable {keyProfile[${keySetName}][%1]} {${tmp[1]}};
+	#variable {keyProfile[${keySetName}][%1]} {@strip_braces{%2}};
 	#macro {\e%1} {$keyProfile[${keySetName}][%1]};
 	set%1
 }
