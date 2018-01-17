@@ -59,6 +59,34 @@
 }
 {9}
 
+#ALIAS {^{audioprompt|beeps|noaudioprompt|nobeeps}$}
+{
+	#switch {"%0"}
+	{
+		#case {"audioprompt"}
+		{
+			#variable {character.audioprompt} {true};
+			#echo {Audio prompt enabled.}
+		};
+		#case {"beeps"}
+		{
+			#variable {character.beeps} {true};
+			#echo {Opponent condition beeps enabled.}
+		};
+		#case {"noaudioprompt"}
+		{
+			#variable {character.audioprompt} {false};
+			#edch {Audio prompt disabled.}
+		};
+		#case {"nobeeps"}
+		{
+			#variable {character.beeps} {false};
+			#echo {Opponent condition beeps disabled.}
+		}
+	}
+}
+{9}
+
 #EVENT {VARIABLE UPDATE MSDP_CHARACTER_NAME}
 {
 	#if {"${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
