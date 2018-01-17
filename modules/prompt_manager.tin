@@ -78,6 +78,14 @@
 				spamset recall 90
 			}
 		}
+	};
+	#nop {Use the autoheal self command if hp is below 50%};
+	#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= 50}
+	{
+		#if {&{autoHealSelf}}
+			{
+				${autoHealSelf};
+			}
 	}
 }
 

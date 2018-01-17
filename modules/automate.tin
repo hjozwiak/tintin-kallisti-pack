@@ -136,6 +136,20 @@
 }
 {9}
 
+#ALIAS {^autoheal%s {me|self} %3}
+{
+	#variable {autoHealSelf} {@strip_braces{%3}};
+	#echo {You will automatically heal yourself using: $autoHealSelf\.}
+}
+{8}
+
+#ALIAS {^noautoheal%s self$}
+{
+	#unvariable {autoHealSelf};
+	#echo {You will no longer try to heal yourself automatically.}
+}
+{8}
+
 #ALIAS {^/$}
 {
 	#if {$MSDP_LEVEL <= 20}
