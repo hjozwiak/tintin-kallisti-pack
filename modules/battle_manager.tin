@@ -189,6 +189,10 @@
 	#if {$i > 0}
 	{
 		#forall {${auto%1List[]}}{#echo {${auto%1List[&0]}}}
+	};
+	#if {&{autoHealSelf}}
+	{
+		#echo {Yourself with: ${autoHealSelf}\.}
 	}
 }
 {9}
