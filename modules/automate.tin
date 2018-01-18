@@ -31,7 +31,6 @@
 {
 	#if {&{auto.sanc}}
 	{
-		#nop {Sanc and unholy aura can't be cast in combat, so this is a bit of a safety measure.};
 		#if {$MSDP_OPPOMENT_HEALTH == 0}
 		{
 			${auto.sanc}
@@ -109,6 +108,22 @@
 }
 {9}
 
+#ACTION {^Your skin becomes less tolerant to damage.$}
+{
+	#if {&{auto.barkskin}}
+	{
+		#if {$MSDP_OPPOMENT_HEALTH == 0}
+		{
+			${auto.barkskin}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto.barkskin}}
+		}
+	}
+}
+{9}
+
 #ACTION {^[* You fail to find the tracks. *]$}
 {
 	#unvariable {auto.track}
@@ -162,7 +177,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{drink.*|eat.*|recall.*|sanc.*|tumble|vigor.*|warcry}$}
+#ALIAS {^{noauto|auto}{barkskin.*|drink.*|eat.*|recall.*|sanc.*|tumble|vigor.*|warcry}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
