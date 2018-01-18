@@ -104,7 +104,7 @@
 }
 {9}
 
-#ACTION {^You receive your reward for the kill, %d experience poin{t|ts}.}
+#ACTION {^You receive your reward for the kill, %d experience poin{t|ts}.%*}
 {
 	#if {"${battle_manager.tankName}" != ""}
 	{
@@ -117,7 +117,7 @@
 		#forall {${onDeath[]}}{${onDeath[&0]}};
 		#list {onDeath} {clear}
 	};
-	look in corpse #nop {Save after every battle.};
+	look in corpse
 	#if {!&{spam.save}}
 	{
 		save;
