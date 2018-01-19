@@ -92,6 +92,22 @@
 }
 {9}
 
+#ACTION {^Your body returns to its natural form.$}
+{
+	#if {&{auto.shape}}
+	{
+		#if {$MSDP_OPPONENT_HEALTH == 0}
+		{
+			shape ${auto.shape}
+		};
+		#else
+		{
+			#list {onDeath} {add} {shape ${auto.shape}}
+		}
+	}
+}
+{9}
+
 #ACTION {^Your metabolism slows.$}
 {
 	#if {&{auto.vigor}}
@@ -124,7 +140,7 @@
 }
 {9}
 
-#ACTION {^[* You fail to find the tracks. *]$}
+#ACTION {^[* You {fail to find|lose} the tracks. *]$}
 {
 	#unvariable {auto.track}
 }
@@ -177,7 +193,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|drink.*|eat.*|recall.*|sanc.*|tumble|vigor.*|warcry}$}
+#ALIAS {^{noauto|auto}{barkskin.*|drink.*|eat.*|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
@@ -196,7 +212,7 @@
 }
 {9}
 
-#ALIAS {^{notrack|track \w*}$}
+#ALIAS {^{notrack|track .*}$}
 {
 	#if {"%0" == "notrack"}
 	{

@@ -1,3 +1,19 @@
+#ACTION {^ %sa shard of the legend{s|s\s*}$}
+{
+	#if {!&{spam.shard}}
+	{
+		SYNTH_PLAY shardSound;
+		spamset shard
+	}
+}
+{9}
+
+#ACTION {^A magical shard lies here.$}
+{
+	SYNTH_PLAY shardSound
+}
+{9}
+
 #ACTION {^{[a-zA-Z ]+} has a brief moment of clarity but sinks back into submission.$}
 {
 	SYNTH_PLAY warningSound
