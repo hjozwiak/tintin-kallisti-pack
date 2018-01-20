@@ -31,7 +31,7 @@
 {
 	#if {&{auto.sanc}}
 	{
-		#if {$MSDP_OPPOMENT_HEALTH == 0}
+		#if {$MSDP_OPPONENT_HEALTH == 0}
 		{
 			${auto.sanc}
 		};
@@ -92,7 +92,7 @@
 }
 {9}
 
-#ACTION {^Your body returns to its natural form.$}
+#ACTION {^Your body returns to its natural form{\.|\.\s*}$}
 {
 	#if {&{auto.shape}}
 	{
