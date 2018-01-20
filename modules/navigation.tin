@@ -12,6 +12,19 @@
 }
 {9}
 
+#ACTION {^%w enters %2.$}
+{
+	#if {"%1" == "$leader"}
+	{
+		#regexp {%2} {{.*} {.*}} {enter &2};
+		#else
+		{
+			enter %2
+		}
+	}
+}
+{9}
+
 #ACTION {^Alas, you cannot go {down|east|north|south|up|west}...$}
 {
 	SYNTH_PLAY cannot_go_%1
