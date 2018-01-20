@@ -23,9 +23,9 @@
 #VARIABLE         {mana30}  {"|sox -np synth pl C3 pl E3 pl G3 pl C4 pl E4 delay 0 .05 .1 .15 .2 remix - fade 0 0.55" pitch -200}
 #VARIABLE         {mana40}  {"|sox -np synth pl C3 pl E3 pl G3 pl C4 pl E4 delay 0 .05 .1 .15 .2 remix - fade 0 0.55"}
 #VARIABLE         {mana50}  {"|sox -np synth pl C3 pl E3 pl G3 pl C4 pl E4 delay 0 .05 .1 .15 .2 remix - fade 0 0.55" pitch 200}
-#VARIABLE         {mana60}  {"|sox -np synth pl D2 pl A3 pl D3 pl F#3 delay 0 .05 .1 .15 remix - fade 0 0.55" pitch -200}
+#VARIABLE         {mana60}  {"|sox -np synth pl D2 pl A3 pl D3 pl F#3 delay 0 .05 .1 .15 remix - fade 0 0.55" pitch -300}
 #VARIABLE         {mana70}  {"|sox -np synth pl D2 pl A3 pl D3 pl F#3 delay 0 .05 .1 .15 remix - fade 0 0.55"}
-#VARIABLE         {mana80}  {"|sox -np synth pl D2 pl A3 pl D3 pl F#3 delay 0 .05 .1 .15 remix - fade 0 0.55" pitch 200}
+#VARIABLE         {mana80}  {"|sox -np synth pl D2 pl A3 pl D3 pl F#3 delay 0 .05 .1 .15 remix - fade 0 0.55" pitch 300}
 #VARIABLE         {movement0}  {"|sox -np synth pl E2 sq B2 tri E3 pl G3 sq B3 tri E4 delay 0 .05 .1 .15 .2 .25 remix - fade 0 0.55" remix v0.4 v0.9 pitch -200}
 #VARIABLE         {movement10}  {"|sox -np synth pl E2 sq B2 tri E3 pl G3 sq B3 tri E4 delay 0 .05 .1 .15 .2 .25 remix - fade 0 0.55" remix v0.4 v0.9}
 #VARIABLE         {movement20}  {"|sox -np synth pl E2 sq B2 tri E3 pl G3 sq B3 tri E4 delay 0 .05 .1 .15 .2 .25 remix - fade 0 0.55" remix v0.4 v0.9 pitch 200}
@@ -36,4 +36,5 @@
 #VARIABLE         {movement80}  {"|sox -np synth pl A2 sq E3 tri A3 pl C#4 sq E4 delay 0 .05 .1 .15 .2 remix - fade 0 0.55" remix v0.4 v0.9 pitch 200}
 #VARIABLE         {newVolumeSound}  {"|sox -np synth .05 sq B5" gain -5}
 #VARIABLE         {notificationSound}  {"|sox -np synth sin 900 sin 1100 delay 0 .1 fade h 0 .25 .2"}
+#VARIABLE         {shardSound}  {"|sox -np synth 2 sine 700:1000 sine 900:1200 fade 0 2 0 remix - norm -12 repeat 3 overdrive reverb speed 4"}
 #VARIABLE         {warningSound}  {"|sox -np synth pl C3 pl E3 pl G3 fade 0 .25 .1" "|sox -np synth pl C3 pl E3 pl G3 fade l 0 .75 1" remix -}
