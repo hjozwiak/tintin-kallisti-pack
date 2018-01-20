@@ -23,9 +23,9 @@
 #VARIABLE         {mana30}  {"|sox -np synth pl C3 pl E3 pl G3 pl C4 pl E4 delay 0 .05 .1 .15 .2 remix - fade 0 0.55" pitch -200}
 #VARIABLE         {mana40}  {"|sox -np synth pl C3 pl E3 pl G3 pl C4 pl E4 delay 0 .05 .1 .15 .2 remix - fade 0 0.55"}
 #VARIABLE         {mana50}  {"|sox -np synth pl C3 pl E3 pl G3 pl C4 pl E4 delay 0 .05 .1 .15 .2 remix - fade 0 0.55" pitch 200}
-#VARIABLE         {mana60}  {"|sox -np synth pl D2 pl A3 pl D3 pl F#3 delay 0 .05 .1 .15 remix - fade 0 0.55" pitch -200}
+#VARIABLE         {mana60}  {"|sox -np synth pl D2 pl A3 pl D3 pl F#3 delay 0 .05 .1 .15 remix - fade 0 0.55" pitch -300}
 #VARIABLE         {mana70}  {"|sox -np synth pl D2 pl A3 pl D3 pl F#3 delay 0 .05 .1 .15 remix - fade 0 0.55"}
-#VARIABLE         {mana80}  {"|sox -np synth pl D2 pl A3 pl D3 pl F#3 delay 0 .05 .1 .15 remix - fade 0 0.55" pitch 200}
+#VARIABLE         {mana80}  {"|sox -np synth pl D2 pl A3 pl D3 pl F#3 delay 0 .05 .1 .15 remix - fade 0 0.55" pitch 300}
 #VARIABLE         {movement0}  {"|sox -np synth pl E2 sq B2 tri E3 pl G3 sq B3 tri E4 delay 0 .05 .1 .15 .2 .25 remix - fade 0 0.55" remix v0.4 v0.9 pitch -200}
 #VARIABLE         {movement10}  {"|sox -np synth pl E2 sq B2 tri E3 pl G3 sq B3 tri E4 delay 0 .05 .1 .15 .2 .25 remix - fade 0 0.55" remix v0.4 v0.9}
 #VARIABLE         {movement20}  {"|sox -np synth pl E2 sq B2 tri E3 pl G3 sq B3 tri E4 delay 0 .05 .1 .15 .2 .25 remix - fade 0 0.55" remix v0.4 v0.9 pitch 200}
