@@ -33,6 +33,16 @@
 }
 {9}
 
+#ACTION {^%s%w %s[%S%s%d]%s(%*}
+{
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i == 0}
+	{
+		#list {groupMemberList} {add} {%2}
+	}
+}
+{9}
+
 #ACTION {^%w attempts to backstab %2, but flies right through {her|him|it}.$}
 {
 	#list {autorescueList} {find} {%1} {i};
@@ -117,12 +127,7 @@
 		#forall {${onDeath[]}}{${onDeath[&0]}};
 		#list {onDeath} {clear}
 	};
-	look in corpse
-	#if {!&{spam.save}}
-	{
-		save;
-		spamset save
-	}
+	look in corpse #if {!&{spam.save}}{save;spamset save}
 }
 {9}
 
@@ -150,6 +155,12 @@
 	}
 }
 {9}
+
+#ALIAS {^auto{heal|rescue} {add|remove} group}
+{
+	#forall {${groupMemberList[]}}{#if {"${groupMemberList[&0]}" != "${MSDP_CHARACTER_NAME}"}{auto%1 %2 ${groupMemberList[&0]}}}
+}
+{8}
 
 #ALIAS {^auto{heal|rescue} %s{add|remove} %s%w$}
 {
@@ -235,4 +246,5 @@
 #VARIABLE         {autohealList}  {}
 #VARIABLE         {autorescueList}  {}
 #VARIABLE         {battle_manager}  {}
+#VARIABLE         {groupMemberList}  {}
 #VARIABLE         {onDeath}  {}
