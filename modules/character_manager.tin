@@ -12,6 +12,28 @@
 }
 {9}
 
+#ALIAS {^bot{kill|load} %S$}
+{
+	#nop {character bot path};
+	#variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}\.bots};
+	#replace {modpath} {\\} {};
+	#nop {Kill, load, or reload a specified bot.};
+	#if {"%1" == "kill"}
+	{
+		#class {bot_%2} {kill};
+		#class {$MSDP_CHARACTER_NAME} {open};
+		#showme {bot %2 has been killed.}
+	};
+	#if {"%1" == "load"}
+	{
+		#showme {Loading bot %2.tin};
+		#class {$MSDP_CHARACTER_NAME} {close};
+		#class {bot_%2} {read} {$modpath/%2.tin}
+	};
+	#unvariable {modpath}
+}
+{9}
+
 #ALIAS {^cmod{kill|load|reload} %S$}
 {
 	#nop {character module path};

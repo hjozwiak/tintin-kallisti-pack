@@ -1,8 +1,8 @@
 #ALIAS {^idle %1}
 {
 	#list {idleList} {clear};
-#variable {idleTmp} {%1};
-#replace {idleTmp} {,{\s*}} {;};
+	#variable {idleTmp} {%1};
+	#replace {idleTmp} {,{\s*}} {;};
 	#list {idleList} {add} {$idleTmp};
 	idle
 }
@@ -12,7 +12,7 @@
 {
 	#if {!&{idleList}}
 	{
-		#list {idleList} {add} {look;where}
+		#list {idleList} {add} {look}
 	};
 	#echo {Current commands to avoide the void are:};
 	#forall {${idleList[]}} {#echo {${idleList[&0]}}};
@@ -29,9 +29,12 @@
 	{
 		#if {!&{idleList}}
 		{
-			#list {idleList} {add} {look;where}
+			#list {idleList} {add} {look}
 		};
-		${idleList[@list_rand{idleList}]}
+		#if {$MSDP_LEVEL <= 100}
+		{
+			${idleList[@list_rand{idleList}]}
+		}
 	}
 }
 
@@ -40,4 +43,5 @@
 	#script {idle.lastUse} {date '+%s'};
 	#variable {idle.lastUse} {${idle.lastUse[1]}}
 }
-#variable {idleTmp} {}
+
+#VARIABLE         {idleTmp}  {}
