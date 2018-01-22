@@ -1,5 +1,10 @@
-#ALIAS {^{test|login}$}
+#ALIAS {^{build|test|login}$}
 {
+	#if {"%0" == "build"}
+	{
+		#nop {Change to the builder port.};
+		#variable {mudPort} {4005}
+	};
 	#if {"%0" == "test"}
 	{
 		#nop {Change to the test port.};

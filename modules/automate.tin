@@ -112,7 +112,7 @@
 {
 	#if {&{auto.vigor}}
 	{
-		#if {$MSDP_OPPONENT_HEALTH > 0}
+		#if {"$MSDP_OPPONENT_NAME" != ""}
 		{
 			#list {onDeath} {add} {${auto.vigor}}
 		};
@@ -128,7 +128,7 @@
 {
 	#if {&{auto.barkskin}}
 	{
-		#if {$MSDP_OPPOMENT_HEALTH == 0}
+		#if {"$MSDP_OPPOnENT_NAME" == ""}
 		{
 			${auto.barkskin}
 		};
