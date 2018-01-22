@@ -83,6 +83,15 @@
 }
 {9}
 
+#ACTION {^You {stop focusing|attempt to focus but become distracted by butterflies}.$}
+{
+	#if {&{auto.focus}}
+	{
+		focus ${auto.focus}
+	}
+}
+{9}
+
 #ACTION {^You're {coated in ACID|on FIRE}, {it eats away at|the flames burn} your skin!}
 {
 	#if {"${auto.tumble}" == "true"}
@@ -140,12 +149,6 @@
 }
 {9}
 
-#ACTION {^[* You {fail to find|lose} the tracks. *]$}
-{
-	#unvariable {auto.track}
-}
-{9}
-
 #ACTION {^[* You found your target! *]$}
 {
 	#if {&{auto.track}}
@@ -162,6 +165,12 @@
 	{
 		%1
 	}
+}
+{9}
+
+#ACTION {^[* You {fail to find|lose} the tracks. *]$}
+{
+	#unvariable {auto.track}
 }
 {9}
 
@@ -193,7 +202,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|drink.*|eat.*|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
+#ALIAS {^{noauto|auto}{barkskin.*|drink.*|eat.*|focus.*|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
