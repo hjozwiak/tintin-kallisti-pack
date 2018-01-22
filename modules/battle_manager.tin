@@ -53,6 +53,16 @@
 }
 {9}
 
+#ACTION {^%w is now a group member %*.$}
+{
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i == 0}
+	{
+		#list {groupMemberList} {add} {%1}
+	}
+}
+{9}
+
 #ACTION {^%w is {moderately hurt|severely hurt|near death}.$}
 {
 	#list {autohealList} {find} {%1} {i};
