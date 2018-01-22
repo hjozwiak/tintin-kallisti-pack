@@ -1,4 +1,4 @@
-#ACTION {^ %sa shard of the legend{s|s\s*}$}
+#ACTION {^%s{a|A} shard of the legend{s|s\s*}$}
 {
 	#if {!&{spam.shard}}
 	{
