@@ -157,6 +157,7 @@
 {
 	#if {"%1" == "stop following"}
 	{
+		#list {groupMemberList} {clear};
 		#unvariable {leader}
 	};
 	#else

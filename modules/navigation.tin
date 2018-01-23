@@ -31,6 +31,15 @@
 }
 {9}
 
+#ACTION {^The lock springs open.$}
+{
+	#if {"${auto.track}" != ""}
+	{
+		look
+	}
+}
+{9}
+
 #MACRO {\e,}
 {
 	s

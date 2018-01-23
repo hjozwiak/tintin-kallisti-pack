@@ -18,6 +18,20 @@
 }
 {5}
 
+#ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
+{
+	#if {&{auto.pick}}
+	{
+		#regexp {%1} {{.*} {.*}} {#variable {auto.pick} {&2 %2}};
+		#else
+		{
+			#variable {auto.pick} {%1 %2}
+		};
+		pick ${auto.pick}
+	}
+}
+{9}
+
 #ACTION {^The effects of battle cry are gone.$}
 {
 	#if {"${auto.warcry}" == "true"}
@@ -202,7 +216,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|drink.*|eat.*|focus.*|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
+#ALIAS {^{noauto|auto}{barkskin.*|drink.*|eat.*|focus.*|pick|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
