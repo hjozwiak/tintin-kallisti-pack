@@ -1,6 +1,6 @@
 #ACTION {%1 %d %s!$}
 {
-	#if {"${cspam.filter}" == "true"}
+	#if {"${filter}" == "true"}
 	{
 		#line {gag}
 	}
@@ -9,7 +9,7 @@
 
 #ACTION {%1 (%*!%*)$}
 {
-	#if {"${cspam.filter}" == "true"}
+	#if {"${filter}" == "true"}
 	{
 		#line {gag}
 	}
@@ -27,7 +27,7 @@
 
 #ACTION {^A ! means the object is unusable by you currently.$}
 {
-	#if {"${cspam.filter}" == "true"}
+	#if {"${filter}" == "true"}
 	{
 		#echo {Filters applied, to remove them type nofilter.};
 		#line {gag}
@@ -73,12 +73,12 @@
 	#if {"%0" == "filter"}
 	{
 		#echo {Filters enabled.};
-		#variable {cspam.filter} {true}
+		#variable {filter} {true}
 	};
 	#else
 	{
 		#echo {Filters disabled.};
-		#variable {cspam.filter} {false}
+		#variable {filter} {false}
 	}
 }
 {9}
