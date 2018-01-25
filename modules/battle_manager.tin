@@ -226,6 +226,20 @@
 }
 {9}
 
+#ALIAS {^res{c|cu|cue} %sall$}
+{
+	#list {autorescueList} {size} {i};
+	#if {$i == 0}
+	{
+		#echo {No one to rescue}
+	};
+	#else
+	{
+		#forall {${autorescueList[]}}{res%1 ${autorescueList[&0]}}
+	}
+}
+{9}
+
 #ALIAS {^{notank|tank|tank \w+}$}
 {
 	#if {"%0" == "notank"}

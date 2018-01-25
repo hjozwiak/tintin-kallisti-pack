@@ -29,6 +29,12 @@
 }
 {9}
 
+#ACTION {^<Gemote> %*}
+{
+	Channel_Event Gossip %0
+}
+{9}
+
 #ACTION {^The winds whisper, '%1'$}
 {
 	Channel_Event Info %0

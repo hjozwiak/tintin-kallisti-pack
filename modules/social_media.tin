@@ -7,6 +7,12 @@
 }
 {9}
 
+#ACTION {^Congratulations, you have achieved notable status in the realms!%sYou receive %2!$}
+{
+	POST $MSDP_CHARACTER_NAME achieved notable status in the realms and received %2! ${socialmedia.hashtag} ${socialmedia.url}
+}
+{9}
+
 #ACTION {^You are now ranked #%1 on the %2 top%3 list.$}
 {
 	POST $MSDP_CHARACTER_NAME is now ranked #%1 on the %2 top%3 list. ${socialmedia.hashtag} ${socialmedia.url}
