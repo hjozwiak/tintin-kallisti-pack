@@ -219,6 +219,20 @@
 }
 {9}
 
+#ALIAS {^he{a|al} %sall$}
+{
+	#list {autohealList} {size} {i};
+	#if {$i == 0}
+	{
+		#echo {No one to heal}
+	};
+	#else
+	{
+		#forall {${autohealList[]}}{he%1 ${autohealList[&0]}}
+	}
+}
+{9}
+
 #ALIAS {^noauto{heal|rescue}$}
 {
 	#list {auto%1List} {clear};
