@@ -195,7 +195,7 @@
 }
 {8}
 
-#ALIAS {^noautoheal%s self$}
+#ALIAS {^noautoheal%s {me|self}$}
 {
 	#unvariable {autoHealSelf};
 	#echo {You will no longer try to heal yourself automatically.}

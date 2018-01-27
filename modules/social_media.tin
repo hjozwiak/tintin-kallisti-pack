@@ -39,6 +39,12 @@
 }
 {9}
 
+#ACTION {^Your a shard of the legends crumbles to dust!$}
+{
+	POST $MSDP_CHARACTER_NAME redeemed a shard of the legends! ${socialmedia.hashtag} ${socialmedia.url}
+}
+{9}
+
 #ALIAS {^POST %1}
 {
 	#if {"$twitter" == "true"}

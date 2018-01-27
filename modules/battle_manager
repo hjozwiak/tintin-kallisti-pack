@@ -132,12 +132,17 @@
 		march ${battle_manager.tankName}
 	};
 	#nop {Do anything that needs to be scheduled on death.};
-	#if {"${onDeath}" != ""}
+	#if {"${onDeath}" != "" && "$MSDP_OPPONENT_NAME" == ""}
 	{
 		#forall {${onDeath[]}}{${onDeath[&0]}};
 		#list {onDeath} {clear}
 	};
-	look in corpse #if {!&{spam.save}}{save;spamset save}
+	look in corpse;
+	#if {!&{spam.save}}
+	{
+		save;
+		spamset save
+	}
 }
 {9}
 
