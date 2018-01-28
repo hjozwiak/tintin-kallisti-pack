@@ -150,7 +150,7 @@
 {
 	#if {&{auto.barkskin}}
 	{
-		#if {"$MSDP_OPPOnENT_NAME" == ""}
+		#if {"$MSDP_OPPONENT_NAME" == ""}
 		{
 			${auto.barkskin}
 		};
