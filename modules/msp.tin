@@ -43,7 +43,10 @@
 	};
 	#if {"${MSP.SOUND}" == "true"}
 	{
-		#system {play -qV0 ${%1} gain $volume &> /dev/null &}
+		#if {&{%1}}
+		{
+			#system {play -qV0 ${%1} gain $volume &> /dev/null &}
+		}
 	}
 }
 {9}

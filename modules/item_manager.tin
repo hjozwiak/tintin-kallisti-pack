@@ -1,4 +1,4 @@
-#ALIAS {^{get|give|put} %2, %3 {.*[^,].*}$}
+#ALIAS {^{get|give|put} %2, %w %w$}
 {
 	#variable {items} {%2, %3};
 	#replace {items} {,} {;};
