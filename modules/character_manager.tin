@@ -98,7 +98,7 @@
 		#case {"noaudioprompt"}
 		{
 			#variable {character.audioprompt} {false};
-			#edch {Audio prompt disabled.}
+			#echo {Audio prompt disabled.}
 		};
 		#case {"nobeeps"}
 		{
