@@ -101,8 +101,11 @@
 		#format {audioprompt.mana} {%d} {${audioprompt.mana} - ${audioprompt.mana} % 10};
 		#if {${audioprompt.mana} != ${audioprompt.oldMana}}
 		{
-			SYNTH_PLAY mana${audioprompt.mana};
-			#variable {audioprompt.oldMana} {${audioprompt.mana}}
+			#if {"${character.audioprompt}" == "true" && "${MSP.SOUND}" == "true"}
+			{
+				SYNTH_PLAY mana${audioprompt.mana};
+				#variable {audioprompt.oldMana} {${audioprompt.mana}}
+			}
 		}
 	}
 }
@@ -128,8 +131,11 @@
 		#format {audioprompt.movement} {%d} {${audioprompt.movement} - ${audioprompt.movement} % 10};
 		#if {${audioprompt.movement} != ${audioprompt.oldMovement}}
 		{
-			SYNTH_PLAY movement${audioprompt.movement};
-			#variable {audioprompt.oldMovement} {${audioprompt.movement}}
+			#if {"${character.audioprompt}" == "true" && "${MSP.SOUND}" == "TRUE"}
+			{
+				SYNTH_PLAY movement${audioprompt.movement};
+				#variable {audioprompt.oldMovement} {${audioprompt.movement}}
+			}
 		}
 	}
 }
