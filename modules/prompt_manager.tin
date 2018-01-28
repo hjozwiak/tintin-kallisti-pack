@@ -137,7 +137,7 @@
 		#format {audioprompt.movement} {%d} {${audioprompt.movement} - ${audioprompt.movement} % 10};
 		#if {${audioprompt.movement} != ${audioprompt.oldMovement}}
 		{
-			#if {"${character.audioprompt}" == "true" && "${MSP.SOUND}" == "TRUE"}
+			#if {"${character.audioprompt}" == "true" && "${MSP.SOUND}" == "true"}
 			{
 				#if {&{movement${audioprompt.movement}}}
 				{
