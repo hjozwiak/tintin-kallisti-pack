@@ -66,8 +66,11 @@
 		#format {audioprompt.health} {%d} {${audioprompt.health} - ${audioprompt.health} % 10};
 		#if {${audioprompt.health} != ${audioprompt.oldHealth} && "${character.audioprompt}" == "true" && "${MSP.SOUND}" == "true"}
 		{
-			SYNTH_PLAY health${audioprompt.health};
-			#variable {audioprompt.oldHealth} {${audioprompt.health}}
+			#if {&{health${audioprompt.health}}}
+			{
+				SYNTH_PLAY health${audioprompt.health};
+				#variable {audioprompt.oldHealth} {${audioprompt.health}}
+			}
 		}
 	};
 	#nop {Use the autorecall command if hp is below 20%};
@@ -103,8 +106,11 @@
 		{
 			#if {"${character.audioprompt}" == "true" && "${MSP.SOUND}" == "true"}
 			{
-				SYNTH_PLAY mana${audioprompt.mana};
-				#variable {audioprompt.oldMana} {${audioprompt.mana}}
+				#if {&{mana${audioprompt.mana}}}
+				{
+					SYNTH_PLAY mana${audioprompt.mana};
+					#variable {audioprompt.oldMana} {${audioprompt.mana}}
+				}
 			}
 		}
 	}
@@ -133,8 +139,11 @@
 		{
 			#if {"${character.audioprompt}" == "true" && "${MSP.SOUND}" == "TRUE"}
 			{
-				SYNTH_PLAY movement${audioprompt.movement};
-				#variable {audioprompt.oldMovement} {${audioprompt.movement}}
+				#if {&{movement${audioprompt.movement}}}
+				{
+					SYNTH_PLAY movement${audioprompt.movement};
+					#variable {audioprompt.oldMovement} {${audioprompt.movement}}
+				}
 			}
 		}
 	}
