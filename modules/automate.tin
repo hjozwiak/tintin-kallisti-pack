@@ -1,3 +1,9 @@
+#ACTION {%1 flings you head over heels{\.|\)}$}
+{
+	stand
+}
+{9}
+
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
 	#if {&{auto.pick}}
