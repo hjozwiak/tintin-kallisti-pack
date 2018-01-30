@@ -1,9 +1,3 @@
-#ACTION {%1 flings you head over heels{\.|\)}$}
-{
-	stand
-}
-{9}
-
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
 	#if {&{auto.pick}}
@@ -18,11 +12,33 @@
 }
 {9}
 
+#ACTION {%1 {bashes you square on, throwing you flat on your back|flings you head over heels}{\.|\)|\]}$}
+{
+	stand
+}
+{9}
+
 #ACTION {^The effects of battle cry are gone.$}
 {
 	#if {"${auto.warcry}" == "true"}
 	{
 		warcry
+	}
+}
+{9}
+
+#ACTION {^The pink glow around your body fades.$}
+{
+	#if {&{auto.ffire}}
+	{
+		#if {$MSDP_OPPONENT_HEALTH == 0}
+		{
+			${auto.ffire}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto.ffire}}
+		}
 	}
 }
 {9}
@@ -221,7 +237,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|drink.*|eat.*|focus.*|pick|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
+#ALIAS {^{noauto|auto}{barkskin.*|drink.*|eat.*|ffire.*|focus.*|pick|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
