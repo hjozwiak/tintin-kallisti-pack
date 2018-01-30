@@ -125,7 +125,7 @@
 	#if {%1 != 0 && "${character.beeps}" == "true" && "${MSP.SOUND}" == "true"}
 	{
 		#math {enemyConditionTone} {%1 * 10 + 200};
-		#system {play -q -V0 -n synth 0.06 tri $enemyConditionTone fade 0.01 0.09 gain $volume&}
+		#system {play -q -V0 -n synth 0.06 tri $enemyConditionTone fade 0.01 0.09 gain $soundVolume&}
 	}
 }
 

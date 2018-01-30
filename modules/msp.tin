@@ -14,13 +14,17 @@
 
 #ALIAS {PLAY %S}
 {
+#if {!&{soundVolume}}
+{
+#variable {soundVolume} {0}
+};
 	#if {!&{MSP.SOUND}}
 	{
 		#variable {MSP.SOUND} {true}
 	};
 	#if {"${MSP.SOUND}" == "true"}
 	{
-		#system {play -qV0 "$($shuf -n1 -e ${HOME}/sounds/%1)" gain $volume &> /dev/null &}
+		#system {play -qV0 "$($shuf -n1 -e ${HOME}/sounds/%1)" gain $soundVolume &> /dev/null &}
 	}
 }
 {9}
@@ -37,6 +41,10 @@
 
 #ALIAS {^SYNTH_PLAY %1}
 {
+#if {!&{soundVolume}}
+{
+#variable {soundVolume} {0}
+};
 	#if {!&{MSP.SOUND}}
 	{
 		#variable {MSP.SOUND} {true}
@@ -45,7 +53,7 @@
 	{
 		#if {&{%1}}
 		{
-			#system {play -qV0 ${%1} gain $volume &> /dev/null &}
+			#system {play -qV0 ${%1} gain $soundVolume &> /dev/null &}
 		}
 	}
 }
@@ -62,26 +70,24 @@
 {
 	#if {$volume <= -40}
 	{
-		#variable {volume} {-40}
+		#variable {soundVolume} {-40}
 	};
 	#else
 	{
-		#math {volume} {$volume - 2}
+		#math {soundVolume} {$soundVolume - 2}
 	};
 	SYNTH_PLAY newVolumeSound
 }
 
 #MACRO {\e?}
 {
-	#if {$volume >= 0}
+	#if {$soundVolume >= 0}
 	{
-		#variable {volume} {0}
+		#variable {soundVolume} {0}
 	};
 	#else
 	{
-		#math {volume} {$volume + 2}
+		#math {soundVolume} {$soundVolume + 2}
 	};
 	SYNTH_PLAY newVolumeSound
 }
-
-#VARIABLE         {volume}  {0}
