@@ -78,6 +78,22 @@
 }
 {9}
 
+#ACTION {^You feel less righteous.$}
+{
+	#if {&{auto.bless}}
+	{
+		#if {$MSDP_OPPONENT_HEALTH == 0}
+		{
+			${auto.bless}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto.bless}}
+		}
+	}
+}
+{9}
+
 #ACTION {^You just can't concentrate enough.$}
 {
 	#line {gag};
@@ -237,7 +253,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|drink.*|eat.*|ffire.*|focus.*|pick|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
+#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|ffire.*|focus.*|pick|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
