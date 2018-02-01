@@ -14,7 +14,7 @@
 
 #ACTION {%1 {punch contacts with your chest, causing immense pain|bashes you square on, throwing you flat on your back|flings you head over heels}{\.|\)|\]}$}
 {
-	stand
+	#2 stand
 }
 {9}
 
@@ -168,6 +168,22 @@
 }
 {9}
 
+#ACTION {^Your eyes adjust back to normal.$}
+{
+	#if {&{auto.eyes}}
+	{
+		#if {$MSDP_OPPONENT_HEALTH == 0}
+		{
+			trueseeing
+		};
+		#else
+		{
+			#list {onDeath} {add} {trueseeing}
+		}
+	}
+}
+{9}
+
 #ACTION {^Your metabolism slows.$}
 {
 	#if {&{auto.vigor}}
@@ -253,7 +269,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|ffire.*|focus.*|pick|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
+#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|pick|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
