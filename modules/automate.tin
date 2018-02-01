@@ -12,7 +12,7 @@
 }
 {9}
 
-#ACTION {%1 {bashes you square on, throwing you flat on your back|flings you head over heels}{\.|\)|\]}$}
+#ACTION {%1 {punch contacts with your chest, causing immense pain|bashes you square on, throwing you flat on your back|flings you head over heels}{\.|\)|\]}$}
 {
 	stand
 }
