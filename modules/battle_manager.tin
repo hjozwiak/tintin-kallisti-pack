@@ -115,6 +115,16 @@
 }
 {9}
 
+#ACTION {^SEEK SHELTER AT ONCE!%s%w has begun to sing.$}
+{
+	#list {autorescueList} {find} {%2} {i};
+	#if {$i != 0}
+	{
+		rescue ${autorescueList[$i]}
+	}
+}
+{9}
+
 #ACTION {^Saving %w.$}
 {
 	#if {"${spam.save}" == "true"}
