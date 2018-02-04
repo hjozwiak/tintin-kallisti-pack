@@ -232,6 +232,22 @@
 }
 {9}
 
+#ACTION {^Your warpaint wears off.$}
+{
+	#if {&{auto.warpaint}}
+	{
+		#if {$MSDP_OPPONENT_HEALTH == 0}
+		{
+			warpaint ${auto.warpaint}
+		};
+		#else
+		{
+			#list {onDeath} {add} {warpaint ${auto.warpaint}}
+		}
+	}
+}
+{9}
+
 #ACTION {^[* You found your target! *]$}
 {
 	#if {&{auto.track}}
@@ -299,7 +315,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|pick|poke.*|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
+#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|pick|poke.*|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
