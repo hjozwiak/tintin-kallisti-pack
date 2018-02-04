@@ -59,15 +59,22 @@ You can automate recasting of spells, or send a message when they drop. This sec
 - autoheal: Show the people you are automatically healing. (see below)
 - autoheal add name: Add person to autoheal list. (see below)
 - autoheal remove name: Remove person from autoheal list. (see below)
-- autoheal self args: Set commands used to automatically heal yourself when your hitpoints drop below 50%.
-- autorecall args: Commands to be used when hitpoints drop below 20%. (see below)
+- autoheal self {args}: Set commands used to automatically heal yourself when your hitpoints drop below 50%.
+autobarkskin {args}: Recast barkskin when it drops.
+autobless {args}: Recast barkskin when it drops.
+autoffire {args}: Recast faerie fire when it drops.
+- autopick: Automatically try to pick closed doors. Requires pick lock.
+- autopoke {args}: that method of attack used when your group leader pokes or points at a target. (This is different then the poke or point social, pack users can use the p alias.)
+- autorecall {args}: Commands to be used when hitpoints drop below 20%. (see below)
 - autorescue: Show the people you are automatically rescuing. (see below)
 - autorescue add name: Add person to autorescue list. (see below)
 - autorescue remove name: Remove person from autorescue list. (see below)
-- autosanc (args): Triggers when sanctuary falls.
-- autotumble: Causes you to tumble if you are set on fire.
-- autovigor (args): Triggers when vigor falls.
+- autosanc {args}: Triggers when sanctuary falls.
+- autoshape args: Automatically change to the given shape when shape change wears off.
+- autotumble: Causes you to tumble if you are set on fire or coated in acid.
+- autovigor {args}: Triggers when vigor falls.
 - autowarcry: Renews warcry automatically.
+- autowarpaint color: Renews warpaint automatically with the specified color, azure, crimson, or mandrake.
 
 When in charge of protecting your comrades  in a group, it can be easy to miss someone being attacked until it's too late. To make things easier for you, we offer autorescue. You can rescue multiple people, just add them to the list as in autorescue add name. So, autorescue add jack;autorescue add jill will enable automatic rescuing for Jack and Jill. To turn it off, just type noautorescue.
 
@@ -88,12 +95,13 @@ A lot of things depend on your container. You can set your container with the co
 
 #### Miscellaneous Client Side Commands
 
-These commands are available to present important information quickly, or to change the output of the game. To turn them off, prefix them with no as in nocspam.
+These commands are available for convenience, to present important information quickly, or to change the output of the game. To turn them off where applicable, prefix them with no as in nocspam.
 
 - audioprompt: Audible prompts for your condition. Hp is left, Mana is centered,  stamina is right. (enabled by default)
 - beeps: Audible indication of opponent's condition, the lower the beep the more hurt your enemy. (enabled by default)
 - cspam: Cuts down on or shortens some of the game's output.
 - filter: Filters out items you can not use when listing from shops or looking in containers. Will also work on inventory.
+- p target: Activate your parties "poke trigger". Initiates attack if successful.
 - whoami: Shows your name, level, and class. Will also show last death information if available.
 
 #### Multiple Items
