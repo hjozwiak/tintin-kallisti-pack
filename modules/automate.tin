@@ -18,6 +18,22 @@
 }
 {9}
 
+#ACTION {^%w {pokes|points at} %S$}
+{
+	#if {"%1" == "$leader"}
+	{
+		#if {&{auto.poke}}
+		{
+			#regexp {${auto.poke}} {{.*?};{.*}} {&1 %3;&2};
+			#else
+			{
+				${auto.poke} %3
+			}
+		}
+	}
+}
+{9}
+
 #ACTION {^The effects of battle cry are gone.$}
 {
 	#if {"${auto.warcry}" == "true"}
@@ -216,6 +232,22 @@
 }
 {9}
 
+#ACTION {^{You really make a mess of it|Your warpaint wears off}.$}
+{
+	#if {&{auto.warpaint}}
+	{
+		#if {$MSDP_OPPONENT_HEALTH == 0}
+		{
+			warpaint ${auto.warpaint}
+		};
+		#else
+		{
+			#list {onDeath} {add} {warpaint ${auto.warpaint}}
+		}
+	}
+}
+{9}
+
 #ACTION {^[* You found your target! *]$}
 {
 	#if {&{auto.track}}
@@ -269,7 +301,21 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|pick|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry}$}
+#ALIAS {^p %s%S$}
+{
+	emote ${automate.action} %2;
+	#if {"${automate.action}" == "pokes"}
+	{
+		#variable {automate.action} {points at}
+	};
+	#else
+	{
+		#variable {automate.action} {pokes}
+	}
+}
+{9}
+
+#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|pick|poke.*|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
@@ -301,3 +347,5 @@
 	}
 }
 {9}
+
+#VARIABLE         {automate}  {{action}{pokes}}

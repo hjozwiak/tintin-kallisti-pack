@@ -14,6 +14,7 @@
 #GAG              {^You are hit 0 times.$}
 #GAG              {^You can't get any coins from the corpse.$}
 #GAG              {^You hit %d of %d attac{k|ks} for %d damage.$}
+#GAG              {^You quickly find page %d, in %2.$}
 #GAG              {^You swiftly dodge %1 attack.$}
 #GAG              {^You use %1 to focus your spell.$}
 #SUBSTITUTE       {%1 is incapacitated and will slowly die, if not aided.$}                                     {%1 is is incapacitated.}  {9}

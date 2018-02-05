@@ -1,9 +1,13 @@
-#ACTION {The %1 to the %2 seems to be closed.}
+#ACTION {The %1 {above|below|to the .*} seems to be closed.}
 {
-	#regexp {%1} {{.*} {.*}} {open &2 %2};
+	#variable {tmp} {%2};
+	#replace {tmp} {above} {up};
+	#replace {tmp} {below} {down};
+	#replace {tmp} {to the } {};
+	#regexp {%1} {{.*} {.*}} {open &2 $tmp};
 	#else
 	{
-		open %1 %2
+		open %1 $tmp
 	};
 	#if {"${auto.track}" != ""}
 	{
