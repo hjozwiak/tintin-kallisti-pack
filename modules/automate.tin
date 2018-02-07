@@ -163,7 +163,11 @@
 {
 	#if {"${auto.tumble}" == "true"}
 	{
-		tumble
+		#if {!&{spam.tumble}}
+		{
+			tumble;
+			spamset tumble
+		}
 	}
 }
 {9}
@@ -232,22 +236,6 @@
 }
 {9}
 
-#ACTION {^{You really make a mess of it|Your warpaint wears off}.$}
-{
-	#if {&{auto.warpaint}}
-	{
-		#if {$MSDP_OPPONENT_HEALTH == 0}
-		{
-			warpaint ${auto.warpaint}
-		};
-		#else
-		{
-			#list {onDeath} {add} {warpaint ${auto.warpaint}}
-		}
-	}
-}
-{9}
-
 #ACTION {^[* You found your target! *]$}
 {
 	#if {&{auto.track}}
@@ -270,6 +258,22 @@
 #ACTION {^[* You {fail to find|lose} the tracks. *]$}
 {
 	#unvariable {auto.track}
+}
+{9}
+
+#ACTION {^{You really make a mess of it|Your warpaint wears off}.$}
+{
+	#if {&{auto.warpaint}}
+	{
+		#if {$MSDP_OPPONENT_HEALTH == 0}
+		{
+			warpaint ${auto.warpaint}
+		};
+		#else
+		{
+			#list {onDeath} {add} {warpaint ${auto.warpaint}}
+		}
+	}
 }
 {9}
 
