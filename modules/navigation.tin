@@ -29,6 +29,18 @@
 }
 {9}
 
+#ACTION {^%w leaves north.$}
+{
+	#if {$MSDP_ROOM_VNUM == 8500}
+	{
+		#if {"$leader" == "%1"}
+		{
+			north
+		}
+	}
+}
+{9}
+
 #ACTION {^Alas, you cannot go {down|east|north|south|up|west}...$}
 {
 	SYNTH_PLAY cannot_go_%1
