@@ -163,7 +163,11 @@
 {
 	#if {"${auto.tumble}" == "true"}
 	{
-		tumble
+		#if {!&{spam.tumble}}
+		{
+			tumble;
+			spamset tumble
+		}
 	}
 }
 {9}
@@ -232,22 +236,6 @@
 }
 {9}
 
-#ACTION {^{You really make a mess of it|Your warpaint wears off}.$}
-{
-	#if {&{auto.warpaint}}
-	{
-		#if {$MSDP_OPPONENT_HEALTH == 0}
-		{
-			warpaint ${auto.warpaint}
-		};
-		#else
-		{
-			#list {onDeath} {add} {warpaint ${auto.warpaint}}
-		}
-	}
-}
-{9}
-
 #ACTION {^[* You found your target! *]$}
 {
 	#if {&{auto.track}}
@@ -273,6 +261,22 @@
 }
 {9}
 
+#ACTION {^{You really make a mess of it|Your warpaint wears off}.$}
+{
+	#if {&{auto.warpaint}}
+	{
+		#if {$MSDP_OPPONENT_HEALTH == 0}
+		{
+			warpaint ${auto.warpaint}
+		};
+		#else
+		{
+			#list {onDeath} {add} {warpaint ${auto.warpaint}}
+		}
+	}
+}
+{9}
+
 #ALIAS {^autoheal%s {me|self} %3}
 {
 	#variable {autoHealSelf} {@strip_braces{%3}};
@@ -286,6 +290,15 @@
 	#echo {You will no longer try to heal yourself automatically.}
 }
 {8}
+
+#ALIAS {^%ddo %2 %S$}
+{
+	#loop {1} {%1} {i}
+	{
+		%2 $i\.%3
+	}
+}
+{9}
 
 #ALIAS {^/$}
 {
