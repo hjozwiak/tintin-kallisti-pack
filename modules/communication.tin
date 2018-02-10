@@ -6,7 +6,7 @@
 
 #ACTION {^%w repor{t|ts|ts to you}:%3.$}
 {
-	Channel_Event GroupTell %0
+	#list {AllList} {add} {%0}
 }
 {9}
 
