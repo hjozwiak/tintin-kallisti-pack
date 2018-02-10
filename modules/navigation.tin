@@ -56,6 +56,12 @@
 }
 {9}
 
+#ACTION {^You seem to be unable to pick this lock.$}
+{
+	#unvariable {auto.track}
+}
+{9}
+
 #MACRO {\e,}
 {
 	s
