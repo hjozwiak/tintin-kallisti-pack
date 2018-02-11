@@ -36,6 +36,7 @@
 
 #ALIAS {^cmod{kill|load|reload} %S$}
 {
+	CSAVE;
 	#nop {character module path};
 	#variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}\.modules};
 	#replace {modpath} {\\} {};
@@ -139,5 +140,4 @@
 	#class {%1} {open}
 }
 
-#TICKER           {CSAVE}  {CSAVE}  {60}
 #VARIABLE         {OLD_MSDP}  {}

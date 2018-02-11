@@ -343,7 +343,8 @@
 			#variable {auto.%2} {true};
 			#echo {auto%2 enabled.}
 		}
-	}
+	};
+	CSAVE
 }
 {9}
 
