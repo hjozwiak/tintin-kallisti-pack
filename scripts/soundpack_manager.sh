@@ -13,7 +13,8 @@ soundpackURL='http://kallistimud.com/files/msppack.zip'
 soundpackPath="$1"
 
 get_soundpack() {
-  # If the path doesn't exist for sounds, creat it.
+  # Recreate soundpack directory.
+  rm -rf "$soundpackPath"
   mkdir -p "$soundpackPath"
   # Create a safe place to download the file
   if [[ "$(uname -s)" == "Darwin" ]];then
@@ -40,7 +41,7 @@ get_soundpack() {
 
 # Check for updates
 oldSum="$(cat "$soundpackPath/version.txt")"
-newSum="$(curl -s "$soundpackURL" | md5sum - | cut -d ' ' -f1)"
+newSum="$(curl -s "${soundpackURL%.zip}.md5")"
 [[ "$newSum" == "$oldSum" ]] || {
   echo "Updating sounds, please wait...";
   get_soundpack;
