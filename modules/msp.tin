@@ -1,5 +1,6 @@
 #ACTION {^!!SOUND(%1)$}
 {
+	#variable {MSP.LAST} {%1};
 	PLAY %1
 }
 {9}

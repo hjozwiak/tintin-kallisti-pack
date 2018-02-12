@@ -38,6 +38,7 @@
 
 #ALIAS {^mod{kill|load|reload} %S$}
 {
+	CSAVE;
 	#nop {reload all modules};
 	#if {"%0" == "modreload all"}
 	{
