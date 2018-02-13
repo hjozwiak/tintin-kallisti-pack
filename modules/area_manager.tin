@@ -21,7 +21,7 @@
 		};
 		#else
 		{
-			#echo {Please recall before using goto.}
+			#echo {Please invoke goto from the Midgaard temple.}
 		}
 	};
 	#else
