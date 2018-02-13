@@ -92,7 +92,8 @@
 {
 	#variable {music.links[apiUrl]} {%2/yourls-api.php};
 	#variable {music.links[apiKey]} {%4};
-	#echo {music links enabled using ${music.links[apiUrl]}\.}
+	#echo {music links enabled using ${music.links[apiUrl]}\.};
+	CSAVE
 }
 {9}
 
@@ -106,7 +107,8 @@
 	{
 		#variable {music.player} {%2}
 	};
-	#echo {music player set to ${music.player}\.}
+	#echo {music player set to ${music.player}\.};
+	CSAVE
 }
 {9}
 
@@ -147,7 +149,8 @@
 #ALIAS {^{musicc|musicch|musiccha|musicchan|musicchann|musicchanne|musicchannel} %s%S$}
 {
 	#variable {channel.music} {%3};
-	#echo {Music channel set to %3.}
+	#echo {Music channel set to %3.};
+	CSAVE
 }
 {9}
 
@@ -163,7 +166,8 @@
 	{
 		#unvariable {music.links};
 		#echo {Music links disabled.}
-	}
+	};
+	CSAVE
 }
 {9}
 
