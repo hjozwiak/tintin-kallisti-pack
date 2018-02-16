@@ -12,12 +12,6 @@
 }
 {9}
 
-#ACTION {^You work your way to your knees.$}
-{
-	stand
-}
-{9}
-
 #ACTION {^%w {pokes|points at} %S$}
 {
 	#if {"%1" == "$leader"}
@@ -145,6 +139,12 @@
 {9}
 
 #ACTION {^You wake and sit up.$}
+{
+	stand
+}
+{9}
+
+#ACTION {^You work your way to your knees.$}
 {
 	stand
 }
@@ -308,8 +308,15 @@
 	};
 	#else
 	{
-		recite recall;
-		get recall $character.container
+		#if {$MSDP_OPPONENT_HEALTH > 0 || $MSDP_PARAGON_LEVEL < 50}
+		{
+			recite recall;
+			get recall $character.container
+		};
+		#else
+		{
+			recall
+		}
 	}
 }
 {9}
