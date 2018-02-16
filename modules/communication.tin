@@ -29,7 +29,7 @@
 }
 {9}
 
-#ACTION {^<%w{: \S>|>} '%3'$}
+#ACTION {^<%w: %S> '%3'$}
 {
 	Channel_Event %1 %0
 }
@@ -38,6 +38,12 @@
 #ACTION {^<Gemote> %*}
 {
 	Channel_Event Gossip %0
+}
+{9}
+
+#ACTION {^<Kingdom> %*}
+{
+	Channel_Event Kingdom %0
 }
 {9}
 
@@ -239,5 +245,5 @@
 #VARIABLE         {SayList}  {}
 #VARIABLE         {TellList}  {}
 #VARIABLE         {awayMessage}  {false}
-#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Chat}{4}{Gossip}{5}{GroupTell}{6}{info}{7}{Kingdom}{8}{Music}{9}{Say}{10}{Tell}}
+#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Chat}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Say}{10}{Tell}}
 #VARIABLE         {channelBufferIndex}  {0}
