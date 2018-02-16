@@ -335,7 +335,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|pick|poke.*|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
+#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{

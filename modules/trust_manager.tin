@@ -1,0 +1,72 @@
+#ACTION {^%w beckons you to follow.$}
+{
+	#if {!&{leader}}
+	{
+		#if {"${auto.follow}" == "true"}
+		{
+			#if {@is_friend{%1}}
+			{
+				follow %1
+			}
+		}
+	}
+}
+{9}
+
+#ALIAS {^friend %s{add|remove} %s%w$}
+{
+	#format {trust_manager.tmp} {%n} {%4};
+	#list {friends} {find} {${trust_manager.tmp}} {i};
+	#if {"%2" == "remove"}
+	{
+		#if {$i != 0}
+		{
+			#list {friends} {delete} {$i};
+			#echo {${trust_manager.tmp} removed from your friends list.}
+		};
+		#else
+		{
+			#echo {${trust_manager.tmp} is not currently in your friends list.}
+		}
+	};
+	#else
+	{
+		#if {$i == 0}
+		{
+			#list {friends} {add} {${trust_manager.tmp}};
+			#echo {${trust_manager.tmp} added to your friends list.}
+		};
+		#else
+		{
+			#echo {${trust_manager.tmp} is already in your friends list.}
+		}
+	}
+}
+{9}
+
+#ALIAS {^frien{d|ds} %slist$}
+{
+	#echo {People in your friends list:};
+	#list {friends} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${friends[]}}{#echo {${friends[&0]}}}
+	}
+}
+{9}
+
+#FUNCTION {is_friend}
+{
+	#format {trust_manager.tmp} {%n} {%1};
+	#list {friends} {find} {${trust_manager.tmp}} {i};
+	#if {$i > 0}
+	{
+		#variable {result} {1}
+	};
+	#else
+	{
+		#variable {result} {0}
+	}
+}
+
+#VARIABLE         {trust_manager}  {{tmp}{}}
