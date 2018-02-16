@@ -61,7 +61,6 @@
 
 #ALIAS {^Channel_Event %S %2}
 {
-	#echo {1 is %1};
 	SYNTH_PLAY %1Channel;
 	#list {AllList} {insert} {1} {%2};
 	#list {%1List} {insert} {1} {%2};
