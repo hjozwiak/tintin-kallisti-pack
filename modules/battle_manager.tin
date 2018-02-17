@@ -33,6 +33,16 @@
 }
 {9}
 
+#ACTION {^%S heals %w's wounds.$}
+{
+	#list {autorescueList} {find} {%2} {i};
+	#if {$i != 0}
+	{
+		rescue ${autorescueList[$i]}
+	}
+}
+{9}
+
 #ACTION {^%s%w %s[%S%s%d]%s(%*}
 {
 	#list {groupMemberList} {find} {%2} {i};
