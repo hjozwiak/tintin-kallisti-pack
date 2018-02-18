@@ -46,7 +46,8 @@
 	{
 		#variable {character.prompt} {true};
 		#echo {Your prompt returns from its long absents.}
-	}
+	};
+	CSAVE
 }
 {9}
 
@@ -64,7 +65,8 @@
 		#class {applied_spam_settings} {kill};
 		#unvariable {cspam};
 		#echo {Client side spam filters removed.}
-	}
+	};
+	CSAVE
 }
 {9}
 
