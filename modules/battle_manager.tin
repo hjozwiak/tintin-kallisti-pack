@@ -190,7 +190,7 @@
 }
 {9}
 
-#ACTION {^You try but are unable to head off their opponent.$}
+#ACTION {^You try but are unable to head off {her|his|its} opponent.$}
 {
 	#forall {${autorescueList[]}}{rescue ${autorescueList[&0]}}
 }
