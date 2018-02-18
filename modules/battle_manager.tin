@@ -10,15 +10,15 @@
 
 #ACTION {%1 flies from your grasp.$}
 {
-	gt OH GODS NOOOO! I have been disarmed!;
-	rem buckler;
-	#regexp {%1} {{.*} {.*}} {get &2;wield &2};
+	#regexp {%1} {{.*} {.*}} {get &2;remove buckler;wield &2};
 	#else
 	{
 		get %1;
+		remove buckler;
 		wield %1
 	};
-	wear buckler
+	wear buckler;
+	gt OH GODS NOOOO! I have been disarmed!
 }
 {9}
 
