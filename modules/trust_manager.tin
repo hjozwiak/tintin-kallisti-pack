@@ -1,3 +1,23 @@
+#ACTION {^%w tells you, ':%2'$}
+{
+	Channel_Event Tell %0;
+	#if {@is_friend{%1}}
+	{
+		@trust_exec{%2}
+	}
+}
+{7}
+
+#ACTION {^**%w: '$MSDP_CHARACTER_NAME %2'}
+{
+	Channel_Event GroupTell %0;
+	#if {@is_friend{%1}}
+	{
+		@trust_exec{%2}
+	}
+}
+{7}
+
 #ACTION {^%w beckons you to follow.$}
 {
 	#if {!&{leader}}
@@ -68,6 +88,29 @@
 	#else
 	{
 		#variable {result} {0}
+	}
+}
+
+#FUNCTION {trust_exec}
+{
+	#switch {"%0"}
+	{
+		#case {"hardc%*"}
+		{
+			#return #nop
+		};
+		#case {"outl%*"}
+		{
+			#return #nop
+		};
+		#case {"ste%*"}
+		{
+			#return #nop
+		};
+		#default
+		{
+			#return %0
+		}
 	}
 }
 
