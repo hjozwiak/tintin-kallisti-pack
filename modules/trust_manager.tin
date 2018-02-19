@@ -95,21 +95,21 @@
 {
 	#switch {"%0"}
 	{
-		#case {"hardc%*"}
+		#case {"%*hardc%*"}
 		{
 			#return #nop
 		};
-		#case {"outl%*"}
+		#case {"%*outl%*"}
 		{
 			#return #nop
 		};
-		#case {"ste%*"}
+		#case {"%*ste%*"}
 		{
 			#return #nop
 		};
 		#default
 		{
-			#return %0
+			#return @strip_braces{%0}
 		}
 	}
 }
