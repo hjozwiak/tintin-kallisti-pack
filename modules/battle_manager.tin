@@ -143,6 +143,12 @@
 }
 {9}
 
+#ACTION {^Looks like its not quite %1's bedtime.$}
+{
+	#forall {%1;%2}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+}
+{9}
+
 #ACTION {^SEEK SHELTER AT ONCE!%s%w has begun to sing.$}
 {
 	#list {autorescueList} {find} {%2} {i};
