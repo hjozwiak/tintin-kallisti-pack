@@ -6,7 +6,8 @@
 	};
 	#variable {keyProfile[${keySetName}][%1]} {@strip_braces{%2}};
 	#macro {\e%1} {$keyProfile[${keySetName}][%1]};
-	set%1
+	set%1;
+	CSAVE
 }
 {9}
 
@@ -37,7 +38,8 @@
 	#else
 	{
 		#showme {keyset ${keySetName}\.}
-	}
+	};
+	CSAVE
 }
 {9}
 
