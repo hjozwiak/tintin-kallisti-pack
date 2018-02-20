@@ -145,7 +145,7 @@
 
 #ACTION {^Looks like its not quite %1's bedtime.$}
 {
-	#forall {%1;%2}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+	#forall {${autorescueList[]}}{rescue ${autorescueList[&0]}}
 }
 {9}
 
