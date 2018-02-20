@@ -8,7 +8,7 @@
 }
 {7}
 
-#ACTION {^**%w: '$MSDP_CHARACTER_NAME %2'}
+#ACTION {^**%w: $MSDP_CHARACTER_NAME %2}
 {
 	Channel_Event GroupTell %0;
 	#if {@is_friend{%1}}
