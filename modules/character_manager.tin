@@ -126,7 +126,7 @@
 		#script {for module in $modpath/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {kill}";done}
 	};
 	#nop {Make sure the character file exists so there's no error on read.};
-	#system {if ! [[ -f "$HOME/%1" ]]; then if [[ "%1" != "" ]]; then echo "#nop" > "$HOME/%1";fi;fi};
+	#system {if ! [[ -f "$HOME/%1" ]]; then if [[ "%1" != "" ]]; then mkdir -p "$HOME/%1.modules";cp modules/config.txt "$HOME/%1.modules/config.tin";echo "#nop" > "$HOME/%1";fi;fi};
 	#variable {OLD_MSDP_CHARACTER_NAME} {%1};
 	#history {read} {${HOME}/%1.history};
 	#class {%1} {read} {${HOME}/%1};
