@@ -21,6 +21,8 @@
 	#if {"%1" == "kill"}
 	{
 		#class {bot_%2} {kill};
+		#unvariable {mobDeath.bot%*};
+		#unvariable {trackEnd.bot%*};
 		#class {$MSDP_CHARACTER_NAME} {open};
 		#showme {bot %2 has been killed.}
 	};

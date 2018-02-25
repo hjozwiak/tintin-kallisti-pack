@@ -121,10 +121,16 @@
 
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
+#nop {Hook is trackEnd};
 	#if {&{auto.track}}
 	{
 		SYNTH_PLAY notificationSound;
-		#unvariable {auto.track}
+		#unvariable {auto.track};
+ #list {trackEnd} {size} {i};
+    #if {$i > 0}
+    {
+        #forall {${trackEnd[]}} {${trackEnd[&0]}}
+    }
 	}
 }
 {9}
@@ -238,11 +244,17 @@
 
 #ACTION {^[* You found your target! *]$}
 {
-	#if {&{auto.track}}
+#nop {Hook is trackEnd};	
+#if {&{auto.track}}
 	{
 		SYNTH_PLAY notificationSound;
 		#unvariable {auto.track}
-	}
+	};
+ #list {trackEnd} {size} {i};
+    #if {$i > 0}
+    {
+        #forall {${trackEnd[]}} {${trackEnd[&0]}}
+    }
 }
 {9}
 
@@ -257,7 +269,13 @@
 
 #ACTION {^[* You {fail to find|lose} the tracks. *]$}
 {
-	#unvariable {auto.track}
+#nop {Hook is trackLost};
+	#unvariable {auto.track};
+ #list {trackLost} {size} {i};
+    #if {$i > 0}
+    {
+        #forall {${trackLost[]}} {${trackLost[&0]}}
+    }
 }
 {9}
 
