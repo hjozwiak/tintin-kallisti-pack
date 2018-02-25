@@ -32,6 +32,10 @@
 		#class {$MSDP_CHARACTER_NAME} {close};
 		#class {bot_%2} {read} {$modpath/%2.tin}
 	};
+	#if {&{bot.%1}}
+	{
+		${bot.%1}
+	};
 	#unvariable {modpath}
 }
 {9}
