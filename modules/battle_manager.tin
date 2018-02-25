@@ -184,6 +184,16 @@
 }
 {9}
 
+#ACTION {^You join the fight with %w.$}
+{
+	#list {autorescueList} {find} {%1} {i};
+	#if {$i != 0}
+	{
+		rescue ${autorescueList[$i]}
+	}
+}
+{9}
+
 #ACTION {^You receive your reward for the kill,%*}
 {
 	#nop {Hook is mobDeath};
