@@ -269,12 +269,18 @@
 
 #ACTION {^[* You {fail to find|lose} the tracks. *]$}
 {
-#nop {Hook is trackLost};
+#nop {Hook for lose is trackLose};
+#nop {Hook for failing to find is trackFail};
 	#unvariable {auto.track};
- #list {trackLost} {size} {i};
+ #list {trackFail} {size} {i};
     #if {$i > 0}
     {
-        #forall {${trackLost[]}} {${trackLost[&0]}}
+        #forall {${trackFail[]}} {${trackFail[&0]}}
+    };
+ #list {trackLose} {size} {i};
+    #if {$i > 0}
+    {
+        #forall {${trackLose[]}} {${trackLose[&0]}}
     }
 }
 {9}
