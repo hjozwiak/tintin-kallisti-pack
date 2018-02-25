@@ -8,10 +8,10 @@
 }
 {7}
 
-#ACTION {^**%w: %S %3}
+#ACTION {^**%w: '%S %3'$}
 {
 	Channel_Event GroupTell %0;
-	#if {@is_friend{%1} && "%2" == "$MSDP_CHARACTER_NAME"}
+	#if {@is_friend{%1} && "%2" == "{${MSDP_CHARACTER_NAME}|all}"}
 	{
 		@trust_exec{%3}
 	}
@@ -93,17 +93,18 @@
 
 #FUNCTION {trust_exec}
 {
-	#switch {"%0"}
+	#format {trust_manager.tmp} {%l} {%0};
+	#switch {"${trust_manager.tmp}"}
 	{
-		#case {"hardc%*"}
+		#case {"{\s*h|;*\s*h}ardc%*"}
 		{
 			#return #nop
 		};
-		#case {"outl%*"}
+		#case {"{\s*o|;*\s*o}utl%*"}
 		{
 			#return #nop
 		};
-		#case {"ste%*"}
+		#case {"%*{ste |stea|steal}%*"}
 		{
 			#return #nop
 		};

@@ -1,6 +1,10 @@
 #ACTION {%1 charges madly into %2, but can't budge {her|him|it}.$}
 {
-	#forall {%1;%2}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+	#list {autorescueList} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {%1;%2}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+	}
 }
 {9}
 
@@ -41,13 +45,21 @@
 
 #ACTION {%1 screams insanely and charges into %2!$}
 {
-	#forall {%1;%2}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+	#list {autorescueList} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {%1;%2}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+	}
 }
 {9}
 
 #ACTION {%1 trips as {he|it|she} charges into %3!$}
 {
-	#forall {%1;%3}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+	#list {autorescueList} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {%1;%3}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+	}
 }
 {9}
 
@@ -145,7 +157,11 @@
 
 #ACTION {^Looks like its not quite %1's bedtime.$}
 {
-	#forall {${autorescueList[]}}{rescue ${autorescueList[&0]}}
+	#list {autorescueList} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${autorescueList[]}}{rescue ${autorescueList[&0]}}
+	}
 }
 {9}
 
@@ -168,14 +184,19 @@
 }
 {9}
 
+#ACTION {^You join the fight with %w.$}
+{
+	#list {autorescueList} {find} {%1} {i};
+	#if {$i != 0}
+	{
+		rescue ${autorescueList[$i]}
+	}
+}
+{9}
+
 #ACTION {^You receive your reward for the kill,%*}
 {
-	#if {"${battle_manager.tankName}" != ""}
-	{
-		reform ${battle_manager.tankName} fr;
-		march ${battle_manager.tankName}
-	};
-	#nop {Do anything that needs to be scheduled on death.};
+	#nop {Hook is mobDeath};
 	#if {"${onDeath}" != ""}
 	{
 		#forall {${onDeath[]}}{${onDeath[&0]}};
@@ -186,6 +207,11 @@
 	{
 		save;
 		spamset save
+	};
+	#list {mobDeath} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${mobDeath[]}} {${mobDeath[&0]}}
 	}
 }
 {9}
