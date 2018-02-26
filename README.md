@@ -171,9 +171,26 @@ Modules should mostly just run in the background and do their thing. Occasionall
 
 #### Custom Modules
 
-Although we try our best, we just can't handle all situations for all characters. This is where custom modules come in. To create your own modules that are loaded when you login your character, simply go to the settings directory, normally ~/.config/tintin-kallisti/ and create a new directory called Character.modules. So, for example, if I have a character named Jack, the directory name will need to be Jack.modules. Name modules with the .tin extension and they will be automatically loaded.
+Although we try our best, we just can't handle all situations for all characters. This is where custom modules come in. To create your own modules that are loaded when you login your character, simply go to the settings directory, normally ~/.config/tintin-kallisti/ and place your modules in the Character.modules directory you will find there. So, for example, if I have a character named Jack, the directory name will be Jack.modules. Name modules with the .tin extension and they will be automatically loaded.
 
 The pack's components are normally set to precedence 9 and move up to 8 if something needs to be overridden. So, for character modules, make your actions and aliases 5 or less and there should not be any conflicts. For clarification, the lower the number, the higher the precedence.
+
+There is a hook system to minimize the need to overwrite whole actions. You can store the code you want to run with an action that offers a hook in a variable called by the action. If you look for the action code, the name of the hook will be listed at the top. For example, mob death hook is called mobDeath. So, you can store code in mobDeath variables in multiple character modules and the code will be executed each time a mob dies. The one  caveat is when calling variables inside a variable, you will need to use two dollar signs ($$). Here is a small example that will cheer if your health is good after a fight, but pant if it is not so great, less than 50%.
+
+    #variable {mobDeath.victory}
+    {
+        #if {$$MSDP_HEALTH >$$MSDP_HEALTH_MAX / 2}
+        {
+            cheer
+        };
+        #else
+        {
+            pant
+        }
+    }
+
+Hooks are being added and improved constantly. If you don't see the one you need, please ask for it. Once completed, the hook system can add a whole new level of robustness to the pack.
+
 
 If you need to work with character modules after the pack has loaded you can use the cmod command.
 
