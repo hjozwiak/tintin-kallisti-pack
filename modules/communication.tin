@@ -6,7 +6,7 @@
 
 #ACTION {^%w repor{t|ts|ts to you}:%3.$}
 {
-	#list {AllList} {insert} {1} {%0}
+	#list {channel[All]} {insert} {1} {%0}
 }
 {9}
 
@@ -62,12 +62,12 @@
 #ALIAS {^Channel_Event %S %2}
 {
 	SYNTH_PLAY %1Channel;
-	#list {AllList} {insert} {1} {%2};
-	#list {%1List} {insert} {1} {%2};
-	#list {%1List} {size} {i};
+	#list {channel[All]} {insert} {1} {%2};
+	#list {channel[%1]} {insert} {1} {%2};
+	#list {channel[%1]} {size} {i};
 	#if {$i >= 11}
 	{
-		#list {%1List} {delete} {11}
+		#list {channel[%1]} {delete} {11}
 	};
 	#unvariable {i}
 }
@@ -75,7 +75,7 @@
 
 #ALIAS {^display_channel %w %d}
 {
-	#echo {${%1List[%2]}}
+	#echo {${channel[%1][%2]}}
 }
 {9}
 
@@ -234,16 +234,7 @@
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
-#VARIABLE         {AdviceList}  {}
-#VARIABLE         {AllList}  {}
-#VARIABLE         {BarterList}  {}
-#VARIABLE         {ChatList}  {}
-#VARIABLE         {GossipList}  {}
-#VARIABLE         {InfoList}  {}
-#VARIABLE         {KingdomList}  {}
-#VARIABLE         {MusicList}  {}
-#VARIABLE         {SayList}  {}
-#VARIABLE         {TellList}  {}
+#VARIABLE         {channel}  {}
 #VARIABLE         {awayMessage}  {false}
 #VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Chat}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Say}{10}{Tell}}
 #VARIABLE         {channelBufferIndex}  {0}
