@@ -121,16 +121,16 @@
 
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
-#nop {Hook is trackEnd};
+	#nop {Hook is trackEnd};
 	#if {&{auto.track}}
 	{
 		SYNTH_PLAY notificationSound;
 		#unvariable {auto.track};
- #list {trackEnd} {size} {i};
-    #if {$i > 0}
-    {
-        #forall {${trackEnd[]}} {${trackEnd[&0]}}
-    }
+		#list {trackEnd} {size} {i};
+		#if {$i > 0}
+		{
+			#forall {${trackEnd[]}} {${trackEnd[&0]}}
+		}
 	}
 }
 {9}
@@ -244,17 +244,17 @@
 
 #ACTION {^[* You found your target! *]$}
 {
-#nop {Hook is trackEnd};	
-#if {&{auto.track}}
+	#nop {Hook is trackEnd};
+	#if {&{auto.track}}
 	{
 		SYNTH_PLAY notificationSound;
 		#unvariable {auto.track}
 	};
- #list {trackEnd} {size} {i};
-    #if {$i > 0}
-    {
-        #forall {${trackEnd[]}} {${trackEnd[&0]}}
-    }
+	#list {trackEnd} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${trackEnd[]}} {${trackEnd[&0]}}
+	}
 }
 {9}
 
@@ -269,19 +269,19 @@
 
 #ACTION {^[* You {fail to find|lose} the tracks. *]$}
 {
-#nop {Hook for lose is trackLose};
-#nop {Hook for failing to find is trackFail};
+	#nop {Hook for lose is trackLose};
+	#nop {Hook for failing to find is trackFail};
 	#unvariable {auto.track};
- #list {trackFail} {size} {i};
-    #if {$i > 0}
-    {
-        #forall {${trackFail[]}} {${trackFail[&0]}}
-    };
- #list {trackLose} {size} {i};
-    #if {$i > 0}
-    {
-        #forall {${trackLose[]}} {${trackLose[&0]}}
-    }
+	#list {trackFail} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${trackFail[]}} {${trackFail[&0]}}
+	};
+	#list {trackLose} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${trackLose[]}} {${trackLose[&0]}}
+	}
 }
 {9}
 
@@ -345,6 +345,20 @@
 }
 {9}
 
+#ALIAS {^at %s%d %3}
+{
+	#if {%2 < 0 || %2 > 23}
+	{
+		#echo {Invalid time specified. Time must be from 0, 12:00AM, to 23, 11:00PM.}
+	};
+	#else
+	{
+		#variable {at.%2} {%3};
+		#echo {Ok, at %2:00, "%3" will be executed.}
+	}
+}
+{9}
+
 #ALIAS {^p %s%S$}
 {
 	emote ${automate.action} %2;
@@ -393,4 +407,14 @@
 }
 {9}
 
+#EVENT {VARIABLE UPDATE MSDP_WORLD_TIME}
+{
+	#if {&{at.%1}}
+	{
+		${at.%1};
+		#unvariable {at.%1}
+	}
+}
+
+#VARIABLE         {at}  {}
 #VARIABLE         {automate}  {{action}{pokes}}
