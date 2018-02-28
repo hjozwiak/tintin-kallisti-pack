@@ -242,7 +242,7 @@
 }
 {9}
 
-#ALIAS {^auto{heal|rescue} {add|remove} group}
+#ALIAS {^auto{heal|rescue} {add|remove} {all|group}$}
 {
 	#forall {${groupMemberList[]}}{#if {"${groupMemberList[&0]}" != "${MSDP_CHARACTER_NAME}"}{auto%1 %2 ${groupMemberList[&0]}}}
 }
