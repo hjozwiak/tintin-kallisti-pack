@@ -211,13 +211,28 @@
 
 #MACRO {\e[1;3C}
 {
-	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer}}
+	#nop {Alt right arrow};
+	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer} - 1}
 	{
-		#variable {channelBufferIndex} {@list_size{channelBuffer}}
+		#math {channelBufferIndex} {@list_size{channelBuffer} - 1}
 	};
 	#else
 	{
 		#math {channelBufferIndex} {$channelBufferIndex + 1}
+	};
+	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+}
+
+#MACRO {\e[1;3D}
+{
+	#nop {Alt left arrow};
+	#if {!&{channelBufferIndex} || $channelBufferIndex <= 0}
+	{
+		#variable {channelBufferIndex} {0}
+	};
+	#else
+	{
+		#math {channelBufferIndex} {$channelBufferIndex - 1}
 	};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
@@ -234,7 +249,7 @@
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
-#VARIABLE         {channel}  {}
 #VARIABLE         {awayMessage}  {false}
+#VARIABLE         {channel}  {}
 #VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Chat}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Say}{10}{Tell}}
 #VARIABLE         {channelBufferIndex}  {0}
