@@ -411,7 +411,7 @@
 {
 	#if {&{at.%1}}
 	{
-		${at.%1};
+		@strip_braces{${at.%1}};
 		#unvariable {at.%1}
 	}
 }
