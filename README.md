@@ -82,11 +82,13 @@ The same convenience is available for healers. Just use the autoheal command ins
 
 Eating and drinking can be a chore. With the pack's autoeat and autodrink, however, it's a snap. Just turn them on with autoeat item and autodrink drinkcontainer. For example, to eat breat you would type autoeat bread and to autodrink from at waterskin you would type autodrink waterskin.
 
-If you want to hunt something and walk to it, use track target. When you reach the target you will hear a notification tone. This does not pass through closed doors without help currently. If you can't reach your target or need to cancel for any reason, type notrack.
+If you want to hunt something and walk to it, use track target. When you reach the target you will hear a notification tone. If you can't reach your target or need to cancel for any reason, type notrack.
 
 Sometimes, it's nice to have a little buffer against death. It is kind of frustrating when your level 50 Paragon dies, and you realize long after the fact that you probably could have saved them with a bit more fast thinking and even faster typing. Autorecall offers a way to hopefully avoid getting killed. It is by no means 100% affective, but if you do get killed, you can rest assured that the pack did everything in is power to prevent it. To enable autorecall, simply type autorecall followed by the command you would like to use to recall.
 
 This is a good time to bring up the / character. Normally it is a shortcut for say in the game. We have repurposed it, however, to the more standard function of recall. If you are below level 20, it will use the standard recall command. After level 20, however, it  will try to recite a recall scroll _which must be present in your inventory_, then get a new scroll from your container. Remember, the scroll must be in your inventory for this to work. You could just do autorecall / and the pack will try to use the best option to recall you if your hitpoints drop below 20%. Another good option for bards may be to set autorecall play gelsewhere. Just make sure that whatever command you use will work during combat. The paragon version of recall, for example, does not work during combat. Check in game help files to make the best decision for your character.
+
+If you need to schedule something to happen at a given time in the game, just type the command at time commands. Time must be between 0, 12:00AM, and 23, 11:23PM. To find out the current time in the game type time, or show world_time. As in most other commands, for multiple arguments close them in brackes and separate them with semi-colons. This is very useful for shops that don't open until morning, or the riding instructor.
 
 #### Container
 
