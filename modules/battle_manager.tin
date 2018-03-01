@@ -73,6 +73,16 @@
 }
 {9}
 
+#ACTION {^%S stops following %w.$}
+{
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		#list {groupMemberList} {delete} {$i}
+	}
+}
+{9}
+
 #ACTION {^%s%w %s[%S%s%d]%s(%*}
 {
 	#list {groupMemberList} {find} {%2} {i};
