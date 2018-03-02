@@ -119,6 +119,15 @@
 }
 {9}
 
+#ACTION {^You polymorph in to the form of a %1.$}
+{
+	#if {&{auto.shape} && "${auto.shape}" != "%1"}
+	{
+		autoshape %1
+	}
+}
+{9}
+
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
 	#nop {Hook is trackEnd};
