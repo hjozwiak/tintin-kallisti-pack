@@ -8,8 +8,8 @@
 #ACTION {^Audible sound is now {ON|OFF}.$}
 {
 	#variable {MSP.SOUND} {%1};
-	#replace {MSP.SOUND} {ON} {true};
-	#replace {MSP.SOUND} {OFF} {false}
+	#replace {MSP.SOUND} {ON} {1};
+	#replace {MSP.SOUND} {OFF} {0}
 }
 {9}
 
@@ -21,9 +21,9 @@
 };
 	#if {!&{MSP.SOUND}}
 	{
-		#variable {MSP.SOUND} {true}
+		#variable {MSP.SOUND} {1}
 	};
-	#if {"${MSP.SOUND}" == "true"}
+	#if {${MSP.SOUND}}
 	{
 		#system {play -qV0 "$($shuf -n1 -e ${HOME}/sounds/%1)" gain $soundVolume &> /dev/null &}
 	}
@@ -48,9 +48,9 @@
 };
 	#if {!&{MSP.SOUND}}
 	{
-		#variable {MSP.SOUND} {true}
+		#variable {MSP.SOUND} {1}
 	};
-	#if {"${MSP.SOUND}" == "true"}
+	#if {${MSP.SOUND}}
 	{
 		#if {&{%1}}
 		{

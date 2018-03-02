@@ -43,12 +43,12 @@
 {
 	#if {"%0" == "audioprompt"}
 	{
-		#variable {character.audioprompt} {true};
+		#variable {character.audioprompt} {1};
 		#showme {Audio prompt enabled.}
 	};
 	#else
 	{
-		#variable {character.audioprompt} {false};
+		#variable {character.audioprompt} {0};
 		#showme {Audio prompt disabled.}
 	}
 }
@@ -58,13 +58,13 @@
 {
 	#if {!&{character.audioprompt}}
 	{
-		#variable {character.audioprompt} {true}
+		#variable {character.audioprompt} {1}
 	};
 	#math {audioprompt.health} {(%1 / $MSDP_HEALTH_MAX) *100.0};
 	#if {${audioprompt.health} < 100}
 	{
 		#format {audioprompt.health} {%d} {${audioprompt.health} - ${audioprompt.health} % 10};
-		#if {${audioprompt.health} != ${audioprompt.oldHealth} && "${character.audioprompt}" == "true" && "${MSP.SOUND}" == "true"}
+		#if {${audioprompt.health} != ${audioprompt.oldHealth} && ${character.audioprompt} && ${MSP.SOUND}}
 		{
 			#if {&{health${audioprompt.health}}}
 			{
@@ -76,7 +76,7 @@
 	#nop {Use the autorecall command if hp is below 20%};
 	#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= 20}
 	{
-		#if {"${spam.recall}" != "true"}
+		#if {!${spam.recall}}
 		{
 			#if {&{auto.recall}}
 			{
@@ -104,7 +104,7 @@
 		#format {audioprompt.mana} {%d} {${audioprompt.mana} - ${audioprompt.mana} % 10};
 		#if {${audioprompt.mana} != ${audioprompt.oldMana}}
 		{
-			#if {"${character.audioprompt}" == "true" && "${MSP.SOUND}" == "true"}
+			#if {${character.audioprompt} && ${MSP.SOUND}}
 			{
 				#if {&{mana${audioprompt.mana}}}
 				{
@@ -120,9 +120,9 @@
 {
 	#if {!&{character.beeps}}
 	{
-		#variable {character.beeps} {true}
+		#variable {character.beeps} {1}
 	};
-	#if {%1 != 0 && "${character.beeps}" == "true" && "${MSP.SOUND}" == "true"}
+	#if {%1 != 0 && ${character.beeps} && ${MSP.SOUND}}
 	{
 		#math {enemyConditionTone} {%1 * 10 + 200};
 		#system {play -q -V0 -n synth 0.06 tri $enemyConditionTone fade 0.01 0.09 gain $soundVolume&}
@@ -137,7 +137,7 @@
 		#format {audioprompt.movement} {%d} {${audioprompt.movement} - ${audioprompt.movement} % 10};
 		#if {${audioprompt.movement} != ${audioprompt.oldMovement}}
 		{
-			#if {"${character.audioprompt}" == "true" && "${MSP.SOUND}" == "true"}
+			#if {${character.audioprompt} && ${MSP.SOUND}}
 			{
 				#if {&{movement${audioprompt.movement}}}
 				{

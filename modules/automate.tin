@@ -30,7 +30,7 @@
 
 #ACTION {^The effects of battle cry are gone.$}
 {
-	#if {"${auto.warcry}" == "true"}
+	#if {${auto.warcry}}
 	{
 		warcry
 	}
@@ -137,7 +137,7 @@
 
 #ACTION {^You try to work up a battle song but just can't muster up the enthusiasm.$}
 {
-	#if {"${auto.warcry}" == "true"}
+	#if {${auto.warcry}}
 	{
 		warcry
 	}
@@ -167,7 +167,7 @@
 
 #ACTION {^You're {coated in ACID|on FIRE}, {it eats away at|the flames burn} your skin!}
 {
-	#if {"${auto.tumble}" == "true"}
+	#if {${auto.tumble}}
 	{
 		#if {!&{spam.tumble}}
 		{
@@ -385,7 +385,7 @@
 		#regexp {%0} {auto{\w*} {.*}} {#echo {auto&1 set to &2.};#variable {auto.&1} {@strip_braces{&2}}};
 		#else
 		{
-			#variable {auto.%2} {true};
+			#variable {auto.%2} {1};
 			#echo {auto%2 enabled.}
 		}
 	};

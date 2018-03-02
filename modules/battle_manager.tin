@@ -187,7 +187,7 @@
 
 #ACTION {^Saving %w.$}
 {
-	#if {"${spam.save}" == "true"}
+	#if {${spam.save}}
 	{
 		#line {gag}
 	}
