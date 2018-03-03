@@ -22,7 +22,7 @@
 {
 	#if {!&{leader}}
 	{
-		#if {"${auto.follow}" == "true"}
+		#if {${auto.follow}}
 		{
 			#if {@is_friend{%1}}
 			{

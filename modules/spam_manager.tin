@@ -1,10 +1,10 @@
 #ALIAS {^spamset %1}
 {
-	#regexp {%1} {{.*} {\d+}} {#variable {spam.&1} {true};#delay {&2} {#variable {spam.&1} {false}}};
+	#regexp {%1} {{.*} {\d+}} {#variable {spam.&1} {1};#delay {&2} {#variable {spam.&1} {0}}};
 	#else
 	{
-		#variable {spam.%1} {true};
-		#delay {10} {#variable {spam.%1} {false}}
+		#variable {spam.%1} {1};
+		#delay {10} {#variable {spam.%1} {0}}
 	}
 }
 {9}

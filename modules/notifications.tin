@@ -17,6 +17,6 @@
 #ACTION {^{[a-zA-Z ]+} has a brief moment of clarity but sinks back into submission.$}
 {
 	SYNTH_PLAY warningSound;
-	#list {AllList} {insert} {1} {%0}
+	#list {channel[All]} {insert} {1} {%0}
 }
 {9}

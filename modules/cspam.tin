@@ -1,6 +1,6 @@
 #ACTION {%1 %d %s!$}
 {
-	#if {"${filter}" == "true"}
+	#if {${filter}}
 	{
 		#line {gag}
 	}
@@ -9,7 +9,7 @@
 
 #ACTION {%1 (%*!%*)$}
 {
-	#if {"${filter}" == "true"}
+	#if {${filter}}
 	{
 		#line {gag}
 	}
@@ -18,7 +18,7 @@
 
 #ACTION {^< %1{>|>\s*}$}
 {
-	#if {"${character.prompt}" == "false"}
+	#if {!${character.prompt}}
 	{
 		#line {gag}
 	}
@@ -27,7 +27,7 @@
 
 #ACTION {^A ! means the object is unusable by you currently.$}
 {
-	#if {"${filter}" == "true"}
+	#if {${filter}}
 	{
 		#echo {Filters applied, to remove them type nofilter.};
 		#line {gag}
@@ -37,14 +37,14 @@
 
 #ALIAS {^noprompt$}
 {
-	#if {"${character.prompt}" != "false"}
+	#if {${character.prompt}}
 	{
-		#variable {character.prompt} {false};
+		#variable {character.prompt} {0};
 		#echo {Your prompt vanishes...}
 	};
 	#else
 	{
-		#variable {character.prompt} {true};
+		#variable {character.prompt} {1};
 		#echo {Your prompt returns from its long absents.}
 	};
 	CSAVE
@@ -57,13 +57,13 @@
 	{
 		#class {applied_spam_settings} {read} {modules/spam.rules};
 		#class {$MSDP_CHARACTER_NAME} {open};
-		#variable {cspam} {true};
+		#variable {cspam} {1};
 		#echo {Client side spam filters applied.}
 	};
 	#else
 	{
 		#class {applied_spam_settings} {kill};
-		#unvariable {cspam};
+		#variable {cspam} {0};
 		#echo {Client side spam filters removed.}
 	};
 	CSAVE
@@ -75,12 +75,12 @@
 	#if {"%0" == "filter"}
 	{
 		#echo {Filters enabled.};
-		#variable {filter} {true}
+		#variable {filter} {1}
 	};
 	#else
 	{
 		#echo {Filters disabled.};
-		#variable {filter} {false}
+		#variable {filter} {0}
 	}
 }
 {9}
