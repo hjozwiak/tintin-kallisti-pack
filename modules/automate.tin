@@ -104,6 +104,22 @@
 }
 {9}
 
+#ACTION {^You feel the need to pray to your god.$}
+{
+	#if {${auto.prayer}}
+	{
+		#if {$MSDP_OPPONENT_HEALTH == 0}
+		{
+			prayer
+		};
+		#else
+		{
+			#list {onDeath} {add} {prayer}
+		}
+	}
+}
+{9}
+
 #ACTION {^You just can't concentrate enough.$}
 {
 	#line {gag};
@@ -252,19 +268,6 @@
 }
 {9}
 
-#action {You feel the need to pray to your god.} {
-#if {${auto.prayer}} {
-#if {$MSDP_OPPONENT_HEALTH == 0}
-		{
-			prayer
-		};
-		#else
-		{
-			#list {onDeath} {add} {prayer}
-		
-}
-}
-}
 #ACTION {^[* You found your target! *]$}
 {
 	#nop {Hook name is trackEnd.};
@@ -399,9 +402,7 @@
 }
 {9}
 
-#ALIAS 
-{^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|recall.*|sanc.*|shape 
-\w*|tumble|vigor.*|warcry|warpaint.*|prayer}$}
+#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
