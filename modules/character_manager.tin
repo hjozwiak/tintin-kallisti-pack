@@ -1,3 +1,12 @@
+#alias {^q{f|ff|ffe|ffec|ffect|ffects}$}
+{
+#forall {${MSDP_AFFECTS[]}}
+{
+#regexp {${MSDP_AFFECTS[&0]}} {{^[^0-9]+$}} {#echo {&0}}
+}
+}
+{9}
+
 #ALIAS {^CSAVE$}
 {
 	#if {"$MSDP_CHARACTER_NAME" != ""}
