@@ -26,7 +26,8 @@
 		POST $MSDP_CHARACTER_NAME was killed by $OLD_MSDP_OPPONENT_NAME and lost %1 exp, %2 hps, %3 mana, and %4 stamina. ${socialmedia.hashtag} ${socialmedia.url};
 		spamset death 600
 	};
-	#variable {character.lastDeath} {You were last killed by $OLD_MSDP_OPPONENT_NAME and lost %1  exp, %2 hps, %3 mana, and %4 stamina.}
+	#variable {character.lastDeath} {You were last killed by $OLD_MSDP_OPPONENT_NAME and lost %1  exp, %2 hps, %3 mana, and %4 stamina.};
+	CSAVE
 }
 {9}
 
