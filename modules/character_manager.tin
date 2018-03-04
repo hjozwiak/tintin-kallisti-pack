@@ -1,12 +1,3 @@
-#alias {^q{f|ff|ffe|ffec|ffect|ffects}$}
-{
-#forall {${MSDP_AFFECTS[]}}
-{
-#regexp {${MSDP_AFFECTS[&0]}} {{^[^0-9]+$}} {#echo {&0}}
-}
-}
-{9}
-
 #ALIAS {^CSAVE$}
 {
 	#if {"$MSDP_CHARACTER_NAME" != ""}
@@ -89,6 +80,12 @@
 {
 	#variable {character.container} {%2};
 	#echo {Your container is now %2.}
+}
+{9}
+
+#ALIAS {^q{f|ff|ffe|ffec|ffect|ffects}$}
+{
+	#forall {${MSDP_AFFECTS[]}}{#regexp {&0} {{^[^0-9]+$}} {#echo {&0}}}
 }
 {9}
 
