@@ -130,7 +130,8 @@
 
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
-	#nop {Hook is trackEnd};
+	#nop {Hook name is trackEnd.};
+	#nop {Hook args none.};
 	#if {&{auto.track}}
 	{
 		SYNTH_PLAY notificationSound;
@@ -138,7 +139,7 @@
 		#list {trackEnd} {size} {i};
 		#if {$i > 0}
 		{
-			#forall {${trackEnd[]}} {${trackEnd[&0]}}
+			#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
 		}
 	}
 }
@@ -253,7 +254,8 @@
 
 #ACTION {^[* You found your target! *]$}
 {
-	#nop {Hook is trackEnd};
+	#nop {Hook name is trackEnd.};
+	#nop {Hook args none.};
 	#if {&{auto.track}}
 	{
 		SYNTH_PLAY notificationSound;
@@ -262,7 +264,7 @@
 	#list {trackEnd} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${trackEnd[]}} {${trackEnd[&0]}}
+		#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
 	}
 }
 {9}
@@ -278,19 +280,21 @@
 
 #ACTION {^[* You {fail to find|lose} the tracks. *]$}
 {
-	#nop {Hook for lose is trackLose};
-	#nop {Hook for failing to find is trackFail};
-	#unvariable {auto.track};
+	#nop {Hook name is trackFail.};
+	#nop {Hook args hunted target.};
+	#nop {Hook name is trackLose.};
+	#nop {Hook args hunted target.};
 	#list {trackFail} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${trackFail[]}} {${trackFail[&0]}}
+		#forall {${trackFail[]}} {@${trackFail[&0]}{${auto.track}}}
 	};
 	#list {trackLose} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${trackLose[]}} {${trackLose[&0]}}
-	}
+		#forall {${trackLose[]}} {${trackLose[&0]}{${auto.track}}}
+	};
+	#unvariable {auto.track}
 }
 {9}
 
