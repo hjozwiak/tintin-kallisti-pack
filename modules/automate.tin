@@ -104,7 +104,7 @@
 }
 {9}
 
-#ACTION {^You feel the need to pray to your god.$}
+#ACTION {^You feel the need to renew your prayers to God.$}
 {
 	#if {${auto.prayer}}
 	{
