@@ -1,6 +1,6 @@
 #action {^Titles longer than 30 characters may not display completely.$}
 {
-#if {"${auto.title}" == "true"}
+#if {${auto.title}}
 {
 #line {gag}
 }
@@ -136,12 +136,12 @@
 	#if {"%0" == "autotitle"}
 	{
 		#echo {Your title will automatically change to currently playing song.};
-		#variable {auto.title} {true}
+		#variable {auto.title} {1}
 	};
 	#else
 	{
 		#echo {Your title will no longer be automatically set.};
-		#variable {auto.title} {false}
+		#variable {auto.title} {0}
 	}
 }
 {9}
@@ -532,4 +532,4 @@
 	}
 }
 
-#TICKER           {autotitle}  {#if {"${auto.title}" == "true" && "$editorMode" != "true"}{Get_Music_Message_String;#if {"${music.newAutoTitleString}" != "${music.oldAutoTitleString}"}{#variable {music.oldAutoTitleString} {${music.newAutoTitleString}};title ${music.newAutoTitleString}}}}                                                                                                                                                                                                                                                         {1.50}
+#TICKER           {autotitle}  {#if {${auto.title}}{Get_Music_Message_String;#if {"${music.newAutoTitleString}" != "${music.oldAutoTitleString}"}{#variable {music.oldAutoTitleString} {${music.newAutoTitleString}};title ${music.newAutoTitleString}}}}                                                                                                                                                                                                                                                         {1.50}

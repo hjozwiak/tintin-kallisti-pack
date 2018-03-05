@@ -83,6 +83,12 @@
 }
 {9}
 
+#ALIAS {^q{f|ff|ffe|ffec|ffect|ffects}$}
+{
+	#forall {${MSDP_AFFECTS[]}}{#regexp {&0} {{^[^0-9]+$}} {#echo {&0}}}
+}
+{9}
+
 #ALIAS {^whoami$}
 {
 	#echo {You are $MSDP_CHARACTER_NAME, the level $MSDP_LEVEL $MSDP_CLASS\.};
@@ -99,22 +105,22 @@
 	{
 		#case {"audioprompt"}
 		{
-			#variable {character.audioprompt} {true};
+			#variable {character.audioprompt} {1};
 			#echo {Audio prompt enabled.}
 		};
 		#case {"beeps"}
 		{
-			#variable {character.beeps} {true};
+			#variable {character.beeps} {1};
 			#echo {Opponent condition beeps enabled.}
 		};
 		#case {"noaudioprompt"}
 		{
-			#variable {character.audioprompt} {false};
+			#variable {character.audioprompt} {0};
 			#echo {Audio prompt disabled.}
 		};
 		#case {"nobeeps"}
 		{
-			#variable {character.beeps} {false};
+			#variable {character.beeps} {0};
 			#echo {Opponent condition beeps disabled.}
 		}
 	}
@@ -143,7 +149,7 @@
 	#class {%1} {read} {${HOME}/%1};
 	#nop {Load personal modules.};
 	#script {if [[ -d "$HOME/%1.modules" ]]; then for module in $HOME/%1.modules/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
-	#if {"${cspam}" == "true"}
+	#if {${cspam}}
 	{
 		#class {applied_spam_settings} {read} {modules/spam.rules};
 		#echo {Client side spam filters applied.}

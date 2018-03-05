@@ -30,7 +30,7 @@
 
 #ACTION {^The effects of battle cry are gone.$}
 {
-	#if {"${auto.warcry}" == "true"}
+	#if {${auto.warcry}}
 	{
 		warcry
 	}
@@ -104,6 +104,22 @@
 }
 {9}
 
+#ACTION {^You feel the need to pray to your god.$}
+{
+	#if {${auto.prayer}}
+	{
+		#if {$MSDP_OPPONENT_HEALTH == 0}
+		{
+			prayer
+		};
+		#else
+		{
+			#list {onDeath} {add} {prayer}
+		}
+	}
+}
+{9}
+
 #ACTION {^You just can't concentrate enough.$}
 {
 	#line {gag};
@@ -119,25 +135,35 @@
 }
 {9}
 
+#ACTION {^You polymorph in to the form of a %1.$}
+{
+	#if {&{auto.shape} && "${auto.shape}" != "%1"}
+	{
+		autoshape %1
+	}
+}
+{9}
+
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
-#nop {Hook is trackEnd};
+	#nop {Hook name is trackEnd.};
+	#nop {Hook args none.};
 	#if {&{auto.track}}
 	{
 		SYNTH_PLAY notificationSound;
 		#unvariable {auto.track};
- #list {trackEnd} {size} {i};
-    #if {$i > 0}
-    {
-        #forall {${trackEnd[]}} {${trackEnd[&0]}}
-    }
+		#list {trackEnd} {size} {i};
+		#if {$i > 0}
+		{
+			#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
+		}
 	}
 }
 {9}
 
 #ACTION {^You try to work up a battle song but just can't muster up the enthusiasm.$}
 {
-	#if {"${auto.warcry}" == "true"}
+	#if {${auto.warcry}}
 	{
 		warcry
 	}
@@ -167,7 +193,7 @@
 
 #ACTION {^You're {coated in ACID|on FIRE}, {it eats away at|the flames burn} your skin!}
 {
-	#if {"${auto.tumble}" == "true"}
+	#if {${auto.tumble}}
 	{
 		#if {!&{spam.tumble}}
 		{
@@ -244,17 +270,18 @@
 
 #ACTION {^[* You found your target! *]$}
 {
-#nop {Hook is trackEnd};	
-#if {&{auto.track}}
+	#nop {Hook name is trackEnd.};
+	#nop {Hook args none.};
+	#if {&{auto.track}}
 	{
 		SYNTH_PLAY notificationSound;
 		#unvariable {auto.track}
 	};
- #list {trackEnd} {size} {i};
-    #if {$i > 0}
-    {
-        #forall {${trackEnd[]}} {${trackEnd[&0]}}
-    }
+	#list {trackEnd} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
+	}
 }
 {9}
 
@@ -269,19 +296,21 @@
 
 #ACTION {^[* You {fail to find|lose} the tracks. *]$}
 {
-#nop {Hook for lose is trackLose};
-#nop {Hook for failing to find is trackFail};
-	#unvariable {auto.track};
- #list {trackFail} {size} {i};
-    #if {$i > 0}
-    {
-        #forall {${trackFail[]}} {${trackFail[&0]}}
-    };
- #list {trackLose} {size} {i};
-    #if {$i > 0}
-    {
-        #forall {${trackLose[]}} {${trackLose[&0]}}
-    }
+	#nop {Hook name is trackFail.};
+	#nop {Hook args hunted target.};
+	#nop {Hook name is trackLose.};
+	#nop {Hook args hunted target.};
+	#list {trackFail} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${trackFail[]}} {@${trackFail[&0]}{${auto.track}}}
+	};
+	#list {trackLose} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${trackLose[]}} {${trackLose[&0]}{${auto.track}}}
+	};
+	#unvariable {auto.track}
 }
 {9}
 
@@ -345,6 +374,20 @@
 }
 {9}
 
+#ALIAS {^at %s%d %3}
+{
+	#if {%2 < 0 || %2 > 23}
+	{
+		#echo {Invalid time specified. Time must be from 0, 12:00AM, to 23, 11:00PM.}
+	};
+	#else
+	{
+		#variable {at.%2} {%3};
+		#echo {Ok, at %2:00, "%3" will be executed.}
+	}
+}
+{9}
+
 #ALIAS {^p %s%S$}
 {
 	emote ${automate.action} %2;
@@ -359,7 +402,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
+#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
@@ -371,7 +414,7 @@
 		#regexp {%0} {auto{\w*} {.*}} {#echo {auto&1 set to &2.};#variable {auto.&1} {@strip_braces{&2}}};
 		#else
 		{
-			#variable {auto.%2} {true};
+			#variable {auto.%2} {1};
 			#echo {auto%2 enabled.}
 		}
 	};
@@ -393,4 +436,14 @@
 }
 {9}
 
+#EVENT {VARIABLE UPDATE MSDP_WORLD_TIME}
+{
+	#if {&{at.%1}}
+	{
+		@strip_braces{${at.%1}};
+		#unvariable {at.%1}
+	}
+}
+
+#VARIABLE         {at}  {}
 #VARIABLE         {automate}  {{action}{pokes}}
