@@ -10,10 +10,16 @@
 
 #ACTION {^**%w: '%S %3'$}
 {
+	#nop {See communication.tin for groupTell hook info.};
 	Channel_Event GroupTell %0;
 	#if {@is_friend{%1} && "%2" == "{${MSDP_CHARACTER_NAME}|all}"}
 	{
 		@trust_exec{%3}
+	};
+	#list {groupTell} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${groupTell[]}} {@${groupTell[&0]}{%1;'%2 %3'}}
 	}
 }
 {7}
