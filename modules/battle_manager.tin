@@ -300,7 +300,7 @@
 	};
 	#if {&{autoHealSelf}}
 	{
-		#echo {Yourself with: ${autoHealSelf} at ${autoHealSelfPercent}%.}
+		#echo {Yourself with: ${autoHealSelf} at ${autoHealSelfPercent} percent.}
 	}
 }
 {9}
