@@ -73,8 +73,13 @@
 			}
 		}
 	};
-	#nop {Use the autorecall command if hp is below 20%};
-	#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= 20}
+	#nop {Use the autorecall command if hp is below the specified %};
+	#if {!&{auto.recallPercent}}
+	{
+		#variable {auto.recallPercent} {20};
+		CSAVE
+	};
+	#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= ${auto.recallPercent}}
 	{
 		#if {!${spam.recall}}
 		{
@@ -89,7 +94,8 @@
 	#nop {Use the autoheal self command if hp is below the specified %};
 	#if {!&{autoHealSelfPercent}}
 	{
-		#variable {autoHealSelfPercent} {50}
+		#variable {autoHealSelfPercent} {50};
+		CSAVE
 	};
 	#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= $autoHealSelfPercent}
 	{

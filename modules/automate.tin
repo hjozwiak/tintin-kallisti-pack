@@ -338,7 +338,8 @@
 {
 	#variable {autoHealSelf} {@strip_braces{%3}};
 	#variable {autoHealSelfPercent} {%4};
-	#echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.}
+	#echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.};
+	CSAVE
 }
 {7}
 
@@ -346,14 +347,25 @@
 {
 	#variable {autoHealSelf} {@strip_braces{%3}};
 	#variable {autoHealSelfPercent} {50};
-	#echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.}
+	#echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.};
+	CSAVE
+}
+{8}
+
+#ALIAS {^autorecall %1 %d$}
+{
+	#variable {auto.recall} {@strip_braces{%1}};
+	#variable {auto.recallPercent} {%2};
+	#echo {Autorecall enabled at ${auto.recallPercent} percent health.};
+	CSAVE
 }
 {8}
 
 #ALIAS {^noautoheal%s {me|self}$}
 {
 	#unvariable {autoHealSelf};
-	#echo {You will no longer try to heal yourself automatically.}
+	#echo {You will no longer try to heal yourself automatically.};
+	CSAVE
 }
 {8}
 
