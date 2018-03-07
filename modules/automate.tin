@@ -413,6 +413,28 @@
 }
 {9}
 
+#ALIAS {^heal.settings$}
+{
+	#forall {moderate;severe;nearDeath;incapacitated;morted}{#if {!&{heal.&0}}{#echo {heal.&0 is not set yet.}};#else {#if {"${heal.&0}" != "#nop"}{#echo {Healing at &0 set to ${heal.&0}\.}};#else {#echo {Healing at &0 is disabled.}}}}
+}
+{9}
+
+#ALIAS {^heal.{moderate|severe|nearDeath|incapacitated|morted} %2}
+{
+	#variable {heal.%1} {@strip_braces{%2}};
+	#echo {heal.%1 set to ${heal.%1}\.};
+	CSAVE
+}
+{9}
+
+#ALIAS {^noheal.{moderate|severe|nearDeath|incapacitated|morted}$}
+{
+	#variable {heal.%1} {#nop};
+	#echo {heal.%1 disabled.};
+	CSAVE
+}
+{9}
+
 #ALIAS {^p %s%S$}
 {
 	emote ${automate.action} %2;

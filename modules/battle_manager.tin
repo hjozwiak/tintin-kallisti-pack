@@ -122,11 +122,11 @@
 		{
 			#case {Paladin}
 			{
-				#forall {moderate;severe;near;incapacitated;morted}{#if {!&{heal.&0}}{#variable {heal.&0} {lay}}}
+				#forall {moderate;severe;nearDeath;incapacitated;morted}{#if {!&{heal.&0}}{#variable {heal.&0} {lay}}}
 			};
 			#default
 			{
-				#forall {moderate;severe;near;incapacitated;morted}{#if {!&{heal.&0}}{#variable {heal.&0} {heal}}}
+				#forall {moderate;severe;nearDeath;incapacitated;morted}{#if {!&{heal.&0}}{#variable {heal.&0} {heal}}}
 			}
 		};
 		#switch {"%2"}
@@ -141,7 +141,7 @@
 			};
 			#case {"near death"}
 			{
-				${heal.near} %1
+				${heal.nearDeath} %1
 			};
 			#case {"incapacitated%*"}
 			{
