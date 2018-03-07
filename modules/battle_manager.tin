@@ -113,7 +113,7 @@
 }
 {9}
 
-#ACTION {^%w is {moderately hurt|severely hurt|near death}.$}
+#ACTION {^%w is {moderately hurt|severely hurt|near death|incapacitated .*|mortally wounded .*}.$}
 {
 	#list {autohealList} {find} {%1} {i};
 	#if {$i != 0}
@@ -122,18 +122,34 @@
 		{
 			#case {Paladin}
 			{
-				#if {$OPPONENT_HEALTH == 0}
-				{
-					lay %1
-				};
-				#else
-				{
-					#list {onDeath} {add} {lay %1}
-				}
+				#forall {moderate;severe;near;incapacitated;morted}{#if {!&{heal.&0}}{#variable {heal.&0} {lay}}}
 			};
 			#default
 			{
-				HEAL %1
+				#forall {moderate;severe;near;incapacitated;morted}{#if {!&{heal.&0}}{#variable {heal.&0} {heal}}}
+			}
+		};
+		#switch {"%2"}
+		{
+			#case {"moderately hurt"}
+			{
+				${heal.moderate} %1
+			};
+			#case {"severely hurt"}
+			{
+				${heal.severe} %1
+			};
+			#case {"near death"}
+			{
+				${heal.near} %1
+			};
+			#case {"incapacitated%*"}
+			{
+				${heal.incapacitated} %1
+			};
+			#case {"mortally wounded%*"}
+			{
+				${heal.morted} %1
 			}
 		}
 	};
