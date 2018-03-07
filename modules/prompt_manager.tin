@@ -86,8 +86,12 @@
 			}
 		}
 	};
-	#nop {Use the autoheal self command if hp is below 50%};
-	#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= 50}
+	#nop {Use the autoheal self command if hp is below the specified %};
+	#if {!&{autoHealSelfPercent}}
+	{
+		#variable {autoHealSelfPercent} {50}
+	};
+	#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= $autoHealSelfPercent}
 	{
 		#if {&{autoHealSelf}}
 		{

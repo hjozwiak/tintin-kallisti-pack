@@ -334,10 +334,19 @@
 }
 {9}
 
+#ALIAS {^autoheal%s {me|self} %3 %d$}
+{
+	#variable {autoHealSelf} {@strip_braces{%3}};
+	#variable {autoHealSelfPercent} {%4};
+	#echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.}
+}
+{7}
+
 #ALIAS {^autoheal%s {me|self} %3}
 {
 	#variable {autoHealSelf} {@strip_braces{%3}};
-	#echo {You will automatically heal yourself using: $autoHealSelf\.}
+	#variable {autoHealSelfPercent} {50};
+	#echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.}
 }
 {8}
 
