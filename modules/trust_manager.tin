@@ -102,6 +102,10 @@
 	#format {trust_manager.tmp} {%l} {%0};
 	#switch {"${trust_manager.tmp}"}
 	{
+		#case {"{\s*\#|\s*;*\s*\#}%*"}
+		{
+			#return #nop
+		};
 		#case {"{\s*h|;*\s*h}ardc%*"}
 		{
 			#return #nop
