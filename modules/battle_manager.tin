@@ -132,6 +132,16 @@
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]}
+	};
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		join %1
+	};
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i > 0}
+	{
+		join %2
 	}
 }
 {9}
@@ -198,12 +208,22 @@
 }
 {9}
 
-#ACTION {^%w places something%*}
+#ACTION {%1 places something in the back of %2, resulting in a gush of blood!$}
 {
 	#list {autorescueList} {find} {%1} {i};
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]}
+	};
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		join %1
+	};
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i > 0}
+	{
+		join %2
 	}
 }
 {9}
@@ -214,6 +234,16 @@
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]}
+	};
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		join %1
+	};
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i > 0}
+	{
+		join %2
 	}
 }
 {9}
@@ -230,7 +260,7 @@
 
 #ACTION {^SEEK SHELTER AT ONCE!%s%w has begun to sing.$}
 {
-	#list {autorescueList} {find} {%2} {i};
+	#list {autorescueList} {find} {%1} {i};
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]}
