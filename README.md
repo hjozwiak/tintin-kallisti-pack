@@ -177,11 +177,11 @@ Although we try our best, we just can't handle all situations for all characters
 
 The pack's components are normally set to precedence 9 and move up to 8 if something needs to be overridden. So, for character modules, make your actions and aliases 5 or less and there should not be any conflicts. For clarification, the lower the number, the higher the precedence.
 
-There is a hook system to minimize the need to overwrite whole actions. You can store the code you want to run with an action that offers a hook in a variable called by the action. If you look for the action code, the name of the hook will be listed at the top. For example, mob death hook is called mobDeath. So, you can store code in mobDeath variables in multiple character modules and the code will be executed each time a mob dies. The one  caveat is when calling variables inside a variable, you will need to use two dollar signs ($$). Here is a small example that will cheer if your health is good after a fight, but pant if it is not so great, less than 50%.
+There is a hook system to minimize the need to overwrite existing events like actions. Documentation for the hook is at the top of the event where it is called. The information listed is the name of the hook and the arguments passed to it. To create a hook, simply include a variable of the name of your hook and the contents of the variable should be the function to be called. Then write a function with the code to be ran. One caveat, if you don't want the function to return anything, simply return #nop, or set the variable result to #nop.  Note that hook names are lists, so you can have more than one call in more than one module. Here is a small example that will taunt a fallen foe if your hp is over half full and pant if it is less than half full:
 
-    #variable {mobDeath.victory}
+    #function {victory_taunt}
     {
-        #if {$$MSDP_HEALTH >$$MSDP_HEALTH_MAX / 2}
+        #if {$MSDP_HEALTH > $MSDP_HEALTH_MAX / 2}
         {
             cheer
         };
@@ -190,6 +190,8 @@ There is a hook system to minimize the need to overwrite whole actions. You can 
             pant
         }
     }
+    
+    #variable {mobDeath.victory} {victory_taunt}
 
 Hooks are being added and improved constantly. If you don't see the one you need, please ask for it. Once completed, the hook system can add a whole new level of robustness to the pack.
 

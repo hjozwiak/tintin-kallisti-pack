@@ -204,9 +204,10 @@
 }
 {9}
 
-#ACTION {^You receive your reward for the kill,%*}
+#ACTION {^You receive your reward for the kill, %1}
 {
-	#nop {Hook is mobDeath};
+	#nop {Hook name is mobDeath.};
+	#nop {Hook args all text for rewoard for the kill.};
 	#if {"${onDeath}" != ""}
 	{
 		#forall {${onDeath[]}}{${onDeath[&0]}};
@@ -221,7 +222,7 @@
 	#list {mobDeath} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${mobDeath[]}} {${mobDeath[&0]}}
+		#forall {${mobDeath[]}} {@${mobDeath[&0]}{%1}}
 	}
 }
 {9}

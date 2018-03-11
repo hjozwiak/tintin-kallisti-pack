@@ -104,6 +104,22 @@
 }
 {9}
 
+#ACTION {^You feel the need to pray to your god.$}
+{
+	#if {${auto.prayer}}
+	{
+		#if {$MSDP_OPPONENT_HEALTH == 0}
+		{
+			prayer
+		};
+		#else
+		{
+			#list {onDeath} {add} {prayer}
+		}
+	}
+}
+{9}
+
 #ACTION {^You just can't concentrate enough.$}
 {
 	#line {gag};
@@ -130,7 +146,8 @@
 
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
-	#nop {Hook is trackEnd};
+	#nop {Hook name is trackEnd.};
+	#nop {Hook args none.};
 	#if {&{auto.track}}
 	{
 		SYNTH_PLAY notificationSound;
@@ -138,7 +155,7 @@
 		#list {trackEnd} {size} {i};
 		#if {$i > 0}
 		{
-			#forall {${trackEnd[]}} {${trackEnd[&0]}}
+			#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
 		}
 	}
 }
@@ -253,7 +270,8 @@
 
 #ACTION {^[* You found your target! *]$}
 {
-	#nop {Hook is trackEnd};
+	#nop {Hook name is trackEnd.};
+	#nop {Hook args none.};
 	#if {&{auto.track}}
 	{
 		SYNTH_PLAY notificationSound;
@@ -262,7 +280,7 @@
 	#list {trackEnd} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${trackEnd[]}} {${trackEnd[&0]}}
+		#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
 	}
 }
 {9}
@@ -278,19 +296,21 @@
 
 #ACTION {^[* You {fail to find|lose} the tracks. *]$}
 {
-	#nop {Hook for lose is trackLose};
-	#nop {Hook for failing to find is trackFail};
-	#unvariable {auto.track};
+	#nop {Hook name is trackFail.};
+	#nop {Hook args hunted target.};
+	#nop {Hook name is trackLose.};
+	#nop {Hook args hunted target.};
 	#list {trackFail} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${trackFail[]}} {${trackFail[&0]}}
+		#forall {${trackFail[]}} {@${trackFail[&0]}{${auto.track}}}
 	};
 	#list {trackLose} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${trackLose[]}} {${trackLose[&0]}}
-	}
+		#forall {${trackLose[]}} {${trackLose[&0]}{${auto.track}}}
+	};
+	#unvariable {auto.track}
 }
 {9}
 
@@ -382,7 +402,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
+#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{

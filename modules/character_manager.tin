@@ -83,6 +83,12 @@
 }
 {9}
 
+#ALIAS {^q{f|ff|ffe|ffec|ffect|ffects}$}
+{
+	#forall {${MSDP_AFFECTS[]}}{#regexp {&0} {{^[^0-9]+$}} {#echo {&0}}}
+}
+{9}
+
 #ALIAS {^whoami$}
 {
 	#echo {You are $MSDP_CHARACTER_NAME, the level $MSDP_LEVEL $MSDP_CLASS\.};
