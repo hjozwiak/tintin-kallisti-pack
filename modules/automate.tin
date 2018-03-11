@@ -104,7 +104,7 @@
 }
 {9}
 
-#ACTION {^You feel the need to pray to your god.$}
+#ACTION {^You feel the need to renew your prayers to God.$}
 {
 	#if {${auto.prayer}}
 	{
@@ -137,9 +137,16 @@
 
 #ACTION {^You polymorph in to the form of a %1.$}
 {
-	#if {&{auto.shape} && "${auto.shape}" != "%1"}
+	#if {&{auto.shape}}
 	{
-		autoshape %1
+		#regexp {%1} {{.*} {.*}} {#if {"${auto.shape}" != "&1"} {autoshape &1}};
+		#else
+		{
+			#if {"${auto.shape}" != "%1"}
+			{
+				autoshape %1
+			}
+		}
 	}
 }
 {9}
@@ -330,17 +337,38 @@
 }
 {9}
 
+#ALIAS {^autoheal%s {me|self} %3 %d$}
+{
+	#variable {autoHealSelf} {@strip_braces{%3}};
+	#variable {autoHealSelfPercent} {%4};
+	#echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.};
+	CSAVE
+}
+{7}
+
 #ALIAS {^autoheal%s {me|self} %3}
 {
 	#variable {autoHealSelf} {@strip_braces{%3}};
-	#echo {You will automatically heal yourself using: $autoHealSelf\.}
+	#variable {autoHealSelfPercent} {50};
+	#echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.};
+	CSAVE
+}
+{8}
+
+#ALIAS {^autorecall %1 %d$}
+{
+	#variable {auto.recall} {@strip_braces{%1}};
+	#variable {auto.recallPercent} {%2};
+	#echo {Autorecall enabled at ${auto.recallPercent} percent health.};
+	CSAVE
 }
 {8}
 
 #ALIAS {^noautoheal%s {me|self}$}
 {
 	#unvariable {autoHealSelf};
-	#echo {You will no longer try to heal yourself automatically.}
+	#echo {You will no longer try to heal yourself automatically.};
+	CSAVE
 }
 {8}
 
@@ -385,6 +413,28 @@
 		#variable {at.%2} {%3};
 		#echo {Ok, at %2:00, "%3" will be executed.}
 	}
+}
+{9}
+
+#ALIAS {^heal.settings$}
+{
+	#forall {moderate;severe;nearDeath;incapacitated;stunned;morted}{#if {!&{heal.&0}}{#echo {heal.&0 is not set yet.}};#else {#if {"${heal.&0}" != "#nop"}{#echo {Healing at &0 set to ${heal.&0}\.}};#else {#echo {Healing at &0 is disabled.}}}}
+}
+{9}
+
+#ALIAS {^heal.{moderate|severe|nearDeath|incapacitated|stunned|morted} %2}
+{
+	#variable {heal.%1} {@strip_braces{%2}};
+	#echo {heal.%1 set to ${heal.%1}\.};
+	CSAVE
+}
+{9}
+
+#ALIAS {^noheal.{moderate|severe|nearDeath|incapacitated|stunned|morted}$}
+{
+	#variable {heal.%1} {#nop};
+	#echo {heal.%1 disabled.};
+	CSAVE
 }
 {9}
 

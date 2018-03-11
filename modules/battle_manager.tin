@@ -4,6 +4,16 @@
 	#if {$i > 0}
 	{
 		#forall {%1;%2}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+	};
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		join %1
+	};
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i > 0}
+	{
+		join %2
 	}
 }
 {9}
@@ -49,6 +59,16 @@
 	#if {$i > 0}
 	{
 		#forall {%1;%2}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+	};
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		join %1
+	};
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i > 0}
+	{
+		join %2
 	}
 }
 {9}
@@ -59,6 +79,19 @@
 	#if {$i > 0}
 	{
 		#forall {%1;%3}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+	};
+	#else
+	{
+		#list {groupMemberList} {find} {%1} {i}
+	};
+	#if {$i > 0}
+	{
+		join %1
+	};
+	#list {groupMemberList} {find} {%3} {i};
+	#if {$i > 0}
+	{
+		join %3
 	}
 }
 {9}
@@ -99,6 +132,16 @@
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]}
+	};
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		join %1
+	};
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i > 0}
+	{
+		join %2
 	}
 }
 {9}
@@ -113,7 +156,7 @@
 }
 {9}
 
-#ACTION {^%w is {moderately hurt|severely hurt|near death}.$}
+#ACTION {^%w is {moderately hurt|severely hurt|near death|incapacitated .*|stunned .*|mortally wounded .*}.$}
 {
 	#list {autohealList} {find} {%1} {i};
 	#if {$i != 0}
@@ -122,18 +165,38 @@
 		{
 			#case {Paladin}
 			{
-				#if {$OPPONENT_HEALTH == 0}
-				{
-					lay %1
-				};
-				#else
-				{
-					#list {onDeath} {add} {lay %1}
-				}
+				#forall {moderate;severe;nearDeath;incapacitated;;stunned;morted}{#if {!&{heal.&0}}{#variable {heal.&0} {lay}}}
 			};
 			#default
 			{
-				HEAL %1
+				#forall {moderate;severe;nearDeath;incapacitated;stunned;morted}{#if {!&{heal.&0}}{#variable {heal.&0} {heal}}}
+			}
+		};
+		#switch {"%2"}
+		{
+			#case {"moderately hurt"}
+			{
+				${heal.moderate} %1
+			};
+			#case {"severely hurt"}
+			{
+				${heal.severe} %1
+			};
+			#case {"near death"}
+			{
+				${heal.nearDeath} %1
+			};
+			#case {"incapacitated%*"}
+			{
+				${heal.incapacitated} %1
+			};
+			#case {"stunned%*"}
+			{
+				${heal.stunned} %1
+			};
+			#case {"mortally wounded%*"}
+			{
+				${heal.morted} %1
 			}
 		}
 	};
@@ -145,12 +208,22 @@
 }
 {9}
 
-#ACTION {^%w places something%*}
+#ACTION {%1 places something in the back of %2, resulting in a gush of blood!$}
 {
 	#list {autorescueList} {find} {%1} {i};
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]}
+	};
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		join %1
+	};
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i > 0}
+	{
+		join %2
 	}
 }
 {9}
@@ -161,6 +234,16 @@
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]}
+	};
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		join %1
+	};
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i > 0}
+	{
+		join %2
 	}
 }
 {9}
@@ -177,7 +260,7 @@
 
 #ACTION {^SEEK SHELTER AT ONCE!%s%w has begun to sing.$}
 {
-	#list {autorescueList} {find} {%2} {i};
+	#list {autorescueList} {find} {%1} {i};
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]}
@@ -255,7 +338,15 @@
 
 #ALIAS {^auto{heal|rescue} {add|remove} {all|group}$}
 {
-	#forall {${groupMemberList[]}}{#if {"${groupMemberList[&0]}" != "${MSDP_CHARACTER_NAME}"}{auto%1 %2 ${groupMemberList[&0]}}}
+	#list {groupMemberList} {size} {i};
+	#if {$i == 0}
+	{
+		group
+	};
+	#else
+	{
+		#forall {${groupMemberList[]}}{#if {"${groupMemberList[&0]}" != "${MSDP_CHARACTER_NAME}"}{auto%1 %2 ${groupMemberList[&0]}}}
+	}
 }
 {8}
 
@@ -300,7 +391,7 @@
 	};
 	#if {&{autoHealSelf}}
 	{
-		#echo {Yourself with: ${autoHealSelf}\.}
+		#echo {Yourself with: ${autoHealSelf} at ${autoHealSelfPercent} percent.}
 	}
 }
 {9}

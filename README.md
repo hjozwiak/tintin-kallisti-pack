@@ -59,13 +59,21 @@ You can automate recasting of spells, or send a message when they drop. This sec
 - autoheal: Show the people you are automatically healing. (see below)
 - autoheal add name: Add person to autoheal list. (see below)
 - autoheal remove name: Remove person from autoheal list. (see below)
+    - heal.settings: show settings for autoheal events.
+    - heal.moderate {args}: Set the event for moderately enjured people. disable. Prefix with no to disable.
+    - heal.severe {args}: Set the event for severely enjured people. disable. Prefix with no to disable.
+    - heal.nearDeath {args}: Set the event for near death enjured people. disable. Prefix with no to disable.
+    - heal.incapacitated {args}: Set the event for incapacitated people. disable. Prefix with no to disable.
+    - heal.morted {args}: Set the event for mortally wounded people. disable. Prefix with no to disable.
 - autoheal self {args}: Set commands used to automatically heal yourself when your hitpoints drop below 50%.
+- autoheal self {args} percent: Set commands used to automatically heal yourself when your hitpoints drop below given %.
 autobarkskin {args}: Recast barkskin when it drops.
 autobless {args}: Recast barkskin when it drops.
 autoffire {args}: Recast faerie fire when it drops.
 - autopick: Automatically try to pick closed doors. Requires pick lock.
 - autopoke {args}: that method of attack used when your group leader pokes or points at a target. (This is different then the poke or point social, pack users can use the p alias.)
 - autorecall {args}: Commands to be used when hitpoints drop below 20%. (see below)
+- autorecall {args percent}: Commands to be used when hitpoints drop below given %. (see below)
 - autorescue: Show the people you are automatically rescuing. (see below)
 - autorescue add name: Add person to autorescue list. (see below)
 - autorescue remove name: Remove person from autorescue list. (see below)

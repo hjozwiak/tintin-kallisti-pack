@@ -22,26 +22,33 @@
 	#nop {Hook name report.};
 	#nop {Hook args %1 Name.};
 	#nop {Hook args %2 report information.};
-	#list {channel[All]} {insert} {1} {%0}
-	#if {"%1" != "You%*"}
-	{
-		#list {report} {size} {i};
-		#if {$i > 0}
-		{
-			#forall {${report[]}} {@${report[&0]}{%1;%3}}
-		}
-	}
+	#list {channel[All]} {insert} {1} {%0}#if {"%1" != "You%*"}{#list {report} {size} {i};#if {$i > 0}{#forall {${report[]}} {@${report[&0]}{%1;%3}}}}
 }
 {9}
 
 #ACTION {^%w tell%2, '%3'$}
 {
-	Channel_Event Tell %0
+	#nop {Hook name tell.};
+	#nop {Hook args %1 Name.};
+	#nop {Hook args %2 tell contents.};
+	Channel_Event Tell %0;
+	#if {"%2" == "%*you%*"}
+	{
+		#list {tell} {size} {i};
+		#if {$i > 0}
+		{
+			#forall {${tell[]}} {@${tell[&0]}{%1;%3}}
+		}
+	}
 }
 {9}
 
 #ACTION {^%w {ask|exclaim|grunt|say|tell}%3 '%4'$}
 {
+	#nop {Hook name say.};
+	#nop {Hook args %1 Name.};
+	#nop {Hook args %2 type, ask, grunt, say.};
+	#nop {Hook args %3 say contents.};
 	#if {"%2" == "{ask|exclaim|grunt|say}"}
 	{
 		Channel_Event Say %0
@@ -49,13 +56,31 @@
 	#else
 	{
 		Channel_Event %2 %0
+	};
+	#if {"%1" != "you"}
+	{
+		#list {say} {size} {i};
+		#if {$i > 0}
+		{
+			#forall {${say[]}} {@${say[&0]}{%1;%2;%4}}
+		}
 	}
 }
 {9}
 
 #ACTION {^<%w: %S> '%3'$}
 {
-	Channel_Event %1 %0
+	#nop {Hook name varied, channelName, e.g. channelGossip.};
+	#nop {Hook args %1 name %2 channel send.};
+	Channel_Event %1 %0;
+	#if {"%2" != "$MSDP_CHARACTER_NAME"}
+	{
+		#list {channel%1} {size} {i};
+		#if {$i > 0}
+		{
+			#forall {${channel%1[]}} {@${channel%1[&0]}{%2;%3}}
+		}
+	}
 }
 {9}
 
@@ -67,13 +92,27 @@
 
 #ACTION {^<Kingdom> %*}
 {
-	Channel_Event Kingdom %0
+	#nop {Hook name kingdom.};
+	#nop {Hook args kingdom contents.};
+	Channel_Event Kingdom %0;
+	#list {kingdom} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${kingdom[]}} {@${kingdom[&0]}{%1}}
+	}
 }
 {9}
 
 #ACTION {^The winds whisper, '%1'$}
 {
-	Channel_Event Info %0
+	#nop {Hook name info.};
+	#nop {Hook args info contents.};
+	Channel_Event Info %0;
+	#list {info} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${info[]}} {@${info[&0]}{%1}}
+	}
 }
 {9}
 
