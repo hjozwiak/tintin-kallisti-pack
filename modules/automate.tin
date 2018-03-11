@@ -28,6 +28,22 @@
 }
 {9}
 
+#ACTION {^The dark aura around your body disappears.$}
+{
+	#if {&{auto.aura}}
+	{
+		#if {"$MSDP_POSITION" != "Fighting"}
+		{
+			${auto.aura}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto.aura}}
+		}
+	}
+}
+{9}
+
 #ACTION {^The effects of battle cry are gone.$}
 {
 	#if {${auto.warcry}}
@@ -124,6 +140,28 @@
 {
 	#line {gag};
 	meditate
+}
+{9}
+
+#ACTION {^You lost your concentration casting '%1'!$}
+{
+	#nop {Hook name  concentration.};
+	#nop {Hook args: the item on which you were concentrating, e.g. shapechange.};
+	#switch {"%1"}
+	{
+		#case {"shapechange"}
+		{
+			#if {&{auto.shapechange}}
+			{
+				%1 #${auto.shape}
+			}
+		}
+	};
+	#list {concentration} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${concentration[]}} {@${concentration[&0]}{}}
+	}
 }
 {9}
 
@@ -416,6 +454,33 @@
 }
 {9}
 
+#ALIAS {^auto.%w$}
+{
+	#if {&{%0}}
+	{
+		#switch {"${%0}"}
+		{
+			#case {"0"}
+			{
+				#echo {auto-%1 is off.}
+			};
+			#case {"1"}
+			{
+				#echo {auto-%1 is onf.}
+			};
+			#default
+			{
+				#echo {auto-%1 is set to  ${%0}\.}
+			}
+		}
+	};
+	#else
+	{
+		#echo {No preferences set for auto-%1}
+	}
+}
+{9}
+
 #ALIAS {^heal.settings$}
 {
 	#forall {moderate;severe;nearDeath;incapacitated;stunned;morted}{#if {!&{heal.&0}}{#echo {heal.&0 is not set yet.}};#else {#if {"${heal.&0}" != "#nop"}{#echo {Healing at &0 set to ${heal.&0}\.}};#else {#echo {Healing at &0 is disabled.}}}}
@@ -452,7 +517,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
