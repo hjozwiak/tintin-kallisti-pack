@@ -137,12 +137,15 @@
 
 #ACTION {^You polymorph in to the form of a %1.$}
 {
-	#if {&{auto.shape} && "${auto.shape}" != "%1"}
+	#if {&{auto.shape}}
 	{
-		#regexp {%1} {{.*} {.*}} {autoshape &1};
+		#regexp {%1} {{.*} {.*}} {#if {"${auto.shape}" != "&1"} {autoshape &1}};
 		#else
 		{
-			autoshape %1
+			#if {"${auto.shape}" != "%1"}
+			{
+				autoshape %1
+			}
 		}
 	}
 }
