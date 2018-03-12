@@ -178,7 +178,7 @@
 			{
 				#if {"$MSDP_POSITION" == "{Flying|Mounted|Standing|Swimming}"}
 				{
-					cast '%1'
+					!
 				}
 			}
 		}
