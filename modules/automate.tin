@@ -155,6 +155,16 @@
 			{
 				%1 #${auto.shape}
 			}
+		};
+		#default
+		{
+			#if {${auto.recast}}
+			{
+				#if {"$MSDP_POSITION" == "{Flying|Mounted|Standing|Swimming}"}
+				{
+					cast '%1'
+				}
+			}
 		}
 	};
 	#list {concentration} {size} {i};
@@ -462,11 +472,11 @@
 		{
 			#case {"0"}
 			{
-				#echo {auto-%1 is off.}
+				#echo {auto-%1 is disabled.}
 			};
 			#case {"1"}
 			{
-				#echo {auto-%1 is onf.}
+				#echo {auto-%1 is enabled.}
 			};
 			#default
 			{
@@ -517,7 +527,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
