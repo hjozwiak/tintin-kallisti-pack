@@ -54,7 +54,7 @@ To see if a key is bound already or not, just type set and the etter with no arg
 
 #### Automation
 
-You can automate recasting of spells, or send a message when they drop. This section is being updated constantly, so if what ou want isn't there, just let one of us know, or wait and we'll get it eventually. To use one of these, set autokeyword and the command to use. If you want to have multiple arguments, just put them in braces. For example autosanc {get sanctuary bag;quaff sanctuary}. You can unset the automation of these spells by prefixing the command with no as in noautosanc.
+You can automate recasting of spells, or send a message when they drop. This section is being updated constantly, so if what ou want isn't there, just let one of us know, or wait and we'll get it eventually. To use one of these, set autokeyword and the command to use. If you want to have multiple arguments, just put them in braces. For example autosanc {get sanctuary bag;quaff sanctuary}. You can unset the automation of these spells by prefixing the command with no as in noautosanc. You can check the status of a setting by putting a . (dot) in the middle, for example auto.sanc. There are exception, and they will be noted later on, for example, to see who you are healing with autoheal, just type autoheal with no arguments.
 
 - autoaura {args}: Triggers when unholy aura falls.
 - autorescue remove name: Remove person from autorescue list. (see below)
