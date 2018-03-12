@@ -85,6 +85,22 @@
 }
 {9}
 
+#ACTION {^You are dead! %sBetter luck next time...$}
+{
+	#nop {Hook name playerDeath};
+	#nop {Hook args: none.};
+	#if {${auto.relogin}}
+	{
+		${auto.relogin}
+	};
+	#list {onDeath} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${onDeath[]}} {@${onDeath[&0]}{}}
+	}
+}
+{9}
+
 #ACTION {^You are {hungry|thirsty}.$}
 {
 	#if {"%1" == "hungry"}
@@ -527,7 +543,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
