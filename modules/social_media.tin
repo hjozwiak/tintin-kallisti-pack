@@ -21,7 +21,6 @@
 
 #ACTION {^You lose %d exp, %d hps, %d mana, and %d stamina.%*}
 {
-1;
 	#if {!${spam.death}}
 	{
 		POST $MSDP_CHARACTER_NAME was killed by $OLD_MSDP_OPPONENT_NAME and lost %1 exp, %2 hps, %3 mana, and %4 stamina. ${socialmedia.hashtag} ${socialmedia.url};

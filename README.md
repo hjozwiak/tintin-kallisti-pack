@@ -54,8 +54,10 @@ To see if a key is bound already or not, just type set and the etter with no arg
 
 #### Automation
 
-You can automate recasting of spells, or send a message when they drop. This section is being updated constantly, so if what ou want isn't there, just let one of us know, or wait and we'll get it eventually. To use one of these, set autokeyword and the command to use. If you want to have multiple arguments, just put them in braces. For example autosanc {get sanctuary bag;quaff sanctuary}. You can unset the automation of these spells by prefixing the command with no as in noautosanc.
+You can automate recasting of spells, or send a message when they drop. This section is being updated constantly, so if what ou want isn't there, just let one of us know, or wait and we'll get it eventually. To use one of these, set autokeyword and the command to use. If you want to have multiple arguments, just put them in braces. For example autosanc {get sanctuary bag;quaff sanctuary}. You can unset the automation of these spells by prefixing the command with no as in noautosanc. You can check the status of a setting by putting a . (dot) in the middle, for example auto.sanc. There are exception, and they will be noted later on, for example, to see who you are healing with autoheal, just type autoheal with no arguments.
 
+- autoaura {args}: Triggers when unholy aura falls.
+- autorescue remove name: Remove person from autorescue list. (see below)
 - autoheal: Show the people you are automatically healing. (see below)
 - autoheal add name: Add person to autoheal list. (see below)
 - autoheal remove name: Remove person from autoheal list. (see below)
@@ -67,16 +69,24 @@ You can automate recasting of spells, or send a message when they drop. This sec
     - heal.morted {args}: Set the event for mortally wounded people. disable. Prefix with no to disable.
 - autoheal self {args}: Set commands used to automatically heal yourself when your hitpoints drop below 50%.
 - autoheal self {args} percent: Set commands used to automatically heal yourself when your hitpoints drop below given %.
-autobarkskin {args}: Recast barkskin when it drops.
-autobless {args}: Recast barkskin when it drops.
-autoffire {args}: Recast faerie fire when it drops.
+- autobarkskin {args}: Triggers when barkskin drops.
+- autobless {args}: Triggers when bless drops.
+- autoeyes: Recast true seeing when it drops.
+- autoffire {args}: Triggers when faerie fire drops.
+- autofocus {args}: Triggers when focus drops.
+- autofollow: Will automatically follow someone in your friends list if they beckon you and you are not currently following anyone else.
+- autodrink {args}: Triggers when you are thirsty.
+- autoeat {args}: Triggers when you are hungry.
 - autopick: Automatically try to pick closed doors. Requires pick lock.
 - autopoke {args}: that method of attack used when your group leader pokes or points at a target. (This is different then the poke or point social, pack users can use the p alias.)
 - autorecall {args}: Commands to be used when hitpoints drop below 20%. (see below)
 - autorecall {args percent}: Commands to be used when hitpoints drop below given %. (see below)
+- autorecast: Attempt to recast when you lose your concentration.
+- autorelogin: Logs in your character again in the event of your untimely demise.
 - autorescue: Show the people you are automatically rescuing. (see below)
 - autorescue add name: Add person to autorescue list. (see below)
 - autorescue remove name: Remove person from autorescue list. (see below)
+- autoprayer {args}: Triggers when prayer falls.
 - autosanc {args}: Triggers when sanctuary falls.
 - autoshape args: Automatically change to the given shape when shape change wears off.
 - autotumble: Causes you to tumble if you are set on fire or coated in acid.
