@@ -167,7 +167,7 @@
 	{
 		#case {"shapechange"}
 		{
-			#if {&{auto.shapechange}}
+			#if {&{auto.shape}}
 			{
 				%1 #${auto.shape}
 			}
