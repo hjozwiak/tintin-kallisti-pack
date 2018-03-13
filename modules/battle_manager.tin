@@ -63,7 +63,7 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA >= 300}
 		{
 			charge %2
 		};
@@ -75,7 +75,7 @@
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA > 300}
 		{
 			charge %1
 		};
@@ -170,7 +170,7 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA > 300}
 		{
 			charge %2
 		};
@@ -182,7 +182,7 @@
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA > 300}
 		{
 			charge %1
 		};
@@ -266,7 +266,7 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA > 300}
 		{
 			charge %2
 		};
@@ -278,7 +278,7 @@
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA > 300}
 		{
 			charge %1
 		};
