@@ -53,6 +53,40 @@
 }
 {9}
 
+#ACTION {%1 places something in the back of %2, resulting in a gush of blood!$}
+{
+	#list {autorescueList} {find} {%1} {i};
+	#if {$i != 0}
+	{
+		rescue ${autorescueList[$i]}
+	};
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		{
+			charge %2
+		};
+		#else
+		{
+			join %1
+		}
+	};
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i > 0}
+	{
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		{
+			charge %1
+		};
+		#else
+		{
+			join %2
+		}
+	}
+}
+{9}
+
 #ACTION {%1 screams insanely and charges into %2!$}
 {
 	#list {autorescueList} {size} {i};
@@ -136,12 +170,26 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
-		join %1
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		{
+			charge %2
+		};
+		#else
+		{
+			join %1
+		}
 	};
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i > 0}
 	{
-		join %2
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		{
+			charge %1
+		};
+		#else
+		{
+			join %2
+		}
 	}
 }
 {9}
@@ -208,26 +256,6 @@
 }
 {9}
 
-#ACTION {%1 places something in the back of %2, resulting in a gush of blood!$}
-{
-	#list {autorescueList} {find} {%1} {i};
-	#if {$i != 0}
-	{
-		rescue ${autorescueList[$i]}
-	};
-	#list {groupMemberList} {find} {%1} {i};
-	#if {$i > 0}
-	{
-		join %1
-	};
-	#list {groupMemberList} {find} {%2} {i};
-	#if {$i > 0}
-	{
-		join %2
-	}
-}
-{9}
-
 #ACTION {^%w tries to backstab %2 but nearly cuts {her|his|its} own finger!$}
 {
 	#list {autorescueList} {find} {%1} {i};
@@ -238,12 +266,26 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
-		join %1
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		{
+			charge %2
+		};
+		#else
+		{
+			join %1
+		}
 	};
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i > 0}
 	{
-		join %2
+		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER}}
+		{
+			charge %1
+		};
+		#else
+		{
+			join %2
+		}
 	}
 }
 {9}
