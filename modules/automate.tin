@@ -93,10 +93,10 @@
 	{
 		${auto.relogin}
 	};
-	#list {onDeath} {size} {i};
+	#list {playerDeath} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${onDeath[]}} {@${onDeath[&0]}{}}
+		#forall {${playerDeath[]}} {@${playerDeath[&0]}{}}
 	}
 }
 {9}
