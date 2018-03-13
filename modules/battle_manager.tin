@@ -38,7 +38,7 @@
 		wield %1
 	};
 	wear buckler;
-	gt OH GODS NOOOO! I have been disarmed!
+	gt &by OH GODS &br NOOOO! &0c  I have been &br disarmed!
 }
 {9}
 

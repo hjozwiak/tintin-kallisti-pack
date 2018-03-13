@@ -57,7 +57,7 @@
 {
 	#if {&{auto.ffire}}
 	{
-		#if {$MSDP_OPPONENT_HEALTH == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
 			${auto.ffire}
 		};
@@ -73,7 +73,7 @@
 {
 	#if {&{auto.sanc}}
 	{
-		#if {$MSDP_OPPONENT_HEALTH == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
 			${auto.sanc}
 		};
@@ -93,10 +93,10 @@
 	{
 		${auto.relogin}
 	};
-	#list {onDeath} {size} {i};
+	#list {playerDeath} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${onDeath[]}} {@${onDeath[&0]}{}}
+		#forall {${playerDeath[]}} {@${playerDeath[&0]}{}}
 	}
 }
 {9}
@@ -124,7 +124,7 @@
 {
 	#if {&{auto.bless}}
 	{
-		#if {$MSDP_OPPONENT_HEALTH == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
 			${auto.bless}
 		};
@@ -140,7 +140,7 @@
 {
 	#if {${auto.prayer}}
 	{
-		#if {$MSDP_OPPONENT_HEALTH == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
 			prayer
 		};
@@ -167,7 +167,7 @@
 	{
 		#case {"shapechange"}
 		{
-			#if {&{auto.shapechange}}
+			#if {&{auto.shape}}
 			{
 				%1 #${auto.shape}
 			}
@@ -279,7 +279,7 @@
 {
 	#if {&{auto.shape}}
 	{
-		#if {$MSDP_OPPONENT_HEALTH == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
 			shape ${auto.shape}
 		};
@@ -295,7 +295,7 @@
 {
 	#if {&{auto.eyes}}
 	{
-		#if {$MSDP_OPPONENT_HEALTH == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
 			trueseeing
 		};
@@ -311,7 +311,7 @@
 {
 	#if {&{auto.vigor}}
 	{
-		#if {"$MSDP_OPPONENT_NAME" != ""}
+		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
 			#list {onDeath} {add} {${auto.vigor}}
 		};
@@ -327,7 +327,7 @@
 {
 	#if {&{auto.barkskin}}
 	{
-		#if {"$MSDP_OPPONENT_NAME" == ""}
+		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
 			${auto.barkskin}
 		};
@@ -389,7 +389,7 @@
 {
 	#if {&{auto.warpaint}}
 	{
-		#if {$MSDP_OPPONENT_HEALTH == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
 			warpaint ${auto.warpaint}
 		};
@@ -453,7 +453,7 @@
 	};
 	#else
 	{
-		#if {$MSDP_OPPONENT_HEALTH > 0 || $MSDP_PARAGON_LEVEL < 50}
+		#if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
 		{
 			recite recall;
 			get recall $character.container
