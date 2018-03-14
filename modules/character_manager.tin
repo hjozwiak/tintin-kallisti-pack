@@ -55,6 +55,7 @@
 	#if {"%0" == "cmodreload all"}
 	{
 		#script {for module in $modpath/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {character_$(basename "$module" .tin)} {read} {$module}";done};
+		#script {if [[ -d "$HOME/modules" ]]; then for module in $HOME/modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
 		#echo {All character modules reloaded}
 	};
 	#else
@@ -68,6 +69,7 @@
 		#if {"%1" == "{load|reload}"}
 		{
 			#showme {Loading character module %2.tin};
+			#class {character_%2} {read} {$HOME/modules/%2.tin};
 			#class {character_%2} {read} {$modpath/%2.tin};
 			#class {$MSDP_CHARACTER_NAME} {open}
 		}
@@ -147,6 +149,8 @@
 	#variable {OLD_MSDP_CHARACTER_NAME} {%1};
 	#history {read} {${HOME}/%1.history};
 	#class {%1} {read} {${HOME}/%1};
+	#nop {Load common personal modules.};
+	#script {if [[ -d "$HOME/modules" ]]; then for module in $HOME/modules/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
 	#nop {Load personal modules.};
 	#script {if [[ -d "$HOME/%1.modules" ]]; then for module in $HOME/%1.modules/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
 	#if {${cspam}}

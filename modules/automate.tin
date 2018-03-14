@@ -313,11 +313,11 @@
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			#list {onDeath} {add} {${auto.vigor}}
+			${auto.vigor}
 		};
 		#else
 		{
-			${auto.vigor}
+			#list {onDeath} {add} {${auto.vigor}}
 		}
 	}
 }
