@@ -69,8 +69,7 @@
 		#if {"%1" == "{load|reload}"}
 		{
 			#showme {Loading character module %2.tin};
-			#class {character_%2} {read} {$HOME/modules/%2.tin};
-			#class {character_%2} {read} {$modpath/%2.tin};
+			#script {if [[ -r "$HOME/modules/%2.tin" ]]; then echo "#class {character_%2} {read} {$HOME/modules/%2.tin}";elif [[ -r "$modpath/%2.tin" ]]; then echo "#class {character_%2} {read} {$modpath/%2.tin}";else echo "#echo {Character module %2.tin not found.}";fi};
 			#class {$MSDP_CHARACTER_NAME} {open}
 		}
 	};
