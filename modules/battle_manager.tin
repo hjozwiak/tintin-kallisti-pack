@@ -380,18 +380,31 @@
 
 #ALIAS {^auto{heal|rescue} {add|remove} {all|group}$}
 {
-	#list {groupMemberList} {size} {i};
-	#if {$i == 0}
+	#list {auto%1List} {clear};
+	#if {"%2" == "remove"}
 	{
-		group;
-		localecho silent_do auto%1 add all
+		#echo {You are no longer %1ing anyone.}
 	};
 	#else
 	{
-		#forall {${groupMemberList[]}}{#if {"${groupMemberList[&0]}" != "${MSDP_CHARACTER_NAME}"}{auto%1 %2 ${groupMemberList[&0]}}}
+		#nop {Populate the groupMemberList variable};
+		group;
+		#nop {The actual list management takes place in a POPULATE_whatever_LIST alias called with localecho so we know all the group members have been added.};
+		localecho silent_do POPULATE_%1_LIST
 	}
 }
 {8}
+
+#ALIAS {^POPULATE_%w_LIST$}
+{
+	#list {groupMemberList} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${groupMemberList[]}}{#if {"${groupMemberList[&0]}" != "${MSDP_CHARACTER_NAME}"}{auto%1 add ${groupMemberList[&0]}}}
+	};
+	auto%1
+}
+{9}
 
 #ALIAS {^auto{heal|rescue} %s{add|remove} %s%w$}
 {

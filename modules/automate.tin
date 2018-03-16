@@ -385,8 +385,9 @@
 }
 {9}
 
-#ACTION {^silent_do %1}
+#ACTION {^%ssilent_do %1}
 {
+	#line {gag};
 	%1
 }
 {9}
