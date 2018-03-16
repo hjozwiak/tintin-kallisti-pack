@@ -10,7 +10,7 @@
 		#if {$i > 0}
 		{
 			#variable {i} {%1};
-			#replace {i} {^**} {};
+			#replace {i} {^\\*\\*} {};
 			#forall {${groupTell[]}} {@${groupTell[&0]}{$i;%2}}
 		}
 	}
