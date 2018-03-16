@@ -10,7 +10,7 @@
 		#if {$i > 0}
 		{
 			#variable {i} {%1};
-			#replace {i} {^**} {};
+			#replace {i} {^\\*\\*} {};
 			#forall {${groupTell[]}} {@${groupTell[&0]}{$i;%2}}
 		}
 	}
@@ -306,6 +306,12 @@
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
+#MACRO {\e`}
+{
+	#variable {channelBufferIndex} {11};
+	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+}
+
 #MACRO {\e~}
 {
 	#variable {channelBufferIndex} {0};
@@ -314,5 +320,5 @@
 
 #VARIABLE         {awayMessage}  {false}
 #VARIABLE         {channel}  {}
-#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Chat}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Say}{10}{Tell}}
+#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Gossip}{4}{GroupTell}{5}{Info}{6}{Kingdom}{7}{Music}{8}{Rude}{9}{Say}{10}{Tell}{11}{Chat}}
 #VARIABLE         {channelBufferIndex}  {0}

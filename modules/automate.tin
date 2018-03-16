@@ -313,11 +313,11 @@
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			#list {onDeath} {add} {${auto.vigor}}
+			${auto.vigor}
 		};
 		#else
 		{
-			${auto.vigor}
+			#list {onDeath} {add} {${auto.vigor}}
 		}
 	}
 }
@@ -382,6 +382,13 @@
 		#forall {${trackLose[]}} {${trackLose[&0]}{${auto.track}}}
 	};
 	#unvariable {auto.track}
+}
+{9}
+
+#ACTION {^%ssilent_do %1}
+{
+	#line {gag};
+	%1
 }
 {9}
 
