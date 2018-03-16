@@ -383,7 +383,8 @@
 	#list {groupMemberList} {size} {i};
 	#if {$i == 0}
 	{
-		group
+		group;
+		localecho silent_do auto%1 add all
 	};
 	#else
 	{

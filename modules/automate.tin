@@ -385,6 +385,12 @@
 }
 {9}
 
+#ACTION {^silent_do %1}
+{
+	%1
+}
+{9}
+
 #ACTION {^{You really make a mess of it|Your warpaint wears off}.$}
 {
 	#if {&{auto.warpaint}}
