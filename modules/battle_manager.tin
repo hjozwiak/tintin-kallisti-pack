@@ -169,7 +169,7 @@
 	{
 		#list {groupMemberList} {add} {%2}
 	};
-	#regexp {%0} {{.*\x7BLeader\x7D} {#variable {leader} {%2}}
+	#regexp {%0} {{.*}\x7BLeader\x7D} {#variable {leader} {%2}}
 }
 {9}
 
