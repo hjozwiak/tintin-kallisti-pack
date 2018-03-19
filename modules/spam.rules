@@ -1,3 +1,12 @@
+#ACTION {^<%1{light|finger|neck|about body|on body|body|head|left leg|right leg|legs|left foot|right foot|feet|left hand|right hand|hands|left arm|right arm|arms|shield|waist|wrist|wielded|held|face|earring|eyes|back|surrounding|floating|badge|anklets}%3> %s%d/{\s*}%S %8}
+{
+	#if {%5 == %7}
+	{
+		#line {gag}
+	}
+}
+{9}
+
 #ACTION {^You are hit %d tim{e|es} for %d damage.$}
 {
 	#if {%3 < ${currenthp} / 8}

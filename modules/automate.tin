@@ -12,6 +12,13 @@
 }
 {9}
 
+#ACTION {^%ssilent_do %1}
+{
+	#line {gag};
+	%1
+}
+{9}
+
 #ACTION {^%w {pokes|points at} %S$}
 {
 	#if {"%1" == "$leader"}
@@ -385,13 +392,6 @@
 }
 {9}
 
-#ACTION {^%ssilent_do %1}
-{
-	#line {gag};
-	%1
-}
-{9}
-
 #ACTION {^{You really make a mess of it|Your warpaint wears off}.$}
 {
 	#if {&{auto.warpaint}}
@@ -511,6 +511,12 @@
 	{
 		#echo {No preferences set for auto-%1}
 	}
+}
+{9}
+
+#ALIAS {^buff$}
+{
+	#forall {aura;barkskin;bless;eyes;ffire;focus;prayer;sanc;shape;vigor;warcry;warpaint}{#if {&{auto.&0}}{#switch {"&0"}{#case {"{bless|prayer|warcry}"} {&0};#case {"eyes"} {true};#case {"shape"} {&0 ${auto.&0}};#default {${auto.&0}}}}}
 }
 {9}
 

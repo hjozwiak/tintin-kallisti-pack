@@ -42,13 +42,25 @@
 }
 {9}
 
-#ACTION {%1 hits %w {}{\.|!}$}
+#ACTION {%1 hits %w %*{\.|!}$}
 {
 	#list {autorescueList} {find} {%2} {i};
 	#if {$i != 0}
 	{
 		rescue ${autorescueList[$i]};
 		spamset rescue%2
+	}
+}
+{9}
+
+#ACTION {%1 picks you up by the neck and throws you out of the room.$}
+{
+	#nop {Hook name is roomTossed	};
+	#nop {Hook args: name of thing that tossed you.};
+	#list {roomTossed} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${roomTossed[]}} {@${roomTossed[&0]}{%1}}
 	}
 }
 {9}
@@ -156,7 +168,8 @@
 	#if {$i == 0}
 	{
 		#list {groupMemberList} {add} {%2}
-	}
+	};
+	#regexp {%0} {{.*}Leader{.}} {#variable {leader} {%2}}
 }
 {9}
 
@@ -448,6 +461,15 @@
 	#if {&{autoHealSelf}}
 	{
 		#echo {Yourself with: ${autoHealSelf} at ${autoHealSelfPercent} percent.}
+	}
+}
+{9}
+
+#ALIAS {^flee}
+{
+	#if {$MSDP_OPPONENT_NUMBER > 0}
+	{
+		#send {%0}
 	}
 }
 {9}
