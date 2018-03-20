@@ -225,16 +225,16 @@
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
 	#nop {Hook name is trackEnd.};
-	#nop {Hook args none.};
-	#if {&{auto.track}}
-	{
-		SYNTH_PLAY notificationSound;
-		#unvariable {auto.track};
+	#nop {Hook args track of target.};
 		#list {trackEnd} {size} {i};
 		#if {$i > 0}
 		{
 			#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
 		}
+	#if {&{auto.track}}
+	{
+		SYNTH_PLAY notificationSound;
+		#unvariable {auto.track};
 	}
 }
 {9}
@@ -349,17 +349,17 @@
 #ACTION {^[* You found your target! *]$}
 {
 	#nop {Hook name is trackEnd.};
-	#nop {Hook args none.};
-	#if {&{auto.track}}
-	{
-		SYNTH_PLAY notificationSound;
-		#unvariable {auto.track}
-	};
+	#nop {Hook args tracked target.};
 	#list {trackEnd} {size} {i};
 	#if {$i > 0}
 	{
 		#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
 	}
+	#if {&{auto.track}}
+	{
+		SYNTH_PLAY notificationSound;
+		#unvariable {auto.track}
+	};
 }
 {9}
 
