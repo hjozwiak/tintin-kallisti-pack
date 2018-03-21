@@ -516,7 +516,7 @@
 
 #ALIAS {^buff$}
 {
-	#forall {aura;barkskin;bless;eyes;ffire;focus;prayer;sanc;shape;vigor;warcry;warpaint}{#if {&{auto.&0}}{#switch {"&0"}{#case {"{bless|prayer|warcry}"} {&0};#case {"eyes"} {true};#case {"shape"} {&0 ${auto.&0}};#default {${auto.&0}}}}}
+	#forall {aura;barkskin;bless;eyes;ffire;focus;prayer;sanc;shape;vigor;warcry;warpaint}{#if {&{auto.&0}}{#switch {"&0"}{#case {"{bless|prayer|warcry}"} {&0};#case {"eyes"} {true};#case {"{focus|shape}"} {&0 ${auto.&0}};#default {${auto.&0}}}}}
 }
 {9}
 
