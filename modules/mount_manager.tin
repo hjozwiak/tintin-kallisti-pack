@@ -1,12 +1,6 @@
-#action {^You hop on %1's back.$}
-{
-#regexp {%1} {{.*} {.*}} {#variable {character[mount]} {&2}} {#variable {character[mount]} {%1}}
-}
-{9}
-
 #ACTION {%1 drags you off your mount!$}
 {
-mount ${character[mount]}
+	#list {onDeath} {add} {mount ${character[mount]}}
 }
 {9}
 
@@ -16,6 +10,16 @@ mount ${character[mount]}
 	#else
 	{
 		tether %1;
+		#variable {character[mount]} {%1}
+	}
+}
+{9}
+
+#ACTION {^You hop on %1's back.$}
+{
+	#regexp {%1} {{.*} {.*}} {#variable {character[mount]} {&2}};
+	#else
+	{
 		#variable {character[mount]} {%1}
 	}
 }
