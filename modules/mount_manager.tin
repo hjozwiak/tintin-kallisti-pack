@@ -4,6 +4,12 @@
 }
 {9}
 
+#ACTION {^Mount what?$}
+{
+	#unvariable {character[mount]}
+}
+{9}
+
 #ACTION {^You dismount from %1.$}
 {
 	#regexp {%1} {{.*} {.*}} {tether &2;#variable {character[mount]} {&2}};
