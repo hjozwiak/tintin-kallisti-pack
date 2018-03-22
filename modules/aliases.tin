@@ -22,13 +22,17 @@
 }
 {9}
 
-#ALIAS {^{cash|hp|mn|mv|tnl|xp}$}
+#ALIAS {^{cash|enemy|enemies|hp|mn|mv|tnl|xp}$}
 {
 	#switch {"%0"}
 	{
 		#case {"cash"}
 		{
 			#echo {Gold: $MSDP_MONEY}
+		};
+		#case {"{enemy|enemies}"}
+		{
+			#echo {Enemies: $MSDP_OPPONENT_NUMBER}
 		};
 		#case {"hp"}
 		{
