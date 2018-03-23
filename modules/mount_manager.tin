@@ -1,10 +1,32 @@
+#ACTION {%1 drags you off your mount!$}
+{
+	#list {onDeath} {add} {mount ${character[mount]}}
+}
+{9}
+
+#ACTION {^Mount what?$}
+{
+	#unvariable {character[mount]}
+}
+{9}
+
 #ACTION {^You dismount from %1.$}
 {
-	#regexp {%1} {{.*} {.*}} {tether &2;#variable {character.mount} {&2}};
+	#regexp {%1} {{.*} {.*}} {tether &2;#variable {character[mount]} {&2}};
 	#else
 	{
 		tether %1;
-		#variable {character.mount} {%1}
+		#variable {character[mount]} {%1}
+	}
+}
+{9}
+
+#ACTION {^You hop on %1's back.$}
+{
+	#regexp {%1} {{.*} {.*}} {#variable {character[mount]} {&2}};
+	#else
+	{
+		#variable {character[mount]} {%1}
 	}
 }
 {9}
@@ -21,10 +43,10 @@
 
 #ACTION {^You stand up.$}
 {
-	#if {&{character.mount}}
+	#if {&{character[mount]}}
 	{
-		mount ${character.mount};
-		#unvariable ${character.mount}
+		mount ${character[mount]};
+		#unvariable ${character[mount]}
 	}
 }
 {9}

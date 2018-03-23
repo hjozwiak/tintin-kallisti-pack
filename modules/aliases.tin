@@ -1,0 +1,55 @@
+#ALIAS {^show %S$}
+{
+	#format {tmp} {%u} {%1};
+	#if {&{MSDP_${tmp}}}
+	{
+		#variable {msg} {${MSDP_${tmp}} %1};
+		#if {&{MSDP_${tmp}_PERM}}
+		{
+			#variable {msg} {${msg} of ${MSDP_${tmp}_PERM}}
+		};
+		#elseif {&{MSDP_${tmp}_MAX}}
+		{
+			#variable {msg} {${msg} of ${MSDP_${tmp}_MAX}}
+		}
+	};
+	#else
+	{
+		#variable {msg} {Nothing to show}
+	};
+	#variable {msg} {${msg}\.};
+	#echo {${msg}}
+}
+{9}
+
+#ALIAS {^{cash|enemy|enemies|hp|mn|mv|tnl|xp}$}
+{
+	#switch {"%0"}
+	{
+		#case {"cash"}
+		{
+			#echo {Gold: $MSDP_GOLD Bank: $MSDP_BANK_GOLD}
+		};
+		#case {"{enemy|enemies}"}
+		{
+			#echo {Enemies: $MSDP_OPPONENT_NUMBER}
+		};
+		#case {"hp"}
+		{
+			show health
+		};
+		#case {"mv"}
+		{
+			show stamina
+		};
+		#case {"mn"}
+		{
+			show mana
+		};
+		#case {"{tnl|xp}"}
+		{
+			#echo {Exp: $MSDP_EXPERIENCE ToLvl: $MSDP_EXPERIENCE_TNL}
+		}
+	}
+}
+{9}

@@ -1,5 +1,6 @@
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
+	#unvariable {auto.track};
 	#if {&{auto.pick}}
 	{
 		#regexp {%1} {{.*} {.*}} {#variable {auto.pick} {&2 %2}};
@@ -225,16 +226,16 @@
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
 	#nop {Hook name is trackEnd.};
-	#nop {Hook args none.};
-	#if {&{auto.track}}
-	{
-		SYNTH_PLAY notificationSound;
-		#unvariable {auto.track};
+	#nop {Hook args track of target.};
 		#list {trackEnd} {size} {i};
 		#if {$i > 0}
 		{
 			#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
 		}
+	#if {&{auto.track}}
+	{
+		SYNTH_PLAY notificationSound;
+		#unvariable {auto.track};
 	}
 }
 {9}
@@ -349,17 +350,17 @@
 #ACTION {^[* You found your target! *]$}
 {
 	#nop {Hook name is trackEnd.};
-	#nop {Hook args none.};
-	#if {&{auto.track}}
-	{
-		SYNTH_PLAY notificationSound;
-		#unvariable {auto.track}
-	};
+	#nop {Hook args tracked target.};
 	#list {trackEnd} {size} {i};
 	#if {$i > 0}
 	{
 		#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
 	}
+	#if {&{auto.track}}
+	{
+		SYNTH_PLAY notificationSound;
+		#unvariable {auto.track}
+	};
 }
 {9}
 
@@ -516,7 +517,7 @@
 
 #ALIAS {^buff$}
 {
-	#forall {aura;barkskin;bless;eyes;ffire;focus;prayer;sanc;shape;vigor;warcry;warpaint}{#if {&{auto.&0}}{#switch {"&0"}{#case {"{bless|prayer|warcry}"} {&0};#case {"eyes"} {true};#case {"shape"} {&0 ${auto.&0}};#default {${auto.&0}}}}}
+	#forall {aura;barkskin;bless;eyes;ffire;focus;prayer;sanc;shape;vigor;warcry;warpaint}{#if {&{auto.&0}}{#switch {"&0"}{#case {"{bless|prayer|warcry}"} {&0};#case {"eyes"} {true};#case {"{focus|shape}"} {&0 ${auto.&0}};#default {${auto.&0}}}}}
 }
 {9}
 
