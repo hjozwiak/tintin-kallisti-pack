@@ -28,7 +28,7 @@
 	{
 		#case {"cash"}
 		{
-			#echo {Gold: $MSDP_MONEY}
+			#echo {Gold: $MSDP_GOLD Bank: $MSDP_BANK_GOLD}
 		};
 		#case {"{enemy|enemies}"}
 		{
