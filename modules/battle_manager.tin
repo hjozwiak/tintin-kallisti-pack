@@ -508,6 +508,20 @@
 }
 {9}
 
+#ALIAS {^{gl|gla|glan|glanc|glance} %s{all|group}$}
+{
+	#list {groupMemberList} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${groupMemberList[]}} {glance ${groupMemberList[&0]}}
+	};
+	#else
+	{
+		#echo {No one to glance at.}
+	}
+}
+{9}
+
 #ALIAS {^{notank|tank|tank \w+}$}
 {
 	#if {"%0" == "notank"}
