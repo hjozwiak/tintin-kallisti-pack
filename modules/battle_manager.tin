@@ -379,10 +379,9 @@
 
 #ACTION {^You {now follow|stop following} %w.$}
 {
-	#if {"%1" == "stop following" && "%2" == "$leader"}
+	#if {"%1" == "stop following"}
 	{
-		#list {groupMemberList} {clear};
-		#unvariable {leader}
+		if {"%2" == "$leader"}{#list {groupMemberList} {clear};#unvariable {leader}}
 	};
 	#else
 	{
