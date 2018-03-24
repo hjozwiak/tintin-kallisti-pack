@@ -26,7 +26,7 @@
 #GAG              {^You quickly find page %d, in %2.$}
 #GAG              {^You swiftly dodge %1 attack.$}
 #GAG              {^You use %1 to focus your spell.$}
-#SUBSTITUTE       {%s{Mage|Priest|Rogue|Fighter|Druid|Monk|Paladin|Assassin|Samurai|Ranger|Templar|Wizard|Prophet|Demoniac|Bard|Dreadlord|Barbarian|Monastic} %s:   !}                                                                                                                                {}  {5}
+#SUBSTITUTE       {%s{Mage|Priest|Rogue|Fighter|Druid|Monk|Paladin|Assassin|Samurai|Ranger|Templar|Wizard|Prophet|Demoniac|Bard|Dreadlord|Barbarian|Monastic|Necromancer} %s:   !}                                                                                                                                {}  {5}
 #SUBSTITUTE       {%1 is incapacitated and will slowly die, if not aided.$}                                     {%1 is is incapacitated.}  {9}
 #SUBSTITUTE       {%1 is mortally wounded and will die soon, if not aided.$}                                      {%1 is morted.}  {9}
 #SUBSTITUTE       {%1 quickly avoids your backstab and you nearly cut your own finger!$}                                                  {%1 avoids your backstab!}  {9}

@@ -57,6 +57,10 @@
 {
 	#nop {Hook name is roomTossed	};
 	#nop {Hook args: name of thing that tossed you.};
+	#if {&{leader}}
+	{
+		gt &byTossed!
+	};
 	#list {roomTossed} {size} {i};
 	#if {$i > 0}
 	{
@@ -379,10 +383,9 @@
 
 #ACTION {^You {now follow|stop following} %w.$}
 {
-	#if {"%1" == "stop following" && "%2" == "$leader"}
+	#if {"%1" == "stop following"}
 	{
-		#list {groupMemberList} {clear};
-		#unvariable {leader}
+		if {"%2" == "$leader"}{#list {groupMemberList} {clear};#unvariable {leader}}
 	};
 	#else
 	{
@@ -505,6 +508,20 @@
 	#else
 	{
 		#forall {${autorescueList[]}}{res%1 ${autorescueList[&0]}}
+	}
+}
+{9}
+
+#ALIAS {^{gl|gla|glan|glanc|glance} %s{all|group}$}
+{
+	#list {groupMemberList} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${groupMemberList[]}} {glance ${groupMemberList[&0]}}
+	};
+	#else
+	{
+		#echo {No one to glance at.}
 	}
 }
 {9}
