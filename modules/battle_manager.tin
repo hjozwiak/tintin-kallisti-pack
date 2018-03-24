@@ -57,6 +57,10 @@
 {
 	#nop {Hook name is roomTossed	};
 	#nop {Hook args: name of thing that tossed you.};
+	#if {&{leader}}
+	{
+		gt &byTossed!
+	};
 	#list {roomTossed} {size} {i};
 	#if {$i > 0}
 	{
