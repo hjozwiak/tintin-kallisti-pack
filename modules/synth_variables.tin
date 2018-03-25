@@ -9,6 +9,12 @@
 #VARIABLE         {cannot_go_up}  {"|sox -np synth 0.5 tri 500:600 tri 700:900 remix - fade 0 0.2 0.5"}
 #VARIABLE         {cannot_go_west}  {"|sox -np synth 0.5 tri 400:300 tri 700:500 remix - fade 0 0.2 0.5" remix v0.9 v0.3}
 #VARIABLE         {connectedSound}  {"|sox -np synth tri C6 fade 0 0.02 0.01" repeat 6}
+#VARIABLE         {doorDown}  {"|sox -np synth 0.5 sine 1600-100 synth 0.6 tri amod 200-1400 tempo 2.5 pitch -600"}
+#VARIABLE         {doorEast}  {"|sox -np synth 0.5 sine 1600-100 synth 0.6 tri amod 200-1400 tempo 2.5 pitch -200 reverse remix v0.4 v0.9"}
+#VARIABLE         {doorNorth}  {"|sox -np synth 0.5 sine 1600-100 synth 0.6 tri amod 200-1400 tempo 2.5 pitch -200 reverse"}
+#VARIABLE         {doorSouth}  {"|sox -np synth 0.5 sine 1600-100 synth 0.6 tri amod 200-1400 tempo 2.5 pitch -200"}
+#VARIABLE         {doorUp}  {"|sox -np synth 0.5 sine 1600-100 synth 0.6 tri amod 200-1400 tempo 2.5 pitch 600 reverse"}
+#VARIABLE         {doorWest}  {"|sox -np synth 0.5 sine 1600-100 synth 0.6 tri amod 200-1400 tempo 2.5 pitch -200 reverse remix v0.9 v0.4"}
 #VARIABLE         {health0}  {"|sox -np synth sq C#5 sq D#5 sq F#5 sq A5 sq C#6" remix - fade 0 5.5 5 remix v0.9 v0.4 pitch -400}
 #VARIABLE         {health10}  {"|sox -np synth sq D#3 sq B3 sq C#4 sq F4 sq A4 remix - fade p 0 .7 .4" remix v0.9 v0.4}
 #VARIABLE         {health20}  {"|sox -np synth sq C#5 sq D#5 sq F#5 sq A5 sq C#6 remix - fade p 0 .7 .4" remix v0.9 v0.4}

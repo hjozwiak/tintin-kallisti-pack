@@ -62,6 +62,11 @@
 }
 {9}
 
+#EVENT {VARIABLE UPDATE MSDP_ROOM_EXITS}
+{
+	#forall {%1}{#if {"&0" == "{down|east|north|south|up|west}"}{#format {i} {%n} {&0}};#if {"&0" == "C"}{SYNTH_PLAY door$i}}
+}
+
 #MACRO {\e,}
 {
 	s
