@@ -517,7 +517,7 @@
 	#list {groupMemberList} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${groupMemberList[]}} {glance ${groupMemberList[&0]}}
+		#forall {${groupMemberList[]}} {#if {"${groupMemberList[&0]}" != "$MSDP_CHARACTER_NAME"}{ glance ${groupMemberList[&0]}}}
 	};
 	#else
 	{
