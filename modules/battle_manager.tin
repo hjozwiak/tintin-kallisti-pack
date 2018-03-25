@@ -385,7 +385,7 @@
 {
 	#if {"%1" == "stop following"}
 	{
-		if {"%2" == "$leader"}{#list {groupMemberList} {clear};#unvariable {leader}}
+		#if {"%2" == "$leader"}{#list {groupMemberList} {clear};#unvariable {leader}}
 	};
 	#else
 	{
