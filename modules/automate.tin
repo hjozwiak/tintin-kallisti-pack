@@ -160,6 +160,15 @@
 }
 {9}
 
+#ACTION {^You had better stand up first.$}
+{
+	#if {$MSDP_OPPONENT_NUMBER > 0}
+	{
+		stand
+	}
+}
+{9}
+
 #ACTION {^You just can't concentrate enough.$}
 {
 	#line {gag};
@@ -227,15 +236,18 @@
 {
 	#nop {Hook name is trackEnd.};
 	#nop {Hook args track of target.};
-		#list {trackEnd} {size} {i};
-		#if {$i > 0}
-		{
-			#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
-		}
-	#if {&{auto.track}}
+	#list {trackEnd} {size} {i};
+	#if {$i > 0}
 	{
-		SYNTH_PLAY notificationSound;
-		#unvariable {auto.track};
+		#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
+	};
+	#else
+	{
+		#if {&{auto.track}}
+		{
+			SYNTH_PLAY notificationSound;
+			#unvariable {auto.track}
+		}
 	}
 }
 {9}
@@ -355,12 +367,15 @@
 	#if {$i > 0}
 	{
 		#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
-	}
-	#if {&{auto.track}}
-	{
-		SYNTH_PLAY notificationSound;
-		#unvariable {auto.track}
 	};
+	#else
+	{
+		#if {&{auto.track}}
+		{
+			SYNTH_PLAY notificationSound;
+			#unvariable {auto.track}
+		}
+	}
 }
 {9}
 
@@ -557,7 +572,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|charge|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|charge|deposit|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
