@@ -380,20 +380,17 @@
 	{
 		#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
 	};
-	#else
+	#if {&{auto.track}}
 	{
-		#if {&{auto.track}}
-		{
-			SYNTH_PLAY notificationSound;
-			#unvariable {auto.track}
-		}
+		SYNTH_PLAY notificationSound;
+		#unvariable {auto.track}
 	}
 }
 {9}
 
 #ACTION {^[* You see your target's tracks leading %1. *]$}
 {
-	#if {&{leader} || &{auto.track}}
+	#if {&{auto.track}}
 	{
 		%1
 	}
