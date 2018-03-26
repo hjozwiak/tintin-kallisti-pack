@@ -393,7 +393,7 @@
 
 #ACTION {^[* You see your target's tracks leading %1. *]$}
 {
-	#if {&{leader} || &{auto.track}}
+	#if {&{auto.track}}
 	{
 		%1
 	}
