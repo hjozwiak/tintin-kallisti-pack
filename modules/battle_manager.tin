@@ -356,7 +356,7 @@
 		#list {onDeath} {clear}
 	};
 	look in corpse;
-	#if {!&{spam.save}}
+	#if {!${spam.save}}
 	{
 		save;
 		spamset save
