@@ -70,6 +70,20 @@
 {
 	#nop {Hook name: roomNumber};
 	#nop {Hook args: the rooms vnum.};
+	#switch {%1}
+	{
+		#case {3546}
+		{
+			#nop {at Midgaard bank, deposit all gold if autodeposit is enabled.};
+			#if {${auto[deposit]}}
+			{
+				#if {$MSDP_GOLD > 0}
+				{
+					deposit all
+				}
+			}
+		}
+	};
 	#list {roomNumber} {size} {i};
 	#if {$i > 0}
 	{
