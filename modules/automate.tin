@@ -380,13 +380,10 @@
 	{
 		#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
 	};
-	#else
+	#if {&{auto.track}}
 	{
-		#if {&{auto.track}}
-		{
-			SYNTH_PLAY notificationSound;
-			#unvariable {auto.track}
-		}
+		SYNTH_PLAY notificationSound;
+		#unvariable {auto.track}
 	}
 }
 {9}
