@@ -13,6 +13,18 @@
 }
 {9}
 
+#ACTION {^%S%2[ %3Bank %4]$}
+{
+	#if {${auto[deposit]}}
+	{
+		#if {$MSDP_GOLD > 0}
+		{
+			deposit all
+		}
+	}
+}
+{9}
+
 #ACTION {^%ssilent_do %1}
 {
 	#line {gag};

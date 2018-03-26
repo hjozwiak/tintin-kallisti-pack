@@ -29,18 +29,6 @@
 }
 {9}
 
-#ACTION {^%w leaves north.$}
-{
-	#if {$MSDP_ROOM_VNUM == 8500}
-	{
-		#if {"$leader" == "%1"}
-		{
-			north
-		}
-	}
-}
-{9}
-
 #ACTION {^Alas, you cannot go {down|east|north|south|up|west}...$}
 {
 	SYNTH_PLAY cannot_go_%1
@@ -65,6 +53,28 @@
 #EVENT {VARIABLE UPDATE MSDP_ROOM_EXITS}
 {
 	#forall {%1}{#if {"&0" == "{down|east|north|south|up|west}"}{#format {i} {%n} {&0}};#if {"&0" == "C"}{SYNTH_PLAY door$i}}
+}
+
+#EVENT {VARIABLE UPDATE MSDP_ROOM_NAME}
+{
+	#nop {Hook name: roomName};
+	#nop {Hook args: the rooms name.};
+	#list {roomName} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${roomName[]}} {@${roomName[&0]}{%1}}
+	}
+}
+
+#EVENT {VARIABLE UPDATE MSDP_ROOM_VNUM}
+{
+	#nop {Hook name: roomNumber};
+	#nop {Hook args: the rooms vnum.};
+	#list {roomNumber} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${roomNumber[]}} {@${roomNumber[&0]}{%1}}
+	}
 }
 
 #MACRO {\e,}
