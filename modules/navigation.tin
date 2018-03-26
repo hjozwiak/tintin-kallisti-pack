@@ -92,6 +92,13 @@
 	up
 }
 
+#MACRO {\eK}
+{
+	#ignore {sub} {on};
+	scan;
+	localecho silent_do #ignore sub off
+}
+
 #MACRO {\ei}
 {
 	n
