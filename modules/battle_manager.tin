@@ -173,7 +173,7 @@
 	{
 		#list {groupMemberList} {add} {%2}
 	};
-	#regexp {%0} {{.*}Leader{.}} {#variable {leader} {%2}}
+	#regexp {%0} {{.*}Leader{.}} {#if {"%2" != "$MSDP_CHARACTER_NAME"} {#variable {leader} {%2}}}
 }
 {9}
 
@@ -356,9 +356,9 @@
 		#list {onDeath} {clear}
 	};
 	look in corpse;
+	save;
 	#if {!${spam.save}}
 	{
-		save;
 		spamset save
 	};
 	#list {mobDeath} {size} {i};
