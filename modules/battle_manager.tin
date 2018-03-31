@@ -350,6 +350,11 @@
 {
 	#nop {Hook name is mobDeath.};
 	#nop {Hook args all text for rewoard for the kill.};
+	#if {&{battle_manager[tankName]}}
+	{
+		reform ${battle_manager[tankName]} non;
+		march ${battle_manager[tankName]}
+	};
 	#if {"${onDeath}" != ""}
 	{
 		#forall {${onDeath[]}}{${onDeath[&0]}};
