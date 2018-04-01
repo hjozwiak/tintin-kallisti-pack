@@ -121,7 +121,7 @@
 	#if {!${spam[spaceWarning]}}
 	{
 		gt There's not enough room in there for me.;
-		spemset spaceWarning 1
+		spamset spaceWarning 1
 	}
 }
 {9}
