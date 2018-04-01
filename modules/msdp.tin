@@ -1,6 +1,13 @@
 #ALIAS {^MSDP$}
 {
-	#echo {MSDP is ${MSDP}}
+    #if {${PROTOCOL[%0]}}
+    {
+        #echo {%0 enabled.}
+    };
+    #else
+    {
+        #echo {%0 disabled.}
+    };
 }
 {9}
 
@@ -65,7 +72,7 @@ MSDP_REPORT
         MSDP_LIST;
 	#nop {Uncooment the next line to use MSDP for sound instead of MSP};
 	#nop {MSDP_CONFIGURE sound,1};
-	#variable {MSDP} {supported.}
+	#variable {PROTOCOL[MSDP]} {1}
 }
 
 #FORMAT {IAC}  {%a} {255}
@@ -130,3 +137,4 @@ MSDP_REPORT
 #VARIABLE         {MSDP_WIS_PERM}  {}
 #VARIABLE         {MSDP_WORLD_TIME}  {}
 #VARIABLE         {MSDP_XTERM_256_COLORS}   {}
+	#variable {PROTOCOL[MSDP]} {0}

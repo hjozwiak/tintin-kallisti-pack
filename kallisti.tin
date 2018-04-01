@@ -83,8 +83,6 @@
 #EVENT {SESSION CONNECTED}
 {
 	SYNTH_PLAY connectedSound;
-	#nop {clear all sound related variables so that settings can be saved/loaded from character files.};
-	#unvariable {MSP};
 	#nop {Set connected to true so if you accidently type login it won't try to login twice.};
 	#variable {connected} {true};
 	#nop {Create the log directory if it doesn't exist. Log files are based on date and time.};
