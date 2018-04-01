@@ -116,6 +116,16 @@
 }
 {9}
 
+#ACTION {^There's not enough room to fit in there!$}
+{
+	#if {!${spam[spaceWarning]}}
+	{
+		gt There's not enough room in there for me.;
+		spamset spaceWarning 1
+	}
+}
+{9}
+
 #ACTION {^[%w{:|:\(.*\)}] '%2'$}
 {
 	Channel_Event Chat %0

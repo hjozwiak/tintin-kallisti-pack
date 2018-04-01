@@ -173,7 +173,7 @@
 	{
 		#list {groupMemberList} {add} {%2}
 	};
-	#regexp {%0} {{.*}Leader{.}} {#variable {leader} {%2}}
+	#regexp {%0} {{.*}Leader{.}} {#if {"%2" != "$MSDP_CHARACTER_NAME"} {#variable {leader} {%2}}}
 }
 {9}
 
@@ -213,10 +213,17 @@
 
 #ACTION {^%w is now a group member %*.$}
 {
+	#nop {Hook name: groupAdd.};
+	#nop {Hook args: person added to group.};
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i == 0}
 	{
 		#list {groupMemberList} {add} {%1}
+	};
+	#list {groupAdd} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${groupAdd[]}} {@${groupAdd[&0]}{%1}}
 	}
 }
 {9}
@@ -350,15 +357,20 @@
 {
 	#nop {Hook name is mobDeath.};
 	#nop {Hook args all text for rewoard for the kill.};
+	#if {&{battle_manager[tankName]}}
+	{
+		#delay {.5} {#if {$MSDP_OPPONENT_NUMBER == 0} {reform ${battle_manager[tankName]} non;
+		march ${battle_manager[tankName]}}}
+	};
 	#if {"${onDeath}" != ""}
 	{
 		#forall {${onDeath[]}}{${onDeath[&0]}};
 		#list {onDeath} {clear}
 	};
 	look in corpse;
+	save;
 	#if {!${spam.save}}
 	{
-		save;
 		spamset save
 	};
 	#list {mobDeath} {size} {i};
