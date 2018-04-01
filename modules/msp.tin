@@ -9,7 +9,8 @@
 {
 	#variable {MSP.SOUND} {%1};
 	#replace {MSP.SOUND} {ON} {1};
-	#replace {MSP.SOUND} {OFF} {0}
+	#replace {MSP.SOUND} {OFF} {0};
+	CSAVE
 }
 {9}
 
@@ -77,7 +78,8 @@
 	{
 		#math {soundVolume} {$soundVolume - 2}
 	};
-	SYNTH_PLAY newVolumeSound
+	SYNTH_PLAY newVolumeSound;
+	CSAVE
 }
 
 #MACRO {\e?}
@@ -90,5 +92,6 @@
 	{
 		#math {soundVolume} {$soundVolume + 2}
 	};
-	SYNTH_PLAY newVolumeSound
+	SYNTH_PLAY newVolumeSound;
+	CSAVE
 }
