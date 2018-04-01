@@ -5,7 +5,7 @@
 }
 {9}
 
-#ACTION {^Audible sound is now {ON|OFF}.$}
+#ACTION {^Audible sound is {ON|OFF}.$}
 {
 	#variable {MSP.SOUND} {%1};
 	#replace {MSP.SOUND} {ON} {1};
