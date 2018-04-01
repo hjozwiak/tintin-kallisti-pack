@@ -213,10 +213,17 @@
 
 #ACTION {^%w is now a group member %*.$}
 {
+	#nop {Hook name: groupAdd.};
+	#nop {Hook args: person added to group.};
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i == 0}
 	{
 		#list {groupMemberList} {add} {%1}
+	};
+	#list {groupAdd} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${groupAdd[]}} {@${groupAdd[&0]}{%1}}
 	}
 }
 {9}
@@ -352,8 +359,8 @@
 	#nop {Hook args all text for rewoard for the kill.};
 	#if {&{battle_manager[tankName]}}
 	{
-		reform ${battle_manager[tankName]} non;
-		march ${battle_manager[tankName]}
+		#delay {.5} {#if {$MSDP_OPPONENT_NUMBER == 0} {reform ${battle_manager[tankName]} non;
+		march ${battle_manager[tankName]}}}
 	};
 	#if {"${onDeath}" != ""}
 	{
