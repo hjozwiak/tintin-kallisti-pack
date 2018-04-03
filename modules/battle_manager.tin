@@ -542,7 +542,7 @@
 {
 	#if {"%0" == "notank"}
 	{
-		#variable {battle_manager.tankName} {};
+		#unvariable {battle_manager.tankName};
 		#echo {Tank cleared.}
 	};
 	#else
