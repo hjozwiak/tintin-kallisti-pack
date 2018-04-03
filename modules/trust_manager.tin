@@ -3,7 +3,17 @@
 	Channel_Event Tell %0;
 	#if {@is_friend{%1}}
 	{
-		@trust_exec{%2}
+		#switch {"%2"}
+		{
+			#case {"where"}
+			{
+				reply $MSDP_ROOM_NAME
+			};
+			#default
+			{
+				@trust_exec{%2}
+			}
+		}
 	}
 }
 {7}
