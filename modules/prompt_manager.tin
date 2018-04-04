@@ -23,7 +23,7 @@
 		#variable {auto.recallPercent} {20};
 		CSAVE
 	};
-	#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= ${auto.recallPercent}}
+	#if {(%1 / $MSDP_HEALTH_MAX) * 100.0 <= ${auto.recallPercent} && $MSDP_OPPONENT_NUMBER > 0}
 	{
 		#if {!${spam.recall}}
 		{
@@ -31,7 +31,7 @@
 			{
 				breakout;
 				${auto.recall};
-				spamset recall 90
+				spamset recall 5
 			}
 		}
 	};
