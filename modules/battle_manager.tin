@@ -343,6 +343,12 @@
 }
 {9}
 
+#ACTION {^You call upon the forces of nature to heal yourself.$}
+{
+	spamset recall 20
+}
+{9}
+
 #ACTION {^You join the fight with %w.$}
 {
 	#list {autorescueList} {find} {%1} {i};
@@ -359,8 +365,7 @@
 	#nop {Hook args all text for rewoard for the kill.};
 	#if {&{battle_manager[tankName]}}
 	{
-		#delay {.5} {#if {$MSDP_OPPONENT_NUMBER == 0} {reform ${battle_manager[tankName]} non;
-		march ${battle_manager[tankName]}}}
+		#delay {.5} {#if {$MSDP_OPPONENT_NUMBER == 0} {reform ${battle_manager[tankName]} non;march ${battle_manager[tankName]}}}
 	};
 	#if {"${onDeath}" != ""}
 	{
@@ -397,7 +402,11 @@
 {
 	#if {"%1" == "stop following"}
 	{
-		#if {"%2" == "$leader"}{#list {groupMemberList} {clear};#unvariable {leader}}
+		#if {"%2" == "$leader"}
+		{
+			#list {groupMemberList} {clear};
+			#unvariable {leader}
+		}
 	};
 	#else
 	{

@@ -109,6 +109,7 @@
 {
 	#nop {Hook name playerDeath};
 	#nop {Hook args: none.};
+	#unvariable {leader};
 	#if {${auto.relogin}}
 	{
 		${auto.relogin}
