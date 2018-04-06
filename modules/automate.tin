@@ -488,6 +488,7 @@
 	{
 		#if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
 		{
+			breakout;
 			recite recall;
 			get recall $character.container
 		};
