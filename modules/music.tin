@@ -533,3 +533,4 @@
 }
 
 #TICKER           {autotitle}  {#if {${auto.title}}{Get_Music_Message_String;#if {"${music.newAutoTitleString}" != "${music.oldAutoTitleString}"}{#variable {music.oldAutoTitleString} {${music.newAutoTitleString}};title ${music.newAutoTitleString}}}}                                                                                                                                                                                                                                                         {1.50}
+#var {msg} {}
