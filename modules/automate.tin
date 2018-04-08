@@ -490,7 +490,6 @@
 		{
 			#if {$MSDP_OPPONENT_NUMBER > 0}
 			{
-				breakout
 			};
 			recite recall;
 			get recall $character.container
