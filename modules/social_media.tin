@@ -1,21 +1,21 @@
 #ACTION {^--+  Congratulations, you are now level %d!  +--%s}
 {
 	#nop {To get around the backslash character appearing in posts that end with a variable followed by a period, do this};
-	#variable {socialmedia.msg} {$MSDP_CHARACTER_NAME is now a level %1 $MSDP_CLASS\. ${socialmedia.hashtag} ${socialmedia.url}};
-	#replace {socialmedia.msg} {\\} {};
-	POST ${socialmedia.msg}
+	#variable {socialmedia[msg]} {$MSDP_CHARACTER_NAME is now a level %1 $MSDP_CLASS\. ${socialmedia[hashtag]} ${socialmedia[url]}};
+	#replace {socialmedia[msg]} {\\} {};
+	POST ${socialmedia[msg]}
 }
 {9}
 
 #ACTION {^Congratulations, you have achieved notable status in the realms!%sYou receive %2!$}
 {
-	POST $MSDP_CHARACTER_NAME achieved notable status in the realms and received %2! ${socialmedia.hashtag} ${socialmedia.url}
+	POST $MSDP_CHARACTER_NAME achieved notable status in the realms and received %2! ${socialmedia[hashtag]} ${socialmedia[url]}
 }
 {9}
 
 #ACTION {^You are now ranked #%1 on the %2 top%3 list.$}
 {
-	POST $MSDP_CHARACTER_NAME is now ranked #%1 on the %2 top%3 list. ${socialmedia.hashtag} ${socialmedia.url}
+	POST $MSDP_CHARACTER_NAME is now ranked #%1 on the %2 top%3 list. ${socialmedia[hashtag]} ${socialmedia[url]}
 }
 {9}
 
@@ -23,7 +23,7 @@
 {
 	#if {!${spam.death}}
 	{
-		POST $MSDP_CHARACTER_NAME was killed by $OLD_MSDP_OPPONENT_NAME and lost %1 exp, %2 hps, %3 mana, and %4 stamina. ${socialmedia.hashtag} ${socialmedia.url};
+		POST $MSDP_CHARACTER_NAME was killed by $OLD_MSDP_OPPONENT_NAME and lost %1 exp, %2 hps, %3 mana, and %4 stamina. ${socialmedia[hashtag]} ${socialmedia[url]};
 		spamset death 600
 	};
 	#variable {character.lastDeath} {You were last killed by $OLD_MSDP_OPPONENT_NAME and lost %1  exp, %2 hps, %3 mana, and %4 stamina.};
@@ -35,14 +35,14 @@
 {
 	#if {%1 % 10 == 0}
 	{
-		POST $MSDP_CHARACTER_NAME has meta'd  a total of %1 sessions. ${socialmedia.hashtag} {socialmedia.url}
+		POST $MSDP_CHARACTER_NAME has meta'd a total of %1 sessions. ${socialmedia[hashtag]} ${socialmedia[url]}
 	}
 }
 {9}
 
 #ACTION {^Your a shard of the legends crumbles to dust!$}
 {
-	POST $MSDP_CHARACTER_NAME redeemed a shard of the legends! ${socialmedia.hashtag} ${socialmedia.url}
+	POST $MSDP_CHARACTER_NAME redeemed a shard of the legends! ${socialmedia[hashtag]} ${socialmedia[url]}
 }
 {9}
 
