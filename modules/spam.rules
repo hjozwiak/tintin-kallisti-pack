@@ -9,7 +9,7 @@
 
 #ACTION {^You are hit %d tim{e|es} for %d damage.$}
 {
-	#if {%3 < ${currenthp} / 8}
+	#if {%3 < ${MSDP_HEALTH} / 10}
 	{
 		#line {gag}
 	}
