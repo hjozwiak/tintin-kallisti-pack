@@ -1,4 +1,4 @@
-#ACTION {^<%1{light|finger|neck|about body|on body|body|head|left leg|right leg|legs|left foot|right foot|feet|left hand|right hand|hands|left arm|right arm|arms|shield|waist|wrist|wielded|held|face|earring|eyes|back|surrounding|floating|badge|anklets}%3> %s%d/{\s*}%S %8}
+#ACTION {^<%1{light|finger|neck|about body|on body|body|head|left leg|right leg|legs|left foot|right foot|feet|left hand|right hand|hands|left arm|right arm|arms|shield|waist|wrist|wielded|held|face|earring|eyes|back|surrounding|floating|badge|anklets}%3> %s%d/{\s*}%S %*}
 {
 	#if {%5 == %7}
 	{
