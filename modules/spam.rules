@@ -5,7 +5,7 @@
 		#line {gag}
 	}
 }
-{9}
+{8}
 
 #ACTION {^You are hit %d tim{e|es} for %d damage.$}
 {
