@@ -1,15 +1,15 @@
-#ACTION {^<%1{light|finger|neck|about body|on body|body|head|left leg|right leg|legs|left foot|right foot|feet|left hand|right hand|hands|left arm|right arm|arms|shield|waist|wrist|wielded|held|face|earring|eyes|back|surrounding|floating|badge|anklets}%3> %s%d/{\s*}%S %8}
+#ACTION {^<%1{light|finger|neck|about body|on body|body|head|left leg|right leg|legs|left foot|right foot|feet|left hand|right hand|hands|left arm|right arm|arms|shield|waist|wrist|wielded|held|face|earring|eyes|back|surrounding|floating|badge|anklets}%3> %s%d/{\s*}%S %*}
 {
 	#if {%5 == %7}
 	{
 		#line {gag}
 	}
 }
-{9}
+{8}
 
 #ACTION {^You are hit %d tim{e|es} for %d damage.$}
 {
-	#if {%3 < ${currenthp} / 8}
+	#if {%3 < ${MSDP_HEALTH} / 10}
 	{
 		#line {gag}
 	}
@@ -23,7 +23,7 @@
 #GAG              {^You are hit 0 times.$}
 #GAG              {^You can't get any coins from the corpse.$}
 #GAG              {^You follow %w {down|east|north|south|up|west}.$}
-#GAG              {^You hit %d of %d attac{k|ks} for %d damage.$}
+#GAG              {^You hit 0 of %d attac{k|ks} for %d damage.$}
 #GAG              {^You quickly find page %d, in %2.$}
 #GAG              {^You swiftly dodge %1 attack.$}
 #GAG              {^You use %1 to focus your spell.$}
