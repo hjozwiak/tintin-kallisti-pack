@@ -61,10 +61,10 @@
 	{
 		gt &byTossed!
 	};
-	#list {roomTossed} {size} {i};
+	#list {hook[roomTossed]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${roomTossed[]}} {@${roomTossed[&0]}{%1}}
+		#forall {${hook[roomTossed][]}} {@${hook[roomTossed][&0]}{%1}}
 	}
 }
 {9}
@@ -220,10 +220,10 @@
 	{
 		#list {groupMemberList} {add} {%1}
 	};
-	#list {groupAdd} {size} {i};
+	#list {hook[groupAdd]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${groupAdd[]}} {@${groupAdd[&0]}{%1}}
+		#forall {${hook[groupAdd][]}} {@${hook[groupAdd][&0]}{%1}}
 	}
 }
 {9}
@@ -378,10 +378,10 @@
 	{
 		spamset save
 	};
-	#list {mobDeath} {size} {i};
+	#list {hook[mobDeath]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${mobDeath[]}} {@${mobDeath[&0]}{%1}}
+		#forall {${hook[mobDeath][]}} {@${hook[mobDeath][&0]}{%1}}
 	}
 }
 {9}

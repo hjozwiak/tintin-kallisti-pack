@@ -114,10 +114,10 @@
 	{
 		${auto.relogin}
 	};
-	#list {playerDeath} {size} {i};
+	#list {hook[playerDeath]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${playerDeath[]}} {@${playerDeath[&0]}{}}
+		#forall {${hook[playerDeath][]}} {@${hook[playerDeath][&0]}{}}
 	}
 }
 {9}
@@ -213,10 +213,10 @@
 			}
 		}
 	};
-	#list {concentration} {size} {i};
+	#list {hook[concentration]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${concentration[]}} {@${concentration[&0]}{}}
+		#forall {${hook[concentration][]}} {@${hook[concentration][&0]}{}}
 	}
 }
 {9}
@@ -249,18 +249,15 @@
 {
 	#nop {Hook name is trackEnd.};
 	#nop {Hook args track of target.};
-	#list {trackEnd} {size} {i};
-	#if {$i > 0}
+	#if {&{auto.track}}
 	{
-		#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
-	};
-	#else
-	{
-		#if {&{auto.track}}
+		#list {hook[trackEnd]} {size} {i};
+		#if {$i > 0}
 		{
-			SYNTH_PLAY notificationSound;
-			#unvariable {auto.track}
-		}
+			#forall {${hook[trackEnd][]}} {@${hook[trackEnd][&0]}{}}
+		};
+		SYNTH_PLAY notificationSound;
+		#unvariable {auto.track}
 	}
 }
 {9}
@@ -376,13 +373,13 @@
 {
 	#nop {Hook name is trackEnd.};
 	#nop {Hook args tracked target.};
-	#list {trackEnd} {size} {i};
-	#if {$i > 0}
-	{
-		#forall {${trackEnd[]}} {@${trackEnd[&0]}{}}
-	};
 	#if {&{auto.track}}
 	{
+		#list {hook[trackEnd]} {size} {i};
+		#if {$i > 0}
+		{
+			#forall {${hook[trackEnd][]}} {@${hook[trackEnd][&0]}{}}
+		};
 		SYNTH_PLAY notificationSound;
 		#unvariable {auto.track}
 	}
@@ -404,15 +401,15 @@
 	#nop {Hook args hunted target.};
 	#nop {Hook name is trackLose.};
 	#nop {Hook args hunted target.};
-	#list {trackFail} {size} {i};
+	#list {hook[trackFail]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${trackFail[]}} {@${trackFail[&0]}{${auto.track}}}
+		#forall {${hook[trackFail][]}} {@${hook[trackFail][&0]}{${auto.track}}}
 	};
-	#list {trackLose} {size} {i};
+	#list {hook[trackLose]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${trackLose[]}} {${trackLose[&0]}{${auto.track}}}
+		#forall {${hook[trackLose][]}} {@${hook[trackLose][&0]}{${auto.track}}}
 	};
 	#unvariable {auto.track}
 }

@@ -151,6 +151,8 @@
 	#history {read} {${HOME}/%1.history};
 	#nop {clear out old sound settings};
 	#unvariable {MSP};
+	#nop {clear out old leader settings};
+	#unvariable {leader};
 	#class {%1} {read} {${HOME}/%1};
 	#nop {Load common personal modules.};
 	#script {if [[ -d "$HOME/modules" ]]; then for module in $HOME/modules/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
@@ -162,10 +164,10 @@
 		#echo {Client side spam filters applied.}
 	};
 	#class {%1} {open};
-	#list {characterName} {size} {i};
+	#list {hook[characterName]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${characterName[]}} {@${characterName[&0]}{%1}}
+		#forall {${hook[characterName][]}} {@${hook[characterName][&0]}{%1}}
 	}
 }
 
@@ -173,13 +175,14 @@
 {
 	#nop {Hook name: characterPosition};
 	#nop {Hook args: position.};
-	#list {characterPosition} {size} {i};
+	#list {hook[characterPosition]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${characterPosition[]}} {@${characterPosition[&0]}{%1}}
+		#forall {${hook[characterPosition][]}} {@${hook[characterPosition][&0]}{%1}}
 	}
 }
 
+#TICKER           {csave}  {#if {"$MSDP_CHARACTER_NAME" == "$OLD_MSDP_CHARACTER_NAME"}{CSAVE}}                                          {90}
 #VARIABLE         {OLD_MSDP}  {}
 #VARIABLE         {characterName}  {}
 #VARIABLE         {characterPosition}  {}

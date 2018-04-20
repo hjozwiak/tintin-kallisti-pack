@@ -62,10 +62,10 @@
 {
 	#nop {Hook name: roomName};
 	#nop {Hook args: the rooms name.};
-	#list {roomName} {size} {i};
+	#list {hook[roomName]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${roomName[]}} {@${roomName[&0]}{%1}}
+		#forall {${hook[roomName][]}} {@${hook[roomName][&0]}{%1}}
 	}
 }
 
@@ -109,10 +109,10 @@
 			}
 		}
 	};
-	#list {roomNumber} {size} {i};
+	#list {hook[roomNumber]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${roomNumber[]}} {@${roomNumber[&0]}{%1}}
+		#forall {${hook[roomNumber][]}} {@${hook[roomNumber][&0]}{%1}}
 	}
 }
 
