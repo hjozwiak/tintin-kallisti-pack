@@ -209,7 +209,7 @@ There is a hook system to minimize the need to overwrite existing events like ac
         }
     }
     
-    #variable {mobDeath.victory} {victory_taunt}
+    #variable {hook[mobDeath][victory]} {victory_taunt}
 
 Hooks are being added and improved constantly. If you don't see the one you need, please ask for it. Once completed, the hook system can add a whole new level of robustness to the pack.
 
