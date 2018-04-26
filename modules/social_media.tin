@@ -33,7 +33,7 @@
 
 #ACTION {^You now have meta'd a total of %d sessions.$}
 {
-	#if {%1 % 10 == 0}
+	#if {%1 % 25 == 0}
 	{
 		POST $MSDP_CHARACTER_NAME has meta'd a total of %1 sessions. ${socialmedia[hashtag]} ${socialmedia[url]}
 	}
