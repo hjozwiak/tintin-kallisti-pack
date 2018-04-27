@@ -26,10 +26,10 @@
 	{
 		@trust_exec{%3}
 	};
-	#list {groupTell} {size} {i};
+	#list {hook[groupTell]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${groupTell[]}} {@${groupTell[&0]}{%1;'%2 %3'}}
+		#forall {${hook[groupTell][]}} {@${hook[groupTell][&0]}{%1;'%2 %3'}}
 	}
 }
 {7}
