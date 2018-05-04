@@ -1,9 +1,6 @@
 # tintin-kallisti-pack
 
 # Due to time restraints, Storm is unable to continue public development of the Kallisti pack. Hopefully this may change in the future.
-# Due to the finals and family engagementscoming up, Hunter Jozwiak 
-won't be contributing to 
-the pack until those are done. Should hopefully be mid June.
 # Welcome to the TinTin++ accessibility pack for [Legends of 
 Kallisti][kallisti] written by [Hunter Jozwiak][hjozwiak] and [Storm Dragon][storm]. Features include.
 
