@@ -337,3 +337,6 @@
 #VARIABLE         {channel}  {}
 #VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Gossip}{4}{GroupTell}{5}{Info}{6}{Kingdom}{7}{Music}{8}{Rude}{9}{Say}{10}{Tell}{11}{Chat}}
 #VARIABLE         {channelBufferIndex}  {0}
+#action {**%w: 'expreport}
+{#if {%1 == $leader} {gt I have $MSDP_EXPERIENCE at present.}}
+
