@@ -1,6 +1,8 @@
 # tintin-kallisti-pack
 
 Welcome to the [TinTin++][tt++] accessibility pack for [Legends of Kallisti][kallisti] written by [Hunter Jozwiak][hjozwiak] and [Storm Dragon][storm]. Features include.
+# Welcome to the TinTin++ accessibility pack for [Legends of 
+Kallisti][kallisti] written by [Hunter Jozwiak][hjozwiak] and [Storm Dragon][storm]. Features include.
 
 - MSP support for sound
 - MSDP support for audio queues  like your prompt and your opponent's condition
