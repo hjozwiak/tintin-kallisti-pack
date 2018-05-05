@@ -1,8 +1,6 @@
 # tintin-kallisti-pack
 
-# Due to time restraints, Storm is unable to continue public development of the Kallisti pack. Hopefully this may change in the future.
-
-Welcome to the TinTin++ accessibility pack for [Legends of Kallisti][kallisti] written by [Hunter Jozwiak][hjozwiak] and [Storm Dragon][storm]. Features include.
+Welcome to the [TinTin++][tt++] accessibility pack for [Legends of Kallisti][kallisti] written by [Hunter Jozwiak][hjozwiak] and [Storm Dragon][storm]. Features include.
 
 - MSP support for sound
 - MSDP support for audio queues  like your prompt and your opponent's condition
@@ -245,3 +243,4 @@ If you like our work and would like to donate, please take a look at [the Linux 
 [madonctl]: https://github.com/McKael/madonctl
 [oysttyer]: https://github.com/oysttyer/oysttyer
 [storm]: https://liberapay.com/stormdragon2976/donate 
+[tt++]: https://tintin.sf.net
