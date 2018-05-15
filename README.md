@@ -245,4 +245,4 @@ If you like our work and would like to donate, please take a look at [the Linux 
 [madonctl]: https://github.com/McKael/madonctl
 [oysttyer]: https://github.com/oysttyer/oysttyer
 [storm]: https://liberapay.com/stormdragon2976/donate 
-[tt++]: https://tintin.sf.net
+[tt++]: http://tintin.sf.net
