@@ -184,6 +184,11 @@
 	}
 }
 
+#EVENT {SESSION DISCONNECTED}
+{
+        CSAVE
+}
+
 #TICKER           {csave}  {#if {"$MSDP_CHARACTER_NAME" == "$OLD_MSDP_CHARACTER_NAME"}{CSAVE}}                                          {90}
 #VARIABLE         {OLD_MSDP}  {}
 #VARIABLE         {characterName}  {}
