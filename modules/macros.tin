@@ -1,3 +1,5 @@
+#nop {note: When modifying this file, if writing with tintin, copy the last line, currently the forall loop. It will not be written properly with the forall, but will instead write each macro otherwise.}
+
 #ALIAS {^set{a|b|c|d|e|f|g|h|n|q|r|s|t|v|w|x|y|z|A|D|F|H|Q|W|E} %2}
 {
 	#if {!&{keySetName}}
@@ -57,3 +59,5 @@
 {
 	breakout
 }
+
+#forall {a;b;c;d;e;f;g;h;n;q;r;s;t;v;w;x;y;z;A;D;F;H;Q;W;E} {#macro {\e&0} {$keyProfile[${keySetName}][%1]}}
