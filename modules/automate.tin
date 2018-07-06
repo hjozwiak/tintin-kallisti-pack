@@ -229,22 +229,6 @@
 }
 {9}
 
-#ACTION {^You polymorph in to the form of a %1.$}
-{
-	#if {&{auto.shape}}
-	{
-		#regexp {%1} {{.*} {.*}} {#if {"${auto.shape}" != "&1"} {autoshape &1}};
-		#else
-		{
-			#if {"${auto.shape}" != "%1"}
-			{
-				autoshape %1
-			}
-		}
-	}
-}
-{9}
-
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
 	#nop {Hook name is trackEnd.};
@@ -283,6 +267,22 @@
 }
 {9}
 
+#ACTION {^You {change|polymorph} in to the form of a %1.$}
+{
+	#if {&{auto.shape}}
+	{
+		#regexp {%1} {{.*} {.*}} {#if {"${auto.shape}" != "&1"} {autoshape &1}};
+		#else
+		{
+			#if {"${auto.shape}" != "%1"}
+			{
+				autoshape %1
+			}
+		}
+	}
+}
+{9}
+
 #ACTION {^You {stop focusing|attempt to focus but become distracted by butterflies}.$}
 {
 	#if {&{auto.focus}}
@@ -311,11 +311,11 @@
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			shape ${auto.shape}
+			switch {"${auto[shape]}"}{#case {"Druid"} {shape ${auto.shape}};#default {mortify ${auto.shape}}}
 		};
 		#else
 		{
-			#list {onDeath} {add} {shape ${auto.shape}}
+			switch {"${auto[shape]}"}{#case {"Druid"} {#list {onDeath} {add} {shape ${auto.shape}}};#default {#list {onDeath} {add} {mortify ${auto.shape}}}}
 		}
 	}
 }
