@@ -311,7 +311,17 @@
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			switch {"${auto[shape]}"}{#case {"Druid"} {shape ${auto.shape}};#default {mortify ${auto.shape}}}
+			#switch {"${auto[shape]}"}
+			{
+				#case {"Druid"}
+				{
+					shape ${auto.shape}
+				};
+				#default
+				{
+					mortify ${auto.shape}
+				}
+			}
 		};
 		#else
 		{
