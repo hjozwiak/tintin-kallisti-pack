@@ -14,6 +14,15 @@
 }
 {9}
 
+#ACTION {^The corpse of %w is lying here.$}
+{
+	#if {"%1" == "$MSDP_CHARACTER_NAME"}
+	{
+		SYNTH_PLAY warningSound
+	}
+}
+{9}
+
 #ACTION {^{[a-zA-Z ]+} has a brief moment of clarity but sinks back into submission.$}
 {
 	SYNTH_PLAY warningSound;
