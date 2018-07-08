@@ -45,7 +45,7 @@
 	#else
 	{
 		#variable {character.prompt} {1};
-		#echo {Your prompt returns from its long absents.}
+		#echo {Your prompt returns from its long absence.}
 	};
 	CSAVE
 }
