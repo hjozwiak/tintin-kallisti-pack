@@ -181,6 +181,22 @@
 	}
 }
 {9}
+#ACTION {^Your body returns to the corporeal realm.$}
+{
+	#if {${auto.wraith}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			wraith
+		};
+		#else
+		{
+			#list {onDeath} {add} {wraith}
+		}
+	}
+}
+{9}
+
 
 #ACTION {^You just can't concentrate enough.$}
 {
@@ -589,7 +605,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|charge|deposit|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|charge|deposit|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*|wraith}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
