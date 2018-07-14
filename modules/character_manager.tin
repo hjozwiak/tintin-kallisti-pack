@@ -128,6 +128,11 @@
 }
 {9}
 
+#EVENT {SESSION DISCONNECTED}
+{
+	CSAVE
+}
+
 #EVENT {VARIABLE UPDATE MSDP_CHARACTER_NAME}
 {
 	#nop {Hook name: characterName};
@@ -171,22 +176,6 @@
 	{
 		#forall {${hook[characterName][]}} {@${hook[characterName][&0]}{%1}}
 	}
-}
-
-#EVENT {VARIABLE UPDATE MSDP_POSITION}
-{
-	#nop {Hook name: characterPosition};
-	#nop {Hook args: position.};
-	#list {hook[characterPosition]} {size} {i};
-	#if {$i > 0}
-	{
-		#forall {${hook[characterPosition][]}} {@${hook[characterPosition][&0]}{%1}}
-	}
-}
-
-#EVENT {SESSION DISCONNECTED}
-{
-        CSAVE
 }
 
 #TICKER           {csave}  {#if {"$MSDP_CHARACTER_NAME" == "$OLD_MSDP_CHARACTER_NAME"}{CSAVE}}                                          {90}

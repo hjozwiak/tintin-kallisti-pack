@@ -57,7 +57,7 @@
 		{
 			#showme {Loading modules/%2.tin};
 			#class {%2} {read} {modules/%2.tin};
-			#class {gameData} {open}
+			#class {$MSDP_CHARACTER_NAME} {open}
 		}
 	}
 }
