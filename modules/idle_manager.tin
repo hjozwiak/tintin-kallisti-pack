@@ -1,3 +1,16 @@
+#ACTION {^You have been idle, and are pulled into the void.$}
+{
+	#if {!&{idleList}}
+	{
+		#list {idleList} {add} {look}
+	};
+	#if {$MSDP_LEVEL <= 100}
+	{
+		${idleList[@list_rand{idleList}]}
+	}
+}
+{9}
+
 #ALIAS {^idle %1}
 {
 	#list {idleList} {clear};
