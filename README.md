@@ -134,6 +134,8 @@ Sometimes you want to buy, drop, get, give, or put multiple things at once. If y
 
 You can review the last 10 channel posts using the alt+1-0 commands. Alt+1 will show the last message posted to the channel.  You can switch between channels very quickly by using alt+shift+1-0 to go directly to the channel you want. A slower method of switching channels is alt+- for previous channel and alt+= for next channel.
 
+If you know the name of the channel you want, you can switch quickly to it by typing view channel name. For example, review tell will put you on the channel tell buffer.
+
 #### Music
 
 You can control your music player directly from the pack. Several music players are supported, and more can be added so long as they can be controled from the CLI. Our supported players are:
