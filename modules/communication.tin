@@ -76,7 +76,7 @@
 }
 {9}
 
-#ACTION {^<%w: %S> '%3'$}
+#ACTION {^<%w: %2> '%3'$}
 {
 	#nop {Hook name varied, channel name, e.g. Gossip.};
 	#nop {Hook args %1 name %2 channel send.};
@@ -163,6 +163,7 @@
 #ALIAS {^view %s%w$}
 {
 	#format {i} {%n} {%2};
+	#replace {i} {Repl{y|ies}} {Tell};
 	#if {&{channel[$i]}}
 	{
 		#list {channelBuffer} {find} {$i} {channelBufferIndex};
@@ -171,7 +172,6 @@
 			#list {channelBuffer} {add} {$i};
 			#list {channelBuffer} {find} {$i} {channelBufferIndex}
 		};
-		#math {channelBufferIndex} {${channelBufferIndex} - 1};
 		#echo {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 	};
 	#else
@@ -183,57 +183,57 @@
 
 #MACRO {\e!}
 {
-	#variable {channelBufferIndex} {1};
+	#variable {channelBufferIndex} {2};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e#}
 {
-	#variable {channelBufferIndex} {3};
+	#variable {channelBufferIndex} {4};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e$}
 {
-	#variable {channelBufferIndex} {4};
+	#variable {channelBufferIndex} {5};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e%}
 {
-	#variable {channelBufferIndex} {5};
+	#variable {channelBufferIndex} {6};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e&}
 {
-	#variable {channelBufferIndex} {7};
+	#variable {channelBufferIndex} {8};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e(}
 {
-	#variable {channelBufferIndex} {9};
+	#variable {channelBufferIndex} {10};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e)}
 {
-	#variable {channelBufferIndex} {10};
+	#variable {channelBufferIndex} {11};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e*}
 {
-	#variable {channelBufferIndex} {8};
+	#variable {channelBufferIndex} {9};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e-}
 {
-	#if {!&{channelBufferIndex} || $channelBufferIndex <= 0}
+	#if {!&{channelBufferIndex} || $channelBufferIndex <= 1}
 	{
-		#variable {channelBufferIndex} {0}
+		#variable {channelBufferIndex} {1}
 	};
 	#else
 	{
@@ -294,9 +294,9 @@
 
 #MACRO {\e=}
 {
-	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer} - 1}
+	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer}}
 	{
-		#math {channelBufferIndex} {@list_size{channelBuffer} - 1}
+		#variable {channelBufferIndex} {@list_size{channelBuffer}}
 	};
 	#else
 	{
@@ -307,16 +307,16 @@
 
 #MACRO {\e@}
 {
-	#variable {channelBufferIndex} {2};
+	#variable {channelBufferIndex} {3};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e[1;3C}
 {
 	#nop {Alt right arrow};
-	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer} - 1}
+	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer}}
 	{
-		#math {channelBufferIndex} {@list_size{channelBuffer} - 1}
+		#variable {channelBufferIndex} {@list_size{channelBuffer}}
 	};
 	#else
 	{
@@ -328,9 +328,9 @@
 #MACRO {\e[1;3D}
 {
 	#nop {Alt left arrow};
-	#if {!&{channelBufferIndex} || $channelBufferIndex <= 0}
+	#if {!&{channelBufferIndex} || $channelBufferIndex <= 1}
 	{
-		#variable {channelBufferIndex} {0}
+		#variable {channelBufferIndex} {1}
 	};
 	#else
 	{
@@ -341,23 +341,23 @@
 
 #MACRO {\e^}
 {
-	#variable {channelBufferIndex} {6};
+	#variable {channelBufferIndex} {7};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e`}
 {
-	#variable {channelBufferIndex} {11};
+	#variable {channelBufferIndex} {12};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e~}
 {
-	#variable {channelBufferIndex} {0};
+	#variable {channelBufferIndex} {1};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #VARIABLE         {awayMessage}  {false}
 #VARIABLE         {channel}  {}
-#VARIABLE         {channelBuffer}  {{0}{All}{1}{Advice}{2}{Barter}{3}{Gossip}{4}{GroupTell}{5}{Info}{6}{Kingdom}{7}{Music}{8}{Rude}{9}{Say}{10}{Tell}{11}{Chat}}
-#VARIABLE         {channelBufferIndex}  {0}
+#VARIABLE         {channelBuffer}  {{1}{All}{2}{Advice}{3}{Barter}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Rude}{10}{Say}{11}{Tell}{12}{Chat}}
+#VARIABLE         {channelBufferIndex}  {1}
