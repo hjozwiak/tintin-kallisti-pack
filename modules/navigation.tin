@@ -16,6 +16,19 @@
 }
 {9}
 
+#ACTION {^%1 arrives {from|from the} %3.$}
+{
+	#nop {Hook name: arrive};
+	#nop {Hook args: name of arrivee.};
+	#nop {Hook args: direction from which they arrived.};
+	#list {hook[arrive]} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${hook[arrive][]}} {@${hook[arrive][&0]}{%1;%3}}
+	}
+}
+{9}
+
 #ACTION {^%w enters %2.$}
 {
 	#if {"%1" == "$leader"}
@@ -85,7 +98,7 @@
 					deposit all
 				}
 			}
-		}
+		};
 		#case {3546}
 		{
 			#nop {at Midgaard bank, deposit all gold if autodeposit is enabled.};
@@ -96,7 +109,7 @@
 					deposit all
 				}
 			}
-		}
+		};
 		#case {3559}
 		{
 			#nop {at Adventurers Guild, deposit all gold if autodeposit is enabled.};
