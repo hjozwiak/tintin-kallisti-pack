@@ -341,7 +341,8 @@
 		};
 		#else
 		{
-			switch {"${auto[shape]}"}{#case {"Druid"} {#list {onDeath} {add} {shape ${auto.shape}}};#default {#list {onDeath} {add} {mortify ${auto.shape}}}}
+			#switch {"${auto[shape]}"}{#case {"Druid"} 
+{#list {onDeath} {add} {shape ${auto.shape}}};#default {#list {onDeath} {add} {mortify ${auto.shape}}}}
 		}
 	}
 }
