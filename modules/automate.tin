@@ -181,22 +181,6 @@
 	}
 }
 {9}
-#ACTION {^Your body returns to the corporeal realm.$}
-{
-	#if {${auto.wraith}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			wraith
-		};
-		#else
-		{
-			#list {onDeath} {add} {wraith}
-		}
-	}
-}
-{9}
-
 
 #ACTION {^You just can't concentrate enough.$}
 {
@@ -341,8 +325,33 @@
 		};
 		#else
 		{
-			#switch {"${auto[shape]}"}{#case {"Druid"} 
-{#list {onDeath} {add} {shape ${auto.shape}}};#default {#list {onDeath} {add} {mortify ${auto.shape}}}}
+			#switch {"${auto[shape]}"}
+			{
+				#case {"Druid"}
+				{
+					#list {onDeath} {add} {shape ${auto.shape}}
+				};
+				#default
+				{
+					#list {onDeath} {add} {mortify ${auto.shape}}
+				}
+			}
+		}
+	}
+}
+{9}
+
+#ACTION {^Your body returns to the corporeal realm.$}
+{
+	#if {${auto.wraith}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			wraith
+		};
+		#else
+		{
+			#list {onDeath} {add} {wraith}
 		}
 	}
 }
