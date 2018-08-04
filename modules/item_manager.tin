@@ -7,6 +7,12 @@
 }
 {8}
 
+#ALIAS {^de{q|qu|qui|quip|quipm|quipme|quipmen|quipment}$}
+{
+	equipment condition
+}
+{9}
+
 #ALIAS {^{buy|donate|drop|get|give|take} %2, %3}
 {
 	#variable {items} {%2, %3};

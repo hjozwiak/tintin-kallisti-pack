@@ -53,6 +53,12 @@
 }
 {9}
 
+#ACTION {%1 panics and attempts to flee!$}
+{
+	#variable {fleeString} {%1}
+}
+{9}
+
 #ACTION {%1 picks you up by the neck and throws you out of the room.$}
 {
 	#nop {Hook name is roomTossed	};
@@ -585,5 +591,6 @@
 #VARIABLE         {autohealList}  {}
 #VARIABLE         {autorescueList}  {}
 #VARIABLE         {battle_manager}  {}
+#VARIABLE         {fleeString}  {}
 #VARIABLE         {groupMemberList}  {}
 #VARIABLE         {onDeath}  {}
