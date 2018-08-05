@@ -27,6 +27,7 @@
 		#undelay {%*bot%*};
 		#unticker {%*bot%*};
 		#unvariable {%*bot%*};
+		#unvariable {hook[bot%*]};
 		#class {bot_%2} {kill};
 		#class {$MSDP_CHARACTER_NAME} {open};
 		#showme {bot %2 has been killed.}
