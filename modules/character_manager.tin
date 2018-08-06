@@ -1,6 +1,6 @@
 #ALIAS {^CSAVE$}
 {
-	#if {"$MSDP_CHARACTER_NAME" != ""}
+	#if {"$MSDP_CHARACTER_NAME" != "" && "$MSDP_POSITION" != "Menu"}
 	{
 		#variable {historyPath} {${HOME}/${MSDP_CHARACTER_NAME}\.history};
 		#replace {historyPath} {\\} {};
