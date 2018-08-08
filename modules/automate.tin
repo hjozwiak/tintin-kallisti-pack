@@ -482,11 +482,11 @@
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			grimw ${auto.grimward}
+			${auto.grimward}
 		};
 		#else
 		{
-			#list {onDeath} {add} {grimw ${auto.grimward}}
+			#list {onDeath} {add} {${auto.grimward}}
 		}
 	}
 }
