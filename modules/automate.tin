@@ -476,6 +476,22 @@
 }
 {7}
 
+#ACTION {^The black flames about your body fade.$}
+{
+	#if {&{auto.grimward}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			grimw ${auto.grimward}
+		};
+		#else
+		{
+			#list {onDeath} {add} {grimw ${auto.grimward}}
+		}
+	}
+}
+{9}
+
 #ALIAS {^autoheal%s {me|self} %3}
 {
 	#variable {autoHealSelf} {@strip_braces{%3}};
@@ -615,7 +631,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|charge|deposit|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*|wraith}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|charge|deposit|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*|wraith|grimward.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{

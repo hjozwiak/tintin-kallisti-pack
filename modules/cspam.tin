@@ -37,14 +37,14 @@
 
 #ALIAS {^noprompt$}
 {
-	#if {${character.prompt}}
+	#if {${character[prompt]}}
 	{
-		#variable {character.prompt} {0};
+		#variable {character[prompt]} {0};
 		#echo {Your prompt vanishes...}
 	};
 	#else
 	{
-		#variable {character.prompt} {1};
+		#variable {character[prompt]} {1};
 		#echo {Your prompt returns from its long absence.}
 	};
 	CSAVE
