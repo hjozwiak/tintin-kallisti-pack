@@ -349,6 +349,12 @@
 }
 {9}
 
+#ACTION {^The goblin guard grabs you around the neck. You cannot breathe{!|! \(\d* damage\)}$}
+{
+	wake
+}
+{9}
+
 #ACTION {^You call upon the forces of nature to heal yourself.$}
 {
 	spamset recall 20
