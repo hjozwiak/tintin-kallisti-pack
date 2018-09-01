@@ -1,9 +1,10 @@
 #ALIAS {^{get|give|put} %2, %w %w$}
 {
-	#variable {items} {%2, %3};
+	#variable {itemDestination} {%4};
+	#local {items} {%2, %3};
+	#replace {itemDestination} {^{away|out|up}$} {${character[container]}};
 	#replace {items} {,} {;};
-	#forall {$items}{%1 &0 %4};
-	#variable {items} {}
+	#forall {$items}{%1 &0 $itemDestination}
 }
 {8}
 
@@ -13,13 +14,19 @@
 }
 {9}
 
-#ALIAS {^{buy|donate|drop|get|give|take} %2, %3}
+#ALIAS {^{get|put|take}%s %3 {away|out|up}$}
 {
-	#variable {items} {%2, %3};
-	#replace {items} {,} {;};
-	#forall {$items}{%1 &0};
-	#variable {items} {}
+	%1 %3 ${character[container]}
 }
 {9}
 
+#ALIAS {^{buy|donate|drop|get|give|take} %2, %3}
+{
+	#local {items} {%2, %3};
+	#replace {items} {,} {;};
+	#forall {$items}{%1 &0}
+}
+{9}
+
+#VARIABLE         {itemDestination}  {}
 #VARIABLE         {itemList}  {}
