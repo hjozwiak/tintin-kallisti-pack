@@ -8,7 +8,18 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
-		join %1
+		#if {&{character[chainAttack]}}
+		{
+			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
+			#else
+			{
+				${character[chainAttack]} %2
+			}
+		};
+		#else
+		{
+			join %1
+		}
 	};
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i > 0}
@@ -39,6 +50,12 @@
 	};
 	wear buckler;
 	gt &byO&brH &0cG&brO&byD&0cS &brN&byO&brO&byO&brO&bw! &0eI &bgh&bma&bgv&bme &bgb&bye&bre&bgn &brDISARMED!
+}
+{9}
+
+#ACTION {%1 grabs you around the neck. You cannot breathe{!|! \(\d* damage\)}$}
+{
+	wake
 }
 {9}
 
@@ -85,9 +102,13 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA >= 300}
+		#if {&{character[chainAttack]}}
 		{
-			charge %2
+			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
+			#else
+			{
+				${character[chainAttack]} %2
+			}
 		};
 		#else
 		{
@@ -119,7 +140,18 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
-		join %1
+		#if {&{character[chainAttack]}}
+		{
+			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
+			#else
+			{
+				${character[chainAttack]} %2
+			}
+		};
+		#else
+		{
+			join %1
+		}
 	};
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i > 0}
@@ -142,7 +174,18 @@
 	};
 	#if {$i > 0}
 	{
-		join %1
+		#if {&{character[chainAttack]}}
+		{
+			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
+			#else
+			{
+				${character[chainAttack]} %2
+			}
+		};
+		#else
+		{
+			join %1
+		}
 	};
 	#list {groupMemberList} {find} {%3} {i};
 	#if {$i > 0}
@@ -193,9 +236,13 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA > 300}
+		#if {&{character[chainAttack]}}
 		{
-			charge %2
+			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
+			#else
+			{
+				${character[chainAttack]} %2
+			}
 		};
 		#else
 		{
@@ -205,13 +252,17 @@
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA > 300}
+		#if {&{character[chainAttack]}}
 		{
-			charge %1
+			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
+			#else
+			{
+				${character[chainAttack]} %2
+			}
 		};
 		#else
 		{
-			join %2
+			join %1
 		}
 	}
 }
@@ -296,9 +347,13 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA > 300}
+		#if {&{character[chainAttack]}}
 		{
-			charge %2
+			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
+			#else
+			{
+				${character[chainAttack]} %2
+			}
 		};
 		#else
 		{
@@ -346,12 +401,6 @@
 	{
 		#line {gag}
 	}
-}
-{9}
-
-#ACTION {^The goblin guard grabs you around the neck. You cannot breathe{!|! \(\d* damage\)}$}
-{
-	wake
 }
 {9}
 
@@ -559,6 +608,27 @@
 }
 {9}
 
+#ALIAS {^{noc|c}hainattack$}
+{
+	#if {"%0" == "nochainattack"}
+	{
+		#unvariable {character[chainAttack]};
+		#echo {Chain attack cleared.}
+	};
+	#else
+	{
+		#if {&{character[chainAttack]}}
+		{
+			#echo {You are currently trying to join battles using ${character[chainAttack]}\.}
+		};
+		#else
+		{
+			#echo {You have no chain attack set.}
+		}
+	}
+}
+{9}
+
 #ALIAS {^{notank|tank|tank \w+}$}
 {
 	#if {"%0" == "notank"}
@@ -578,24 +648,22 @@
 }
 {9}
 
+#ALIAS {chainattack %1}
+{
+	#variable {character[chainAttack]} {%1};
+	#echo {You will now try to join battle using %1.}
+}
+{9}
+
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_NAME}
 {
 	#if {"%1" != ""}
 	{
 		#variable {OLD_MSDP_OPPONENT_NAME} {%1};
-		#if {"$MSDP_CLASS" == "Necromancer" 
+		#if {"$MSDP_CLASS" == "Necromancer" {#if {$MSDP_LEVEL >= 16}{order followers assist $MSDP_CHARACTER_NAME}}#if $MSDP_CLASS == "Druid" {#if $MSDP_LEVEL >= 17 {order followers join $MSDP_CHARACTER_NAME}}}
 		{
-			#if {$MSDP_LEVEL >= 16}
-			{
-				order followers assist $MSDP_CHARACTER_NAME
-			}
+			
 		}
-#if $MSDP_CLASS == "Druid" {
-#if $MSDP_LEVEL >= 17 {
-order followers join $MSDP_CHARACTER_NAME
-}
-}
-}
 	}
 }
 
