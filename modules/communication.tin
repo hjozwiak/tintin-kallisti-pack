@@ -142,7 +142,7 @@
 
 #ALIAS {^pimptell %S %2}
 {
-	#script {echo -n "tell %1 "; curl -s --data-urlencode English="%2" --data-urlencode submit="Talk Like a Pimp " http://joel.net/EBONICS/translator/ | grep -A9 '<div class="bubble1 comicfont">' | $sed -e '/<div/d' -e '/<\/div>/d' -e "s/&#39;/'/g" | tr "\n" " "}
+	tell %1 @pimp{%2}
 }
 {8}
 
@@ -168,7 +168,7 @@
 
 #ALIAS {^pimp%+ %2}
 {
-	#script {echo -n "%1"; curl -s --data-urlencode English="%2" --data-urlencode submit="Talk Like a Pimp " http://joel.net/EBONICS/translator/ | grep -A9 '<div class="bubble1 comicfont">' | $sed -e '/<div/d' -e '/<\/div>/d' -e "s/&#39;/'/g" | tr "\n" " "}
+	%1 @pimp{%2}
 }
 {9}
 
@@ -192,6 +192,12 @@
 	}
 }
 {9}
+
+#FUNCTION {pimp}
+{
+	#script {result} {curl -s --data-urlencode English="%0" --data-urlencode submit="Talk Like a Pimp " http://joel.net/EBONICS/translator/ | grep '<textarea id="Ebonics"' | cut -d '>' -f2 | sed -e 's/<\/textarea$//' -e "s/&#39;/'/g"};
+	#variable {result} {${result[1]}}
+}
 
 #MACRO {\e!}
 {
