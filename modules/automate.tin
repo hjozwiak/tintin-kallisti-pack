@@ -48,6 +48,22 @@
 }
 {9}
 
+#ACTION {^The black flames about your body fade.$}
+{
+	#if {&{auto.grimward}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			${auto.grimward}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto.grimward}}
+		}
+	}
+}
+{9}
+
 #ACTION {^The dark aura around your body disappears.$}
 {
 	#if {&{auto.aura}}
@@ -476,22 +492,6 @@
 }
 {7}
 
-#ACTION {^The black flames about your body fade.$}
-{
-	#if {&{auto.grimward}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			${auto.grimward}
-		};
-		#else
-		{
-			#list {onDeath} {add} {${auto.grimward}}
-		}
-	}
-}
-{9}
-
 #ALIAS {^autoheal%s {me|self} %3}
 {
 	#variable {autoHealSelf} {@strip_braces{%3}};
@@ -527,6 +527,13 @@
 }
 {9}
 
+#ALIAS {^/ %1}
+{
+	#echo {You are now using %1 to recall out of combat.};
+	#variable {character[recall]}
+}
+{9}
+
 #ALIAS {^/$}
 {
 	#if {$MSDP_LEVEL <= 20}
@@ -538,8 +545,11 @@
 		#if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
 		{
 			breakout;
-			recite recall;
-			get recall $character.container
+			#if {!&{character[recall]}}
+			{
+				#variable {character[recall]} {recite recall;get recall ${character[container]}}
+			};
+			${character[recall]}
 		};
 		#else
 		{
@@ -607,6 +617,13 @@
 	#variable {heal.%1} {@strip_braces{%2}};
 	#echo {heal.%1 set to ${heal.%1}\.};
 	CSAVE
+}
+{9}
+
+#ALIAS {^no/$}
+{
+	#echo {recall settings restored to default.};
+	#unvariable {character[recall]}
 }
 {9}
 
