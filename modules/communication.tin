@@ -195,7 +195,7 @@
 
 #FUNCTION {pimp}
 {
-	#script {result} {curl -s --data-urlencode English="%0" --data-urlencode submit="Talk Like a Pimp " http://joel.net/EBONICS/translator/ | grep '<textarea id="Ebonics"' | cut -d '>' -f2 | sed -e 's/<\/textarea$//' -e "s/&#39;/'/g"};
+	#script {result} {curl -s --data-urlencode English="%0" --data-urlencode submit="Talk Like a Pimp " http://joel.net/EBONICS/translator/ | grep '<textarea id="Ebonics"' | cut -d '>' -f2 | sed -e 's/<\/textarea$//' -e "s/&#39;/'/g" | tr '[:space:]' ' '};
 	#variable {result} {${result[1]}}
 }
 
