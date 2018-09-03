@@ -530,7 +530,7 @@
 #ALIAS {^/ %1}
 {
 	#echo {You are now using %1 to recall out of combat.};
-	#variable {character[recall]}
+	#variable {character[recall]} {%1}
 }
 {9}
 
