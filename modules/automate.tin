@@ -105,6 +105,15 @@
 }
 {9}
 
+#ACTION {^The spirit of Bushido is no longer with you.$}
+{
+	#if {${auto[bushido]}}
+	{
+		bushido
+	}
+}
+{9}
+
 #ACTION {^The white aura around your body fades.$}
 {
 	#if {&{auto.sanc}}
@@ -134,25 +143,6 @@
 	#if {$i > 0}
 	{
 		#forall {${hook[playerDeath][]}} {@${hook[playerDeath][&0]}{}}
-	}
-}
-{9}
-
-#ACTION {^You are {hungry|thirsty}.$}
-{
-	#if {"%1" == "hungry"}
-	{
-		#if {&{auto.eat}}
-		{
-			${auto.eat}
-		}
-	};
-	#else
-	{
-		#if {&{auto.drink}}
-		{
-			${auto.drink}
-		}
 	}
 }
 {9}
@@ -637,19 +627,11 @@
 
 #ALIAS {^p %s%S$}
 {
-	emote ${automate.action} %2;
-	#if {"${automate.action}" == "pokes"}
-	{
-		#variable {automate.action} {points at}
-	};
-	#else
-	{
-		#variable {automate.action} {pokes}
-	}
+	emote pokes %2
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|charge|deposit|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*|wraith|grimward.*}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|bushido|charge|deposit|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*|wraith|grimward.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
@@ -693,4 +675,3 @@
 }
 
 #VARIABLE         {at}  {}
-#VARIABLE         {automate}  {{action}{pokes}}
