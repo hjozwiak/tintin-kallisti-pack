@@ -48,6 +48,22 @@
 }
 {9}
 
+#ACTION {^The black flames about your body fade.$}
+{
+	#if {&{auto.grimward}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			${auto.grimward}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto.grimward}}
+		}
+	}
+}
+{9}
+
 #ACTION {^The dark aura around your body disappears.$}
 {
 	#if {&{auto.aura}}
@@ -89,6 +105,15 @@
 }
 {9}
 
+#ACTION {^{The spirit of Bushido is no longer with you|You fail to connect with the spirit}.$}
+{
+	#if {${auto[bushido]}}
+	{
+		bushido
+	}
+}
+{9}
+
 #ACTION {^The white aura around your body fades.$}
 {
 	#if {&{auto.sanc}}
@@ -118,25 +143,6 @@
 	#if {$i > 0}
 	{
 		#forall {${hook[playerDeath][]}} {@${hook[playerDeath][&0]}{}}
-	}
-}
-{9}
-
-#ACTION {^You are {hungry|thirsty}.$}
-{
-	#if {"%1" == "hungry"}
-	{
-		#if {&{auto.eat}}
-		{
-			${auto.eat}
-		}
-	};
-	#else
-	{
-		#if {&{auto.drink}}
-		{
-			${auto.drink}
-		}
 	}
 }
 {9}
@@ -476,22 +482,6 @@
 }
 {7}
 
-#ACTION {^The black flames about your body fade.$}
-{
-	#if {&{auto.grimward}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			${auto.grimward}
-		};
-		#else
-		{
-			#list {onDeath} {add} {${auto.grimward}}
-		}
-	}
-}
-{9}
-
 #ALIAS {^autoheal%s {me|self} %3}
 {
 	#variable {autoHealSelf} {@strip_braces{%3}};
@@ -527,6 +517,13 @@
 }
 {9}
 
+#ALIAS {^/ %1}
+{
+	#echo {You are now using %1 to recall out of combat.};
+	#variable {character[recall]} {%1}
+}
+{9}
+
 #ALIAS {^/$}
 {
 	#if {$MSDP_LEVEL <= 20}
@@ -537,8 +534,12 @@
 	{
 		#if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
 		{
-			recite recall;
-			get recall $character.container
+			breakout;
+			#if {!&{character[recall]}}
+			{
+				#variable {character[recall]} {recite recall;get recall ${character[container]}}
+			};
+			${character[recall]}
 		};
 		#else
 		{
@@ -609,6 +610,13 @@
 }
 {9}
 
+#ALIAS {^no/$}
+{
+	#echo {recall settings restored to default.};
+	#unvariable {character[recall]}
+}
+{9}
+
 #ALIAS {^noheal.{moderate|severe|nearDeath|incapacitated|stunned|morted}$}
 {
 	#variable {heal.%1} {#nop};
@@ -619,19 +627,11 @@
 
 #ALIAS {^p %s%S$}
 {
-	emote ${automate.action} %2;
-	#if {"${automate.action}" == "pokes"}
-	{
-		#variable {automate.action} {points at}
-	};
-	#else
-	{
-		#variable {automate.action} {pokes}
-	}
+	emote pokes %2
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|charge|deposit|drink.*|eat.*|eyes|ffire.*|focus.*|follow|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*|wraith|grimward.*}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|bushido|deposit|eyes|ffire.*|focus.*|follow|join|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*|wraith|grimward.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
@@ -675,4 +675,3 @@
 }
 
 #VARIABLE         {at}  {}
-#VARIABLE         {automate}  {{action}{pokes}}

@@ -86,6 +86,17 @@
 }
 {9}
 
+#EVENT {VARIABLE UPDATE MSDP_AREA_NAME}
+{
+	#nop {Hook name: areaName};
+	#nop {Hook args: the area's name.};
+	#list {hook[areaName]} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${hook[areaName][]}} {@${hook[areaName][&0]}{%1}}
+	}
+}
+
 #EVENT {VARIABLE UPDATE MSDP_ROOM_EXITS}
 {
 	#if {"%1" != ""}

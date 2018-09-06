@@ -26,6 +26,7 @@
 #GAG              {^You hit 0 of %d attac{k|ks} for %d damage.$}
 #GAG              {^You quickly find page %d, in %2.$}
 #GAG              {^You swiftly dodge %1 attack.$}
+#GAG {^You tap %1 %d times.$}
 #GAG              {^You use %1 to focus your spell.$}
 #SUBSTITUTE       {%s{Mage|Priest|Rogue|Fighter|Druid|Monk|Paladin|Assassin|Samurai|Ranger|Templar|Wizard|Prophet|Demoniac|Bard|Dreadlord|Barbarian|Monastic|Necromancer} %s:   !}                                                                                                                                            {}  {5}
 #SUBSTITUTE       {^{Down|East|North|South|Up|West}%s- %3}                    {%1}  {5}

@@ -140,6 +140,12 @@
 }
 {9}
 
+#ALIAS {^pimptell %S %2}
+{
+	tell %1 @pimp{%2}
+}
+{8}
+
 #ALIAS {^Channel_Event %S %2}
 {
 	SYNTH_PLAY %1Channel;
@@ -157,6 +163,12 @@
 #ALIAS {^display_channel %w %d}
 {
 	#echo {%s} {${channel[%1][%2]}}
+}
+{9}
+
+#ALIAS {^pimp%+ %2}
+{
+	%1 @pimp{%2}
 }
 {9}
 
@@ -180,6 +192,12 @@
 	}
 }
 {9}
+
+#FUNCTION {pimp}
+{
+	#script {result} {curl -s --data-urlencode English="%0" --data-urlencode submit="Talk Like a Pimp " http://joel.net/EBONICS/translator/ | grep '<textarea id="Ebonics"' | html2text};
+	#variable {result} {${result[1]}}
+}
 
 #MACRO {\e!}
 {
