@@ -654,17 +654,19 @@
 	#echo {You will now try to join battle using %1.}
 }
 {9}
+
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_NAME}
 {
 	#if {"%1" != ""}
 	{
 		#variable {OLD_MSDP_OPPONENT_NAME} {%1};
-		#if {"$MSDP_CLASS" == "Necromancer" {#if {$MSDP_LEVEL >= 16}{order followers assist $MSDP_CHARACTER_NAME}}
-		
-			
-	}	
+		#if {${auto[join]}}
+		{
+			order followers join $MSDP_CHARACTER_NAME
+		}
 	}
 }
+
 #VARIABLE         {DAMAGE}  {tickle|barely hit|hit|hard|very hard|extremely hard|massacre to small fragments|obliterate|annihilate|mutilate|immolate|liquify|vaporize|critically vaporize}
 #VARIABLE         {autohealList}  {}
 #VARIABLE         {autorescueList}  {}
