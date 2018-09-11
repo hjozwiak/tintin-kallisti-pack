@@ -86,6 +86,13 @@
 }
 {9}
 
+#ALIAS {%i{^news}}
+{
+	#nop {This is in navigation.tin because it technically overrides a speedwalk.};
+	#send {%0}
+}
+{9}
+
 #EVENT {VARIABLE UPDATE MSDP_AREA_NAME}
 {
 	#nop {Hook name: areaName};
