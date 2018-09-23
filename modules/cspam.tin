@@ -1,4 +1,4 @@
-#ACTION {^ ! %*)$}
+#ACTION {^%s! %*)$}
 {
 	#if {${filter}}
 	{
@@ -9,7 +9,7 @@
 
 #ACTION {^< %1{>|>\s*}$}
 {
-	#if {!${character.prompt}}
+	#if {${character.prompt} == 1}
 	{
 		#line {gag}
 	}
