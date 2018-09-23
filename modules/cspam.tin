@@ -1,11 +1,11 @@
-#ACTION {^%s! %*)$}
+#ACTION {^%s! %*}
 {
 	#if {${filter}}
 	{
 		#line {gag}
 	}
 }
-{8}
+{9}
 
 #ACTION {^< %1{>|>\s*}$}
 {
