@@ -105,15 +105,6 @@
 }
 {9}
 
-#ACTION {^{The spirit of Bushido is no longer with you|You fail to connect with the spirit}.$}
-{
-	#if {${auto[bushido]}}
-	{
-		bushido
-	}
-}
-{9}
-
 #ACTION {^The white aura around your body fades.$}
 {
 	#if {&{auto.sanc}}
@@ -229,9 +220,12 @@
 
 #ACTION {^You must be sitting to concentrate.$}
 {
-	#line {gag};
-	sit;
-	meditate
+	#if {"$MSDP_POSITION" != "Fighting"}
+	{
+		#line {gag};
+		sit;
+		meditate
+	}
 }
 {9}
 
@@ -454,6 +448,15 @@
 		#forall {${hook[trackLose][]}} {@${hook[trackLose][&0]}{${auto.track}}}
 	};
 	#unvariable {auto.track}
+}
+{9}
+
+#ACTION {^{The spirit of Bushido is no longer with you|You fail to connect with the spirit}.$}
+{
+	#if {${auto[bushido]}}
+	{
+		bushido
+	}
 }
 {9}
 
