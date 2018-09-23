@@ -1,13 +1,4 @@
-#ACTION {%1 %d %s!$}
-{
-	#if {${filter}}
-	{
-		#line {gag}
-	}
-}
-{9}
-
-#ACTION {%1 (%*!%*)$}
+#ACTION {^ ! %*)$}
 {
 	#if {${filter}}
 	{
