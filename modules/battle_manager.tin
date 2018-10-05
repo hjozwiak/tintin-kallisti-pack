@@ -41,13 +41,11 @@
 
 #ACTION {%1 flies from your grasp.$}
 {
-	#regexp {%1} {{.*} {.*}} {remove buckler;wield &2};
+	#regexp {%1} {{.*} {.*}} {wield &2};
 	#else
 	{
-		remove buckler;
 		wield %1
-	};
-	wear buckler
+	}
 }
 {9}
 
