@@ -59,12 +59,12 @@
 	breakout
 }
 
-#MACRO {\e[1~}
+#MACRO {\e[2~}
 {
 	#buffer {home}
 }
 
-#MACRO {\e[4~}
+#MACRO {\e[3~}
 {
 	#buffer {end}
 }
