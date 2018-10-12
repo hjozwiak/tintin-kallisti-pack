@@ -634,7 +634,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|bushido|deposit|eyes|ffire.*|focus.*|follow|join|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*|wraith|grimward.*}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|bushido|deposit|energydrain|eyes|ffire.*|focus.*|follow|join|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*|wraith|grimward.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{

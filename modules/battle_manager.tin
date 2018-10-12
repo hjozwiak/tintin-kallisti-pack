@@ -429,6 +429,10 @@
 		#forall {${onDeath[]}}{${onDeath[&0]}};
 		#list {onDeath} {clear}
 	};
+	#if {${auto[energydrain]} && $MSDP_MANA < $MSDP_MANA_MAX / 2}
+	{
+		edrain corpse
+	};
 	look in corpse;
 	save;
 	#if {!${spam.save}}
