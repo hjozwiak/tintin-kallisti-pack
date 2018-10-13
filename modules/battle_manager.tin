@@ -433,12 +433,6 @@
 	{
 		edrain corpse
 	};
-	look in corpse;
-	save;
-	#if {!${spam.save}}
-	{
-		spamset save
-	};
 	#list {hook[mobDeath]} {size} {i};
 	#if {$i > 0}
 	{
