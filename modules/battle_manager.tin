@@ -1,3 +1,10 @@
+#ACTION {%1 advances on you!$}
+{
+	#variable {rangedCombat} {0};
+	SYNTH_PLAY warningSound
+}
+{9}
+
 #ACTION {%1 charges madly into %2, but can't budge {her|him|it}.$}
 {
 	#list {autorescueList} {size} {i};
@@ -381,6 +388,12 @@
 }
 {9}
 
+#ACTION {^Ok, you will try to fight from ranged combat distance.$}
+{
+	#variable {rangedCombat} {1}
+}
+{9}
+
 #ACTION {^SEEK SHELTER AT ONCE!%s%w has begun to sing.$}
 {
 	#list {autorescueList} {find} {%1} {i};
@@ -429,14 +442,14 @@
 		#forall {${onDeath[]}}{${onDeath[&0]}};
 		#list {onDeath} {clear}
 	};
-	#if {${auto[energydrain]} && $MSDP_MANA < $MSDP_MANA_MAX / 2}
-	{
-		edrain corpse
-	};
 	#list {hook[mobDeath]} {size} {i};
 	#if {$i > 0}
 	{
 		#forall {${hook[mobDeath][]}} {@${hook[mobDeath][&0]}{%1}}
+	};
+	#if {${auto[energydrain]} && $MSDP_MANA < $MSDP_MANA_MAX / 2}
+	{
+		edrain corpse
 	}
 }
 {9}
@@ -450,6 +463,12 @@
 #ACTION {^You try but are unable to head off {her|his|its} opponent.$}
 {
 	#forall {${autorescueList[]}}{rescue ${autorescueList[&0]}}
+}
+{9}
+
+#ACTION {^You will not try to fight from ranged combat distance.  You will still need to ADVANCE on opponents who are attempting to use ranged combat in order to hit them.$}
+{
+	#variable {rangedCombat} {0}
 }
 {9}
 
@@ -661,10 +680,10 @@
 	}
 }
 
-#VARIABLE         {DAMAGE}  {tickle|barely hit|hit|hard|very hard|extremely hard|massacre to small fragments|obliterate|annihilate|mutilate|immolate|liquify|vaporize|critically vaporize}
-#VARIABLE         {autohealList}  {}
-#VARIABLE         {autorescueList}  {}
-#VARIABLE         {battle_manager}  {}
-#VARIABLE         {fleeString}  {}
-#VARIABLE         {groupMemberList}  {}
-#VARIABLE         {onDeath}  {}
+#EVENT {VARIABLE UPDATE MSDP_OPPONENT_NUMBER}
+{
+	#if {${auto[range]} && !${rangedCombat} && %1 == 0}
+	{
+		range
+	}
+}

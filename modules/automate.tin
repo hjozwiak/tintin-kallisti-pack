@@ -64,7 +64,7 @@
 }
 {9}
 
-#ACTION {^You are now vulnerable to untimely deaths.$}
+#ACTION {^You {are now vulnerable to untimely deaths|get a bad feeling about going that way}.$}
 {
 	#if {&{auto[pfd]}}
 	{
@@ -650,7 +650,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|bushido|deposit|energydrain|eyes|ffire.*|focus.*|follow|join|pfd|pick|poke.*|prayer|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*|wraith|grimward.*}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|bushido|deposit|energydrain|eyes|ffire.*|focus.*|follow|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vigor.*|warcry|warpaint.*|wraith|grimward.*}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
