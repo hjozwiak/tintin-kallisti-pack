@@ -74,6 +74,7 @@ You can automate recasting of spells, or send a message when they drop. This sec
 - autobarkskin {args}: Triggers when barkskin drops.
 - autobless {args}: Triggers when bless drops.
 - autocombat {args} (seconds optional): Will select randomly from the list of provided attacks during combat. Will delay the specified number of seconds between attacks, or 7 if not specified.
+- autoedrain: Energydrains a corpse if you are less than 50 percent mana.
 - autoeyes: Recast true seeing when it drops.
 - autoffire {args}: Triggers when faerie fire drops.
 - autofocus {args}: Triggers when focus drops.
@@ -93,6 +94,7 @@ You can automate recasting of spells, or send a message when they drop. This sec
 - autosanc {args}: Triggers when sanctuary falls.
 - autoshape args: Automatically change to the given shape when shape change wears off.
 - autotumble: Causes you to tumble if you are set on fire or coated in acid.
+- autovdrain: Vampiricdrains a corpse if you are less than 50 percent in any of your HMS.
 - autovigor {args}: Triggers when vigor falls.
 - autowarcry: Renews warcry automatically.
 - autowarpaint color: Renews warpaint automatically with the specified color, azure, crimson, or mandrake.
