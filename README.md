@@ -73,14 +73,14 @@ You can automate recasting of spells, or send a message when they drop. This sec
 - autoheal self {args} percent: Set commands used to automatically heal yourself when your hitpoints drop below given %.
 - autobarkskin {args}: Triggers when barkskin drops.
 - autobless {args}: Triggers when bless drops.
+- autocombat {args} (seconds optional): Will select randomly from the list of provided attacks during combat. Will delay the specified number of seconds between attacks, or 7 if not specified.
 - autoeyes: Recast true seeing when it drops.
 - autoffire {args}: Triggers when faerie fire drops.
 - autofocus {args}: Triggers when focus drops.
 - autofollow: Will automatically follow someone in your friends list if they beckon you and you are not currently following anyone else.
-- autodrink {args}: Triggers when you are thirsty.
-- autoeat {args}: Triggers when you are hungry.
 - autopick: Automatically try to pick closed doors. Requires pick lock.
 - autopoke {args}: that method of attack used when your group leader pokes or points at a target. (This is different then the poke or point social, pack users can use the p alias.)
+- autorange: Tries to restore ranged combat status automatically after battle ends.
 - autorecall {args}: Commands to be used when hitpoints drop below 20%. (see below)
 - autorecall {args percent}: Commands to be used when hitpoints drop below given %. (see below)
 - autorecast: Attempt to recast when you lose your concentration.
@@ -88,6 +88,7 @@ You can automate recasting of spells, or send a message when they drop. This sec
 - autorescue: Show the people you are automatically rescuing. (see below)
 - autorescue add name: Add person to autorescue list. (see below)
 - autorescue remove name: Remove person from autorescue list. (see below)
+- autopfd: Automatically recasts protection from death either when the spell falls, or when spell is removed by death trap.
 - autoprayer {args}: Triggers when prayer falls.
 - autosanc {args}: Triggers when sanctuary falls.
 - autoshape args: Automatically change to the given shape when shape change wears off.
@@ -99,8 +100,6 @@ You can automate recasting of spells, or send a message when they drop. This sec
 When in charge of protecting your comrades  in a group, it can be easy to miss someone being attacked until it's too late. To make things easier for you, we offer autorescue. You can rescue multiple people, just add them to the list as in autorescue add name. So, autorescue add jack;autorescue add jill will enable automatic rescuing for Jack and Jill. To turn it off, just type noautorescue.
 
 The same convenience is available for healers. Just use the autoheal command instead of autorescue. The autoheal command will try to use the most sensible option for your class, e.g. heal for priest based classes and lay hands for paladins.
-
-Eating and drinking can be a chore. With the pack's autoeat and autodrink, however, it's a snap. Just turn them on with autoeat item and autodrink drinkcontainer. For example, to eat breat you would type autoeat bread and to autodrink from at waterskin you would type autodrink waterskin.
 
 If you want to hunt something and walk to it, use track target. When you reach the target you will hear a notification tone. If you can't reach your target or need to cancel for any reason, type notrack.
 
