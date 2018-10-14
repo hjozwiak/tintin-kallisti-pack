@@ -37,6 +37,12 @@
 	#list {%1} {size} {result}
 }
 
+#FUNCTION {percent}
+{
+	#math {result} {(${%1} / ${%1_MAX}) * 100.0};
+	#format {result} {%d} {$result}
+}
+
 #FUNCTION {separator}
 {
 	#nop {Takes 1 optional argument, the separator string. The default is -.};

@@ -447,7 +447,11 @@
 	{
 		#forall {${hook[mobDeath][]}} {@${hook[mobDeath][&0]}{%1}}
 	};
-	#if {${auto[energydrain]} && $MSDP_MANA < $MSDP_MANA_MAX / 2}
+	#if {${auto[vdrain]} && @percent{MSDP_HEALTH} < 50 || @percent{MSDP_MANA} < 50 || @percent{MSDP_STAMINA} < 50}
+	{
+		vdrain corpse
+	};
+	#if {${auto[edrain]} && @percent{MSDP_MANA} <  50}
 	{
 		edrain corpse
 	}
