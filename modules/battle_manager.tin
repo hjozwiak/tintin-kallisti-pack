@@ -447,11 +447,11 @@
 	{
 		#forall {${hook[mobDeath][]}} {@${hook[mobDeath][&0]}{%1}}
 	};
-	#if {${auto[vdrain]} && @percent{MSDP_HEALTH} < 50}
+	#if {${auto[vdrain]} == 1 && @percent{MSDP_HEALTH} < 50}
 	{
 		vdrain corpse
 	};
-	#elseif {${auto[edrain]} && @percent{MSDP_MANA} <  50}
+	#elseif {${auto[edrain]} == 1 && @percent{MSDP_MANA} <  50}
 	{
 		edrain corpse
 	}
