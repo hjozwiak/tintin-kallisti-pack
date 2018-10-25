@@ -42,6 +42,10 @@ get_soundpack() {
 # Check for updates
 oldSum="$(cat "$soundpackPath/version.txt")"
 newSum="$(curl -s "${soundpackURL%.zip}.md5")"
+[[ -z "$newSum" ]] && {
+    echo "There was an error checking the latest soundpack version. Will try again later.";
+    exit 0;
+}
 [[ "$newSum" == "$oldSum" ]] || {
   echo "Updating sounds, please wait...";
   get_soundpack;
