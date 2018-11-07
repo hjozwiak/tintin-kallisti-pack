@@ -2,7 +2,9 @@
 #script {operatingSystem} {uname -s}
 #script {sed} {command -v gsed || command -v sed}
 #script {shuf} {command -v shuf || command -v gshuf}
+#script {X} {[[ -n "$COLORTERM" ]] && echo "1" || echo "0"}
 #variable {browser} {${browser[1]}}
 #variable {operatingSystem} {${operatingSystem[1]}}
 #variable {sed} {${sed[1]}}
 #variable {shuf} {${shuf[1]}}
+#variable {X} {${X[1]}}
