@@ -170,7 +170,7 @@
 }
 {9}
 
-#ACTION {^You feel the need to renew your prayers to God.$}
+#ACTION {^{No one seems to be listening right now|You feel the need to renew your prayers to God}.$}
 {
 	#if {${auto.prayer}}
 	{
