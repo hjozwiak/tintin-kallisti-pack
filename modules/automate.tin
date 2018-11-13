@@ -54,11 +54,11 @@
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			holysteed
+			holysteed ${character[mount]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {holysteed}
+			#list {onDeath} {add} {holysteed} ${character[mount]}
 		}
 	}
 }
