@@ -14,7 +14,7 @@
 		};
 		#else
 		{
-			#script {echo "command clipboard $uri" | socat - UNIX-CLIENT:/tmp/fenrirscreenreader-deamon.sock}
+			#system {echo "command clipboard $uri" | socat - UNIX-CLIENT:/tmp/fenrirscreenreader-deamon.sock}
 		};
 		#echo {sent ${uri} to clipboard.};
 		#variable {uri} {}
