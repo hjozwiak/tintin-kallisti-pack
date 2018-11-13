@@ -48,6 +48,54 @@
 }
 {9}
 
+#ACTION {^Your mount sees: The holy blessing bestowed by your rider is no more.$}
+{
+	#if {&{auto.holysteed}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			holysteed
+		};
+		#else
+		{
+			#list {onDeath} {add} {holysteed}
+		}
+	}
+}
+{9}
+
+#ACTION {^Your guardian spirit leaves this plane of existance.$}
+{
+	#if {&{auto.spirit}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			spirit
+		};
+		#else
+		{
+			#list {onDeath} {add} {spirit}
+		}
+	}
+}
+{9}
+
+#ACTION {^You feel less protected.$}
+{
+	#if {&{auto.darmor}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			${auto.darmor}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto.darmor}}
+		}
+	}
+}
+{9}
+
 #ACTION {^The black flames about your body fade.$}
 {
 	#if {&{auto.grimward}}
@@ -650,7 +698,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|bushido|deposit|edrain|eyes|ffire.*|focus.*|follow|grimward.*|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|tumble|vdrain|vigor.*|warcry|warpaint.*|wraith}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|bushido|darmor.*|deposit|edrain|eyes|ffire.*|focus.*|follow|grimward.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain|vigor.*|warcry|warpaint.*|wraith}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
