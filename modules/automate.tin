@@ -54,7 +54,7 @@
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			holysteed
+			holysteed $character[mount]
 		};
 		#else
 		{
