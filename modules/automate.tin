@@ -64,7 +64,7 @@
 }
 {9}
 
-#ACTION {^Your guardian spirit leaves this plane of existance.$}
+#ACTION {^Your guardian spirit leaves this plane of existence.$}
 {
 	#if {&{auto.spirit}}
 	{
