@@ -1,0 +1,28 @@
+#FUNCTION {extract_link}
+{
+	#regexp {%0} {{.*}'{.*}{(http://|https://|www\.)\S+[^']}{.*}} {#variable {uri} {&3}};
+	#return #nop
+}
+
+#MACRO {\eL}
+{
+	#if {"$uri" != ""}
+	{
+		#if {$X}
+		{
+			xclip -selection clipboard "${uri}"
+		};
+		#else
+		{
+			#script {echo "command clipboard $uri" | socat - UNIX-CLIENT:/tmp/fenrirscreenreader-deamon.sock}
+		};
+		#echo {sent ${uri} to clipboard.};
+		#variable {uri} {}
+	};
+	#else
+	{
+		#echo {There is currently no URI available.}
+	}
+}
+
+#VARIABLE         {uri}  {}

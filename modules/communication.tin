@@ -156,7 +156,8 @@
 	{
 		#list {channel[%1]} {delete} {11}
 	};
-	#unvariable {i}
+	#unvariable {i};
+	@extract_link{%2}
 }
 {9}
 
