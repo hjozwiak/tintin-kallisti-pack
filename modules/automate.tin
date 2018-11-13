@@ -58,7 +58,7 @@
 		};
 		#else
 		{
-			#list {onDeath} {add} {holysteed}
+			#list {onDeath} {add} {holysteed} ${character[mount]}
 		}
 	}
 }
