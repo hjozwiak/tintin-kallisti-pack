@@ -10,11 +10,11 @@
 	{
 		#if {$X}
 		{
-			xclip -selection clipboard "${uri}"
+			#script {xclip -selection clipboard "${uri}"}
 		};
 		#else
 		{
-			#system {echo "command clipboard $uri" | socat - UNIX-CLIENT:/tmp/fenrirscreenreader-deamon.sock}
+			#script {echo "command clipboard $uri" | socat - UNIX-CLIENT:/tmp/fenrirscreenreader-deamon.sock}
 		};
 		#echo {sent ${uri} to clipboard.};
 		#variable {uri} {}
