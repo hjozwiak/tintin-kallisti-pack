@@ -48,54 +48,6 @@
 }
 {9}
 
-#ACTION {^Your mount sees: The holy blessing bestowed by your rider is no more.$}
-{
-	#if {&{auto.holysteed}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			holysteed ${character[mount]}
-		};
-		#else
-		{
-			#list {onDeath} {add} {holysteed} ${character[mount]}
-		}
-	}
-}
-{9}
-
-#ACTION {^Your guardian spirit leaves this plane of existence.$}
-{
-	#if {&{auto.spirit}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			spirit
-		};
-		#else
-		{
-			#list {onDeath} {add} {spirit}
-		}
-	}
-}
-{9}
-
-#ACTION {^You feel less protected.$}
-{
-	#if {&{auto.darmor}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			${auto.darmor}
-		};
-		#else
-		{
-			#list {onDeath} {add} {${auto.darmor}}
-		}
-	}
-}
-{9}
-
 #ACTION {^The black flames about your body fade.$}
 {
 	#if {&{auto.grimward}}
@@ -107,22 +59,6 @@
 		#else
 		{
 			#list {onDeath} {add} {${auto.grimward}}
-		}
-	}
-}
-{9}
-
-#ACTION {^You {are now vulnerable to untimely deaths|get a bad feeling about going that way}.$}
-{
-	#if {&{auto[pfd]}}
-	{
-		#if {"$MSDP_POSITION" != "Fighting"}
-		{
-			pfd
-		};
-		#else
-		{
-			#list {onDeath} {add} {pfd}
 		}
 	}
 }
@@ -202,6 +138,22 @@
 }
 {9}
 
+#ACTION {^You feel less protected.$}
+{
+	#if {&{auto.darmor}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			${auto.darmor}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto.darmor}}
+		}
+	}
+}
+{9}
+
 #ACTION {^You feel less righteous.$}
 {
 	#if {&{auto.bless}}
@@ -213,22 +165,6 @@
 		#else
 		{
 			#list {onDeath} {add} {${auto.bless}}
-		}
-	}
-}
-{9}
-
-#ACTION {^{No one seems to be listening right now|You feel the need to renew your prayers to God}.$}
-{
-	#if {${auto.prayer}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			prayer
-		};
-		#else
-		{
-			#list {onDeath} {add} {prayer}
 		}
 	}
 }
@@ -328,6 +264,22 @@
 #ACTION {^You work your way to your knees.$}
 {
 	stand
+}
+{9}
+
+#ACTION {^You {are now vulnerable to untimely deaths|get a bad feeling about going that way}.$}
+{
+	#if {&{auto[pfd]}}
+	{
+		#if {"$MSDP_POSITION" != "Fighting"}
+		{
+			pfd
+		};
+		#else
+		{
+			#list {onDeath} {add} {pfd}
+		}
+	}
 }
 {9}
 
@@ -437,6 +389,22 @@
 }
 {9}
 
+#ACTION {^Your guardian spirit leaves this plane of existence.$}
+{
+	#if {&{auto.spirit}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			spirit
+		};
+		#else
+		{
+			#list {onDeath} {add} {spirit}
+		}
+	}
+}
+{9}
+
 #ACTION {^Your metabolism slows.$}
 {
 	#if {&{auto.vigor}}
@@ -448,6 +416,38 @@
 		#else
 		{
 			#list {onDeath} {add} {${auto.vigor}}
+		}
+	}
+}
+{9}
+
+#ACTION {^Your mount sees: The holy blessing bestowed by your rider is no more.$}
+{
+	#if {&{auto.holysteed}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			holysteed ${character[mount]}
+		};
+		#else
+		{
+			#list {onDeath} {add} {holysteed} ${character[mount]}
+		}
+	}
+}
+{9}
+
+#ACTION {^{Nothing happened|Your shield stops glowing with divine energy}.$}
+{
+	#if {&{auto[dshield]}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			dshield
+		};
+		#else
+		{
+			#list {onDeath} {add} {dshield}
 		}
 	}
 }
@@ -512,6 +512,22 @@
 		#forall {${hook[trackLose][]}} {@${hook[trackLose][&0]}{${auto.track}}}
 	};
 	#unvariable {auto.track}
+}
+{9}
+
+#ACTION {^{No one seems to be listening right now|You feel the need to renew your prayers to God}.$}
+{
+	#if {${auto.prayer}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			prayer
+		};
+		#else
+		{
+			#list {onDeath} {add} {prayer}
+		}
+	}
 }
 {9}
 
@@ -698,7 +714,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|bushido|darmor.*|deposit|edrain|eyes|ffire.*|focus.*|follow|grimward.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain|vigor.*|warcry|warpaint.*|wraith}$}
+#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain|eyes|ffire.*|focus.*|follow|grimward.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain|vigor.*|warcry|warpaint.*|wraith}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
