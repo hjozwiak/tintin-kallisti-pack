@@ -34,7 +34,7 @@
 }
 {9}
 
-#ACTION {^%w tell%2, '%3'$}
+#ACTION {^%w %*tell%2, '%3'$}
 {
 	#nop {Hook name tell.};
 	#nop {Hook args %1 Name.};
