@@ -1,4 +1,4 @@
-#ACTION {^%w tells you, ':%2'$}
+#ACTION {^%w %*tells you, ':%2'$}
 {
 	Channel_Event Tell %0;
 	#if {@is_friend{%1}}
