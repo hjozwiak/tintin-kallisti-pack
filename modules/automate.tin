@@ -372,6 +372,21 @@
 	}
 }
 {9}
+#ACTION {^The whirling blades around you dissipate.$}
+{
+	#if {${auto.blade}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			blade
+		};
+		#else
+		{
+			#list {onDeath} {add} {blade}
+		}
+	}
+}
+{9}
 
 #ACTION {^Your eyes adjust back to normal.$}
 {
@@ -714,7 +729,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain|eyes|ffire.*|focus.*|follow|grimward.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain|vigor.*|warcry|warpaint.*|wraith}$}
+#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain|eyes|ffire.*|focus.*|follow|grimward.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain|vigor.*|warcry|warpaint.*|wraith}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
