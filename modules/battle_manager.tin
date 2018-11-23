@@ -213,7 +213,7 @@
 			#regexp {%3} {{.*} {.*}} {${character[chainAttack]} &2};
 			#else
 			{
-				${character[chainAttack]} %2
+				${character[chainAttack]} %3
 			}
 		};
 		#else
