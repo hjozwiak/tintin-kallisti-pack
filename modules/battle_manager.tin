@@ -210,7 +210,7 @@
 	{
 		#if {&{character[chainAttack]}}
 		{
-			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
+			#regexp {%3} {{.*} {.*}} {${character[chainAttack]} &2};
 			#else
 			{
 				${character[chainAttack]} %2
