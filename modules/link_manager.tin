@@ -8,7 +8,7 @@
 {
 	#if {"$uri" != ""}
 	{
-		#if {$X}
+		#if {$X > 0}
 		{
 			#script {xclip -selection clipboard "${uri}"}
 		};
