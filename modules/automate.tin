@@ -105,6 +105,22 @@
 }
 {9}
 
+#ACTION {^The whirling blades around you dissipate.$}
+{
+	#if {${auto.blade}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			blade
+		};
+		#else
+		{
+			#list {onDeath} {add} {blade}
+		}
+	}
+}
+{9}
+
 #ACTION {^The white aura around your body fades.$}
 {
 	#if {&{auto.sanc}}
@@ -372,21 +388,6 @@
 	}
 }
 {9}
-#ACTION {^The whirling blades around you dissipate.$}
-{
-	#if {${auto.blade}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			blade
-		};
-		#else
-		{
-			#list {onDeath} {add} {blade}
-		}
-	}
-}
-{9}
 
 #ACTION {^Your eyes adjust back to normal.$}
 {
@@ -447,22 +448,6 @@
 		#else
 		{
 			#list {onDeath} {add} {holysteed} ${character[mount]}
-		}
-	}
-}
-{9}
-
-#ACTION {^{Nothing happened|Your shield stops glowing with divine energy}.$}
-{
-	#if {&{auto[dshield]}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			dshield
-		};
-		#else
-		{
-			#list {onDeath} {add} {dshield}
 		}
 	}
 }
@@ -541,6 +526,22 @@
 		#else
 		{
 			#list {onDeath} {add} {prayer}
+		}
+	}
+}
+{9}
+
+#ACTION {^{Nothing happened|Your shield stops glowing with divine energy}.$}
+{
+	#if {&{auto[dshield]}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			dshield
+		};
+		#else
+		{
+			#list {onDeath} {add} {dshield}
 		}
 	}
 }
@@ -632,7 +633,11 @@
 	{
 		#if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
 		{
-			breakout;
+			#if {!${breakout}}
+			{
+				breakout;
+				spamset breakout 15
+			};
 			#if {!&{character[recall]}}
 			{
 				#variable {character[recall]} {recite recall;get recall ${character[container]}}

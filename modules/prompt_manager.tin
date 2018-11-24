@@ -29,7 +29,11 @@
 		{
 			#if {&{auto.recall}}
 			{
-				breakout;
+				#if {!${breakout}}
+				{
+					breakout;
+					spamset breakout 15
+				};
 				${auto.recall};
 				spamset recall 5
 			}
