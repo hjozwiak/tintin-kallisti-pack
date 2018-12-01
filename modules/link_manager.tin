@@ -1,6 +1,7 @@
 #FUNCTION {extract_link}
 {
 	#regexp {%0} {{.*}'{.*}{(http://|https://|www\.)\S+[^']}{.*}} {#variable {uri} {&3}};
+	#regexp {%0} {{.*}'{wormhole receive \d+-\S+}'{.*}} {#variable {uri} {&2}};
 	#return #nop
 }
 
