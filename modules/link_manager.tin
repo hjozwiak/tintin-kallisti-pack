@@ -11,7 +11,7 @@
 	{
 		#if {$X > 0}
 		{
-			#script {xclip -selection clipboard "${uri}"}
+			#script {echo "${uri}" | xclip -selection clipboard}
 		};
 		#else
 		{
