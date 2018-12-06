@@ -11,9 +11,15 @@
 }
 {9}
 
-#ALIAS {^fortune}
+#ALIAS {^fortune %1}
 {
-	#script {echo -n "say ";%0 -sn1000 | tr '[:space:];' ' '}
+	#script {echo -n "say ";fortune -sn1000 %1 | tr '[:space:];' ' '}
+}
+{9}
+
+#ALIAS {^fortune$}
+{
+	#script {echo -n "say ";fortune -sn1000 | tr '[:space:];' ' '}
 }
 {9}
 
