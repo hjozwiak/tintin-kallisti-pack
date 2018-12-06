@@ -2,12 +2,18 @@
 {
 	#if {!&{idleList}}
 	{
-		#list {idleList} {add} {look}
+		#list {idleList} {add} {pose}
 	};
 	#if {$MSDP_LEVEL <= 100}
 	{
 		${idleList[@list_rand{idleList}]}
 	}
+}
+{9}
+
+#ALIAS {^fortune}
+{
+	#script {echo -n "say ";%0 -sn1000 | tr '[:space:];' ' '}
 }
 {9}
 
@@ -23,7 +29,7 @@
 {
 	#if {!&{idleList}}
 	{
-		#list {idleList} {add} {look}
+		#list {idleList} {add} {pose}
 	};
 	#echo {Current commands to avoide the void are:};
 	#forall {${idleList[]}} {#echo {${idleList[&0]}}};
@@ -40,7 +46,7 @@
 	{
 		#if {!&{idleList}}
 		{
-			#list {idleList} {add} {look}
+			#list {idleList} {add} {pose}
 		};
 		#if {$MSDP_LEVEL <= 100}
 		{
