@@ -23,7 +23,7 @@ while [[ $l -le ${#lyrics[@]} || $(echo "$lyric" | wc -c) -le 75 ]]; do
   lyric+="${lyrics[$l]} "
   ((l++))
   done
-while [[ $(echo "${lyric[@]}" | wc -c) -gt 1024 ]]; do
+while [[ $(echo "${lyric[@]}" | wc -c) -gt 1000 ]]; do
 lyric="${lyric[@]% *}"
 done
   echo "$1 ${lyric[@]/;/} -- it's $2"
