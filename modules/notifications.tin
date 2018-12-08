@@ -34,7 +34,8 @@
 	#nop {Hook name: charmEnd.};
 	#nop {Hook args: name of chanrmed critter.};
 	SYNTH_PLAY warningSound;
-	#list {channel[All]} {insert} {1} {%0}#list {hook[charmEnd]} {size} {i};
+	#list {channel[All]} {insert} {1} {%0};
+	#list {hook[charmEnd]} {size} {i};
 	#if {$i > 0}
 	{
 		#forall {${hook[charmEnd][]}} {@${hook[charmEnd][&0]}{%1}}
