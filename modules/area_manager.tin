@@ -12,7 +12,8 @@
 		{
 			#if {&{goto.%1}}
 			{
-				${goto.%1}
+				#path unzip ${goto[%1]};
+				#path run 0.5
 			};
 			#else
 			{
