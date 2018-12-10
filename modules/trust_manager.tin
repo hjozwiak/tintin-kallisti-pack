@@ -1,9 +1,15 @@
-#ACTION {^%w %*tells you, ':%2'$}
+#ACTION {^%w %*tells you, ':%3'$}
 {
+	#local {accountName} {%2};
+	#replace {accountName} {{\(|\)| }} {};
+	#if {@is_friend{$accountName} && !@is_friend{%1}}
+	{
+		friend add %1
+	};
 	Channel_Event Tell %0;
 	#if {@is_friend{%1}}
 	{
-		#switch {"%2"}
+		#switch {"%3"}
 		{
 			#case {"where"}
 			{
@@ -11,7 +17,7 @@
 			};
 			#default
 			{
-				@trust_exec{%2}
+				@trust_exec{%3}
 			}
 		}
 	}
