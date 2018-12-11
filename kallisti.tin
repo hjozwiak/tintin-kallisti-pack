@@ -95,7 +95,7 @@
 	#log {overwrite} {${logFilePath}${logFileName[1]}}
 }
 #action {^Wrong password.$} {
-#system {play -qV0 wrong-password.wav &> /dev/null}
+#system {play -qV0 wrong-password.wav gain ${MSP[VOLUME]} &> /dev/null &}
 }
 #VARIABLE         {motd}  {}
 #VARIABLE         {tintinPackName}  {tintin-kallisti-pack}
