@@ -1,3 +1,9 @@
+#ACTION {^[+ The way to %1 is %w.%*+]$}
+{
+	#delay {0.25} {%2}
+}
+{9}
+
 #ALIAS {^goto %slist$}
 {
 	#forall {${goto[]}}{#echo {&0 - ${goto[&0]}}}
