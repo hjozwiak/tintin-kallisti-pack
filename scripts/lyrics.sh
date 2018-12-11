@@ -14,7 +14,7 @@ artist="${artist%[[:space:]]}"
 song="$(echo "$2" | cut -d '-' -f2 | cut -d '(' -f1 | tr -s '[:space:]')"
 song="${song%[[:space:]]}"
 
-mapfile -t lyrics < <(clyrics "$song" | sed '/^$/d')
+mapfile -t lyrics < <(clyrics "$artist:$song" | sed '/^$/d')
 
 # Display the lyrics or an error if nothing is found
 if [[ -n "$lyrics" ]]; then
@@ -23,10 +23,10 @@ while [[ $l -le ${#lyrics[@]} || $(echo "$lyric" | wc -c) -le 75 ]]; do
   lyric+="${lyrics[$l]} "
   ((l++))
   done
-while [[ $(echo "${lyric[@]}" | wc -c) -gt 1000 ]]; do
-lyric="${lyric[@]% *}"
+while [[ ${#lyric} -gt 800 ]]; do
+lyric="${lyric% *}"
 done
-  echo "$1 ${lyric[@]/;/} -- it's $2"
+  echo "$1 ${lyric//;/} -- it's $2"
 else
   echo "#echo {No lyrics found for $song by $artist.}"
 fi
