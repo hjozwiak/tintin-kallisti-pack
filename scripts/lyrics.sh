@@ -19,8 +19,9 @@ mapfile -t lyrics < <(clyrics "$artist:$song" | sed '/^$/d')
 # Display the lyrics or an error if nothing is found
 if [[ -n "$lyrics" ]]; then
   l=$(($RANDOM % ${#lyrics[@]} - 3))
-while [[ $l -le ${#lyrics[@]} || $(echo "$lyric" | wc -c) -le 75 ]]; do
-  lyric+="${lyrics[$l]} "
+  [[ $l -lt 0 ]] && l=0
+while [[ $l -le ${#lyrics[@]} || ${#lyric} -le 75 ]]; do
+  lyric+="${lyrics[l]} "
   ((l++))
   done
 while [[ ${#lyric} -gt 800 ]]; do
