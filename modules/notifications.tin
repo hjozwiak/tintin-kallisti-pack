@@ -23,7 +23,7 @@
 }
 {9}
 
-#ACTION {^You are now ranked #%d on the %2 top10 list.$}
+#ACTION {^You %* list.$}
 {
 	#list {channel[All]} {insert} {1} {%0}
 }
