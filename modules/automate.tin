@@ -64,6 +64,22 @@
 }
 {9}
 
+#ACTION {^You feel slow.$}
+{
+	#if {&{auto.haste}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			${auto.haste}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto.haste}}
+		}
+	}
+}
+{9}
+
 #ACTION {^The dark aura around your body disappears.$}
 {
 	#if {&{auto.aura}}
@@ -734,7 +750,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain|eyes|ffire.*|focus.*|follow|grimward.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain|vigor.*|warcry|warpaint.*|wraith}$}
+#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain|vigor.*|warcry|warpaint.*|wraith}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
