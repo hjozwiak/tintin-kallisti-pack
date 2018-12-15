@@ -4,10 +4,10 @@
 	#nop {Hook args: name of thing that advanced on you.};
 	#variable {rangedCombat} {0};
 	SYNTH_PLAY warningSound;
-	#list {hook[advancedEnd]} {size} {i};
+	#list {hook[rangedEnd]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${hook[advancedEnd][]}} {@${hook[advancedEnd][&0]}{%1}}
+		#forall {${hook[rangedEnd][]}} {@${hook[rangedEnd][&0]}{%1}}
 	}
 }
 {9}
