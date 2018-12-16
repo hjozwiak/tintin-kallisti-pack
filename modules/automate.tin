@@ -407,7 +407,7 @@
 
 #ACTION {^Your eyes adjust back to normal.|The twinkle in your eyes disappears.$}
 {
-	#if {&{auto.eyes}}
+	#if {${auto[eyes]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
