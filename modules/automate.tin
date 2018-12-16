@@ -407,7 +407,7 @@
 
 #ACTION {^Your eyes adjust back to normal.$}
 {
-	#if {&{auto.eyes}}
+	#if {${auto[eyes]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
