@@ -245,7 +245,7 @@
 	#list {hook[concentration]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${hook[concentration][]}} {@${hook[concentration][&0]}{}}
+		#forall {${hook[concentration][]}} {@${hook[concentration][&0]}{%1}}
 	}
 }
 {9}
