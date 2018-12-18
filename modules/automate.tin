@@ -64,22 +64,6 @@
 }
 {9}
 
-#ACTION {^You feel slow.$}
-{
-	#if {&{auto.haste}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			${auto.haste}
-		};
-		#else
-		{
-			#list {onDeath} {add} {${auto.haste}}
-		}
-	}
-}
-{9}
-
 #ACTION {^The dark aura around your body disappears.$}
 {
 	#if {&{auto.aura}}
@@ -197,6 +181,22 @@
 		#else
 		{
 			#list {onDeath} {add} {${auto.bless}}
+		}
+	}
+}
+{9}
+
+#ACTION {^You feel slow.$}
+{
+	#if {&{auto.haste}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			${auto.haste}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto.haste}}
 		}
 	}
 }
@@ -405,31 +405,6 @@
 }
 {9}
 
-#ACTION {^Your eyes adjust back to normal.|The twinkle in your eyes disappears.$}
-{
-	#if {${auto[eyes]}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-		#if {$MSDP_CLASS == "Priest|Druid|Prophet|Templar"} {
-			trueseeing
-			}
-			#else {
-			ceyes
-			}
-		};
-		#else
-		{
-		#if {$MSDP_CLASS == "Priest|Druid|Prophet|Templar"} {
-			#list {onDeath} {add} {trueseeing}
-			}
-			#else {
-			#list {onDeath} {add} {ceyes}
-			}
-		}
-	}
-}
-{9}
 #ACTION {^Your guardian spirit leaves this plane of existence.$}
 {
 	#if {&{auto.spirit}}
@@ -592,6 +567,30 @@
 		#else
 		{
 			#list {onDeath} {add} {warpaint ${auto.warpaint}}
+		}
+	}
+}
+{9}
+
+#ACTION {^{Your eyes adjust back to normal|The twinkle in your eyes disappears}.$}
+{
+	#if {${auto[eyes]}}
+	{
+		#if {"$MSDP_CLASS" == "{Priest|Druid|Prophet|Templar}"}
+		{
+			#local {eyesSpell} {trueseeing}
+		};
+		#else
+		{
+			#local {eyesSpell} {ceyes}
+		};
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			$eyesSpell
+		};
+		#else
+		{
+			#list {onDeath} {add} {$eyesSpell}
 		}
 	}
 }
