@@ -47,8 +47,9 @@
 	};
 	#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= $autoHealSelfPercent}
 	{
-		#if {&{autoHealSelf}}
+		#if {&{autoHealSelf} && !${healSelf}}
 		{
+			spamset healSelf;
 			${autoHealSelf}
 		}
 	}
