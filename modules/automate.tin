@@ -70,11 +70,11 @@
 	{
 		#if {"$MSDP_POSITION" != "Fighting"}
 		{
-			${auto.aura}
+			aura
 		};
 		#else
 		{
-			#list {onDeath} {add} {${auto.aura}}
+			#list {onDeath} {add} {aura}
 		}
 	}
 }
