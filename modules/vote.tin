@@ -3,7 +3,7 @@
 	#local {voteTime};
 	#format {voteTime} {%T};
 	#script {echo -n "$voteTime" > "$HOME/vote.dat"};
-	#run {kallistivote} {$browser http://www.topmudsites.com/vote-kallistimud.htm};
+	#run {kallistivote} {$browser http://www.topmudsites.com/vote-kallistimud.html};
 	#delay {1} {#send { \}}
 }
 {9}
