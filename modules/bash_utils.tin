@@ -1,4 +1,4 @@
-#script {browser} {if hash elinks &> /dev/null; then echo "elinks";elif hash lynx &> /dev/null; then echo "lynx"; else echo "false";fi}
+#script {browser} {for i in w3m elinks lynx links ; do command -v $i && break;done}
 #script {operatingSystem} {uname -s}
 #script {sed} {command -v gsed || command -v sed}
 #script {shuf} {command -v shuf || command -v gshuf}
