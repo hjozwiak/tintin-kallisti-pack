@@ -20,17 +20,19 @@
 }
 {9}
 
-#EVENT {HOUR}
+#EVENT {HOURS}
 {
 	#local {currTime};
+	#local {hours};
 	#local {voteTime};
 	#format {currtime} {%T};
 	#script {voteTime} {[[ -r "$HOME/vote.dat" ]] || echo -n "0" > "$HOME/vote.dat";cat $HOME/vote.dat};
 	#variable {voteTime} {${voteTime[1]}};
-	#if {$voteTime + 43200 <= $currTime}
+	#math {hours} {($currTime - $Votetime) / 3600};
+	#if {$hours >= 12}
 	{
 		SYNTH_PLAY warningSound;
-		#list {channel[All]} {insert} {1} {It's been more than 12 hours since your last vote for Kallisti. Use 'vote' to vote now.};
-		#echo {It's been more than 12 hours since your last vote for Kallisti. Use 'vote' to vote now.}
+		#list {channel[All]} {insert} {1} {It's been $hours hours since your last vote for Kallisti. Use 'vote' to vote now.};
+		#echo {It's been $hours hours since your last vote for Kallisti. Use 'vote' to vote now.}
 	}
 }
