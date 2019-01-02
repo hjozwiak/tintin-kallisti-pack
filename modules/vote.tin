@@ -30,6 +30,7 @@
 	#if {$voteTime + 43200 <= $currTime}
 	{
 		SYNTH_PLAY warningSound;
+		#list {channel[All]} {insert} {1} {It's been more than 12 hours since your last vote for Kallisti. Use 'vote' to vote now.};
 		#echo {It's been more than 12 hours since your last vote for Kallisti. Use 'vote' to vote now.}
 	}
 }
