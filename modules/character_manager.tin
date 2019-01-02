@@ -175,6 +175,17 @@
 	}
 }
 
+#EVENT {VARIABLE UPDATE MSDP_POSITION}
+{
+	#nop {Hook name is position};
+	#nop {Hook args: new position.};
+	#list {hook[position]} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {${hook[position][]}} {@${hook[position][&0]}{%1}}
+	}
+}
+
 #TICKER           {csave}  {#if {"$MSDP_CHARACTER_NAME" == "$OLD_MSDP_CHARACTER_NAME"}{CSAVE}}                                          {90}
 #VARIABLE         {OLD_MSDP}  {}
 #VARIABLE         {characterName}  {}

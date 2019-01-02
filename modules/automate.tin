@@ -353,7 +353,7 @@
 }
 {9}
 
-#ACTION {^Your body returns to its natural form{\.|\.\s*}$}
+#ACTION {^Your body returns to its natural form}
 {
 	#if {&{auto[shape]}}
 	{
