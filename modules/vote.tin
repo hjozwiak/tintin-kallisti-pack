@@ -25,10 +25,10 @@
 	#local {currTime};
 	#local {hours};
 	#local {voteTime};
-	#format {currtime} {%T};
+	#format {currTime} {%T};
 	#script {voteTime} {[[ -r "$HOME/vote.dat" ]] || echo -n "0" > "$HOME/vote.dat";cat $HOME/vote.dat};
 	#variable {voteTime} {${voteTime[1]}};
-	#math {hours} {($currTime - $Votetime) / 3600};
+	#math {hours} {($currTime - $voteTime) / 3600};
 	#if {$hours >= 12}
 	{
 		SYNTH_PLAY warningSound;
