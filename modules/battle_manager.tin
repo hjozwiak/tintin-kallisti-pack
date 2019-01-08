@@ -547,7 +547,8 @@
 	};
 	#else
 	{
-		#nop {Populate the groupMemberList variable};
+		#nop {Refresh the groupMemberList variable};
+		#list {groupMemberList} {clear};
 		group;
 		#nop {The actual list management takes place in a POPULATE_whatever_LIST alias called with localecho so we know all the group members have been added.};
 		localecho silent_do POPULATE_%1_LIST
