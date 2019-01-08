@@ -605,7 +605,7 @@
 	{
 		#forall {${auto%1List[]}}{#echo {${auto%1List[&0]}}}
 	};
-	#if {&{autoHealSelf}}
+	#if {&{autoHealSelf} && "%0" == "autoheal"}
 	{
 		#echo {Yourself with: ${autoHealSelf} at ${autoHealSelfPercent} percent.}
 	}
