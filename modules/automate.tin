@@ -664,7 +664,7 @@
 			};
 			#if {!&{character[recall]}}
 			{
-				#variable {character[recall]} {recite recall;get recall ${character[container]}}
+				#variable {character[recall]} {recite recall;get recall out}
 			};
 			${character[recall]}
 		};
