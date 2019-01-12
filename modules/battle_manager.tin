@@ -12,37 +12,6 @@
 }
 {9}
 
-#ACTION {%1 strikes a pressure point on %2's neck, causing {her|him|it} to crumple...$}
-{
-	#list {autorescueList} {size} {i};
-	#if {$i > 0}
-	{
-		#forall {%1;%2}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
-	};
-	#list {groupMemberList} {find} {%1} {i};
-	#if {$i > 0}
-	{
-		#if {&{character[chainAttack]}}
-		{
-			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
-			#else
-			{
-				${character[chainAttack]} %2
-			}
-		};
-		#else
-		{
-			join %1
-		}
-	};
-	#list {groupMemberList} {find} {%2} {i};
-	#if {$i > 0}
-	{
-		join %2
-	}
-}
-{9}
-
 #ACTION {%1 charges madly into %2, but can't budge {her|him|it}.$}
 {
 	#list {autorescueList} {size} {i};
@@ -111,6 +80,48 @@
 }
 {9}
 
+#ACTION {%1 impales %2 in {her|his|its} chest, %4 screams in pain.$}
+{
+	#list {autorescueList} {find} {%1} {i};
+	#if {$i != 0}
+	{
+		rescue ${autorescueList[$i]}
+	};
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		#if {&{character[chainAttack]}}
+		{
+			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
+			#else
+			{
+				${character[chainAttack]} %2
+			}
+		};
+		#else
+		{
+			join %1
+		}
+	};
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i > 0}
+	{
+		#if {&{character[chainAttack]}}
+		{
+			#regexp {%1} {{.*} {.*}} {${character[chainAttack]} &2};
+			#else
+			{
+				${character[chainAttack]} %1
+			}
+		};
+		#else
+		{
+			join %2
+		}
+	}
+}
+{9}
+
 #ACTION {%1 panics and attempts to flee!$}
 {
 	#variable {fleeString} {%1}
@@ -159,9 +170,13 @@
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA > 300}
+		#if {&{character[chainAttack]}}
 		{
-			charge %1
+			#regexp {%1} {{.*} {.*}} {${character[chainAttack]} &2};
+			#else
+			{
+				${character[chainAttack]} %1
+			}
 		};
 		#else
 		{
@@ -172,6 +187,37 @@
 {9}
 
 #ACTION {%1 screams insanely and charges into %2!$}
+{
+	#list {autorescueList} {size} {i};
+	#if {$i > 0}
+	{
+		#forall {%1;%2}{#list {autorescueList} {find} {&0} {i};#if {$i != 0}{rescue ${autorescueList[$i]}}}
+	};
+	#list {groupMemberList} {find} {%1} {i};
+	#if {$i > 0}
+	{
+		#if {&{character[chainAttack]}}
+		{
+			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
+			#else
+			{
+				${character[chainAttack]} %2
+			}
+		};
+		#else
+		{
+			join %1
+		}
+	};
+	#list {groupMemberList} {find} {%2} {i};
+	#if {$i > 0}
+	{
+		join %2
+	}
+}
+{9}
+
+#ACTION {%1 strikes a pressure point on %2's neck, causing {her|him|it} to crumple...$}
 {
 	#list {autorescueList} {size} {i};
 	#if {$i > 0}
@@ -333,7 +379,7 @@
 	{
 		#switch {"${MSDP_CLASS}"}
 		{
-			#case {Paladin}
+			#case {"Paladin"}
 			{
 				#forall {moderate;severe;nearDeath;incapacitated;;stunned;morted}{#if {!&{heal.&0}}{#variable {heal.&0} {lay}}}
 			};
