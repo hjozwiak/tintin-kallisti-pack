@@ -13,7 +13,7 @@
 	#local {currTime};
 	#local {voteTime};
 	#format {currTime} {%T};
-	#script {voteTime} {[[ -r "$HOME/vote.dat" ]] || echo -n "0" > "$HOME/vote.dat";cat $HOME/vote.dat};
+	#script {voteTime} {[ -r "$HOME/vote.dat" ] || echo -n "0" > "$HOME/vote.dat";cat $HOME/vote.dat};
 	#variable {voteTime} {${voteTime[1]}};
 	#math {currTime} {$currTime - $voteTime};
 	#echo {It's been %m hours and %m minutes since your last vote for kallisti.} {$currTime / 3600} {$currTime % 3600 / 60}
@@ -26,7 +26,7 @@
 	#local {hours};
 	#local {voteTime};
 	#format {currTime} {%T};
-	#script {voteTime} {[[ -r "$HOME/vote.dat" ]] || echo -n "0" > "$HOME/vote.dat";cat $HOME/vote.dat};
+	#script {voteTime} {[ -r "$HOME/vote.dat" ] || echo -n "0" > "$HOME/vote.dat";cat $HOME/vote.dat};
 	#variable {voteTime} {${voteTime[1]}};
 	#math {hours} {($currTime - $voteTime) / 3600};
 	#if {$hours >= 12}
