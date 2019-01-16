@@ -15,7 +15,8 @@ The pack is under heavy development and will be expanded quite often. To stay up
 
 #### Linux
 
-The requirements are few. You just need TinTin++ of course and SoX for sound capabilities. Both of these should be available in your distribution's package manager.
+The requirements are few. You just need TinTin++ of course and SoX for sound capabilities, in addition to unzip for 
+extracting the soundpack. Both of these should be available in your distribution's package manager.
 
 #### Mac
 
