@@ -13,7 +13,7 @@
 	#list {autocombatList} {add} {@strip_braces{%1}};
 	autocombat;
 	#echo {Will execute every %2 seconds.};
-	@createAutocombatTicker{};
+	@createAutocombatTicker{${autocombatList};%2};
 	CSAVE
 }
 {4}
@@ -24,7 +24,7 @@
 	#list {autocombatList} {add} {@strip_braces{%1}};
 	autocombat;
 	#echo {Will execute every 7 seconds.};
-	@createAutocombatTicker{};
+	@createAutocombatTicker{${autocombatList};7};
 	CSAVE
 }
 {5}
