@@ -1,12 +1,3 @@
-#function {createAutocombatTicker}
-{	
-#if {!&{autoHealSelfPercent}}
-{
-#variable {autoHealSelfPercent} {30}
-};
-#ticker {auto_combat}  {#if {$MSDP_OPPONENT_NUMBER != 0 && @percent{MSDP_HEALTH} > ${autoHealSelfPercent}}{#if {"${autocombatList}" != ""}{${autocombatList[@list_rand{autocombatList}]}}}}                                                                                            {%1};
-}
-
 #ALIAS {^autocombat %1 %d$}
 {
 	#list {autocombatList} {clear};
@@ -16,7 +7,7 @@
 	@createAutocombatTicker{%2};
 	CSAVE
 }
-{4}
+{8}
 
 #ALIAS {^autocombat %1}
 {
@@ -27,7 +18,7 @@
 	@createAutocombatTicker{7};
 	CSAVE
 }
-{5}
+{9}
 
 #ALIAS {^autocombat$}
 {
@@ -38,7 +29,7 @@
 		#echo {To set your autocombat commands, type autocombat follow by a list of commands enclosed in braces and separated by semi-colons.}
 	}
 }
-{5}
+{9}
 
 #ALIAS {^noautocombat$}
 {
@@ -47,4 +38,14 @@
 	#unticker {auto_combat};
 	CSAVE
 }
-{5}
+{9}
+
+#FUNCTION {createAutocombatTicker}
+{
+	#if {!&{autoHealSelfPercent}}
+	{
+		#variable {autoHealSelfPercent} {30}
+	};
+	#ticker {auto_combat}  {#if {$MSDP_OPPONENT_NUMBER != 0 && @percent{MSDP_HEALTH} > ${autoHealSelfPercent}}{#if {"${autocombatList}" != ""}{${autocombatList[@list_rand{autocombatList}]}}}}                                                                                            {%1};
+	#return #nop
+}
