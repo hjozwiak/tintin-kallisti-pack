@@ -4,7 +4,7 @@
 {
 #variable {autoHealSelfPercent} {30}
 };
-#ticker {auto_combat}  {#if {$MSDP_OPPONENT_NUMBER != 0 && @percent{MSDP_HEALTH} > ${autoHealSelfPercent}}{#if {"${autocombatList}" != ""}{${autocombatList[@list_rand{autocombatList}]}}}}                                                                                            {%2};
+#ticker {auto_combat}  {#if {$MSDP_OPPONENT_NUMBER != 0 && @percent{MSDP_HEALTH} > ${autoHealSelfPercent}}{#if {"${autocombatList}" != ""}{${autocombatList[@list_rand{autocombatList}]}}}}                                                                                            {%1};
 }
 
 #ALIAS {^autocombat %1 %d$}
@@ -13,7 +13,7 @@
 	#list {autocombatList} {add} {@strip_braces{%1}};
 	autocombat;
 	#echo {Will execute every %2 seconds.};
-	@createAutocombatTicker{${autocombatList};%2};
+	@createAutocombatTicker{%2};
 	CSAVE
 }
 {4}
@@ -24,7 +24,7 @@
 	#list {autocombatList} {add} {@strip_braces{%1}};
 	autocombat;
 	#echo {Will execute every 7 seconds.};
-	@createAutocombatTicker{${autocombatList};7};
+	@createAutocombatTicker{7};
 	CSAVE
 }
 {5}
