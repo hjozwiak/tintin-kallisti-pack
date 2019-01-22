@@ -126,13 +126,13 @@
 	{
 		#foreach {%1} {i}
 		{
-			#if {"&0" == "{down|east|north|south|up|west}"}
+			#if {"$i" == "{down|east|north|south|up|west}"}
 			{
-				#format {i} {%n} {&0}
+				#format {i} {%n} {$i}
 			};
-			#if {"&0" == "C"}
+			#if {"$i" == "C"}
 			{
-				SYNTH_PLAY door$i
+				SYNTH_PLAY door${i}
 			}
 		}
 	}
