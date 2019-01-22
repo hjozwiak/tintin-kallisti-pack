@@ -33,12 +33,16 @@
 
 #ALIAS {^idle$}
 {
+	#local {i} {};
 	#if {!&{idleList}}
 	{
 		#list {idleList} {add} {pose}
 	};
 	#echo {Current commands to avoide the void are:};
-	#forall {${idleList[]}} {#echo {${idleList[&0]}}};
+	#foreach {${idleList[]}} {i}
+	{
+		#echo {${idleList[$i]}}
+	};
 	#echo {To set your idle commands, type idle follow by a list of commands enclosed in braces and separated by semi-colons.}
 }
 {9}
