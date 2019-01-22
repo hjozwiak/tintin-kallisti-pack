@@ -4,7 +4,7 @@
 
 Hooks are changing. before updating from the devel branch, please run this command in your ~/.config/tintin-kallist-pack directory.
 
-    ifs="$IFS";IFS=$'\n';for f in $(find . -type f);do sed -ir 's/\{hook\[(.*)\]\[(.*)\]\}\s+\{(.*)\}/{hook[\1][\3]} {}/g' "$f";done;IFS="$ifs"
+    ifs="$IFS";IFS=$'\n';for f in $(find . -type f);do sed -i -r 's/\{hook\[(.*)\]\[(.*)\]\}\s+\{(.*)\}/{hook[\1][\3]} {}/g' "$f";done;IFS="$ifs"
 
 
 More information coming when we get a chance to rewrite the hooks section. Master branch will be merged and the new hook system will become the default on  January 29, 2019.
