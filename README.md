@@ -1,5 +1,15 @@
 # tintin-kallisti-pack
 
+# Notice
+
+Hooks are changing. before updating from the devel branch, please run this command in your ~/.config/tintin-kallist-pack directory.
+
+    ifs="$IFS";IFS=$'\n';for f in $(find . -type f);do sed -ir 's/\{hook\[(.*)\]\[(.*)\]\}\s+\{(.*)\}/{hook[\1][\3]} {}/g' "$f";done;IFS="$ifs"
+
+
+More information coming when we get a chance to rewrite the hooks section. Master branch will be merged and the new hook system will become the default on  January 29, 2019.
+
+
 Welcome to the [TinTin++][tt++] accessibility pack for [Legends of Kallisti][kallisti] written by [Hunter Jozwiak][hjozwiak] and [Storm Dragon][storm]. Features include.
 # Welcome to the TinTin++ accessibility pack for [Legends of 
 Kallisti][kallisti] written by [Hunter Jozwiak][hjozwiak] and [Storm Dragon][storm]. Features include.
