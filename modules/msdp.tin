@@ -1,9 +1,14 @@
 #ALIAS {MSDP_CONFIGURE %1,%2}
 {
+	#local {i} {};
+	#local {index} {1};
 	#list {MSDP_VALUES} {create} {%2};
-	#variable {index} {1};
 	#send {$IAC$SB$MSDP_PROTOCOL\};
-	#forall {%1} {#send {${VAR}&0${VAL}${MSDP_VALUES[$index]}\};#math {index} {$index+1}};
+	#foreach {%1} {i}
+	{
+		#send {${VAR}${i}${VAL}${MSDP_VALUES[$index]}\};
+		#math {index} {$index+1}
+	};
 	#send {$IAC$SE\}
 }
 {9}
