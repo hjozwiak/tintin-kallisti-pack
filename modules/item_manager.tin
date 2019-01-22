@@ -3,12 +3,17 @@
 	#nop {Hook name: lootCorpse};
 	#nop {Hook args: full text of looted item, e.g. a longsword.};
 	#nop {Only call hook for non-coin related looting.};
+	#local {i} {0};
+	#local {j} {};
 	#if {"%1" != "%*of gold coins" }
 	{
 		#list {hook[lootCorpse]} {size} {i};
 		#if {$i > 0}
 		{
-			#forall {*{hook[lootCorpse][]}} {@&0{%1}}
+			#foreach {*{hook[lootCorpse][]}} {j}
+			{
+				@$j{%1}
+			}
 		}
 	}
 }
@@ -16,11 +21,15 @@
 
 #ALIAS {^{get|give|put} %2, %w %w$}
 {
+	#local {i} {};
 	#local {itemDestination} {%4};
 	#local {items} {%2, %3};
 	#replace {itemDestination} {^{away|out|up}$} {${character[container]}};
 	#replace {items} {,} {;};
-	#forall {$items}{%1 &0 $itemDestination}
+	#foreach {$items} {i}
+	{
+		%1 $i $itemDestination
+	}
 }
 {8}
 
@@ -32,9 +41,13 @@
 
 #ALIAS {^{buy|donate|drop|get|give|take} %2, %3}
 {
+	#local {i} {};
 	#local {items} {%2, %3};
 	#replace {items} {,} {;};
-	#forall {$items}{%1 &0}
+	#foreach {$items} {i}
+	{
+		%1 $i
+	}
 }
 {9}
 
