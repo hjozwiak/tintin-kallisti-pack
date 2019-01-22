@@ -103,9 +103,9 @@
 	#list {friends} {size} {i};
 	#if {$i > 0}
 	{
-		#foreach {${friends[]}} {#echo {${friends[$i]}}}
+		#foreach {${friends[]}} {j}
 		{
-			
+			#echo {${friends[$j]}}
 		}
 	}
 }
