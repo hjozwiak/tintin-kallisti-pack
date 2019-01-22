@@ -122,17 +122,18 @@
 #EVENT {VARIABLE UPDATE MSDP_ROOM_EXITS}
 {
 	#local {i} {};
+	#local {j} {};
 	#if {"%1" != ""}
 	{
 		#foreach {%1} {i}
 		{
 			#if {"$i" == "{down|east|north|south|up|west}"}
 			{
-				#format {i} {%n} {$i}
+				#format {j} {%n} {$i}
 			};
 			#if {"$i" == "C"}
 			{
-				SYNTH_PLAY door${i}
+				SYNTH_PLAY door${j}
 			}
 		}
 	}
