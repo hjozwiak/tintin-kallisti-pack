@@ -83,7 +83,11 @@
 
 #ALIAS {^q{f|ff|ffe|ffec|ffect|ffects}$}
 {
-	#forall {${MSDP_AFFECTS[]}}{#regexp {&0} {{^[^0-9]+$}} {#echo {&0}}}
+	#local {i} {};
+	#foreach {${MSDP_AFFECTS[]}} {i}
+	{
+		#regexp {$i} {{^[^0-9]+$}} {#echo {&0}}
+	}
 }
 {9}
 
@@ -134,6 +138,8 @@
 {
 	#nop {Hook name: characterName};
 	#nop {Hook args: character name.};
+	#local {i} {};
+	#local {j} {};
 	#if {"${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
 	{
 		#variable {historyPath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}\.history};
@@ -171,7 +177,10 @@
 	#list {hook[characterName]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${hook[characterName][]}} {@${hook[characterName][&0]}{%1}}
+		#foreach {*{hook[characterName][]}} {j}
+		{
+			@${j}{%1}
+		}
 	}
 }
 
@@ -179,14 +188,17 @@
 {
 	#nop {Hook name is position};
 	#nop {Hook args: new position.};
+	#local {i} {};
+	#local {j} {};
 	#list {hook[position]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${hook[position][]}} {@${hook[position][&0]}{%1}}
+		#foreach {*{hook[position][]}} {j}
+		{
+			@${j}{%1}
+		}
 	}
 }
 
 #TICKER           {csave}  {#if {"$MSDP_CHARACTER_NAME" == "$OLD_MSDP_CHARACTER_NAME"}{CSAVE}}                                          {90}
 #VARIABLE         {OLD_MSDP}  {}
-#VARIABLE         {characterName}  {}
-#VARIABLE         {characterPosition}  {}
