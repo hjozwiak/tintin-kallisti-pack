@@ -28,14 +28,14 @@
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
 {
-	#local {tmp} {%2};
-	#replace {tmp} {above} {up};
-	#replace {tmp} {below} {down};
-	#replace {tmp} {to the } {};
-	#regexp {%1} {{.*} {.*}} {open &2 $tmp};
+	#local {i} {%2};
+	#replace {i} {above} {up};
+	#replace {i} {below} {down};
+	#replace {i} {to the } {};
+	#regexp {%1} {{.*} {.*}} {open &2 $i;#echo {open &2 $i}};
 	#else
 	{
-		open %1 $tmp
+		open %1 $i
 	};
 	#if {"${auto[track]}" != ""}
 	{
