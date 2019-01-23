@@ -32,8 +32,7 @@
 	#replace {i} {above} {up};
 	#replace {i} {below} {down};
 	#replace {i} {to the } {};
-	#line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i};
-	#line substitute variables #else {open %1 $i};
+	#line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i} {open %1 $i};
 	#if {"${auto[track]}" != ""}
 	{
 		look
