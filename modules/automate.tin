@@ -262,7 +262,7 @@
 
 #ACTION {^You must be sitting to concentrate.$}
 {
-	#if {"$MSDP_POSITION" != "Fighting"}
+	#if {"$MSDP_POSITION" != "Fighting" && !&{character[mount]}}
 	{
 		#line {gag};
 		sit;

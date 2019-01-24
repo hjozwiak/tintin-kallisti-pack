@@ -1,4 +1,4 @@
-#ACTION {^%w %*tells you, ':%3'$}
+#ACTION {^%w %2tells you, ':%3'$}
 {
 	#local {accountName} {%2};
 	#replace {accountName} {{\(|\)| }} {};
