@@ -726,7 +726,7 @@
 		#variable {auto[vdrain]} {50}
 	};
 	#nop {Vdrain takes precedence because it restores hp.};
-	#if {${auto[vdrain]} >= @percent{MSDP_HEALTH}}
+	#if {${auto[vdrain]} >= @percent{MSDP_HEALTH} || ${auto[vdrain]} >= @percent{MSDP_STAMINA}}
 	{
 		vdrain corpse
 	};
