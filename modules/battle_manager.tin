@@ -608,7 +608,7 @@
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i > 0}
 	{
-		#if {${auto.charge} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA > 300}
+		#if {${auto[charge]} && !${MSDP_OPPONENT_NUMBER} && $MSDP_STAMINA > 300}
 		{
 			charge %1
 		};
@@ -816,30 +816,30 @@
 #ALIAS {^auto{heal|rescue} %s{add|remove} %s%w$}
 {
 	#local {i} {};
-	#format {battle_manager.tmp} {%n} {%5};
-	#list {auto%1List} {find} {${battle_manager.tmp}} {i};
+	#format {battle_manager[tmp]} {%n} {%5};
+	#list {auto%1List} {find} {${battle_manager[tmp]}} {i};
 	#if {"%3" == "remove"}
 	{
 		#if {$i == 0}
 		{
-			#echo {You are not current automatically %1ing ${battle_manager.tmp}.}
+			#echo {You are not current automatically %1ing ${battle_manager[tmp]}.}
 		};
 		#else
 		{
 			#list {auto%1List} {delete} {$i};
-			#echo {You are no longer automatically %1ing ${battle_manager.tmp}.}
+			#echo {You are no longer automatically %1ing ${battle_manager[tmp]}.}
 		}
 	};
 	#else
 	{
 		#if {$i != 0}
 		{
-			#echo {You are already automatically %1ing ${battle_manager.tmp}.}
+			#echo {You are already automatically %1ing ${battle_manager[tmp]}.}
 		};
 		#else
 		{
-			#list {auto%1List} {add} {${battle_manager.tmp}};
-			#echo {You are now automatically %1ing ${battle_manager.tmp}.}
+			#list {auto%1List} {add} {${battle_manager[tmp]}};
+			#echo {You are now automatically %1ing ${battle_manager[tmp]}.}
 		}
 	}
 }
