@@ -168,7 +168,7 @@
 }
 {9}
 
-#ACTION {%1 hits %w %*{\.|!}$}
+#ACTION {%1 hits %w %*{.|!}$}
 {
 	#local {i} {};
 	#list {autorescueList} {find} {%2} {i};
@@ -822,24 +822,24 @@
 	{
 		#if {$i == 0}
 		{
-			#echo {You are not current automatically %1ing ${battle_manager.tmp}\.}
+			#echo {You are not current automatically %1ing ${battle_manager.tmp}.}
 		};
 		#else
 		{
 			#list {auto%1List} {delete} {$i};
-			#echo {You are no longer automatically %1ing ${battle_manager.tmp}\.}
+			#echo {You are no longer automatically %1ing ${battle_manager.tmp}.}
 		}
 	};
 	#else
 	{
 		#if {$i != 0}
 		{
-			#echo {You are already automatically %1ing ${battle_manager.tmp}\.}
+			#echo {You are already automatically %1ing ${battle_manager.tmp}.}
 		};
 		#else
 		{
 			#list {auto%1List} {add} {${battle_manager.tmp}};
-			#echo {You are now automatically %1ing ${battle_manager.tmp}\.}
+			#echo {You are now automatically %1ing ${battle_manager.tmp}.}
 		}
 	}
 }
@@ -952,7 +952,7 @@
 	{
 		#if {&{character[chainAttack]}}
 		{
-			#echo {You are currently trying to join battles using ${character[chainAttack]}\.}
+			#echo {You are currently trying to join battles using ${character[chainAttack]}.}
 		};
 		#else
 		{
@@ -976,7 +976,7 @@
 		{
 			#variable {battle_manager[tankName]} {self}
 		};
-		#echo {tank set to ${battle_manager[tankName]}\.}
+		#echo {tank set to ${battle_manager[tankName]}.}
 	}
 }
 {9}

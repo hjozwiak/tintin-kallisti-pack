@@ -26,6 +26,6 @@
 #ALIAS {^{zi|zip|zipc|zipco|zipcod|zipcode}%s%S$}
 {
 	#variable {zipCode} {%3};
-	#showme {Your zipcode is now set to $zipCode\.}
+	#showme {Your zipcode is now set to $zipCode.}
 }
 {9}

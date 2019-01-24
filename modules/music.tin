@@ -92,7 +92,7 @@
 {
 	#variable {music.links[apiUrl]} {%2/yourls-api.php};
 	#variable {music.links[apiKey]} {%4};
-	#echo {music links enabled using ${music.links[apiUrl]}\.};
+	#echo {music links enabled using ${music.links[apiUrl]}.};
 	CSAVE
 }
 {9}
@@ -107,7 +107,7 @@
 	{
 		#variable {music.player} {%2}
 	};
-	#echo {music player set to ${music.player}\.};
+	#echo {music player set to ${music.player}.};
 	CSAVE
 }
 {9}
@@ -117,7 +117,7 @@
 	Get_Music_Message_String;
 	#if {!&{music.links[apiKey]}}
 	{
-		%2 Now playing: $msg via ${music.player}\.
+		%2 Now playing: $msg via ${music.player}.
 	};
 	#else
 	{
@@ -126,7 +126,7 @@
 		#replace {music.links[longUrl]} {&} {%%26};
 		#script {i} {curl -s --data "signature=${music.links[apiKey]}" --data "action=shorturl" --data "format=text" --data-urlencode "url=${music.links[longUrl]}" ${music.links[apiUrl]}};
 		#variable {music.links[shortUrl]} {${i[1]}};
-		%2 Now playing: $msg via ${music.player}\. ${music.links[shortUrl]}
+		%2 Now playing: $msg via ${music.player}. ${music.links[shortUrl]}
 	}
 }
 {9}
@@ -160,7 +160,7 @@
 	{
 		#variable {music.links[apiUrl]} {https://1u.rs/yourls-api.php};
 		#variable {music.links[apiKey]} {b0dda9c182};
-		#echo {music links enabled using ${music.links[apiUrl]}\.}
+		#echo {music links enabled using ${music.links[apiUrl]}.}
 	};
 	#else
 	{
@@ -347,7 +347,7 @@
 {
 	#nop {Currently playing track};
 	Get_Music_Message_String;
-	#showme {$msg\.}
+	#showme {$msg.}
 }
 
 #MACRO {\eV}

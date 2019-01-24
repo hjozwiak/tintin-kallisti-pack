@@ -1,9 +1,9 @@
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
-	#unvariable {auto.track};
-	#if {&{auto.pick}}
+	#unvariable {auto[track]};
+	#if {&{auto[pick]}}
 	{
-		#regexp {%1} {{.*} {.*}} {#variable {auto.pick} {&2 %2}};
+		#regexp {%1} {{.*} {.*}} {#variable {auto[pick]} {&2 %2}};
 		#else
 		{
 			#variable {auto[pick]} {%1 %2}
@@ -663,7 +663,7 @@
 {
 	#loop {1} {%1} {i}
 	{
-		%2 $i\.%3
+		%2 $i.%3
 	}
 }
 {9}
@@ -734,7 +734,7 @@
 			};
 			#default
 			{
-				#echo {auto-%1 is set to  ${%0}\.}
+				#echo {auto-%1 is set to  ${%0}.}
 			}
 		}
 	};
@@ -789,7 +789,7 @@
 		{
 			#if {"${heal[$i]}" != "#nop"}
 			{
-				#echo {Healing at $i set to ${heal[$i]}\.}
+				#echo {Healing at $i set to ${heal[$i]}.}
 			};
 			#else
 			{
@@ -803,7 +803,7 @@
 #ALIAS {^heal.{moderate|severe|nearDeath|incapacitated|stunned|morted} %2}
 {
 	#variable {heal[%1]} {@strip_braces{%2}};
-	#echo {heal.%1 set to ${heal.%1}\.};
+	#echo {heal.%1 set to ${heal.%1}.};
 	CSAVE
 }
 {9}

@@ -24,7 +24,7 @@
 	};
 	#if {&{keyProfile[${keySetName}][%1]}}
 	{
-		#showme {alt+%1 is set to ${keyProfile[${keySetName}][%1]}\.}
+		#showme {alt+%1 is set to ${keyProfile[${keySetName}][%1]}.}
 	};
 	#else
 	{
@@ -42,7 +42,7 @@
 	};
 	#else
 	{
-		#showme {keyset ${keySetName}\.}
+		#showme {keyset ${keySetName}.}
 	};
 	CSAVE
 }
@@ -54,7 +54,7 @@
 	{
 		#variable {keySetName} {Default}
 	};
-	#showme {Keyset $keySetName\.}
+	#showme {Keyset $keySetName.}
 }
 {9}
 

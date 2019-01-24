@@ -224,7 +224,7 @@
 	};
 	#else
 	{
-		#echo {Nothing to show for channel $i\.}
+		#echo {Nothing to show for channel $i.}
 	}
 }
 {9}

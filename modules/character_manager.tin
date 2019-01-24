@@ -2,7 +2,7 @@
 {
 	#if {"$MSDP_CHARACTER_NAME" != "" && "$MSDP_POSITION" != "Menu"}
 	{
-		#variable {historyPath} {${HOME}/${MSDP_CHARACTER_NAME}\.history};
+		#variable {historyPath} {${HOME}/${MSDP_CHARACTER_NAME}.history};
 		#replace {historyPath} {\\} {};
 		#history {write} {$historyPath};
 		#unvariable {historyPath};
@@ -15,7 +15,7 @@
 #ALIAS {^bot{kill|load} %S$}
 {
 	#nop {character bot path};
-	#variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}\.bots};
+	#variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}.bots};
 	#replace {modpath} {\\} {};
 	#nop {Kill, load, or reload a specified bot.};
 	#if {"%1" == "kill"}
@@ -46,7 +46,7 @@
 {
 	CSAVE;
 	#nop {character module path};
-	#variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}\.modules};
+	#variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}.modules};
 	#replace {modpath} {\\} {};
 	#nop {reload all modules};
 	#if {"%0" == "cmodreload all"}
@@ -142,14 +142,14 @@
 	#local {j} {};
 	#if {"${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
 	{
-		#variable {historyPath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}\.history};
+		#variable {historyPath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.history};
 		#replace {historyPath} {\\} {};
 		#history {write} {$historyPath};
 		#unvariable {historyPath};
 		#class {${OLD_MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
 		#class {${OLD_MSDP_CHARACTER_NAME}} {kill};
 		#nop {unload any old character classes};
-		#variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}\.modules};
+		#variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.modules};
 		#replace {modpath} {\\} {};
 		#script {for module in $modpath/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {kill}";done}
 	};
