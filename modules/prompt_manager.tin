@@ -1,40 +1,40 @@
 #EVENT {VARIABLE UPDATE MSDP_HEALTH}
 {
-	#if {!&{character.audioprompt}}
+	#if {!&{character[audioprompt]}}
 	{
-		#variable {character.audioprompt} {1}
+		#variable {character[audioprompt]} {1}
 	};
-	#math {audioprompt.health} {(%1 / $MSDP_HEALTH_MAX) *100.0};
-	#if {${audioprompt.health} < 100}
+	#math {audioprompt[health]} {(%1 / $MSDP_HEALTH_MAX) *100.0};
+	#if {${audioprompt[health]} < 100}
 	{
-		#format {audioprompt.health} {%d} {${audioprompt.health} - ${audioprompt.health} % 10};
-		#if {${audioprompt.health} != ${audioprompt.oldHealth} && ${character.audioprompt} && ${MSP.SOUND}}
+		#format {audioprompt[health]} {%d} {${audioprompt[health]} - ${audioprompt[health]} % 10};
+		#if {${audioprompt[health]} != ${audioprompt[oldHealth]} && ${character[audioprompt]} && ${MSP[SOUND]}}
 		{
-			#if {&{health${audioprompt.health}}}
+			#if {&{health${audioprompt[health]}}}
 			{
-				SYNTH_PLAY health${audioprompt.health};
-				#variable {audioprompt.oldHealth} {${audioprompt.health}}
+				SYNTH_PLAY health${audioprompt[health]};
+				#variable {audioprompt[oldHealth]} {${audioprompt[health]}}
 			}
 		}
 	};
 	#nop {Use the autorecall command if hp is below the specified %};
-	#if {!&{auto.recallPercent}}
+	#if {!&{auto[recallPercent]}}
 	{
-		#variable {auto.recallPercent} {20};
+		#variable {auto[recallPercent]} {20};
 		CSAVE
 	};
-	#if {(%1 / $MSDP_HEALTH_MAX) * 100.0 <= ${auto.recallPercent} && $MSDP_OPPONENT_NUMBER > 0}
+	#if {(%1 / $MSDP_HEALTH_MAX) * 100.0 <= ${auto[recallPercent]} && $MSDP_OPPONENT_NUMBER > 0}
 	{
-		#if {!${spam.recall}}
+		#if {!${spam[recall]}}
 		{
-			#if {&{auto.recall}}
+			#if {&{auto[recall]}}
 			{
 				#if {!${breakout}}
 				{
 					breakout;
 					spamset breakout 15
 				};
-				${auto.recall};
+				${auto[recall]};
 				spamset recall 5
 			}
 		}
@@ -57,18 +57,18 @@
 
 #EVENT {VARIABLE UPDATE MSDP_MANA}
 {
-	#math {audioprompt.mana} {(%1 / $MSDP_MANA_MAX) *100.0};
-	#if {${audioprompt.mana} < 100}
+	#math {audioprompt[mana]} {(%1 / $MSDP_MANA_MAX) *100.0};
+	#if {${audioprompt[mana]} < 100}
 	{
-		#format {audioprompt.mana} {%d} {${audioprompt.mana} - ${audioprompt.mana} % 10};
-		#if {${audioprompt.mana} != ${audioprompt.oldMana}}
+		#format {audioprompt[mana]} {%d} {${audioprompt[mana]} - ${audioprompt[mana]} % 10};
+		#if {${audioprompt[mana]} != ${audioprompt[oldMana]}}
 		{
-			#if {${character.audioprompt} && ${MSP.SOUND}}
+			#if {${character[audioprompt]} && ${MSP[SOUND]}}
 			{
-				#if {&{mana${audioprompt.mana}}}
+				#if {&{mana${audioprompt[mana]}}}
 				{
-					SYNTH_PLAY mana${audioprompt.mana};
-					#variable {audioprompt.oldMana} {${audioprompt.mana}}
+					SYNTH_PLAY mana${audioprompt[mana]};
+					#variable {audioprompt[oldMana]} {${audioprompt[mana]}}
 				}
 			}
 		}
@@ -77,11 +77,11 @@
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_HEALTH}
 {
-	#if {!&{character.beeps}}
+	#if {!&{character[beeps]}}
 	{
-		#variable {character.beeps} {1}
+		#variable {character[beeps]} {1}
 	};
-	#if {%1 != 0 && ${character.beeps} && ${MSP.SOUND}}
+	#if {%1 != 0 && ${character[beeps]} && ${MSP[SOUND]}}
 	{
 		#math {enemyConditionTone} {%1 * 10 + 200};
 		#system {play -q -V0 -n synth 0.06 tri $enemyConditionTone fade 0.01 0.09 gain ${MSP[VOLUME]}&}
@@ -90,18 +90,18 @@
 
 #EVENT {VARIABLE UPDATE MSDP_STAMINA}
 {
-	#math {audioprompt.movement} {(%1 / $MSDP_STAMINA_MAX) *100.0};
-	#if {${audioprompt.movement} < 100}
+	#math {audioprompt[movement]} {(%1 / $MSDP_STAMINA_MAX) *100.0};
+	#if {${audioprompt[movement]} < 100}
 	{
-		#format {audioprompt.movement} {%d} {${audioprompt.movement} - ${audioprompt.movement} % 10};
-		#if {${audioprompt.movement} != ${audioprompt.oldMovement}}
+		#format {audioprompt[movement]} {%d} {${audioprompt[movement]} - ${audioprompt[movement]} % 10};
+		#if {${audioprompt[movement]} != ${audioprompt[oldMovement]}}
 		{
-			#if {${character.audioprompt} && ${MSP.SOUND}}
+			#if {${character[audioprompt]} && ${MSP[SOUND]}}
 			{
-				#if {&{movement${audioprompt.movement}}}
+				#if {&{movement${audioprompt[movement]}}}
 				{
-					SYNTH_PLAY movement${audioprompt.movement};
-					#variable {audioprompt.oldMovement} {${audioprompt.movement}}
+					SYNTH_PLAY movement${audioprompt[movement]};
+					#variable {audioprompt[oldMovement]} {${audioprompt[movement]}}
 				}
 			}
 		}
