@@ -235,7 +235,7 @@
 		{
 			#if {&{auto[shape]}}
 			{
-				%1 #${auto[shape]}
+				%1 ${auto[shape]}
 			}
 		};
 		#default
@@ -829,7 +829,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain|vigor.*|warcry|warpaint.*|wraith}$}
+#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|wraith}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
