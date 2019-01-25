@@ -658,7 +658,7 @@
 	#nop {Hook name: redemption.};
 	#nop {Hook args: number gained.};
 	#nop {Hook args: Type of gain, e.g. mana.};
-	#regexp {%1} {You gain %d {hitpoints|mana|stamina}} {@do_hook{redemption;&1;&2}};
+	#regexp {%1} {You gain {\d+} {hitpoints|mana|stamina}} {@do_hook{redemption;&1;&2}};
 	#else
 	{
 		@do_hook{redemption;0;alignment}

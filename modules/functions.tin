@@ -30,17 +30,13 @@
 #FUNCTION {do_hook}
 {
 	#nop {Note: Hook names cannot have the semicolon character in them.};
-	#local {hookArgs} {};
+	#local {hookArgs} {%0};
 	#local {i} {0};
 	#local {j} {};
 	#list {hook[%1]} {size} {i};
 	#if {$i > 0}
 	{
-		#regexp {%0} {{[^;]+};%*} {#var {hookArgs} {&2}};
-		#else
-		{
-			#variable {hookArgs} {}
-		};
+		#replace {hookArgs} {{^[^;]+;}} {};
 		#foreach {*{hook[%1][]}} {j}
 		{
 			@${j}{${hookArgs}}
