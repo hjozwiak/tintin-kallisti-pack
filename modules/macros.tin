@@ -70,7 +70,11 @@
 
 #MACRO {\cc}
 {
-	breakout
+	#if {!${spam[breakout]}}
+	{
+		spamset breakout;
+		breakout
+	}
 }
 
 #MACRO {\e[2~}
