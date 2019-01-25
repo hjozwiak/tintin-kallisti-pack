@@ -30,13 +30,30 @@
 #FUNCTION {do_hook}
 {
 	#nop {Note: Hook names cannot have the semicolon character in them.};
-	#local {hookArgs} {%0};
 	#local {i} {0};
-	#local {j} {};
 	#list {hook[%1]} {size} {i};
 	#if {$i > 0}
 	{
-		#replace {hookArgs} {{^[^;]+;}} {};
+		#local {hookArgsList} {};
+		#local {hookArgs} {};
+		#local {j} {};
+		#local {k} {};
+		#list {hookArgsList} {create} {%0};
+		#foreach {${hookArgsList[]}} {k}
+		{
+			#if {$k == 1}
+			{
+				#continue
+			};
+			#if {$k == 2}
+			{
+				#variable {hookArgs} {${hookArgsList[$k]}}
+			};
+			#else
+			{
+				#variable {hookArgs} {$hookArgs;${hookArgsList[$k]}}
+			}
+		};
 		#foreach {*{hook[%1][]}} {j}
 		{
 			@${j}{${hookArgs}}
@@ -91,3 +108,4 @@
 	#nop Return the length of a string.;
 	#format result {%L} {%0}
 }
+
