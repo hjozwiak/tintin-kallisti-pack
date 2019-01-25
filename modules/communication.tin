@@ -1,24 +1,16 @@
-#ACTION {^{\*\*\w+|You grouptell}: %2}
+#ACTION {^**%w: %2}
 {
 	#nop {Hook name is groupTell.};
 	#nop {Hook args %1 Name.};
 	#nop {Hook args %2 message to channel, includes '' if present.};
-	#local {i} {};
-	#local {j} {};
 	Channel_Event GroupTell %0;
-	#if {"%1" != "You%*"}
-	{
-		#list {hook[groupTell]} {size} {i};
-		#if {$i > 0}
-		{
-			#variable {i} {%1};
-			#replace {i} {^\\*\\*} {};
-			#foreach {*{hook[groupTell][]}} {j}
-			{
-				@${j}{$i;%2}
-			}
-		}
-	}
+	@do_hook{groupTell;%1;%2}
+}
+{8}
+
+#ACTION {^You grouptell: %2}
+{
+	Channel_Event GroupTell %0
 }
 {8}
 
