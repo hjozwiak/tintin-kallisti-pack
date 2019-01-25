@@ -34,8 +34,8 @@
 	#list {hook[%1]} {size} {i};
 	#if {$i > 0}
 	{
-		#local {hookArgsList} {};
-		#local {hookArgs} {};
+		#variable {hookArgsList} {};
+		#variable {hookArgs} {};
 		#local {j} {};
 		#local {k} {};
 		#list {hookArgsList} {create} {%0};
@@ -47,17 +47,19 @@
 			};
 			#if {$k == 2}
 			{
-				#variable {hookArgs} {${hookArgsList[$k]}}
+				#variable {hookArgs} {${hookArgsList[$k]}}			
 			};
 			#else
 			{
-				#variable {hookArgs} {$hookArgs;${hookArgsList[$k]}}
+				#variable {hookArgs} {$hookArgs;${hookArgsList[$k]}}			
 			}
 		};
 		#foreach {*{hook[%1][]}} {j}
 		{
 			@${j}{${hookArgs}}
-		}
+		};
+		#unvariable {hookArgs};
+		#unvariable {hookArgsList}
 	};
 	#return #nop
 }
