@@ -32,7 +32,7 @@
 				#if {!${breakout}}
 				{
 					breakout;
-					spamset breakout 15
+					spamset breakout 10
 				};
 				${auto[recall]};
 				spamset recall
