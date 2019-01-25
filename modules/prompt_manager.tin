@@ -35,7 +35,7 @@
 					spamset breakout 15
 				};
 				${auto[recall]};
-				spamset recall 5
+				spamset recall
 			}
 		}
 	};
