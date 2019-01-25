@@ -653,6 +653,19 @@
 }
 {9}
 
+#ACTION {^Redemption!  {You feel more holey|You gain \d+ (?:hitpoints|mana|stamina)}.$}
+{
+	#nop {Hook name: redemption.};
+	#nop {Hook args: number gained.};
+	#nop {Hook args: Type of gain, e.g. mana.};
+	#regexp {%1} {You gain %d {hitpoints|mana|stamina}} {@do_hook{redemption;&1;&2}};
+	#else
+	{
+		@do_hook{redemption;0;alignment}
+	}
+}
+{9}
+
 #ACTION {^SEEK SHELTER AT ONCE!%s%w has begun to sing.$}
 {
 	#local {i} {};
