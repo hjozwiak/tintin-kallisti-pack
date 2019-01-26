@@ -339,7 +339,7 @@
 		};
 		#list {onDeath} {clear}
 	};
-	@do_function{mobDeath;%1};
+	@do_hook{mobDeath;%1};
 	#nop {if edrain or vdrain are enabled they are set to 1 unless specified, so set the default to 50% instead.};
 	#if {${auto[edrain]} == 1}
 	{
