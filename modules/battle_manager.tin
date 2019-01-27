@@ -2,18 +2,9 @@
 {
 	#nop {Hook name is rangedEnd	};
 	#nop {Hook args: name of thing that advanced on you.};
-	#local {i} {};
-	#local {j} {};
 	#variable {rangedCombat} {0};
 	SYNTH_PLAY warningSound;
-	#list {hook[rangedEnd]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[rangedEnd][]}} {j}
-		{
-			@${j}{%1}
-		}
-	}
+	@do_hook{rangedEnd;%1}
 }
 {9}
 
@@ -167,20 +158,12 @@
 	#nop {Hook name: groupAdd.};
 	#nop {Hook args: person added to group.};
 	#local {i} {};
-	#local {j} {};
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i == 0}
 	{
 		#list {groupMemberList} {add} {%1}
 	};
-	#list {hook[groupAdd]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[groupAdd][]}} {j}
-		{
-			@${j}{%1}
-		}
-	}
+	@do_hook{groupAdd;%1}
 }
 {9}
 

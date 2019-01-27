@@ -141,21 +141,12 @@
 {
 	#nop {Hook name playerDeath};
 	#nop {Hook args: none.};
-	#local {i} {};
-	#local {j} {};
 	#unvariable {leader};
 	#if {${auto[relogin]}}
 	{
 		${auto[relogin]}
 	};
-	#list {hook[playerDeath]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[playerDeath][]}} {j}
-		{
-			@${j}{}
-		}
-	}
+	@do_hook{playerDeath}
 }
 {9}
 
@@ -227,8 +218,6 @@
 {
 	#nop {Hook name  concentration.};
 	#nop {Hook args: the item on which you were concentrating, e.g. shapechange.};
-	#local {i} {};
-	#local {j} {};
 	#switch {"%1"}
 	{
 		#case {"shapechange"}
@@ -249,14 +238,7 @@
 			}
 		}
 	};
-	#list {hook[concentration]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[concentration][]}} {j}
-		{
-			@${j}{%1}
-		}
-	}
+	@do_hook{concentration;%1}
 }
 {9}
 
@@ -279,14 +261,7 @@
 	#local {j} {};
 	#if {&{auto[track]}}
 	{
-		#list {hook[trackEnd]} {size} {i};
-		#if {$i > 0}
-		{
-			#foreach {*{hook[trackEnd][]}} {j}
-			{
-				@${j}{}
-			}
-		};
+		@do_hook{trackEnd};
 		SYNTH_PLAY notificationSound;
 		#unvariable {auto[track]}
 	}
@@ -488,18 +463,9 @@
 {
 	#nop {Hook name is trackEnd.};
 	#nop {Hook args tracked target.};
-	#local {i} {};
-	#local {j} {};
 	#if {&{auto[track]}}
 	{
-		#list {hook[trackEnd]} {size} {i};
-		#if {$i > 0}
-		{
-			#foreach {*{hook[trackEnd][]}} {j}
-			{
-				@${j}{}
-			}
-		};
+		@do_hook{trackEnd};
 		SYNTH_PLAY notificationSound;
 		#unvariable {auto[track]}
 	}
@@ -521,24 +487,8 @@
 	#nop {Hook args hunted target.};
 	#nop {Hook name is trackLose.};
 	#nop {Hook args hunted target.};
-	#local {i} {};
-	#local {j} {};
-	#list {hook[trackFail]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[trackFail][]}} {j}
-		{
-			@${j}{${auto[track]}}
-		}
-	};
-	#list {hook[trackLose]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[trackLose][]}} {j}
-		{
-			@${j}{${auto[track]}}
-		}
-	};
+	@do_hook{trackFail;${auto[track]}};
+	@do_hook{trackLose;${auto[track]}};
 	#unvariable {auto[track]}
 }
 {9}

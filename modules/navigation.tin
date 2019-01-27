@@ -4,8 +4,6 @@
 	#nop {Hook args: flee status 0 for no, 1 for yes.};
 	#nop {Hook args: name of leaveee.};
 	#nop {Hook args: direction they left.};
-	#local {i} {};
-	#local {j} {};
 	#if {"%1" == "${fleeString}"}
 	{
 		#variable {fleeString} {1}
@@ -14,14 +12,7 @@
 	{
 		#variable {fleeString} {0}
 	};
-	#list {hook[leave]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[leave][]}} {j}
-		{
-			@${j}{${fleeString};%1;%3}
-		}
-	};
+	@do_hook{leave;${fleeString};%1;%3};
 	#variable {fleeString} {}
 }
 {9}
@@ -45,16 +36,7 @@
 	#nop {Hook name: arrive};
 	#nop {Hook args: name of arrivee.};
 	#nop {Hook args: direction from which they arrived.};
-	#local {i} {};
-	#local {j} {};
-	#list {hook[arrive]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[arrive][]}} {j}
-		{
-			@${j}{%1;%4}
-		}
-	}
+	@do_hook{arrive;%1;%4}
 }
 {9}
 
@@ -73,7 +55,10 @@
 
 #ACTION {^Alas, you cannot go {down|east|north|south|up|west}...$}
 {
-	SYNTH_PLAY cannot_go_%1
+	#nop {Hook name: bump};
+	#nop {Hook arg: direction that is blocked.};
+	SYNTH_PLAY cannot_go_%1;
+	@do_hook{bump;%1}
 }
 {9}
 
@@ -103,16 +88,7 @@
 {
 	#nop {Hook name: areaName};
 	#nop {Hook args: the area's name.};
-	#local {i} {};
-	#local {j} {};
-	#list {hook[areaName]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[areaName][]}} {j}
-		{
-			@${j}{%1}
-		}
-	}
+	@do_hook{areaName;%1}
 }
 
 #EVENT {VARIABLE UPDATE MSDP_ROOM_EXITS}
@@ -139,24 +115,13 @@
 {
 	#nop {Hook name: roomName};
 	#nop {Hook args: the rooms name.};
-	#local {i} {};
-	#local {j} {};
-	#list {hook[roomName]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[roomName][]}} {j}
-		{
-			@${j}{%1}
-		}
-	}
+	@do_hook{roomName;%1}
 }
 
 #EVENT {VARIABLE UPDATE MSDP_ROOM_VNUM}
 {
 	#nop {Hook name: roomNumber};
 	#nop {Hook args: the rooms vnum.};
-	#local {i} {};
-	#local {j} {};
 	#variable {fleeString} {};
 	#switch {%1}
 	{
@@ -194,14 +159,7 @@
 			}
 		}
 	};
-	#list {hook[roomNumber]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[roomNumber][]}} {j}
-		{
-			@${j}{%1}
-		}
-	}
+	@do_hook{roomNumber;%1}
 }
 
 #MACRO {\e,}
@@ -245,4 +203,3 @@
 {
 	e
 }
-
