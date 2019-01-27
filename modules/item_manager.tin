@@ -3,18 +3,9 @@
 	#nop {Hook name: lootCorpse};
 	#nop {Hook args: full text of looted item, e.g. a longsword.};
 	#nop {Only call hook for non-coin related looting.};
-	#local {i} {0};
-	#local {j} {};
 	#if {"%1" != "%*of gold coins" }
 	{
-		#list {hook[lootCorpse]} {size} {i};
-		#if {$i > 0}
-		{
-			#foreach {*{hook[lootCorpse][]}} {j}
-			{
-				@$j{%1}
-			}
-		}
+		@do_hook{lootCorpse;1}
 	}
 }
 {9}

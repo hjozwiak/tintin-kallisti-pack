@@ -138,8 +138,6 @@
 {
 	#nop {Hook name: characterName};
 	#nop {Hook args: character name.};
-	#local {i} {};
-	#local {j} {};
 	#if {"${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
 	{
 		#variable {historyPath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.history};
@@ -174,30 +172,14 @@
 		#echo {Client side spam filters applied.}
 	};
 	#class {%1} {open};
-	#list {hook[characterName]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[characterName][]}} {j}
-		{
-			@${j}{%1}
-		}
-	}
+	@do_hook{charactername;%1}
 }
 
 #EVENT {VARIABLE UPDATE MSDP_POSITION}
 {
 	#nop {Hook name is position};
 	#nop {Hook args: new position.};
-	#local {i} {};
-	#local {j} {};
-	#list {hook[position]} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{hook[position][]}} {j}
-		{
-			@${j}{%1}
-		}
-	}
+	@do_hook{position;%1}
 }
 
 #TICKER           {csave}  {#if {"$MSDP_CHARACTER_NAME" == "$OLD_MSDP_CHARACTER_NAME"}{CSAVE}}                                          {90}
