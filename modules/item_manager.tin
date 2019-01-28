@@ -3,9 +3,9 @@
 	#nop {Hook name: lootCorpse};
 	#nop {Hook args: full text of looted item, e.g. a longsword.};
 	#nop {Only call hook for non-coin related looting.};
-	#if {"%1" != "%*of gold coins" }
+	#if {"%1" != "%*of gold coins"}
 	{
-		@do_hook{lootCorpse;1}
+		@do_hook{lootCorpse;%1}
 	}
 }
 {9}
