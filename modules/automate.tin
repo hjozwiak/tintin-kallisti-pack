@@ -815,10 +815,13 @@
 
 #EVENT {VARIABLE UPDATE MSDP_WORLD_TIME}
 {
-	#if {&{at[%1]}}
+	#if {"%1" != "" && "%1" != "${msdpOldList[WORLD_TIME]}"}
 	{
-		@strip_braces{${at[%1]}};
-		#unvariable {at[%1]}
+		#if {&{at[%1]}}
+		{
+			@strip_braces{${at[%1]}};
+			#unvariable {at[%1]}
+		}
 	}
 }
 

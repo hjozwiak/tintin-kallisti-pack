@@ -86,26 +86,32 @@
 
 #EVENT {VARIABLE UPDATE MSDP_AREA_NAME}
 {
-	#nop {Hook name: areaName};
-	#nop {Hook args: the area's name.};
-	@do_hook{areaName;%1}
+	#if {"%1" != "" && "%1" != "${msdpOldList[AREA_NAME]}"}
+	{
+		#nop {Hook name: areaName};
+		#nop {Hook args: the area's name.};
+		@do_hook{areaName;%1}
+	}
 }
 
 #EVENT {VARIABLE UPDATE MSDP_ROOM_EXITS}
 {
-	#local {i} {};
-	#local {j} {};
-	#if {"%1" != ""}
+	#if {"%1" != "" && "%1" != "${msdpOldList[ROOM_EXITS]}"}
 	{
-		#foreach {%1} {i}
+		#local {i} {};
+		#local {j} {};
+		#if {"%1" != ""}
 		{
-			#if {"$i" == "{down|east|north|south|up|west}"}
+			#foreach {%1} {i}
 			{
-				#format {j} {%n} {$i}
-			};
-			#if {"$i" == "C"}
-			{
-				SYNTH_PLAY door${j}
+				#if {"$i" == "{down|east|north|south|up|west}"}
+				{
+					#format {j} {%n} {$i}
+				};
+				#if {"$i" == "C"}
+				{
+					SYNTH_PLAY door${j}
+				}
 			}
 		}
 	}
@@ -113,53 +119,59 @@
 
 #EVENT {VARIABLE UPDATE MSDP_ROOM_NAME}
 {
-	#nop {Hook name: roomName};
-	#nop {Hook args: the rooms name.};
-	@do_hook{roomName;%1}
+	#if {"%1" != "" && "%1" != "${msdpOldList[ROOM_NAME]}"}
+	{
+		#nop {Hook name: roomName};
+		#nop {Hook args: the rooms name.};
+		@do_hook{roomName;%1}
+	}
 }
 
 #EVENT {VARIABLE UPDATE MSDP_ROOM_VNUM}
 {
-	#nop {Hook name: roomNumber};
-	#nop {Hook args: the rooms vnum.};
-	#variable {fleeString} {};
-	#switch {%1}
+	#if {"%1" != "" && "%1" != "${msdpOldList[ROOM_VNUM]}"}
 	{
-		#case {13200}
+		#nop {Hook name: roomNumber};
+		#nop {Hook args: the rooms vnum.};
+		#variable {fleeString} {};
+		#switch {%1}
 		{
-			#nop {at Meta Shop, deposit all gold if autodeposit is enabled.};
-			#if {${auto[deposit]}}
+			#case {13200}
 			{
-				#if {$MSDP_GOLD > 0}
+				#nop {at Meta Shop, deposit all gold if autodeposit is enabled.};
+				#if {${auto[deposit]}}
 				{
-					deposit all
+					#if {$MSDP_GOLD > 0}
+					{
+						deposit all
+					}
+				}
+			};
+			#case {3546}
+			{
+				#nop {at Midgaard bank, deposit all gold if autodeposit is enabled.};
+				#if {${auto[deposit]}}
+				{
+					#if {$MSDP_GOLD > 0}
+					{
+						deposit all
+					}
+				}
+			};
+			#case {3559}
+			{
+				#nop {at Adventurers Guild, deposit all gold if autodeposit is enabled.};
+				#if {${auto[deposit]}}
+				{
+					#if {$MSDP_GOLD > 0}
+					{
+						deposit all
+					}
 				}
 			}
 		};
-		#case {3546}
-		{
-			#nop {at Midgaard bank, deposit all gold if autodeposit is enabled.};
-			#if {${auto[deposit]}}
-			{
-				#if {$MSDP_GOLD > 0}
-				{
-					deposit all
-				}
-			}
-		};
-		#case {3559}
-		{
-			#nop {at Adventurers Guild, deposit all gold if autodeposit is enabled.};
-			#if {${auto[deposit]}}
-			{
-				#if {$MSDP_GOLD > 0}
-				{
-					deposit all
-				}
-			}
-		}
-	};
-	@do_hook{roomNumber;%1}
+		@do_hook{roomNumber;%1}
+	}
 }
 
 #MACRO {\e,}
@@ -203,3 +215,4 @@
 {
 	e
 }
+
