@@ -201,7 +201,7 @@ Although we try our best, we just can't handle all situations for all characters
 
 The pack's components are normally set to precedence 9 and move up to 8 if something needs to be overridden. So, for character modules, make your actions and aliases 5 or less and there should not be any conflicts. For clarification, the lower the number, the higher the precedence.
 
-There is a hook system to minimize the need to overwrite existing events like actions. Documentation for the hook is at the top of the event where it is called. The information listed is the name of the hook and the arguments passed to it. To create a hook, simply include a variable of the name of your hook and the contents of the variable should be the function to be called. Then write a function with the code to be ran. One caveat, if you don't want the function to return anything, simply return #nop, or set the variable result to #nop.  Note that hook names are lists, so you can have more than one call in more than one module. Here is a small example that will taunt a fallen foe if your hp is over half full and pant if it is less than half full:
+There is a hook system to minimize the need to overwrite existing events like actions. Documentation for the hook is at the top of the event where it is called. The information listed is the name of the hook and the arguments passed to it. To create a hook, simply include a variable of the name of your hook and the contents of the variable should be empty. Then write a function with the code to be ran. One caveat, if you don't want the function to return anything, simply return #nop, or set the variable result to #nop.  Note that hook names are lists, so you can have more than one call in more than one module. Here is a small example that will taunt a fallen foe if your hp is over half full and pant if it is less than half full:
 
     #function {victory_taunt}
     {
@@ -215,7 +215,7 @@ There is a hook system to minimize the need to overwrite existing events like ac
         }
     }
     
-    #variable {hook[mobDeath][victory]} {victory_taunt}
+    #variable {hook[mobDeath][victory_taunt]} {}
 
 Hooks are being added and improved constantly. If you don't see the one you need, please ask for it. Once completed, the hook system can add a whole new level of robustness to the pack.
 
