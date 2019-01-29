@@ -217,6 +217,11 @@ There is a hook system to minimize the need to overwrite existing events like ac
     
     #variable {hook[mobDeath][victory_taunt]} {}
 
+Note that this is a change from the previous behavior. If you have hooks and they no longer work after upgrading, you can update to the new format by doing the following:
+
+    cd ~/.config/tintin-kallisti-pack/
+    ifs="$IFS";IFS=$'\n';for f in $(find . -type f);do sed -i -r 's/\{hook\[(.*)\]\[(.*)\]\}\s+\{(.+)\}/{hook[\1][\3]} {}/g' "$f";done;IFS="$ifs"
+
 Hooks are being added and improved constantly. If you don't see the one you need, please ask for it. Once completed, the hook system can add a whole new level of robustness to the pack.
 
 
