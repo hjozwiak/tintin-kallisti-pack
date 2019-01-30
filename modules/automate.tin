@@ -815,7 +815,7 @@
 
 #EVENT {VARIABLE UPDATE MSDP_WORLD_TIME}
 {
-	#if {"%1" != "" && "%1" != "${msdpOldList[WORLD_TIME]}"}
+	#if {"%1" != "" && !$copying}
 	{
 		#if {&{at[%1]}}
 		{

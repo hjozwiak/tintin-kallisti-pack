@@ -9,11 +9,13 @@
 		#unvariable {MSDP_%*};
 		#class {${msdpOldList[CHARACTER_NAME]}} {write} {${HOME}/${msdpOldList[CHARACTER_NAME]}};
 		#class {${msdpOldList[CHARACTER_NAME]}} {close};
+		#variable {copying} {1};
 		#local {i} {};
 		#foreach {${msdpOldList[]}} {i}
 		{
 			#variable {MSDP_$i} {${msdpOldList[$i]}}
 		};
+		#variable {copying} {0};
 		#class {${MSDP_CHARACTER_NAME}} {open}
 	}
 }
@@ -143,7 +145,7 @@
 
 #EVENT {VARIABLE UPDATE MSDP_CHARACTER_NAME}
 {
-	#if {"%1" != "" && "%1" != "${msdpOldList[CHARACTER_NAME]}"}
+	#if {"%1" != "" && !$copying}
 	{
 		#nop {Hook name: characterName};
 		#nop {Hook args: character name.};
@@ -187,7 +189,7 @@
 
 #EVENT {VARIABLE UPDATE MSDP_POSITION}
 {
-	#if {"%1" != "" && "%1" != "${msdpOldList[POSITION]}"}
+	#if {"%1" != "" && !$copying}
 	{
 		#nop {Hook name is position};
 		#nop {Hook args: new position.};
@@ -197,3 +199,4 @@
 
 #TICKER           {csave}  {#if {"$MSDP_CHARACTER_NAME" == "$OLD_MSDP_CHARACTER_NAME"}{CSAVE}}                                          {90}
 #VARIABLE         {OLD_MSDP}  {}
+#VARIABLE         {copying}  {0}

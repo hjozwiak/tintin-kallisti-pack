@@ -597,7 +597,7 @@
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_NAME}
 {
-	#if {"%1" != "" && "%1" != "${msdpOldList[OPPONENT_NAME]}"}
+	#if {"%1" != "" && !$copying}
 	{
 		#variable {OLD_MSDP_OPPONENT_NAME} {%1};
 		#if {${auto[join]}}
@@ -609,7 +609,7 @@
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_NUMBER}
 {
-	#if {"%1" != "" && "%1" != "${msdpOldList[OPPONENT_NUMBER]}"}
+	#if {"%1" != "" && !$copying}
 	{
 		#if {${auto[range]} && !${rangedCombat} && %1 == 0}
 		{
