@@ -670,9 +670,12 @@
 
 #ALIAS {^auto.%w$}
 {
-	#if {&{%0}}
+	#local {variable} {%0};
+	#replace {variable} {.} {[};
+	#local {variable} {${variable}]};
+	#if {&{${variable}}}
 	{
-		#switch {"${%0}"}
+		#switch {"${${variable}}"}
 		{
 			#case {"0"}
 			{
@@ -684,7 +687,7 @@
 			};
 			#default
 			{
-				#echo {auto-%1 is set to  ${%0}.}
+				#echo {auto-%1 is set to  ${${variable}}.}
 			}
 		}
 	};
