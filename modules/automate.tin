@@ -1,14 +1,14 @@
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
-	#unvariable {auto.track};
-	#if {&{auto.pick}}
+	#unvariable {auto[track]};
+	#if {&{auto[pick]}}
 	{
-		#regexp {%1} {{.*} {.*}} {#variable {auto.pick} {&2 %2}};
+		#regexp {%1} {{.*} {.*}} {#variable {auto[pick]} {&2 %2}};
 		#else
 		{
-			#variable {auto.pick} {%1 %2}
+			#variable {auto[pick]} {%1 %2}
 		};
-		pick ${auto.pick}
+		pick ${auto[pick]}
 	}
 }
 {9}
@@ -36,12 +36,12 @@
 {
 	#if {"%1" == "$leader"}
 	{
-		#if {&{auto.poke}}
+		#if {&{auto[poke]}}
 		{
-			#regexp {${auto.poke}} {{.*?};{.*}} {&1 %3;&2};
+			#regexp {${auto[poke]}} {{.*?};{.*}} {&1 %3;&2};
 			#else
 			{
-				${auto.poke} %3
+				${auto[poke]} %3
 			}
 		}
 	}
@@ -50,15 +50,15 @@
 
 #ACTION {^The black flames about your body fade.$}
 {
-	#if {&{auto.grimward}}
+	#if {&{auto[grimward]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			${auto.grimward}
+			${auto[grimward]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {${auto.grimward}}
+			#list {onDeath} {add} {${auto[grimward]}}
 		}
 	}
 }
@@ -66,15 +66,15 @@
 
 #ACTION {^The dark aura around your body disappears.$}
 {
-	#if {${auto.aura}}
+	#if {&{auto[aura]}}
 	{
 		#if {"$MSDP_POSITION" != "Fighting"}
 		{
-			aura
+			${auto[aura]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {aura}
+			#list {onDeath} {add} {${auto[aura]}}
 		}
 	}
 }
@@ -82,7 +82,7 @@
 
 #ACTION {^The effects of battle cry are gone.$}
 {
-	#if {${auto.warcry}}
+	#if {${auto[warcry]}}
 	{
 		warcry
 	}
@@ -91,15 +91,15 @@
 
 #ACTION {^The pink glow around your body fades.$}
 {
-	#if {&{auto.ffire}}
+	#if {&{auto[ffire]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			${auto.ffire}
+			${auto[ffire]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {${auto.ffire}}
+			#list {onDeath} {add} {${auto[ffire]}}
 		}
 	}
 }
@@ -107,7 +107,7 @@
 
 #ACTION {^The whirling blades around you dissipate.$}
 {
-	#if {${auto.blade}}
+	#if {${auto[blade]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
@@ -123,15 +123,15 @@
 
 #ACTION {^The white aura around your body fades.$}
 {
-	#if {&{auto.sanc}}
+	#if {&{auto[sanc]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			${auto.sanc}
+			${auto[sanc]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {${auto.sanc}}
+			#list {onDeath} {add} {${auto[sanc]}}
 		}
 	}
 }
@@ -142,29 +142,25 @@
 	#nop {Hook name playerDeath};
 	#nop {Hook args: none.};
 	#unvariable {leader};
-	#if {${auto.relogin}}
+	#if {${auto[relogin]}}
 	{
-		${auto.relogin}
+		${auto[relogin]}
 	};
-	#list {hook[playerDeath]} {size} {i};
-	#if {$i > 0}
-	{
-		#forall {${hook[playerDeath][]}} {@${hook[playerDeath][&0]}{}}
-	}
+	@do_hook{playerDeath}
 }
 {9}
 
 #ACTION {^You feel less protected.$}
 {
-	#if {&{auto.darmor}}
+	#if {&{auto[darmor]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			${auto.darmor}
+			${auto[darmor]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {${auto.darmor}}
+			#list {onDeath} {add} {${auto[darmor]}}
 		}
 	}
 }
@@ -172,15 +168,15 @@
 
 #ACTION {^You feel less righteous.$}
 {
-	#if {&{auto.bless}}
+	#if {&{auto[bless]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			${auto.bless}
+			${auto[bless]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {${auto.bless}}
+			#list {onDeath} {add} {${auto[bless]}}
 		}
 	}
 }
@@ -188,15 +184,15 @@
 
 #ACTION {^You feel slow.$}
 {
-	#if {&{auto.haste}}
+	#if {&{auto[haste]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			${auto.haste}
+			${auto[haste]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {${auto.haste}}
+			#list {onDeath} {add} {${auto[haste]}}
 		}
 	}
 }
@@ -226,14 +222,14 @@
 	{
 		#case {"shapechange"}
 		{
-			#if {&{auto.shape}}
+			#if {&{auto[shape]}}
 			{
-				%1 #${auto.shape}
+				%1 ${auto[shape]}
 			}
 		};
 		#default
 		{
-			#if {${auto.recast}}
+			#if {${auto[recast]}}
 			{
 				#if {"$MSDP_POSITION" == "{Flying|Mounted|Standing|Swimming}"}
 				{
@@ -242,17 +238,13 @@
 			}
 		}
 	};
-	#list {hook[concentration]} {size} {i};
-	#if {$i > 0}
-	{
-		#forall {${hook[concentration][]}} {@${hook[concentration][&0]}{%1}}
-	}
+	@do_hook{concentration;%1}
 }
 {9}
 
 #ACTION {^You must be sitting to concentrate.$}
 {
-	#if {"$MSDP_POSITION" != "Fighting"}
+	#if {"$MSDP_POSITION" != "Fighting" && !&{character[mount]}}
 	{
 		#line {gag};
 		sit;
@@ -265,22 +257,20 @@
 {
 	#nop {Hook name is trackEnd.};
 	#nop {Hook args track of target.};
-	#if {&{auto.track}}
+	#local {i} {};
+	#local {j} {};
+	#if {&{auto[track]}}
 	{
-		#list {hook[trackEnd]} {size} {i};
-		#if {$i > 0}
-		{
-			#forall {${hook[trackEnd][]}} {@${hook[trackEnd][&0]}{}}
-		};
+		@do_hook{trackEnd};
 		SYNTH_PLAY notificationSound;
-		#unvariable {auto.track}
+		#unvariable {auto[track]}
 	}
 }
 {9}
 
 #ACTION {^You try to work up a battle song but just can't muster up the enthusiasm.$}
 {
-	#if {${auto.warcry}}
+	#if {${auto[warcry]}}
 	{
 		warcry
 	}
@@ -333,18 +323,18 @@
 
 #ACTION {^You {stop focusing|attempt to focus but become distracted by butterflies}.$}
 {
-	#if {&{auto.focus}}
+	#if {&{auto[focus]}}
 	{
-		focus ${auto.focus}
+		focus ${auto[focus]}
 	}
 }
 {9}
 
 #ACTION {^You're {coated in ACID|on FIRE}, {it eats away at|the flames burn} your skin!}
 {
-	#if {${auto.tumble}}
+	#if {${auto[tumble]}}
 	{
-		#if {!&{spam.tumble}}
+		#if {!&{spam[tumble]}}
 		{
 			tumble;
 			spamset tumble
@@ -391,7 +381,7 @@
 
 #ACTION {^Your body returns to the corporeal realm.$}
 {
-	#if {${auto.wraith}}
+	#if {${auto[wraith]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
@@ -407,7 +397,7 @@
 
 #ACTION {^Your guardian spirit leaves this plane of existence.$}
 {
-	#if {&{auto.spirit}}
+	#if {&{auto[spirit]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
@@ -423,15 +413,15 @@
 
 #ACTION {^Your metabolism slows.$}
 {
-	#if {&{auto.vigor}}
+	#if {&{auto[vigor]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			${auto.vigor}
+			${auto[vigor]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {${auto.vigor}}
+			#list {onDeath} {add} {${auto[vigor]}}
 		}
 	}
 }
@@ -439,7 +429,7 @@
 
 #ACTION {^Your mount sees: The holy blessing bestowed by your rider is no more.$}
 {
-	#if {&{auto.holysteed}}
+	#if {&{auto[holysteed]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
@@ -455,15 +445,15 @@
 
 #ACTION {^Your skin becomes less tolerant to damage.$}
 {
-	#if {&{auto.barkskin}}
+	#if {&{auto[barkskin]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			${auto.barkskin}
+			${auto[barkskin]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {${auto.barkskin}}
+			#list {onDeath} {add} {${auto[barkskin]}}
 		}
 	}
 }
@@ -473,22 +463,18 @@
 {
 	#nop {Hook name is trackEnd.};
 	#nop {Hook args tracked target.};
-	#if {&{auto.track}}
+	#if {&{auto[track]}}
 	{
-		#list {hook[trackEnd]} {size} {i};
-		#if {$i > 0}
-		{
-			#forall {${hook[trackEnd][]}} {@${hook[trackEnd][&0]}{}}
-		};
+		@do_hook{trackEnd};
 		SYNTH_PLAY notificationSound;
-		#unvariable {auto.track}
+		#unvariable {auto[track]}
 	}
 }
 {9}
 
 #ACTION {^[* You see your target's tracks leading %1. *]$}
 {
-	#if {&{auto.track}}
+	#if {&{auto[track]}}
 	{
 		%1
 	}
@@ -501,23 +487,15 @@
 	#nop {Hook args hunted target.};
 	#nop {Hook name is trackLose.};
 	#nop {Hook args hunted target.};
-	#list {hook[trackFail]} {size} {i};
-	#if {$i > 0}
-	{
-		#forall {${hook[trackFail][]}} {@${hook[trackFail][&0]}{${auto.track}}}
-	};
-	#list {hook[trackLose]} {size} {i};
-	#if {$i > 0}
-	{
-		#forall {${hook[trackLose][]}} {@${hook[trackLose][&0]}{${auto.track}}}
-	};
-	#unvariable {auto.track}
+	@do_hook{trackFail;${auto[track]}};
+	@do_hook{trackLose;${auto[track]}};
+	#unvariable {auto[track]}
 }
 {9}
 
 #ACTION {^{No one seems to be listening right now|You feel the need to renew your prayers to God}.$}
 {
-	#if {${auto.prayer}}
+	#if {${auto[prayer]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
@@ -558,15 +536,15 @@
 
 #ACTION {^{You really make a mess of it|Your warpaint wears off}.$}
 {
-	#if {&{auto.warpaint}}
+	#if {&{auto[warpaint]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			warpaint ${auto.warpaint}
+			warpaint ${auto[warpaint]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {warpaint ${auto.warpaint}}
+			#list {onDeath} {add} {warpaint ${auto[warpaint]}}
 		}
 	}
 }
@@ -616,9 +594,9 @@
 
 #ALIAS {^autorecall %1 %d$}
 {
-	#variable {auto.recall} {@strip_braces{%1}};
-	#variable {auto.recallPercent} {%2};
-	#echo {Autorecall enabled at ${auto.recallPercent} percent health.};
+	#variable {auto[recall]} {@strip_braces{%1}};
+	#variable {auto[recallPercent]} {%2};
+	#echo {Autorecall enabled at ${auto[recallPercent]} percent health.};
 	CSAVE
 }
 {8}
@@ -635,7 +613,7 @@
 {
 	#loop {1} {%1} {i}
 	{
-		%2 $i\.%3
+		%2 $i.%3
 	}
 }
 {9}
@@ -684,7 +662,7 @@
 	};
 	#else
 	{
-		#variable {at.%2} {%3};
+		#variable {at[%2]} {%3};
 		#echo {Ok, at %2:00, "%3" will be executed.}
 	}
 }
@@ -692,9 +670,12 @@
 
 #ALIAS {^auto.%w$}
 {
-	#if {&{%0}}
+	#local {variable} {%0};
+	#replace {variable} {.} {[};
+	#local {variable} {${variable}]};
+	#if {&{${variable}}}
 	{
-		#switch {"${%0}"}
+		#switch {"${${variable}}"}
 		{
 			#case {"0"}
 			{
@@ -706,7 +687,7 @@
 			};
 			#default
 			{
-				#echo {auto-%1 is set to  ${%0}\.}
+				#echo {auto-%1 is set to  ${${variable}}.}
 			}
 		}
 	};
@@ -719,20 +700,63 @@
 
 #ALIAS {^buff$}
 {
-	#forall {aura;barkskin;bless;eyes;ffire;focus;prayer;sanc;shape;vigor;warcry;warpaint}{#if {&{auto.&0}}{#switch {"&0"}{#case {"{bless|prayer|warcry}"} {&0};#case {"eyes"} {true};#case {"{focus|shape}"} {&0 ${auto.&0}};#default {${auto.&0}}}}}
+	#local {i} {};
+	#foreach {aura;barkskin;bless;eyes;ffire;focus;prayer;sanc;shape;vigor;warcry;warpaint} {i}
+	{
+		#if {&{auto[$i]}}
+		{
+			#switch {"$i"}
+			{
+				#case {"{bless|prayer|warcry}"}
+				{
+					$i
+				};
+				#case {"eyes"}
+				{
+					true
+				};
+				#case {"{focus|shape}"}
+				{
+					$i ${auto[$i]}
+				};
+				#default
+				{
+					${auto[$i]}
+				}
+			}
+		}
+	}
 }
 {9}
 
 #ALIAS {^heal.settings$}
 {
-	#forall {moderate;severe;nearDeath;incapacitated;stunned;morted}{#if {!&{heal.&0}}{#echo {heal.&0 is not set yet.}};#else {#if {"${heal.&0}" != "#nop"}{#echo {Healing at &0 set to ${heal.&0}\.}};#else {#echo {Healing at &0 is disabled.}}}}
+	#local {i} {};
+	#foreach {moderate;severe;nearDeath;incapacitated;stunned;morted} {i}
+	{
+		#if {!&{heal[$i]}}
+		{
+			#echo {heal[$i] is not set yet.}
+		};
+		#else
+		{
+			#if {"${heal[$i]}" != "#nop"}
+			{
+				#echo {Healing at $i set to ${heal[$i]}.}
+			};
+			#else
+			{
+				#echo {Healing at $i is disabled.}
+			}
+		}
+	}
 }
 {9}
 
 #ALIAS {^heal.{moderate|severe|nearDeath|incapacitated|stunned|morted} %2}
 {
-	#variable {heal.%1} {@strip_braces{%2}};
-	#echo {heal.%1 set to ${heal.%1}\.};
+	#variable {heal[%1]} {@strip_braces{%2}};
+	#echo {heal.%1 set to ${heal.%1}.};
 	CSAVE
 }
 {9}
@@ -746,7 +770,7 @@
 
 #ALIAS {^noheal.{moderate|severe|nearDeath|incapacitated|stunned|morted}$}
 {
-	#variable {heal.%1} {#nop};
+	#variable {heal[%1]} {#nop};
 	#echo {heal.%1 disabled.};
 	CSAVE
 }
@@ -758,19 +782,19 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain|vigor.*|warcry|warpaint.*|wraith}$}
+#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|wraith}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
 		#echo {auto%2 disabled.};
-		#unvariable {auto.%2}
+		#unvariable {auto[%2]}
 	};
 	#else
 	{
-		#regexp {%0} {auto{\w*} {.*}} {#echo {auto&1 set to &2.};#variable {auto.&1} {@strip_braces{&2}}};
+		#regexp {%0} {auto{\w*} {.*}} {#echo {auto&1 set to &2.};#variable {auto[&1]} {@strip_braces{&2}}};
 		#else
 		{
-			#variable {auto.%2} {1};
+			#variable {auto[%2]} {1};
 			#echo {auto%2 enabled.}
 		}
 	};
@@ -782,22 +806,25 @@
 {
 	#if {"%0" == "notrack"}
 	{
-		#unvariable {auto.track};
+		#unvariable {auto[track]};
 		hunt
 	};
 	#else
 	{
-		#regexp {%0} {track {.*}} {#variable {auto.track} {&1};hunt &1}
+		#regexp {%0} {track {.*}} {#variable {auto[track]} {&1};hunt &1}
 	}
 }
 {9}
 
 #EVENT {VARIABLE UPDATE MSDP_WORLD_TIME}
 {
-	#if {&{at.%1}}
+	#if {"%1" != "" && !$copying}
 	{
-		@strip_braces{${at.%1}};
-		#unvariable {at.%1}
+		#if {&{at[%1]}}
+		{
+			@strip_braces{${at[%1]}};
+			#unvariable {at[%1]}
+		}
 	}
 }
 

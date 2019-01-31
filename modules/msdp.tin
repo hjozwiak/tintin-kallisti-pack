@@ -1,30 +1,39 @@
 #ALIAS {MSDP_CONFIGURE %1,%2}
 {
+	#local {i} {};
+	#local {index} {1};
 	#list {MSDP_VALUES} {create} {%2};
-	#variable {index} {1};
-	#send {$IAC$SB$MSDP_PROTOCOL\};
-	#forall {%1} {#send {${VAR}&0${VAL}${MSDP_VALUES[$index]}\};#math {index} {$index+1}};
+	#send {$IAC$SB$PROTOCOL_MSDP\};
+	#foreach {%1} {i}
+	{
+		#send {${VAR}${i}${VAL}${MSDP_VALUES[$index]}\};
+		#math {index} {$index+1}
+	};
 	#send {$IAC$SE\}
 }
 {9}
 
 #ALIAS {MSDP_LIST}
 {
-	#send {$IAC$SB$MSDP_PROTOCOL${VAR}LIST${VAL}REPORTABLE_VARIABLES$IAC$SE\}
+	#send {$IAC$SB$PROTOCOL_MSDP${VAR}LIST${VAL}REPORTABLE_VARIABLES$IAC$SE\}
 }
 {9}
 
 #ALIAS {MSDP_REPORT}
 {
-	#variable {result} {$IAC$SB$MSDP_PROTOCOL${VAR}REPORT};
-	#forall {${MSDP_REPORTABLE_VARIABLES[]}}{#variable {result} {${result}${VAL}${MSDP_REPORTABLE_VARIABLES[&0]}}};
+	#local {i} {};
+	#variable {result} {$IAC$SB$PROTOCOL_MSDP${VAR}REPORT};
+	#foreach {${MSDP_REPORTABLE_VARIABLES[]}} {i}
+	{
+		#variable {result} {${result}${VAL}${MSDP_REPORTABLE_VARIABLES[${i}]}}
+	};
 	#send {$result$IAC$SE\}
 }
 {9}
 
 #ALIAS {MSDP_SEND %*}
 {
-	#send {$IAC$SB$MSDP_PROTOCOL${VAR}SEND${VAL}%1$IAC$SE\}
+	#send {$IAC$SB$PROTOCOL_MSDP${VAR}SEND${VAL}%1$IAC$SE\}
 }
 {9}
 
@@ -45,11 +54,12 @@
 {
 	#nop Save all variables in an MSDP list.;
 	#variable {MSDP_%0} {%1};
+	#variable {msdpOldList[%0]} {%1};
 	#switch {"%0"}
 	{
 		#case {"PLAY_SOUND"}
 		{
-			play %1
+			PLAY %1
 		};
 		#case {"REPORTABLE_VARIABLES"}
 		{
@@ -65,7 +75,7 @@
 
 #EVENT {IAC WILL MSDP}
 {
-	#send {$IAC$DO$MSDP_PROTOCOL\};
+	#send {$IAC$DO$PROTOCOL_MSDP\};
 	MSDP_LIST;
 	#nop {Uncomment the next line to use MSDP for sound instead of MSP};
 	#nop {MSDP_CONFIGURE sound,1};
@@ -75,72 +85,12 @@
 #VARIABLE         {DO}  {ý}
 #VARIABLE         {DONT}  {þ}
 #VARIABLE         {IAC}  {ÿ}
-#VARIABLE         {MSDP_AC}  {}
-#VARIABLE         {MSDP_AFFECTS}  {}
-#VARIABLE         {MSDP_ALIGNMENT}  {}
-#VARIABLE         {MSDP_ANSI_COLORS}  {}
-#VARIABLE         {MSDP_AREA_MAXLEVEL}  {}
-#VARIABLE         {MSDP_AREA_MINLEVEL}  {}
-#VARIABLE         {MSDP_AREA_NAME}  {}
-#VARIABLE         {MSDP_BANK_GOLD}  {}
-#VARIABLE         {MSDP_CHARACTER_NAME}  {}
-#VARIABLE         {MSDP_CLASS}  {}
-#VARIABLE         {MSDP_CLIENT_ID}  {}
-#VARIABLE         {MSDP_CLIENT_VERSION}  {}
-#VARIABLE         {MSDP_CON}  {}
-#VARIABLE         {MSDP_CON_PERM}  {}
-#VARIABLE         {MSDP_DAMROLL}  {}
-#VARIABLE         {MSDP_DEX}  {}
-#VARIABLE         {MSDP_DEX_PERM}  {}
-#VARIABLE         {MSDP_EXPERIENCE}  {}
-#VARIABLE         {MSDP_EXPERIENCE_MAX}  {}
-#VARIABLE         {MSDP_EXPERIENCE_TNL}  {}
-#VARIABLE         {MSDP_GOLD}  {}
-#VARIABLE         {MSDP_HEALTH}  {}
-#VARIABLE         {MSDP_HEALTH_MAX}  {}
-#VARIABLE         {MSDP_HITROLL}  {}
-#VARIABLE         {MSDP_INT}  {}
-#VARIABLE         {MSDP_INT_PERM}  {}
-#VARIABLE         {MSDP_LEVEL}  {}
-#VARIABLE         {MSDP_LUK}  {}
-#VARIABLE         {MSDP_LUK_PERM}  {}
-#VARIABLE         {MSDP_MANA}  {}
-#VARIABLE         {MSDP_MANA_MAX}  {}
-#VARIABLE         {MSDP_MONEY}  {}
-#VARIABLE         {MSDP_MXP}  {}
-#VARIABLE         {MSDP_OPPONENT_HEALTH}  {}
-#VARIABLE         {MSDP_OPPONENT_HEALTH_MAX}      {}
-#VARIABLE         {MSDP_OPPONENT_LEVEL}  {}
-#VARIABLE         {MSDP_OPPONENT_NAME}  {}
-#VARIABLE         {MSDP_OPPONENT_NUMBER}  {}
-#VARIABLE         {MSDP_PARAGON_LEVEL}  {}
-#VARIABLE         {MSDP_PLUGIN_ID}  {}
-#VARIABLE         {MSDP_POSITION}  {}
-#VARIABLE         {MSDP_PRACTICE}  {}
-#VARIABLE         {MSDP_PROTOCOL}  {E}
-#VARIABLE         {MSDP_QPOINTS}  {}
-#VARIABLE         {MSDP_RACE}  {}
-#VARIABLE         {MSDP_ROOM_EXITS}  {}
-#VARIABLE         {MSDP_ROOM_NAME}  {}
-#VARIABLE         {MSDP_ROOM_TERRAIN}  {}
-#VARIABLE         {MSDP_ROOM_VNUM}  {}
-#VARIABLE         {MSDP_SERVER_TIME}  {}
-#VARIABLE         {MSDP_SNIPPET_VERSION}  {}
-#VARIABLE         {MSDP_SOUND}  {}
-#VARIABLE         {MSDP_STAMINA}  {}
-#VARIABLE         {MSDP_STAMINA_MAX}  {}
-#VARIABLE         {MSDP_STR}  {}
-#VARIABLE         {MSDP_STR_PERM}  {}
-#VARIABLE         {MSDP_UTF_8}  {}
-#VARIABLE         {MSDP_WIMPY}  {}
-#VARIABLE         {MSDP_WIS}  {}
-#VARIABLE         {MSDP_WIS_PERM}  {}
-#VARIABLE         {MSDP_WORLD_TIME}  {}
-#VARIABLE         {MSDP_XTERM_256_COLORS}   {}
 #VARIABLE         {PROTOCOL}  {{MSDP}{0}}
+#VARIABLE         {PROTOCOL_MSDP}  {E}
 #VARIABLE         {SB}  {ú}
 #VARIABLE         {SE}  {ð}
 #VARIABLE         {VAL}  {}
 #VARIABLE         {VAR}  {}
 #VARIABLE         {WILL}  {û}
 #VARIABLE         {WONT}  {ü}
+#VARIABLE         {msdpOldList}  {}

@@ -1,38 +1,34 @@
-#ACTION {^{\*\*\w+|You grouptell}: %2}
+#ACTION {^<Clan: %w> '%2'$}
+{
+	#nop {Hook name is cchat.};
+	#nop {Hook args %1 Name.};
+	#nop {Hook args %2 message to channel.};
+	Channel_Event cchat %0;
+	@do_hook{cchat;%1;%2}
+}
+{5}
+
+#ACTION {^**%w: %2}
 {
 	#nop {Hook name is groupTell.};
 	#nop {Hook args %1 Name.};
 	#nop {Hook args %2 message to channel, includes '' if present.};
 	Channel_Event GroupTell %0;
-	#if {"%1" != "You%*"}
-	{
-		#list {hook[groupTell]} {size} {i};
-		#if {$i > 0}
-		{
-			#variable {i} {%1};
-			#replace {i} {^\\*\\*} {};
-			#forall {${hook[groupTell][]}} {@${hook[groupTell][&0]}{$i;%2}}
-		}
-	}
+	@do_hook{groupTell;%1;%2}
 }
 {8}
 
-#ACTION {^%w repor{t|ts|ts to you}: %3.$}
+#ACTION {^You cchat, '%1'$}
 {
-	#nop {Hook name report.};
-	#nop {Hook args %1 Name.};
-	#nop {Hook args %2 report information.};
-	#list {channel[All]} {insert} {1} {%0};
-	#if {"%1" != "You%*"}
-	{
-		#list {hook[report]} {size} {i};
-		#if {$i > 0}
-		{
-			i #forall {${hook[report][]}} {@${hook[report][&0]}{%1;%3}}
-		}
-	}
+	Channel_Event cchat %0
 }
-{9}
+{8}
+
+#ACTION {^You grouptell: %2}
+{
+	Channel_Event GroupTell %0
+}
+{8}
 
 #ACTION {^%w %*tell%2, '%3'$}
 {
@@ -42,11 +38,22 @@
 	Channel_Event Tell %0;
 	#if {"%2" == "%*you%*"}
 	{
-		#list {hook[tell]} {size} {i};
-		#if {$i > 0}
-		{
-			#forall {${hook[tell][]}} {@${hook[tell][&0]}{%1;%3}}
-		}
+		@do_hook{tell;%1;%3}
+	}
+}
+{9}
+
+#ACTION {^%w repor{t|ts|ts to you}: %3.$}
+{
+	#nop {Hook name report.};
+	#nop {Hook args %1 Name.};
+	#nop {Hook args %2 report information.};
+	#local {i} {};
+	#local {j} {};
+	#list {channel[All]} {insert} {1} {%0};
+	#if {"%1" != "You%*"}
+	{
+		@do_hook{report;%1;%3}
 	}
 }
 {9}
@@ -67,47 +74,38 @@
 	};
 	#if {"%1" != "you"}
 	{
-		#list {hook[say]} {size} {i};
-		#if {$i > 0}
-		{
-			#forall {${hook[say][]}} {@${hook[say][&0]}{%1;%2;%4}}
-		}
+		@do_hook{say;%1;%2;%4}
 	}
 }
 {9}
 
 #ACTION {^<%w: %2> '%3'$}
 {
-	#nop {Hook name varied, channel name, e.g. Gossip.};
+	#nop {Hook name varied, channel name, e.g. gossip.};
 	#nop {Hook args %1 name %2 channel send.};
+	#local {channelName} {%1};
+	#format {channelName} {%l} {$channelName};
 	Channel_Event %1 %0;
 	#if {"%2" != "$MSDP_CHARACTER_NAME"}
 	{
-		#list {hook[%1]} {size} {i};
-		#if {$i > 0}
-		{
-			#forall {${hook[%1][]}} {@${hook[%1][&0]}{%2;%3}}
-		}
+		@do_hook{${channelName};%2;%3}
 	}
 }
 {9}
 
-#ACTION {^<Gemote> %*}
+#ACTION {^<Gemote> %1}
 {
-	Channel_Event Gossip %0
+	Channel_Event Gossip %0;
+	@do_hook{gossip;%1}
 }
 {9}
 
 #ACTION {^<Kingdom> %*}
 {
-	#nop {Hook name Kingdom.};
+	#nop {Hook name kingdom.};
 	#nop {Hook args kingdom contents.};
 	Channel_Event Kingdom %0;
-	#list {hook[Kingdom]} {size} {i};
-	#if {$i > 0}
-	{
-		#forall {${hook[Kingdom][]}} {@${hook[Kingdom][&0]}{%1}}
-	}
+	@do_hook{kingdom;%1}
 }
 {9}
 
@@ -116,11 +114,7 @@
 	#nop {Hook name info.};
 	#nop {Hook args info contents.};
 	Channel_Event Info %0;
-	#list {hook[info]} {size} {i};
-	#if {$i > 0}
-	{
-		#forall {${hook[info][]}} {@${hook[info][&0]}{%1}}
-	}
+	@do_hook{info;%1}
 }
 {9}
 
@@ -136,7 +130,10 @@
 
 #ACTION {^[%w{:|:\(.*\)}] '%2'$}
 {
-	Channel_Event Chat %0
+	#nop {Hook name: chat.};
+	#nop {Hook args: chat message.};
+	Channel_Event Chat %0;
+	@do_hook{chat;%1}
 }
 {9}
 
@@ -189,7 +186,7 @@
 	};
 	#else
 	{
-		#echo {Nothing to show for channel $i\.}
+		#echo {Nothing to show for channel $i.}
 	}
 }
 {9}
@@ -198,6 +195,12 @@
 {
 	#script {result} {curl -s --data-urlencode English="%0" --data-urlencode submit="Talk Like a Pimp " http://joel.net/EBONICS/translator/ | grep '<textarea id="Ebonics"' | html2text};
 	#variable {result} {${result[1]}}
+}
+
+#MACRO {\c!}
+{
+	#variable {channelBufferIndex} {13};
+	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e!}
@@ -378,5 +381,5 @@
 
 #VARIABLE         {awayMessage}  {false}
 #VARIABLE         {channel}  {}
-#VARIABLE         {channelBuffer}  {{1}{All}{2}{Advice}{3}{Barter}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Rude}{10}{Say}{11}{Tell}{12}{Chat}}
+#VARIABLE         {channelBuffer}  {{1}{All}{2}{Advice}{3}{Barter}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Rude}{10}{Say}{11}{Tell}{12}{Chat}{13}{cchat}}
 #VARIABLE         {channelBufferIndex}  {1}

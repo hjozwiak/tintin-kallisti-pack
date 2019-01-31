@@ -6,7 +6,11 @@
 
 #ALIAS {^goto %slist$}
 {
-	#forall {${goto[]}}{#echo {&0 - ${goto[&0]}}}
+	#local {i} {};
+	#foreach {${goto[]}} {i}
+	{
+		#echo {$i - ${goto[$i]}}
+	}
 }
 {8}
 
@@ -16,7 +20,7 @@
 	{
 		#if {"$MSDP_ROOM_NAME" == "The Temple Of Midgaard"}
 		{
-			#if {&{goto.%1}}
+			#if {&{goto[%1]}}
 			{
 				#path unzip ${goto[%1]};
 				#path run 0.25

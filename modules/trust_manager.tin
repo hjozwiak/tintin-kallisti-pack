@@ -1,4 +1,4 @@
-#ACTION {^%w %*tells you, ':%3'$}
+#ACTION {^%w %2tells you, ':%3'$}
 {
 	#local {accountName} {%2};
 	#replace {accountName} {{\(|\)| }} {};
@@ -32,11 +32,7 @@
 	{
 		@trust_exec{%3}
 	};
-	#list {hook[groupTell]} {size} {i};
-	#if {$i > 0}
-	{
-		#forall {${hook[groupTell][]}} {@${hook[groupTell][&0]}{%1;'%2 %3'}}
-	}
+	@do_hook{groupTell;%1;'%2 %3'}
 }
 {7}
 
@@ -57,32 +53,34 @@
 
 #ALIAS {^friend %s{add|remove} %s%w$}
 {
-	#format {trust_manager.tmp} {%n} {%4};
-	#list {friends} {find} {${trust_manager.tmp}} {i};
+	#local {f} {};
+	#local {i} {0};
+	#format {f} {%n} {%4};
+	#list {friends} {find} {${f}} {i};
 	#if {"%2" == "remove"}
 	{
 		#if {$i != 0}
 		{
 			#list {friends} {delete} {$i};
-			#echo {${trust_manager.tmp} removed from your friends list.};
+			#echo {${f} removed from your friends list.};
 			CSAVE
 		};
 		#else
 		{
-			#echo {${trust_manager.tmp} is not currently in your friends list.}
+			#echo {${f} is not currently in your friends list.}
 		}
 	};
 	#else
 	{
 		#if {$i == 0}
 		{
-			#list {friends} {add} {${trust_manager.tmp}};
-			#echo {${trust_manager.tmp} added to your friends list.};
+			#list {friends} {add} {${f}};
+			#echo {${f} added to your friends list.};
 			CSAVE
 		};
 		#else
 		{
-			#echo {${trust_manager.tmp} is already in your friends list.}
+			#echo {${f} is already in your friends list.}
 		}
 	}
 }
@@ -90,19 +88,25 @@
 
 #ALIAS {^frien{d|ds} %slist$}
 {
+	#local {i} {};
+	#local {j} {};
 	#echo {People in your friends list:};
 	#list {friends} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${friends[]}}{#echo {${friends[&0]}}}
+		#foreach {${friends[]}} {j}
+		{
+			#echo {${friends[$j]}}
+		}
 	}
 }
 {9}
 
 #FUNCTION {is_friend}
 {
-	#format {trust_manager.tmp} {%n} {%1};
-	#list {friends} {find} {${trust_manager.tmp}} {i};
+	#local {f} {};
+	#format {f} {%n} {%1};
+	#list {friends} {find} {${f}} {i};
 	#if {$i > 0}
 	{
 		#variable {result} {1}
@@ -115,8 +119,9 @@
 
 #FUNCTION {trust_exec}
 {
-	#format {trust_manager.tmp} {%l} {%0};
-	#switch {"${trust_manager.tmp}"}
+	#local {f} {};
+	#format {f} {%l} {%0};
+	#switch {"${f}"}
 	{
 		#case {"{\s*\#|\s*;*\s*\#}%*"}
 		{
@@ -140,5 +145,3 @@
 		}
 	}
 }
-
-#VARIABLE         {trust_manager}  {{tmp}{}}

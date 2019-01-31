@@ -9,7 +9,7 @@
 
 #ACTION {^< %1{>|>\s*}$}
 {
-	#if {${character.prompt} == 1}
+	#if {${character[prompt]} == 1}
 	{
 		#line {gag}
 	}

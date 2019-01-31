@@ -1,7 +1,7 @@
 #ACTION {^--+  Congratulations, you are now level %d!  +--%s}
 {
 	#nop {To get around the backslash character appearing in posts that end with a variable followed by a period, do this};
-	#variable {socialmedia[msg]} {$MSDP_CHARACTER_NAME is now a level %1 $MSDP_CLASS\. ${socialmedia[hashtag]} ${socialmedia[url]}};
+	#variable {socialmedia[msg]} {$MSDP_CHARACTER_NAME is now a level %1 $MSDP_CLASS. ${socialmedia[hashtag]} ${socialmedia[url]}};
 	#replace {socialmedia[msg]} {\\} {};
 	POST ${socialmedia[msg]}
 }

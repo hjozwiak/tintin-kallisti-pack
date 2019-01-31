@@ -1,30 +1,67 @@
 #FUNCTION {cut}
 {
 	#nop {Can cut with specified field and delimiter, defaults are space for the delimiter and 1 for field.};
-	#variable {functionCut.fieldIndex} {1};
-	#variable {functionCut.string} {%0};
-	#regexp {${functionCut.string}} {{.*}-d {.} } {#variable {functionCut.delimiter} {&2};#replace {functionCut.string} {-d &2 }};
+	#local {fieldIndex} {1};
+	#local {string} {%0};
+	#regexp {${string}} {{.*}-d {.} } {#variable {delimiter} {&2};#replace {string} {-d &2 }};
 	#else
 	{
-		#variable {functionCut.delimiter} { }
+		#variable {delimiter} { }
 	};
-	#regexp {${functionCut.string}} {{.*}-f {\d+} } {#variable {functionCut.field} {&2};#replace {functionCut.string} {-f &2 }};
+	#regexp {${string}} {{.*}-f {\d+} } {#variable {field} {&2};#replace {string} {-f &2 }};
 	#else
 	{
-		#variable {functionCut.field} {1}
+		#variable {field} {1}
 	};
 	#variable {result} {};
-	#parse {${functionCut.string}} {character}
+	#parse {${string}} {character}
 	{
-		#if {"$character" == "${functionCut.delimiter}"}
+		#if {"$character" == "${delimiter}"}
 		{
-			#math {functionCut.fieldIndex} {${functionCut.fieldIndex} + 1}
+			#math {fieldIndex} {${fieldIndex} + 1}
 		};
-		#if {${functionCut.fieldIndex} == ${functionCut.field} && "${character}" != "${functionCut.delimiter}"}
+		#if {${fieldIndex} == ${field} && "${character}" != "${delimiter}"}
 		{
 			#variable {result} {${result}${character}}
 		}
 	}
+}
+
+#FUNCTION {do_hook}
+{
+	#nop {Note: Hook names cannot have the semicolon character in them.};
+	#local {i} {0};
+	#list {hook[%1]} {size} {i};
+	#if {$i > 0}
+	{
+		#variable {hookArgsList} {};
+		#variable {hookArgs} {};
+		#local {j} {};
+		#local {k} {};
+		#list {hookArgsList} {create} {%0};
+		#foreach {${hookArgsList[]}} {k}
+		{
+			#if {$k == 1}
+			{
+				#continue
+			};
+			#if {$k == 2}
+			{
+				#variable {hookArgs} {${hookArgsList[$k]}}			
+			};
+			#else
+			{
+				#variable {hookArgs} {$hookArgs;${hookArgsList[$k]}}			
+			}
+		};
+		#foreach {*{hook[%1][]}} {j}
+		{
+			@${j}{${hookArgs}}
+		};
+		#unvariable {hookArgs};
+		#unvariable {hookArgsList}
+	};
+	#return #nop
 }
 
 #FUNCTION {list_rand}
@@ -52,10 +89,11 @@
 	};
 	#else
 	{
-		#variable {functionSeparator.length} {@strlen{%1}};
-		#script {functionSeparator.columns} {tput cols};
-		#math {functionSeparator.columns} {${functionSeparator.columns[1]} / ${functionSeparator.length}};
-		#script {result} {for x in $(seq ${functionSeparator.columns}) ; do echo -n "%1";done}
+		#local {columns} {};
+		#local {length} {@strlen{%1}};
+		#script {columns} {tput cols};
+		#math {columns} {${columns[1]} / ${length}};
+		#script {result} {for x in $(seq ${columns}) ; do echo -n "%1";done}
 	};
 	#variable {result} {${result[1]}}
 }
@@ -73,5 +111,3 @@
 	#format result {%L} {%0}
 }
 
-#VARIABLE         {functionCut}  {}
-#VARIABLE         {functionSeparator}  {}

@@ -1,12 +1,21 @@
 #ALIAS {^CSAVE$}
 {
-	#if {"$MSDP_CHARACTER_NAME" != "" && "$MSDP_POSITION" != "Menu"}
+	#if {"$MSDP_CHARACTER_NAME" != "" && "$MSDP_POSITION" != "Menu" && "$MSDP_CHARACTER_NAME" != "\$MSDP_CHARACTER_NAME"}
 	{
-		#variable {historyPath} {${HOME}/${MSDP_CHARACTER_NAME}\.history};
+		#variable {historyPath} {${HOME}/${MSDP_CHARACTER_NAME}.history};
 		#replace {historyPath} {\\} {};
 		#history {write} {$historyPath};
 		#unvariable {historyPath};
-		#class {${MSDP_CHARACTER_NAME}} {write} {${HOME}/${MSDP_CHARACTER_NAME}};
+		#unvariable {MSDP_%*};
+		#class {${msdpOldList[CHARACTER_NAME]}} {write} {${HOME}/${msdpOldList[CHARACTER_NAME]}};
+		#class {${msdpOldList[CHARACTER_NAME]}} {close};
+		#variable {copying} {1};
+		#local {i} {};
+		#foreach {${msdpOldList[]}} {i}
+		{
+			#variable {MSDP_$i} {${msdpOldList[$i]}}
+		};
+		#variable {copying} {0};
 		#class {${MSDP_CHARACTER_NAME}} {open}
 	}
 }
@@ -15,7 +24,7 @@
 #ALIAS {^bot{kill|load} %S$}
 {
 	#nop {character bot path};
-	#variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}\.bots};
+	#variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}.bots};
 	#replace {modpath} {\\} {};
 	#nop {Kill, load, or reload a specified bot.};
 	#if {"%1" == "kill"}
@@ -46,7 +55,7 @@
 {
 	CSAVE;
 	#nop {character module path};
-	#variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}\.modules};
+	#variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}.modules};
 	#replace {modpath} {\\} {};
 	#nop {reload all modules};
 	#if {"%0" == "cmodreload all"}
@@ -76,14 +85,18 @@
 
 #ALIAS {^container %s%w$}
 {
-	#variable {character.container} {%2};
+	#variable {character[container]} {%2};
 	#echo {Your container is now %2.}
 }
 {9}
 
 #ALIAS {^q{f|ff|ffe|ffec|ffect|ffects}$}
 {
-	#forall {${MSDP_AFFECTS[]}}{#regexp {&0} {{^[^0-9]+$}} {#echo {&0}}}
+	#local {i} {};
+	#foreach {${MSDP_AFFECTS[]}} {i}
+	{
+		#regexp {$i} {{^[^0-9]+$}} {#echo {&0}}
+	}
 }
 {9}
 
@@ -132,61 +145,58 @@
 
 #EVENT {VARIABLE UPDATE MSDP_CHARACTER_NAME}
 {
-	#nop {Hook name: characterName};
-	#nop {Hook args: character name.};
-	#if {"${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
+	#if {"%1" != "" && !$copying}
 	{
-		#variable {historyPath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}\.history};
-		#replace {historyPath} {\\} {};
-		#history {write} {$historyPath};
-		#unvariable {historyPath};
-		#class {${OLD_MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
-		#class {${OLD_MSDP_CHARACTER_NAME}} {kill};
-		#nop {unload any old character classes};
-		#variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}\.modules};
-		#replace {modpath} {\\} {};
-		#script {for module in $modpath/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {kill}";done}
-	};
-	#nop {Make sure the character file exists so there's no error on read.};
-	#system {if ! [ -f "$HOME/%1" ]; then if [ "%1" != "" ]; then mkdir -p "$HOME/%1.modules";cp modules/config.txt "$HOME/%1.modules/config.tin";echo "#nop" > "$HOME/%1";fi;fi};
-	#variable {OLD_MSDP_CHARACTER_NAME} {%1};
-	#history {read} {${HOME}/%1.history};
-	#nop {clear out old sound settings};
-	#unvariable {MSP};
-	#nop {clear out old leader settings};
-	#unvariable {leader};
-	#nop {clear old hooks.};
-	#unvariable {hook};
-	#class {%1} {read} {${HOME}/%1};
-	#nop {Load common personal modules.};
-	#script {if [ -d "$HOME/modules" ]; then for module in $HOME/modules/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
-	#nop {Load personal modules.};
-	#script {if [ -d "$HOME/%1.modules" ]; then for module in $HOME/%1.modules/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
-	#if {${cspam}}
-	{
-		#class {applied_spam_settings} {read} {modules/spam.rules};
-		#echo {Client side spam filters applied.}
-	};
-	#class {%1} {open};
-	#list {hook[characterName]} {size} {i};
-	#if {$i > 0}
-	{
-		#forall {${hook[characterName][]}} {@${hook[characterName][&0]}{%1}}
+		#nop {Hook name: characterName};
+		#nop {Hook args: character name.};
+		#if {"${OLD_MSDP_CHARACTER_NAME}" != "" && "$OLD_MSDP_CHARACTER_NAME" != "%1"}
+		{
+			#variable {historyPath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.history};
+			#replace {historyPath} {\\} {};
+			#history {write} {$historyPath};
+			#unvariable {historyPath};
+			#class {${OLD_MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
+			#class {${OLD_MSDP_CHARACTER_NAME}} {kill};
+			#nop {unload any old character classes};
+			#variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.modules};
+			#replace {modpath} {\\} {};
+			#script {for module in $modpath/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {kill}";done}
+		};
+		#nop {Make sure the character file exists so there's no error on read.};
+		#system {if ! [ -f "$HOME/%1" ]; then if [ "%1" != "" ]; then mkdir -p "$HOME/%1.modules";cp modules/config.txt "$HOME/%1.modules/config.tin";echo "#nop" > "$HOME/%1";fi;fi};
+		#variable {OLD_MSDP_CHARACTER_NAME} {%1};
+		#history {read} {${HOME}/%1.history};
+		#nop {clear out old sound settings};
+		#unvariable {MSP};
+		#nop {clear out old leader settings};
+		#unvariable {leader};
+		#nop {clear old hooks.};
+		#unvariable {hook};
+		#class {%1} {read} {${HOME}/%1};
+		#nop {Load common personal modules.};
+		#script {if [ -d "$HOME/modules" ]; then for module in $HOME/modules/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
+		#nop {Load personal modules.};
+		#script {if [ -d "$HOME/%1.modules" ]; then for module in $HOME/%1.modules/*.tin ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
+		#if {${cspam}}
+		{
+			#class {applied_spam_settings} {read} {modules/spam.rules};
+			#echo {Client side spam filters applied.}
+		};
+		#class {%1} {open};
+		@do_hook{charactername;%1}
 	}
 }
 
 #EVENT {VARIABLE UPDATE MSDP_POSITION}
 {
-	#nop {Hook name is position};
-	#nop {Hook args: new position.};
-	#list {hook[position]} {size} {i};
-	#if {$i > 0}
+	#if {"%1" != "" && !$copying}
 	{
-		#forall {${hook[position][]}} {@${hook[position][&0]}{%1}}
+		#nop {Hook name is position};
+		#nop {Hook args: new position.};
+		@do_hook{position;%1}
 	}
 }
 
 #TICKER           {csave}  {#if {"$MSDP_CHARACTER_NAME" == "$OLD_MSDP_CHARACTER_NAME"}{CSAVE}}                                          {90}
 #VARIABLE         {OLD_MSDP}  {}
-#VARIABLE         {characterName}  {}
-#VARIABLE         {characterPosition}  {}
+#VARIABLE         {copying}  {0}

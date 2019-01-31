@@ -22,12 +22,16 @@
 
 #ALIAS {^autocombat$}
 {
+	#local {i} {};
 	#echo {Automatic combat:};
 	#if {"${autocombatList}" != ""}
 	{
-		#forall {${autocombatList[]}} {#echo {${autocombatList[&0]}}};
-		#echo {To set your autocombat commands, type autocombat follow by a list of commands enclosed in braces and separated by semi-colons.}
-	}
+		#foreach {${autocombatList[]}} {i}
+		{
+			#echo {${autocombatList[$i]}}
+		}
+	};
+	#echo {To set your autocombat commands, type autocombat follow by a list of commands enclosed in braces and separated by semi-colons.}
 }
 {9}
 

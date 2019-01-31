@@ -26,8 +26,8 @@
 	{
 		#variable {msg} {Nothing to brag}
 	};
-	#variable {msg} {${msg}\.};
-	#if {"$msg" != "Nothing to brag\\."}
+	#variable {msg} {${msg}.};
+	#if {"$msg" != "Nothing to brag\."}
 	{
 		#send {%2 $msg}
 	};
@@ -65,7 +65,7 @@
 	{
 		#variable {msg} {Nothing to show}
 	};
-	#variable {msg} {${msg}\.};
+	#variable {msg} {${msg}.};
 	#echo {${msg}}
 }
 {9}

@@ -1,6 +1,6 @@
 #ACTION {^%s{a|A} shard of the legend{s|s\s*}$}
 {
-	#if {!&{spam.shard}}
+	#if {!&{spam[shard]}}
 	{
 		SYNTH_PLAY shardSound;
 		spamset shard
@@ -33,12 +33,17 @@
 {
 	#nop {Hook name: charmEnd.};
 	#nop {Hook args: name of chanrmed critter.};
+	#local {i} {};
+	#local {j} {};
 	SYNTH_PLAY warningSound;
 	#list {channel[All]} {insert} {1} {%0};
 	#list {hook[charmEnd]} {size} {i};
 	#if {$i > 0}
 	{
-		#forall {${hook[charmEnd][]}} {@${hook[charmEnd][&0]}{%1}}
+		#foreach {${hook[charmEnd][]}} {@${j}{%1}}
+		{
+			
+		}
 	}
 }
 {9}
