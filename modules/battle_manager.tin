@@ -126,10 +126,13 @@
 
 #ACTION {^%S stops following %w.$}
 {
+	#nop Hook name is groupLeave.;
+	#nop Hook Arguments are group member name who left the group.;
 	#local {i} {};
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
+		@do_hook{groupLeave;%1};
 		#list {groupMemberList} {delete} {$i}
 	}
 }
@@ -137,10 +140,13 @@
 
 #ACTION {^%s%w %s[%S%s%d]%s(%*}
 {
+	#nop Hook name is groupAdd;
+	#nop Hook arguements are group member who joind.;
 	#local {i} {};
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i == 0}
 	{
+		@do_hook{groupAdd;%2};
 		#list {groupMemberList} {add} {%2}
 	};
 	#regexp {%0} {{.*}Leader{.}} {#if {"%2" != "$MSDP_CHARACTER_NAME"} {#variable {leader} {%2}}}
@@ -161,9 +167,9 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i == 0}
 	{
+	@do_hook{groupAdd;%1};
 		#list {groupMemberList} {add} {%1}
-	};
-	@do_hook{groupAdd;%1}
+	}
 }
 {9}
 
@@ -368,16 +374,19 @@
 
 #ACTION {^You {now follow|stop following} %w.$}
 {
+	#nop Hook name is groupStart or groupEnd.;
 	#if {"%1" == "stop following"}
 	{
 		#if {"%2" == "$leader"}
 		{
+			@do_hook{groupEnd};
 			#list {groupMemberList} {clear};
 			#unvariable {leader}
 		}
 	};
 	#else
 	{
+		@do_hook{groupEnd};
 		#variable {leader} {%2}
 	}
 }
