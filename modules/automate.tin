@@ -668,7 +668,7 @@
 }
 {9}
 
-#ALIAS {^auto.%w$}
+#ALIAS {^{auto|character}.%w$}
 {
 	#local {variable} {%0};
 	#replace {variable} {.} {[};
@@ -687,13 +687,13 @@
 			};
 			#default
 			{
-				#echo {auto-%1 is set to  ${${variable}}.}
+				#echo {%1 %2 is set to  ${${variable}}.}
 			}
 		}
 	};
 	#else
 	{
-		#echo {No preferences set for auto-%1}
+		#echo {No preferences set for %1%2}
 	}
 }
 {9}
