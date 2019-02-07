@@ -56,7 +56,11 @@
 		};
 		#foreach {*{hook[%1][]}} {j}
 		{
-			@${j}{${hookArgs}}
+			#local {exists} {@${j}{${hookArgs}}};
+			#if {"$exists" != "@%*"}
+			{
+				@${j}{${hookArgs}}
+			}
 		};
 		#unvariable {hookArgs};
 		#unvariable {hookArgsList}
