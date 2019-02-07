@@ -59,7 +59,7 @@
 			#local {exists} {@${j}{${hookArgs}}};
 			#if {"$exists" != "@%*"}
 			{
-				@${j}{${hookArgs}}
+				$exists
 			}
 		};
 		#unvariable {hookArgs};
