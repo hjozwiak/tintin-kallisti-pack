@@ -47,19 +47,20 @@
 			};
 			#if {$k == 2}
 			{
-				#variable {hookArgs} {${hookArgsList[$k]}}			
+				#variable {hookArgs} {${hookArgsList[$k]}}
 			};
 			#else
 			{
-				#variable {hookArgs} {$hookArgs;${hookArgsList[$k]}}			
+				#variable {hookArgs} {$hookArgs;${hookArgsList[$k]}}
 			}
 		};
 		#foreach {*{hook[%1][]}} {j}
 		{
 			#local {exists} {@${j}{${hookArgs}}};
+			#variable {exists} {$exists};
 			#if {"$exists" != "@%*"}
 			{
-				#nop
+				$exists
 			}
 		};
 		#unvariable {hookArgs};
