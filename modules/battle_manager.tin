@@ -681,3 +681,5 @@
 	};
 	#return #nop
 }
+
+#VARIABLE         {groupMemberList}  {}
