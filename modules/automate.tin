@@ -1,3 +1,12 @@
+#ACTION {^You resume your human form.$}
+{
+	#if {&{auto[werewolf]} && !&{manualWerewolf}}
+	{
+		werewolf
+	}
+}
+{1}
+
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
 	#unvariable {auto[track]};
@@ -574,6 +583,14 @@
 }
 {9}
 
+#ALIAS {^{wer|were|werew|werewo|werewol|werewolf}$}
+{
+	#variable {manualWerewolf} {1};
+	#delay {3} {#unvar {manualWerewolf}};
+	#send {werewolf}
+}
+{1}
+
 #ALIAS {^autoheal%s {me|self} %3 %d$}
 {
 	#variable {autoHealSelf} {@strip_braces{%3}};
@@ -668,36 +685,6 @@
 }
 {9}
 
-#ALIAS {^{auto|character}.%w$}
-{
-	#local {variable} {%0};
-	#replace {variable} {.} {[};
-	#local {variable} {${variable}]};
-	#if {&{${variable}}}
-	{
-		#switch {"${${variable}}"}
-		{
-			#case {"0"}
-			{
-				#echo {auto-%1 is disabled.}
-			};
-			#case {"1"}
-			{
-				#echo {auto-%1 is enabled.}
-			};
-			#default
-			{
-				#echo {%1 %2 is set to  ${${variable}}.}
-			}
-		}
-	};
-	#else
-	{
-		#echo {No preferences set for %1%2}
-	}
-}
-{9}
-
 #ALIAS {^buff$}
 {
 	#local {i} {};
@@ -782,7 +769,37 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|wraith}$}
+#ALIAS {^{auto|character}.%w$}
+{
+	#local {variable} {%0};
+	#replace {variable} {.} {[};
+	#local {variable} {${variable}]};
+	#if {&{${variable}}}
+	{
+		#switch {"${${variable}}"}
+		{
+			#case {"0"}
+			{
+				#echo {auto-%1 is disabled.}
+			};
+			#case {"1"}
+			{
+				#echo {auto-%1 is enabled.}
+			};
+			#default
+			{
+				#echo {%1 %2 is set to  ${${variable}}.}
+			}
+		}
+	};
+	#else
+	{
+		#echo {No preferences set for %1%2}
+	}
+}
+{9}
+
+#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
