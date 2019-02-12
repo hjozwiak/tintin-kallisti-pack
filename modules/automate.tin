@@ -1,6 +1,6 @@
 #ACTION {^You resume your human form.$}
 {
-	#if {&{auto[werewolf]} && !&{manualWerewolf}}
+	#if {&{auto[werewolf]} && !&{manualWerewolf} && $MSDP_LEVEL >= 50}
 	{
 		werewolf
 	}
