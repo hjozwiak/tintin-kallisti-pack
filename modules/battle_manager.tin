@@ -185,8 +185,23 @@
 }
 {9}
 
-#ACTION {^%w is {moderately hurt|severely hurt|near death|incapacitated .*|stunned .*|mortally wounded .*}.$}
+#ACTION {^%1 is {moderately hurt|severely hurt|near death|incapacitated .*|stunned .*|mortally wounded .*}.$}
 {
+	#switch {"%2"}
+	{
+		#case {"incapacitated%*"}
+		{
+			@do_hook{incapacitated;%1}
+		};
+		#case {"stunned%*"}
+		{
+			@do_hook{stunned;%1}
+		};
+		#case {"mortally wounded%*"}
+		{
+			@do_hook{morted;%1}
+		}
+	};
 	#local {i} {};
 	#local {j} {};
 	#list {autohealList} {find} {%1} {i};
