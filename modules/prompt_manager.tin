@@ -18,6 +18,7 @@
 {
 	#if {"%1" != "" && "${MSDP_CHARACTER_NAME}" != "" && !$copying}
 	{
+		@do_hook{opponentHealth;%1};
 		#if {!&{character[beeps]}}
 		{
 			#variable {character[beeps]} {1}

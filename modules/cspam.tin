@@ -1,4 +1,4 @@
-#ACTION {^%s! %*}
+#ACTION {^{\s*! .+|.+ !\s*}$}
 {
 	#if {${filter}}
 	{

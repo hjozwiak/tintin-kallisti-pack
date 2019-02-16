@@ -333,6 +333,30 @@
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
+#MACRO {\eOP}
+{
+	#variable {channelBufferIndex} {13};
+	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+}
+
+#MACRO {\eOQ}
+{
+	#variable {channelBufferIndex} {14};
+	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+}
+
+#MACRO {\eOR}
+{
+	#variable {channelBufferIndex} {15};
+	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+}
+
+#MACRO {\eOS}
+{
+	#variable {channelBufferIndex} {16};
+	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+}
+
 #MACRO {\e[1;3C}
 {
 	#nop {Alt right arrow};
@@ -381,5 +405,5 @@
 
 #VARIABLE         {awayMessage}  {false}
 #VARIABLE         {channel}  {}
-#VARIABLE         {channelBuffer}  {{1}{All}{2}{Advice}{3}{Barter}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Rude}{10}{Say}{11}{Tell}{12}{Chat}{13}{cchat}}
+#VARIABLE         {channelBuffer}  {{1}{All}{2}{Advice}{3}{Barter}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Rude}{10}{Say}{11}{Tell}{12}{Chat}{13}{cchat}{14}{Code}}
 #VARIABLE         {channelBufferIndex}  {1}

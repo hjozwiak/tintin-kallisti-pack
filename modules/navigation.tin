@@ -208,11 +208,14 @@
 
 #MACRO {\ek}
 {
-	scan
+	#local {i} {};
+	#foreach {*{MSDP_ROOM_EXITS[]}} {i}
+	{
+		scan $i
+	}
 }
 
 #MACRO {\el}
 {
 	e
 }
-

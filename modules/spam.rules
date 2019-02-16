@@ -30,10 +30,12 @@
 #GAG              {^You tap %1 %d times.$}
 #GAG              {^You use %1 to focus your spell.$}
 #SUBSTITUTE       {%s{Mage|Priest|Rogue|Fighter|Druid|Monk|Paladin|Assassin|Samurai|Ranger|Templar|Wizard|Prophet|Demoniac|Bard|Dreadlord|Barbarian|Monastic|Necromancer} %s:   !}                                                                                                                                            {}  {5}
-#SUBSTITUTE       {^{Down|East|North|South|Up|West}%s- %3}                    {%1}  {5}
-#SUBSTITUTE       {%1 stands relaxed as {her|his|its} mind wanders on to other things.$}                                                        {%1 relaxes.}  {9}
-#SUBSTITUTE       {%1 (your follower) stands relaxed as {her|his|its} mind wanders on to other things.$}                                                        {%1 relaxes.}  {8}
-#SUBSTITUTE       {%1 is incapacitated and will slowly die, if not aided.$}                                     {%1 is is incapacitated.}  {9}
+#SUBSTITUTE       {^The corpse crumbles away as you capture its tormented soul. (%1)$}                                                {%1.}  {5}
+#SUBSTITUTE       {^The corpse crumbles to ash as you rip out its tormented soul. (%1)$}                                                  {%1.}  {5}
+#SUBSTITUTE       {^{Down|East|Here|North|South|Up|West}%s- %3}                         {%1}  {5}
+#SUBSTITUTE       {%1 (your follower) stands relaxed as {her|his|its} mind wanders on to other things.$}                                                                  {%1 relaxes.}  {8}
+#SUBSTITUTE       {%1 is incapacitated and will slowly die, if not aided.$}                                     {%1 is incapacitated.}  {9}
 #SUBSTITUTE       {%1 is mortally wounded and will die soon, if not aided.$}                                      {%1 is morted.}  {9}
 #SUBSTITUTE       {%1 quickly avoids your backstab and you nearly cut your own finger!$}                                                  {%1 avoids your backstab!}  {9}
+#SUBSTITUTE       {%1 stands relaxed as {her|his|its} mind wanders on to other things.$}                                                  {%1 relaxes.}  {9}
 #SUBSTITUTE       {\x7BRp\x7D}  {}  {9}
