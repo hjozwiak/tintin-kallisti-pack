@@ -138,6 +138,12 @@
 }
 {9}
 
+#ALIAS {^{sc|sco|scor|score}$}
+{
+	oldscore
+}
+{9}
+
 #EVENT {SESSION DISCONNECTED}
 {
 	CSAVE
