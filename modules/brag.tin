@@ -111,6 +111,10 @@
 	#if {$gagScan && "%1" != "{Down|East|North|South|Up|West}%*"}
 	{
 		#line {gag}
+	};
+	#else
+	{
+		#variable {gagScan} {0}
 	} 
 }
 
