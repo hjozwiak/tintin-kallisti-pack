@@ -79,9 +79,9 @@
 
 #ACTION {^{Down|East|Here|North|South|Up|West} %s- %*}
 {
-	#line {gag};
 	#if {"%1" == "Here"}
 	{
+		#line {gag};
 		#variable {gagScan} {1}
 	};
 	#else
