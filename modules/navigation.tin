@@ -211,7 +211,10 @@
 	#local {i} {};
 	#foreach {*{MSDP_ROOM_EXITS[]}} {i}
 	{
-		scan $i
+		#if {"$MSDP_OPPONENT_NAME" == ""}
+		{
+			scan $i
+		}
 	}
 }
 
