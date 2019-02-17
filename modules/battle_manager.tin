@@ -343,10 +343,6 @@
 	#nop {Hook args all text for rewoard for the kill.};
 	#local {i} {};
 	#local {j} {};
-	#if {&{battle_manager[tankName]}}
-	{
-		#delay {.5} {#if {$MSDP_OPPONENT_NUMBER == 0} {reform ${battle_manager[tankName]} non;march ${battle_manager[tankName]}}}
-	};
 	#if {"${onDeath}" != ""}
 	{
 		#foreach {*{onDeath[]}} {j}
@@ -601,25 +597,6 @@
 		{
 			#echo {You have no chain attack set.}
 		}
-	}
-}
-{9}
-
-#ALIAS {^{notank|tank|tank \w+}$}
-{
-	#if {"%0" == "notank"}
-	{
-		#unvariable {battle_manager[tankName]};
-		#echo {Tank cleared.}
-	};
-	#else
-	{
-		#regexp {%0} {{.*} {.*}} {#variable {battle_manager[tankName]} {&2}};
-		#else
-		{
-			#variable {battle_manager[tankName]} {self}
-		};
-		#echo {tank set to ${battle_manager[tankName]}.}
 	}
 }
 {9}
