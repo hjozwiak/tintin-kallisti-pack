@@ -77,6 +77,20 @@
 }
 {9}
 
+#ACTION {^{Down|East|Here|North|South|Up|West} %s- %*}
+{
+	#if {"%1" == "Here"}
+	{
+		#line {gag};
+		#variable {gagScan} {1}
+	};
+	#else
+	{
+		#variable {gagScan} {0}
+	}
+}
+{9}
+
 #ALIAS {%i{^news}}
 {
 	#nop {This is in navigation.tin because it technically overrides a speedwalk.};
@@ -208,14 +222,12 @@
 
 #MACRO {\ek}
 {
-	#local {i} {};
-	#foreach {*{MSDP_ROOM_EXITS[]}} {i}
-	{
-		scan $i
-	}
+	scan
 }
 
 #MACRO {\el}
 {
 	e
 }
+
+#VARIABLE         {gagScan}  {0}

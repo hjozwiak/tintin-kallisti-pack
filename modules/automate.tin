@@ -543,7 +543,7 @@
 }
 {9}
 
-#ACTION {^{You really make a mess of it|Your warpaint wears off}.$}
+#ACTION {^Your warpaint wears off.$}
 {
 	#if {&{auto[warpaint]}}
 	{
