@@ -87,10 +87,6 @@
 	#else
 	{
 		#variable {gagScan} {0}
-	};
-	#if {"$MSDP_ROOM_EXITS" == ""}
-	{
-		#variable {gagScan} {0}
 	}
 }
 {9}
