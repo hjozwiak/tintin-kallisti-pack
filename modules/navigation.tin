@@ -83,7 +83,7 @@
 	{
 		#line {gag};
 		#variable {gagScan} {1};
-		silent_do #variable {gagScan} {0}
+		localecho silent_do #variable {gagScan} {0}
 	};
 	#else
 	{
