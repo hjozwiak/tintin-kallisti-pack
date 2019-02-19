@@ -82,7 +82,8 @@
 	#if {"%1" == "Here"}
 	{
 		#line {gag};
-		#variable {gagScan} {1}
+		#variable {gagScan} {1};
+		silent_do #variable {gagScan} {0}
 	};
 	#else
 	{

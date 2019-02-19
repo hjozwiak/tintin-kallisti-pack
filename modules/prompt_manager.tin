@@ -8,10 +8,13 @@
 
 #EVENT {VARIABLE UPDATE MSDP_MANA}
 {
+	#nop {hook name: manaPercent};
+	#nop {hook args: The percent of mana you currently have.};
 	#if {"%1" != "" && "${MSDP_CHARACTER_NAME}" != "" && !$copying}
 	{
 		#delay {0.05} {#math {audioprompt[mana]} {(%1 / $MSDP_MANA_MAX) *100.0};#if {${audioprompt[mana]} < 100}{#format {audioprompt[mana]} {%d} {${audioprompt[mana]} - ${audioprompt[mana]} % 10};#if {${audioprompt[mana]} != ${audioprompt[oldMana]}}{#if {${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{mana${audioprompt[mana]}}}{SYNTH_PLAY mana${audioprompt[mana]};#variable {audioprompt[oldMana]} {${audioprompt[mana]}}}}}}}
-	}
+	};
+	@do_hook{manaPercent;$audioprompt[mana]}
 }
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_HEALTH}
