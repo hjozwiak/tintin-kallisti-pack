@@ -207,6 +207,22 @@
 }
 {9}
 
+#ACTION {^You feel weaker.$}
+{
+	#if {&{auto[strength]}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			${auto[strength]}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto[strength]}}
+		}
+	}
+}
+{9}
+
 #ACTION {^You had better stand up first.$}
 {
 	#if {$MSDP_OPPONENT_NUMBER > 0}
@@ -468,6 +484,22 @@
 }
 {9}
 
+#ACTION {^Your warpaint wears off.$}
+{
+	#if {&{auto[warpaint]}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			warpaint ${auto[warpaint]}
+		};
+		#else
+		{
+			#list {onDeath} {add} {warpaint ${auto[warpaint]}}
+		}
+	}
+}
+{9}
+
 #ACTION {^[* You found your target! *]$}
 {
 	#nop {Hook name is trackEnd.};
@@ -543,17 +575,17 @@
 }
 {9}
 
-#ACTION {^Your warpaint wears off.$}
+#ACTION {^{You are no longer invisible\.|You slowly fade into view\.}$}
 {
-	#if {&{auto[warpaint]}}
+	#if {&{auto[shroud]}}
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			warpaint ${auto[warpaint]}
+			shroud
 		};
 		#else
 		{
-			#list {onDeath} {add} {warpaint ${auto[warpaint]}}
+			#list {onDeath} {add} {shroud}
 		}
 	}
 }
@@ -799,7 +831,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|spirit|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith}$}
+#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
