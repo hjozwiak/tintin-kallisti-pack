@@ -77,21 +77,6 @@
 }
 {9}
 
-#ACTION {^{Down|East|Here|North|South|Up|West} %s- %*}
-{
-	#if {"%1" == "Here"}
-	{
-		#line {gag};
-		#variable {gagScan} {1};
-		localecho silent_do #variable {gagScan} {0}
-	};
-	#else
-	{
-		#variable {gagScan} {0}
-	}
-}
-{9}
-
 #ALIAS {%i{^news}}
 {
 	#nop {This is in navigation.tin because it technically overrides a speedwalk.};
