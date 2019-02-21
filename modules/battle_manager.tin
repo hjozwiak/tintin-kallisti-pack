@@ -610,13 +610,16 @@
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_NUMBER}
 {
+	#nop {hook name: opponentNumber};
+	#nop {hook args: Number of opponents};
 	#if {"%1" != "" && !$copying}
 	{
 		#if {${auto[range]} && !${rangedCombat} && %1 == 0}
 		{
 			range
 		}
-	}
+	};
+	@do_hook{opponentNumber;%1}
 }
 
 #FUNCTION {combat_action}
