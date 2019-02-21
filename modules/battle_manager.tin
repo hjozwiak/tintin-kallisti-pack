@@ -598,13 +598,16 @@
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_NAME}
 {
+	#nop {hook name: opponentName};
+	#nop {hook args: Name of opponent you ar currently fighting};
 	#if {"%1" != "" && !$copying}
 	{
 		#variable {OLD_MSDP_OPPONENT_NAME} {%1};
 		#if {${auto[join]}}
 		{
 			order followers join $MSDP_CHARACTER_NAME
-		}
+		};
+	@do_hook{opponentName;%1}
 	}
 }
 
@@ -617,9 +620,9 @@
 		#if {${auto[range]} && !${rangedCombat} && %1 == 0}
 		{
 			range
-		}
-	};
+		};
 	@do_hook{opponentNumber;%1}
+	}
 }
 
 #FUNCTION {combat_action}
