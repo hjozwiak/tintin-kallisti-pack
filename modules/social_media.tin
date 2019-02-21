@@ -19,7 +19,7 @@
 }
 {9}
 
-#ACTION {^You lose %d exp, %d hps, %d mana, and %d stamina.%*}
+#ACTION {^You lose %d experience, %d MaxHp, %d MaxMana, and %d MaxStamina.%*}
 {
 	#if {!${spam.death}}
 	{
