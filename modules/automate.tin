@@ -400,6 +400,10 @@
 				}
 			}
 		}
+	};
+	#elseif {&{auto[werewolf]}}
+	{
+		#delay {3} {#local {i} {};#local {found} {0};#foreach {${MSDP_AFFECTS[]}} {i} {#if {"$i" == "shapechange"} {#var {found} {1}}};#if {!${found}} {werewolf}}
 	}
 }
 {9}
