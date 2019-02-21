@@ -53,18 +53,6 @@
 }
 {9}
 
-#ACTION {%1 hits %w %*{.|!}$}
-{
-	#local {i} {};
-	#list {autorescueList} {find} {%2} {i};
-	#if {$i != 0}
-	{
-		rescue ${autorescueList[$i]};
-		spamset rescue%2
-	}
-}
-{9}
-
 #ACTION {%1 impales %2 in {her|his|its} chest, %4 screams in pain.$}
 {
 	@combat_action{%1;%2}
@@ -610,24 +598,30 @@
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_NAME}
 {
+	#nop {hook name: opponentName};
+	#nop {hook args: Name of opponent you ar currently fighting};
 	#if {"%1" != "" && !$copying}
 	{
 		#variable {OLD_MSDP_OPPONENT_NAME} {%1};
 		#if {${auto[join]}}
 		{
 			order followers join $MSDP_CHARACTER_NAME
-		}
+		};
+	@do_hook{opponentName;%1}
 	}
 }
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_NUMBER}
 {
+	#nop {hook name: opponentNumber};
+	#nop {hook args: Number of opponents};
 	#if {"%1" != "" && !$copying}
 	{
 		#if {${auto[range]} && !${rangedCombat} && %1 == 0}
 		{
 			range
-		}
+		};
+	@do_hook{opponentNumber;%1}
 	}
 }
 
