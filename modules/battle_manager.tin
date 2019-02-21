@@ -53,18 +53,6 @@
 }
 {9}
 
-#ACTION {%1 hits %w %*{.|!}$}
-{
-	#local {i} {};
-	#list {autorescueList} {find} {%2} {i};
-	#if {$i != 0}
-	{
-		rescue ${autorescueList[$i]};
-		spamset rescue%2
-	}
-}
-{9}
-
 #ACTION {%1 impales %2 in {her|his|its} chest, %4 screams in pain.$}
 {
 	@combat_action{%1;%2}
