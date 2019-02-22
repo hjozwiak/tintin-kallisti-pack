@@ -816,11 +816,11 @@
 		{
 			#case {"0"}
 			{
-				#echo {auto-%1 is disabled.}
+				#echo {auto-%2 is disabled.}
 			};
 			#case {"1"}
 			{
-				#echo {auto-%1 is enabled.}
+				#echo {auto-%2 is enabled.}
 			};
 			#default
 			{
