@@ -89,6 +89,12 @@
 }
 {9}
 
+#ACTION {^The meta-sage does a nifty move, and removes all your affecting spells.$}
+{
+	#variable {manualWerewolf} {1}
+}
+{9}
+
 #ACTION {^The pink glow around your body fades.$}
 {
 	#if {&{auto[ffire]}}
