@@ -649,6 +649,11 @@
 			join %1
 		}
 	};
+	#list {autorescueList} {find} {%2} {i};
+	#if {$i != 0}
+	{
+		rescue ${autorescueList[$i]}
+	};
 	#list {groupMemberList} {find} {%2} {i};
 	#if {$i > 0}
 	{
