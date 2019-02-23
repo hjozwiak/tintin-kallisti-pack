@@ -215,6 +215,16 @@
 	}
 }
 
+#EVENT {VARIABLE UPDATE MSDP_RACE}
+{
+	#if {"%1" != "" && !$copying}
+	{
+		#nop {Hook name is race};
+		#nop {Hook args: new race.};
+		@do_hook{race;%1}
+	}
+}
+
 #TICKER           {csave}  {#if {"$MSDP_CHARACTER_NAME" == "$OLD_MSDP_CHARACTER_NAME"}{CSAVE}}                                          {90}
 #VARIABLE         {OLD_MSDP}  {}
 #VARIABLE         {copying}  {0}
