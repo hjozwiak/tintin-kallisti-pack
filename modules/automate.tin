@@ -771,7 +771,7 @@
 #ALIAS {^heal.{moderate|severe|nearDeath|incapacitated|stunned|morted} %2}
 {
 	#variable {heal[%1]} {@strip_braces{%2}};
-	#echo {heal.%1 set to ${heal.%1}.};
+	#echo {heal.%1 set to ${heal[%1]}.};
 	CSAVE
 }
 {9}
