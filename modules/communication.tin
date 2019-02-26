@@ -79,6 +79,15 @@
 }
 {9}
 
+#ACTION {^< Hero > %*}
+{
+	#nop {Hook name hero.};
+	#nop {Hook args hero contents.};
+	Channel_Event Hero %0;
+	@do_hook{hero;%1}
+}
+{9}
+
 #ACTION {^<%w: %2> '%3'$}
 {
 	#nop {Hook name varied, channel name, e.g. gossip.};
@@ -405,5 +414,5 @@
 
 #VARIABLE         {awayMessage}  {false}
 #VARIABLE         {channel}  {}
-#VARIABLE         {channelBuffer}  {{1}{All}{2}{Advice}{3}{Barter}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Rude}{10}{Say}{11}{Tell}{12}{Chat}{13}{cchat}{14}{Code}}
+#VARIABLE         {channelBuffer}  {{1}{All}{2}{Advice}{3}{Barter}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Rude}{10}{Say}{11}{Tell}{12}{Chat}{13}{cchat}{14}{Code}{15}{Hero}}
 #VARIABLE         {channelBufferIndex}  {1}
