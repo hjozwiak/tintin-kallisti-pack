@@ -863,6 +863,8 @@
 
 #EVENT {VARIABLE UPDATE MSDP_RACE}
 {
+	#nop {Hook name is race};
+	#nop {Hook args: new race.};
 	#if {"%1" != "" && !$copying}
 	{
 		#if {"%1" == "human" && &{auto[werewolf]} && $MSDP_LEVEL >= 50 && !&{manualWerewolf}}
@@ -872,7 +874,8 @@
 		#elseif {"%1" == "{human|werewolf}" && &{manualWerewolf}}
 		{
 			#unvariable {manualWerewolf}
-		}
+		};
+		@do_hook{race;%1}
 	}
 }
 
