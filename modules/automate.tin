@@ -672,7 +672,7 @@
 
 #ALIAS {^/$}
 {
-	#if {$MSDP_LEVEL <= 20}
+	#if {$MSDP_LEVEL < 20}
 	{
 		recall
 	};
