@@ -1,12 +1,3 @@
-#ACTION {^You resume your human form.$}
-{
-	#if {&{auto[werewolf]} && !&{manualWerewolf} && $MSDP_LEVEL >= 50}
-	{
-		werewolf
-	}
-}
-{1}
-
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
 	#unvariable {auto[track]};
@@ -95,6 +86,12 @@
 	{
 		warcry
 	}
+}
+{9}
+
+#ACTION {^The meta-sage does a nifty move, and removes all your affecting spells.$}
+{
+	#variable {manualWerewolf} {1}
 }
 {9}
 
@@ -579,7 +576,7 @@
 {
 	#if {&{auto[shroud]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0 && "%0" != "You slowly fade into view."}
 		{
 			shroud
 		};
@@ -618,7 +615,6 @@
 #ALIAS {^{wer|were|werew|werewo|werewol|werewolf}$}
 {
 	#variable {manualWerewolf} {1};
-	#delay {3} {#unvar {manualWerewolf}};
 	#send {werewolf}
 }
 {1}
@@ -676,7 +672,7 @@
 
 #ALIAS {^/$}
 {
-	#if {$MSDP_LEVEL <= 20}
+	#if {$MSDP_LEVEL < 20}
 	{
 		recall
 	};
@@ -775,7 +771,7 @@
 #ALIAS {^heal.{moderate|severe|nearDeath|incapacitated|stunned|morted} %2}
 {
 	#variable {heal[%1]} {@strip_braces{%2}};
-	#echo {heal.%1 set to ${heal.%1}.};
+	#echo {heal.%1 set to ${heal[%1]}.};
 	CSAVE
 }
 {9}
@@ -812,11 +808,11 @@
 		{
 			#case {"0"}
 			{
-				#echo {auto-%1 is disabled.}
+				#echo {auto-%2 is disabled.}
 			};
 			#case {"1"}
 			{
-				#echo {auto-%1 is enabled.}
+				#echo {auto-%2 is enabled.}
 			};
 			#default
 			{
@@ -864,6 +860,24 @@
 	}
 }
 {9}
+
+#EVENT {VARIABLE UPDATE MSDP_RACE}
+{
+	#nop {Hook name is race};
+	#nop {Hook args: new race.};
+	#if {"%1" != "" && !$copying}
+	{
+		#if {"%1" == "human" && &{auto[werewolf]} && $MSDP_LEVEL >= 50 && !&{manualWerewolf}}
+		{
+			werewolf
+		};
+		#elseif {"%1" == "{human|werewolf}" && &{manualWerewolf}}
+		{
+			#unvariable {manualWerewolf}
+		};
+		@do_hook{race;%1}
+	}
+}
 
 #EVENT {VARIABLE UPDATE MSDP_WORLD_TIME}
 {
