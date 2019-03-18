@@ -70,13 +70,17 @@
 }
 {9}
 
-#ALIAS {^{cash|enemy|enemies|hp|mn|mv|tnl|xp}$}
+#ALIAS {^{cash|cond|condi|condit|conditi|conditio|condition|enemy|enemies|hp|mn|mv|tnl|xp}$}
 {
 	#switch {"%0"}
 	{
 		#case {"cash"}
 		{
 			#echo {Gold: $MSDP_GOLD Bank: $MSDP_BANK_GOLD}
+		};
+		#case {"{cond|condi|condit|conditi|conditio|condition}"}
+		{
+			#echo {%s} {$MSDP_OPPONENT_NAME has @percent{MSDP_OPPONENT_HEALTH} percent health.}
 		};
 		#case {"{enemy|enemies}"}
 		{
