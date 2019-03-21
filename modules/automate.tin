@@ -236,7 +236,7 @@
 }
 {9}
 
-#ACTION {^You lost your concentration casting '%1'!$}
+#ACTION {^You lost concentration casting '%1'!$}
 {
 	#nop {Hook name  concentration.};
 	#nop {Hook args: the item on which you were concentrating, e.g. shapechange.};
