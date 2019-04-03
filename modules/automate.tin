@@ -88,6 +88,22 @@
 	}
 }
 {9}
+#ACTION {^The effects of battle cry are gone.$}
+{
+	#if {${auto[warcry]}}
+	{
+		warcry
+	}
+}
+{9}
+
+#ACTION {^You utter one last zombie groan as your body returns to normal.$} {
+	#if {${auto[zombify]}}
+	{
+		zombify
+	}
+}
+{9}
 
 #ACTION {^The meta-sage does a nifty move, and removes all your affecting spells.$}
 {
@@ -827,7 +843,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith}$}
+#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
