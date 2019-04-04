@@ -47,21 +47,6 @@
 	}
 }
 {9}
-#ACTION {^The force around your body fades.$}
-{
-#if {&{auto[magicshield]}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			${auto[magicshield]}
-		};
-		#else
-		{
-			#list {onDeath} {add} {${auto[magicshield]}}
-		}
-	}
-}
-{9}
 
 #ACTION {^The black flames about your body fade.$}
 {
@@ -103,28 +88,21 @@
 	}
 }
 {9}
-#ACTION {^The effects of battle cry are gone.$}
-{
-	#if {${auto[warcry]}}
-	{
-		warcry
-	}
-}
-{9}
 
-#ACTION {^You utter one last zombie groan as your body returns to normal.$} {
-#if {&{auto[aura]}}
+#ACTION {^The force around your body fades.$}
+{
+	#if {&{auto[magicshield]}}
 	{
-		#if {"$MSDP_POSITION" != "Fighting"}
+		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			zombify
+			${auto[magicshield]}
 		};
 		#else
 		{
-			#list {onDeath} {add} {zombify}}
+			#list {onDeath} {add} {${auto[magicshield]}}
 		}
 	}
-
+}
 {9}
 
 #ACTION {^The meta-sage does a nifty move, and removes all your affecting spells.$}
@@ -191,6 +169,22 @@
 		${auto[relogin]}
 	};
 	@do_hook{playerDeath}
+}
+{9}
+
+#ACTION {^You come back into focus.$}
+{
+	#if {${auto[blur]}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			blur
+		};
+		#else
+		{
+			#list {onDeath} {add} {blur}
+		}
+	}
 }
 {9}
 
@@ -333,6 +327,22 @@
 	#if {${auto[warcry]}}
 	{
 		warcry
+	}
+}
+{9}
+
+#ACTION {^You utter one last zombie groan as your body returns to normal.$}
+{
+	#if {&{auto[aura]}}
+	{
+		#if {"$MSDP_POSITION" != "Fighting"}
+		{
+			zombify
+		};
+		#else
+		{
+			#list {onDeath} {add} {zombify}
+		}
 	}
 }
 {9}
@@ -568,20 +578,6 @@
 	#unvariable {auto[track]}
 }
 {9}
-#ACTION {^You come back into focus.$} {
-if {${auto[blur]}}
-	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
-		{
-			blur
-		};
-		#else
-		{
-			#list {onDeath} {add} {blur}
-		}
-	}
-}
-{9}
 
 #ACTION {^{No one seems to be listening right now|You feel the need to renew your prayers to God}.$}
 {
@@ -711,42 +707,6 @@ if {${auto[blur]}}
 	#loop {1} {%1} {i}
 	{
 		%2 $i.%3
-	}
-}
-{9}
-
-#ALIAS {^{~|/} %1}
-{
-	#echo {You are now using %1 to recall out of combat.};
-	#variable {character[recall]} {%1}
-}
-{9}
-
-#ALIAS {^{~|/}$}
-{
-	#if {$MSDP_LEVEL < 20}
-	{
-		recall
-	};
-	#else
-	{
-		#if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
-		{
-			#if {!${breakout}}
-			{
-				breakout;
-				spamset breakout 15
-			};
-			#if {!&{character[recall]}}
-			{
-				#variable {character[recall]} {recite recall;get recall out}
-			};
-			${character[recall]}
-		};
-		#else
-		{
-			recall
-		}
 	}
 }
 {9}
@@ -909,6 +869,42 @@ if {${auto[blur]}}
 	#else
 	{
 		#regexp {%0} {track {.*}} {#variable {auto[track]} {&1};hunt &1}
+	}
+}
+{9}
+
+#ALIAS {^{~|/} %1}
+{
+	#echo {You are now using %1 to recall out of combat.};
+	#variable {character[recall]} {%1}
+}
+{9}
+
+#ALIAS {^{~|/}$}
+{
+	#if {$MSDP_LEVEL < 20}
+	{
+		recall
+	};
+	#else
+	{
+		#if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
+		{
+			#if {!${breakout}}
+			{
+				breakout;
+				spamset breakout 15
+			};
+			#if {!&{character[recall]}}
+			{
+				#variable {character[recall]} {recite recall;get recall out}
+			};
+			${character[recall]}
+		};
+		#else
+		{
+			recall
+		}
 	}
 }
 {9}
