@@ -113,11 +113,18 @@
 {9}
 
 #ACTION {^You utter one last zombie groan as your body returns to normal.$} {
-	#if {${auto[zombify]}}
+#if {&{auto[aura]}}
 	{
-		zombify
+		#if {"$MSDP_POSITION" != "Fighting"}
+		{
+			zombify
+		};
+		#else
+		{
+			#list {onDeath} {add} {zombify}}
+		}
 	}
-}
+
 {9}
 
 #ACTION {^The meta-sage does a nifty move, and removes all your affecting spells.$}
