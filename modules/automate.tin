@@ -47,6 +47,21 @@
 	}
 }
 {9}
+#ACTION {^The force around your body fades.$}
+{
+#if {&{auto[magicshield]}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			${auto[magicshield]}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto[magicshield]}}
+		}
+	}
+}
+{9}
 
 #ACTION {^The black flames about your body fade.$}
 {
@@ -843,7 +858,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
+#ALIAS {^{noauto|auto}{aura.*|magicshield.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
