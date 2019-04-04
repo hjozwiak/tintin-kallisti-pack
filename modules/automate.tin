@@ -561,6 +561,20 @@
 	#unvariable {auto[track]}
 }
 {9}
+#ACTION {^You come back into focus.$} {
+if {${auto[blur]}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			blur
+		};
+		#else
+		{
+			#list {onDeath} {add} {blur}
+		}
+	}
+}
+{9}
 
 #ACTION {^{No one seems to be listening right now|You feel the need to renew your prayers to God}.$}
 {
@@ -858,7 +872,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|magicshield.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
+#ALIAS {^{noauto|auto}{aura.*|magicshield.*|blur|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
