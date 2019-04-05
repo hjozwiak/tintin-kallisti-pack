@@ -89,6 +89,22 @@
 }
 {9}
 
+#ACTION {^The force around your body fades.$}
+{
+	#if {&{auto[magicshield]}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			${auto[magicshield]}
+		};
+		#else
+		{
+			#list {onDeath} {add} {${auto[magicshield]}}
+		}
+	}
+}
+{9}
+
 #ACTION {^The meta-sage does a nifty move, and removes all your affecting spells.$}
 {
 	#variable {manualWerewolf} {1}
@@ -153,6 +169,22 @@
 		${auto[relogin]}
 	};
 	@do_hook{playerDeath}
+}
+{9}
+
+#ACTION {^You come back into focus.$}
+{
+	#if {${auto[blur]}}
+	{
+		#if {$MSDP_OPPONENT_NUMBER == 0}
+		{
+			blur
+		};
+		#else
+		{
+			#list {onDeath} {add} {blur}
+		}
+	}
 }
 {9}
 
@@ -236,7 +268,7 @@
 }
 {9}
 
-#ACTION {^You lost your concentration casting '%1'!$}
+#ACTION {^You lost concentration casting '%1'!$}
 {
 	#nop {Hook name  concentration.};
 	#nop {Hook args: the item on which you were concentrating, e.g. shapechange.};
@@ -295,6 +327,22 @@
 	#if {${auto[warcry]}}
 	{
 		warcry
+	}
+}
+{9}
+
+#ACTION {^You utter one last zombie groan as your body returns to normal.$}
+{
+	#if {&{auto[aura]}}
+	{
+		#if {"$MSDP_POSITION" != "Fighting"}
+		{
+			zombify
+		};
+		#else
+		{
+			#list {onDeath} {add} {zombify}
+		}
 	}
 }
 {9}
@@ -663,42 +711,6 @@
 }
 {9}
 
-#ALIAS {^/ %1}
-{
-	#echo {You are now using %1 to recall out of combat.};
-	#variable {character[recall]} {%1}
-}
-{9}
-
-#ALIAS {^/$}
-{
-	#if {$MSDP_LEVEL < 20}
-	{
-		recall
-	};
-	#else
-	{
-		#if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
-		{
-			#if {!${breakout}}
-			{
-				breakout;
-				spamset breakout 15
-			};
-			#if {!&{character[recall]}}
-			{
-				#variable {character[recall]} {recite recall;get recall out}
-			};
-			${character[recall]}
-		};
-		#else
-		{
-			recall
-		}
-	}
-}
-{9}
-
 #ALIAS {^at %s%d %3}
 {
 	#if {%2 < 0 || %2 > 23}
@@ -827,7 +839,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith}$}
+#ALIAS {^{noauto|auto}{aura.*|magicshield.*|blur|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
 {
 	#if {"%0" == "noauto%*"}
 	{
@@ -857,6 +869,42 @@
 	#else
 	{
 		#regexp {%0} {track {.*}} {#variable {auto[track]} {&1};hunt &1}
+	}
+}
+{9}
+
+#ALIAS {^{~|/} %1}
+{
+	#echo {You are now using %1 to recall out of combat.};
+	#variable {character[recall]} {%1}
+}
+{9}
+
+#ALIAS {^{~|/}$}
+{
+	#if {$MSDP_LEVEL < 20}
+	{
+		recall
+	};
+	#else
+	{
+		#if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
+		{
+			#if {!${breakout}}
+			{
+				breakout;
+				spamset breakout 15
+			};
+			#if {!&{character[recall]}}
+			{
+				#variable {character[recall]} {recite recall;get recall out}
+			};
+			${character[recall]}
+		};
+		#else
+		{
+			recall
+		}
 	}
 }
 {9}
