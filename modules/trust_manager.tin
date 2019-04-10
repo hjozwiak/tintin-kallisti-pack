@@ -139,6 +139,10 @@
 		{
 			#return #nop
 		};
+				#case {"{\shoma|homa}%*"}
+		{
+			#return #nop
+		};
 		#default
 		{
 			#return %0
