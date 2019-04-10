@@ -139,6 +139,11 @@
 		{
 			#return #nop
 		};
+				#case {"%*{homa}%*"}
+		{
+			#return #nop
+		};
+
 		#default
 		{
 			#return %0
