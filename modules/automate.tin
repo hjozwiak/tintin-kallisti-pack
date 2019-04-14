@@ -333,7 +333,7 @@
 
 #ACTION {^You utter one last zombie groan as your body returns to normal.$}
 {
-	#if {&{auto[aura]}}
+	#if {&{auto[zombify]}}
 	{
 		#if {"$MSDP_POSITION" != "Fighting"}
 		{
