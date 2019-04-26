@@ -893,6 +893,7 @@
 			#if {!${breakout}}
 			{
 				breakout;
+				#var breakout 1
 				spamset breakout 15
 			};
 			#if {!&{character[recall]}}
