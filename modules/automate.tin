@@ -333,7 +333,7 @@
 
 #ACTION {^You utter one last zombie groan as your body returns to normal.$}
 {
-	#if {&{auto[aura]}}
+	#if {&{auto[zombify]}}
 	{
 		#if {"$MSDP_POSITION" != "Fighting"}
 		{
@@ -893,6 +893,7 @@
 			#if {!${breakout}}
 			{
 				breakout;
+				#var breakout 1
 				spamset breakout 15
 			};
 			#if {!&{character[recall]}}
