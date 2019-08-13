@@ -30,7 +30,7 @@
 		{
 			#local {enemyConditionTone} {};
 			#math {enemyConditionTone} {%1 * 10 + 200};
-			#system {play -q -V0 -n synth 0.06 tri $enemyConditionTone fade 0.01 0.09 gain ${MSP[VOLUME]}&}
+			#system {play -q -V0 -n synth 0.06 tri $enemyConditionTone fade 0.01 0.09 gain ${MSP[VOLUME]} &> /dev/null&}
 		}
 	}
 }
