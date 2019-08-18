@@ -281,6 +281,14 @@
 				%1 ${auto[shape]}
 			}
 		};
+		#case {"{magic shield|blur|blade barrier|shroud of darkness|wraithform}"}
+		{
+			cast '%1'
+		};
+		#case {"{vampiric drain|energy drain}"}
+		{
+			cast '%1' corpse
+		};
 		#default
 		{
 			#if {${auto[recast]}}
