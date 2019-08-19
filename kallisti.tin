@@ -1,3 +1,9 @@
+#ACTION {^Wrong password.$}
+{
+	#system {play -qV0 wrong-password.wav gain ${MSP[VOLUME]} &> /dev/null &}
+}
+{5}
+
 #ALIAS {^{build|test|login}$}
 {
 	#if {"%0" == "build"}
@@ -31,8 +37,7 @@
 #ALIAS {^CMOTD$}
 {
 	#echo {@separator{}};
-	#system {fold -w $(tput cols) -s MOTD}
-	#echo {@separator{}}
+	#system {fold -w $(tput cols) -s MOTD}#echo {@separator{}}
 }
 {9}
 
@@ -79,7 +84,7 @@
 	#echo {@separator{}};
 	#system {fold -w $(tput cols) -s MOTD};
 	#echo {@separator{}};
-	#echo {To get started type login};
+	#echo {To get started type login}
 }
 
 #EVENT {SESSION CONNECTED}
@@ -92,10 +97,12 @@
 	#variable {logFilePath} {${HOME}/${logFilePath[1]}};
 	#script {logFileName} {date +'%I_%M%p.log'};
 	#system {mkdir -p $logFilePath};
-	#log {overwrite} {${logFilePath}${logFileName[1]}}
+	#log {overwrite} {${logFilePath}${logFileName[1]}};
+	#foreach {${goto[]}} {i}
+	{
+		#tab {$i}
+	}
 }
-#action {^Wrong password.$} {
-#system {play -qV0 wrong-password.wav gain ${MSP[VOLUME]} &> /dev/null &}
-}
+
 #VARIABLE         {motd}  {}
 #VARIABLE         {tintinPackName}  {tintin-kallisti-pack}
