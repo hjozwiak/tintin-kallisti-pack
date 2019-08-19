@@ -6,7 +6,8 @@
 
 #ACTION {^Mount what?$}
 {
-	#unvariable {character[mount]}
+	#unvariable {character[mount]};
+	#variable {mounting} {0}
 }
 {9}
 
@@ -27,7 +28,8 @@
 	#else
 	{
 		#variable {character[mount]} {%1}
-	}
+	};
+	#variable {mounting} {0}
 }
 {9}
 
@@ -43,7 +45,7 @@
 
 #ACTION {^You stand up.$}
 {
-	#if {&{character[mount]}}
+	#if {&{character[mount]} && !$mounting}
 	{
 		mount ${character[mount]};
 		#unvariable ${character[mount]}
@@ -53,6 +55,7 @@
 
 #ACTION {^You try to ride %1, but you fall on your butt.$}
 {
+	#variable {mounting} {1};
 	stand;
 	#regexp {%1} {{.*} {.*}} {mount &2};
 	#else
@@ -61,3 +64,5 @@
 	}
 }
 {9}
+
+#VARIABLE         {mounting}  {0}
