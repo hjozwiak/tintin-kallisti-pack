@@ -146,6 +146,16 @@
 }
 {9}
 
+#ACTION {^{You spousetalk to \w+|\w+ spousetalks to you}, '%*'$}
+{
+	#nop {Hook name is ftalk.};
+	#nop {Hook args %1 Name.};
+	#nop {Hook args %2 message to channel.};
+	Channel_Event ftalk %0;
+	@do_hook{ftalk;%1;%2}
+}
+{9}
+
 #ALIAS {^pimptell %S %2}
 {
 	tell %1 @pimp{%2}

@@ -11,6 +11,7 @@
 #VARIABLE         {doorSouth}  {"|sox -np synth 0.5 sine 1600-100 synth 0.6 tri amod 200-1400 tempo 2.5 pitch -200"}
 #VARIABLE         {doorUp}  {"|sox -np synth 0.5 sine 1600-100 synth 0.6 tri amod 200-1400 tempo 2.5 pitch 600 reverse"}
 #VARIABLE         {doorWest}  {"|sox -np synth 0.5 sine 1600-100 synth 0.6 tri amod 200-1400 tempo 2.5 pitch -200 reverse remix v0.9 v0.4"}
+#VARIABLE         {ftalkChannel}  {"|sox -np synth pl E2 pl B2 pl E3 delay 0 .1 .2 remix - bend .2,800,.2 fade 0 .75 flanger reverse" gain -3}
 #VARIABLE         {health0}  {"|sox -np synth sq C#5 sq D#5 sq F#5 sq A5 sq C#6" remix - fade 0 5.5 5 remix v0.9 v0.4 pitch -400}
 #VARIABLE         {health10}  {"|sox -np synth sq D#3 sq B3 sq C#4 sq F4 sq A4 remix - fade p 0 .7 .4" remix v0.9 v0.4}
 #VARIABLE         {health20}  {"|sox -np synth sq C#5 sq D#5 sq F#5 sq A5 sq C#6 remix - fade p 0 .7 .4" remix v0.9 v0.4}
