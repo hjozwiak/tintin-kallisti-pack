@@ -1,12 +1,3 @@
-#ACTION {^{~*\s*! .+|.+ !\s*~*}$}
-{
-	#if {${filter}}
-	{
-		#line {gag}
-	}
-}
-{9}
-
 #ACTION {^< %1{>|>\s*}$}
 {
 	#if {${character[prompt]} == 1}
@@ -21,6 +12,24 @@
 	#if {${filter}}
 	{
 		#echo {Filters applied, to remove them type nofilter.};
+		#line {gag}
+	}
+}
+{9}
+
+#ACTION {^{~*\s*! .+|.+ !\s*~*}$}
+{
+	#if {${filter}}
+	{
+		#line {gag}
+	}
+}
+{9}
+
+#ACTION {^{~\s*!* .+|.+ !*\s*~}$}
+{
+	#if {${filter}}
+	{
 		#line {gag}
 	}
 }
@@ -82,3 +91,4 @@
 	#echo {buffer lock toggled.};
 	#buffer {lock}
 }
+
