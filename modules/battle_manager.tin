@@ -159,7 +159,7 @@
 }
 {9}
 
-#ACTION {^%w is now a group member %*.$}
+#ACTION {^%w {(?:\('\w+'\) )?}is now a group member %*.$}
 {
 	#nop {Hook name: groupAdd.};
 	#nop {Hook args: person added to group.};
