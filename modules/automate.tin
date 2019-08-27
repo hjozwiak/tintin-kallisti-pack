@@ -314,7 +314,7 @@
 			dismount;
 			tether ${character[mount]};
 			#variable {tetherable} {0};
-			#delay {#var {tetherable} {1}} {3}
+			#delay {3} {#var {tetherable} {1}}
 		};
 		sit;
 		meditate
