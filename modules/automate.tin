@@ -312,7 +312,9 @@
 		#if {&{character[mount]}}
 		{
 			dismount;
-			tether ${character[mount]}
+			tether ${character[mount]};
+			#variable {tetherable} {0};
+			#delay {#var {tetherable} {1}} {3}
 		};
 		sit;
 		meditate
@@ -953,3 +955,4 @@
 }
 
 #VARIABLE         {at}  {}
+#VARIABLE         {tetherable}  {1}

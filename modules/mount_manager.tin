@@ -24,11 +24,14 @@
 
 #ACTION {^You dismount from %1.$}
 {
-	#regexp {%1} {{.*} {.*}} {tether &2;#variable {character[mount]} {&2}};
-	#else
+	#if {${tetherable}}
 	{
-		tether %1;
-		#variable {character[mount]} {%1}
+		#regexp {%1} {{.*} {.*}} {tether &2;#variable {character[mount]} {&2}};
+		#else
+		{
+			tether %1;
+			#variable {character[mount]} {%1}
+		}
 	}
 }
 {9}
@@ -56,16 +59,6 @@
 }
 {9}
 
-#ACTION {^You {(?:wake and )?}stand up.$}
-{
-	#if {&{character[mount]} && !$mounting}
-	{
-		mount ${character[mount]};
-		#unvariable ${character[mount]}
-	}
-}
-{9}
-
 #ACTION {^You try to ride %1, but you fall on your butt.$}
 {
 	#variable {mounting} {1};
@@ -74,6 +67,16 @@
 	#else
 	{
 		mount %1
+	}
+}
+{9}
+
+#ACTION {^You {(?:wake and )?}stand up.$}
+{
+	#if {&{character[mount]} && !$mounting}
+	{
+		mount ${character[mount]};
+		#unvariable ${character[mount]}
 	}
 }
 {9}
