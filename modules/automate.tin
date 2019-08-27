@@ -306,9 +306,14 @@
 
 #ACTION {^You must be sitting to concentrate.$}
 {
-	#if {"$MSDP_POSITION" != "Fighting" && !&{character[mount]}}
+	#if {"$MSDP_POSITION" != "Fighting"}
 	{
 		#line {gag};
+		#if {&{character[mount]}}
+		{
+			dismount;
+			tether ${character[mount]}
+		};
 		sit;
 		meditate
 	}
@@ -901,8 +906,7 @@
 			#if {!${breakout}}
 			{
 				breakout;
-				#var breakout 1
-				spamset breakout 15
+				#variable breakout 1 spamset breakout 15
 			};
 			#if {!&{character[recall]}}
 			{
