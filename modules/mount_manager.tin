@@ -71,7 +71,7 @@
 }
 {9}
 
-#ACTION {^You {(?:wake and |stop meditating and )?}{stand up|rise to your feet}.$}
+#ACTION {^You {(?:stop resting and |wake and |stop meditating and )?}{stand up|rise to your feet}.$}
 {
 	#if {&{character[mount]} && !$mounting}
 	{
