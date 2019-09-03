@@ -238,6 +238,11 @@
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
+#MACRO {\cB}
+{
+	#system {echo 'talk' > ~/.config/barnard/cmd}
+}
+
 #MACRO {\e!}
 {
 	#variable {channelBufferIndex} {2};
