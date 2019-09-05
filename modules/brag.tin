@@ -48,25 +48,32 @@
 
 #ALIAS {^show %S$}
 {
-	#format {tmp} {%u} {%1};
-	#if {&{MSDP_${tmp}}}
+	#if {$MSDP_LEVEL <= 100}
 	{
-		#variable {msg} {${MSDP_${tmp}} %1};
-		#if {&{MSDP_${tmp}_PERM}}
+		#format {tmp} {%u} {%1};
+		#if {&{MSDP_${tmp}}}
 		{
-			#variable {msg} {${msg} of ${MSDP_${tmp}_PERM}}
+			#variable {msg} {${MSDP_${tmp}} %1};
+			#if {&{MSDP_${tmp}_PERM}}
+			{
+				#variable {msg} {${msg} of ${MSDP_${tmp}_PERM}}
+			};
+			#elseif {&{MSDP_${tmp}_MAX} && ${MSDP_${tmp}_MAX} != 0}
+			{
+				#variable {msg} {${msg} of ${MSDP_${tmp}_MAX}}
+			}
 		};
-		#elseif {&{MSDP_${tmp}_MAX} && ${MSDP_${tmp}_MAX} != 0}
+		#else
 		{
-			#variable {msg} {${msg} of ${MSDP_${tmp}_MAX}}
-		}
+			#variable {msg} {Nothing to show}
+		};
+		#variable {msg} {${msg}.};
+		#echo {${msg}}
 	};
 	#else
 	{
-		#variable {msg} {Nothing to show}
-	};
-	#variable {msg} {${msg}.};
-	#echo {${msg}}
+		#send {%0}
+	}
 }
 {9}
 

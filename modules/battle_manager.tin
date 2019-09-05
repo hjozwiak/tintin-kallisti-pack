@@ -159,7 +159,7 @@
 }
 {9}
 
-#ACTION {^%w is now a group member %*.$}
+#ACTION {^%w {(?:\('\w+'\) )?}is now a group member %*.$}
 {
 	#nop {Hook name: groupAdd.};
 	#nop {Hook args: person added to group.};
@@ -280,7 +280,7 @@
 	#nop {Hook name is rangedStart	};
 	#nop {Hook args: none.};
 	#variable {rangedCombat} {1};
-	@do_hook {rangedStart}
+	@do_hook{rangedStart}
 }
 {9}
 
@@ -316,6 +316,9 @@
 
 #ACTION {^You join the fight with %w.$}
 {
+	#nop {Hook name: join};
+	#nop {Hook args: None};
+	@do_hook{join};
 	#local {i} {};
 	#list {autorescueList} {find} {%1} {i};
 	#if {$i != 0}

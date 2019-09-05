@@ -30,7 +30,7 @@
 }
 {8}
 
-#ACTION {^%w %*tell%2, '%3'$}
+#ACTION {^%* %*tell%2, '%3'$}
 {
 	#nop {Hook name tell.};
 	#nop {Hook args %1 Name.};
@@ -43,22 +43,20 @@
 }
 {9}
 
-#ACTION {^%w repor{t|ts|ts to you}: %3.$}
+#ACTION {^%* yell{s,|} '%*'$}
 {
-	#nop {Hook name report.};
-	#nop {Hook args %1 Name.};
-	#nop {Hook args %2 report information.};
-	#local {i} {};
-	#local {j} {};
-	#list {channel[All]} {insert} {1} {%0};
-	#if {"%1" != "You%*"}
+	#nop {Hook name yell};
+	#nop {Hook arguments %1 name, %2 message.};
+	#if {"%1" != "You"}
 	{
-		@do_hook{report;%1;%3}
-	}
+		@do_hook{yell;%3}
+	};
+	SYNTH_PLAY yellChannel;
+	Channel_Event say %0
 }
 {9}
 
-#ACTION {^%w {ask|exclaim|grunt|say|tell}%3 '%4'$}
+#ACTION {^%* {ask|exclaim|grunt|say|tell}%3 '%4'$}
 {
 	#nop {Hook name say.};
 	#nop {Hook args %1 Name.};
@@ -75,6 +73,21 @@
 	#if {"%1" != "you"}
 	{
 		@do_hook{say;%1;%2;%4}
+	}
+}
+{9}
+
+#ACTION {^%w repor{t|ts|ts to you}: %3.$}
+{
+	#nop {Hook name report.};
+	#nop {Hook args %1 Name.};
+	#nop {Hook args %2 report information.};
+	#local {i} {};
+	#local {j} {};
+	#list {channel[All]} {insert} {1} {%0};
+	#if {"%1" != "You%*"}
+	{
+		@do_hook{report;%1;%3}
 	}
 }
 {9}
@@ -146,6 +159,19 @@
 }
 {9}
 
+#ACTION {^{You spousetalk to \w+|\w+ spousetalks to you}, '%*'$}
+{
+	#nop {Hook name is ftalk.};
+	#nop {Hook args %1 Name.};
+	#nop {Hook args %2 message to channel.};
+	Channel_Event ftalk %0;
+	#if {"%1" != "{You spousetalk to \w+}"}
+	{
+		@do_hook{ftalk;%1;%2}
+	}
+}
+{9}
+
 #ALIAS {^pimptell %S %2}
 {
 	tell %1 @pimp{%2}
@@ -210,6 +236,11 @@
 {
 	#variable {channelBufferIndex} {13};
 	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+}
+
+#MACRO {\cB}
+{
+	#system {echo 'talk' > ~/.config/barnard/cmd}
 }
 
 #MACRO {\e!}

@@ -1,22 +1,37 @@
 #ACTION {%1 drags you off your mount!$}
 {
-	#list {onDeath} {add} {mount ${character[mount]}}
+	#list {onDeath} {add} {mount ${character[mount]};#var {mounting} {1}}
+}
+{9}
+
+#ACTION {^Already ridden.$}
+{
+	#if {$mounting}
+	{
+		#math {mountNumber} {$mountNumber + 1};
+		mount ${mountNumber}.${character[mount]}
+	}
 }
 {9}
 
 #ACTION {^Mount what?$}
 {
-	#unvariable {character[mount]}
+	#unvariable {character[mount]};
+	#variable {mounting} {0};
+	#variable {mountNumber} {1}
 }
 {9}
 
 #ACTION {^You dismount from %1.$}
 {
-	#regexp {%1} {{.*} {.*}} {tether &2;#variable {character[mount]} {&2}};
-	#else
+	#if {${tetherable}}
 	{
-		tether %1;
-		#variable {character[mount]} {%1}
+		#regexp {%1} {{.*} {.*}} {tether &2;#variable {character[mount]} {&2}};
+		#else
+		{
+			tether %1;
+			#variable {character[mount]} {%1}
+		}
 	}
 }
 {9}
@@ -27,32 +42,26 @@
 	#else
 	{
 		#variable {character[mount]} {%1}
-	}
+	};
+	#variable {mounting} {0};
+	#variable {mountNumber} {1}
 }
 {9}
 
 #ACTION {^You lose control and fall off of %1.$}
 {
-	#regexp {%1} {{.*} {.*}} {#list {onDeath} {add} {mount &2}};
+	#regexp {%1} {{.*} {.*}} {#list {onDeath} {add} {mount &2;#var {mounting} {1}}};
 	#else
 	{
-		#list {onDeath} {add} {mount %1}
-	}
-}
-{9}
-
-#ACTION {^You stand up.$}
-{
-	#if {&{character[mount]}}
-	{
-		mount ${character[mount]};
-		#unvariable ${character[mount]}
+		#list {onDeath} {add} {mount %1};
+		#variable {mounting} {1}
 	}
 }
 {9}
 
 #ACTION {^You try to ride %1, but you fall on your butt.$}
 {
+	#variable {mounting} {1};
 	stand;
 	#regexp {%1} {{.*} {.*}} {mount &2};
 	#else
@@ -61,3 +70,16 @@
 	}
 }
 {9}
+
+#ACTION {^You {(?:stop resting and |wake and |stop meditating and )?}{stand up|rise to your feet}.$}
+{
+	#if {&{character[mount]} && !$mounting}
+	{
+		mount ${character[mount]};
+		#unvariable ${character[mount]}
+	}
+}
+{9}
+
+#VARIABLE         {mountNumber}  {1}
+#VARIABLE         {mounting}  {0}
