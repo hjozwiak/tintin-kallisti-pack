@@ -81,5 +81,21 @@
 }
 {9}
 
+#ALIAS {^{mmv|mhp}$}
+{
+	#switch {"%0"}
+	{
+		#case {"mmv"}
+		{
+			show mount_stamina
+		};
+		#case {"mhp"}
+		{
+			show mount_health
+		}
+	}
+}
+{1}
+
 #VARIABLE         {mountNumber}  {1}
 #VARIABLE         {mounting}  {0}
