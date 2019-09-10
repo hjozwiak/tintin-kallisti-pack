@@ -316,8 +316,7 @@
 			#variable {tetherable} {0};
 			#delay {3} {#var {tetherable} {1}}
 		};
-		sit;
-		meditate
+		#delay {3} {sit;meditate}
 	}
 }
 {9}

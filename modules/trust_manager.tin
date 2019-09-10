@@ -121,25 +121,14 @@
 {
 	#local {f} {};
 	#format {f} {%l} {%0};
+	#local {deniedList} {hardc|outl|gem|friend|ste|homa|#};
 	#switch {"${f}"}
 	{
-		#case {"{\s*\#|\s*;*\s*\#}%*"}
+		#case {"{.*;.*}"}
 		{
 			#return #nop
 		};
-		#case {"{\s*h|;*\s*h}ardc%*"}
-		{
-			#return #nop
-		};
-		#case {"{\s*o|;*\s*o}utl%*"}
-		{
-			#return #nop
-		};
-		#case {"%*{ste |stea|steal}%*"}
-		{
-			#return #nop
-		};
-				#case {"{\shoma|homa}%*"}
+		#case {"{\s*(?:$deniedList)}%*}
 		{
 			#return #nop
 		};

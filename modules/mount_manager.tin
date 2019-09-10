@@ -1,6 +1,14 @@
 #ACTION {%1 drags you off your mount!$}
 {
-	#list {onDeath} {add} {mount ${character[mount]};#var {mounting} {1}}
+	#if {&{character[fightRide]} && ${character[fightRide]}}
+	{
+		mount ${character[mount]};
+		#variable {mounting} {1}
+	};
+	#else
+	{
+		#list {onDeath} {add} {mount ${character[mount]};#var {mounting} {1}}
+	}
 }
 {9}
 
@@ -19,6 +27,24 @@
 	#unvariable {character[mount]};
 	#variable {mounting} {0};
 	#variable {mountNumber} {1}
+}
+{9}
+
+#ACTION {^No one by that name around.$}
+{
+	#variable {tethering} {0};
+	#variable {tetherNumber} {1};
+	#variable {tetherMob} {}
+}
+{9}
+
+#ACTION {^Tether time set to around 20 hours.$}
+{
+	#if {$tethering}
+	{
+		#math {tetherNumber} {$tetherNumber + 1};
+		#send {tether ${tetherNumber}.${tetherMob}}
+	}
 }
 {9}
 
@@ -50,11 +76,22 @@
 
 #ACTION {^You lose control and fall off of %1.$}
 {
-	#regexp {%1} {{.*} {.*}} {#list {onDeath} {add} {mount &2;#var {mounting} {1}}};
+	#if {&{character[fightRide]} && ${character[fightRide]}}
+	{
+		#regexp {%1} {{.*} {.*}} {mount &2;#var {mounting} {1}};
+		#else
+		{
+			mount %1;
+			#variable {mounting} {1}
+		}
+	};
 	#else
 	{
-		#list {onDeath} {add} {mount %1};
-		#variable {mounting} {1}
+		#regexp {%1} {{.*} {.*}} {#list {onDeath} {add} {mount &2;#var {mounting} {1}}};
+		#else
+		{
+			#list {onDeath} {add} {mount %1;#variable {mounting} {1}}
+		}
 	}
 }
 {9}
@@ -81,5 +118,63 @@
 }
 {9}
 
+#ALIAS {^{mmv|mhp}$}
+{
+	#switch {"%0"}
+	{
+		#case {"mmv"}
+		{
+			show mount_stamina
+		};
+		#case {"mhp"}
+		{
+			show mount_health
+		}
+	}
+}
+{1}
+
+#ALIAS {^tether %*}
+{
+	#variable {tethering} {1};
+	#variable {tetherMob} {%1};
+	#send {%0}
+}
+{9}
+
+#ALIAS {^{no|}fightride$}
+{
+	#if {"%1" == ""}
+	{
+		#showme {You will now attempt to remount while fighting.};
+		#variable {character[fightRide]} {1}
+	};
+	#else
+	{
+		#showme {You will no longer attempt to remount while fighting.};
+		#variable {character[fightRide]} {0}
+	}
+}
+{9}
+
+#EVENT {VARIABLE UPDATE MSDP_MOUNT_HEALTH}
+{
+	#if {"%1" != "" && "${MSDP_CHARACTER_NAME}" != "" && !$copying && &{MSDP_MOUNT_HEALTH_MAX} && "$MSDP_MOUNT_HEALTH_MAX" != "0" && "$MSDP_MOUNT_HEALTH_MAX" != ""}
+	{
+		#delay {0.25} { #if {!&{character[audioprompt]}}{#variable {character[audioprompt]} {1}};#math {audioprompt[mounthealth]} {(%1 / $MSDP_MOUNT_HEALTH_MAX) *100.0};#if {${audioprompt[mounthealth]} < 100}{#format {audioprompt[mounthealth]} {%d} {${audioprompt[mounthealth]} - ${audioprompt[mounthealth]} % 10};#if {${audioprompt[mounthealth]} != ${audioprompt[oldMountHealth]} && ${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{mounthealth${audioprompt[mounthealth]}}}{SYNTH_PLAY mounthealth${audioprompt[mounthealth]};#variable {audioprompt[oldMountHealth]} {${audioprompt[mounthealth]}}}}}}
+	}
+}
+
+#EVENT {VARIABLE UPDATE MSDP_MOUNT_STAMINA}
+{
+	#if {"%1" != "" && "${MSDP_CHARACTER_NAME}" != "" && !$copying && &{MSDP_MOUNT_STAMINA_MAX} && "$MSDP_MOUNT_STAMINA_MAX" != "0" && "$MSDP_MOUNT_STAMINA_MAX" != ""}
+	{
+		#delay {0.25} {#math {audioprompt[mountmovement]} {(%1 / $MSDP_MOUNT_STAMINA_MAX) *100.0};#if {${audioprompt[mountmovement]} < 100}{#format {audioprompt[mountmovement]} {%d} {${audioprompt[mountmovement]} - ${audioprompt[mountmovement]} % 10};#if {${audioprompt[mountmovement]} != ${audioprompt[oldMountMovement]}}{#if {${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{mountmovement${audioprompt[mountmovement]}}}{SYNTH_PLAY mountmovement${audioprompt[mountmovement]};#variable {audioprompt[oldMountMovement]} {${audioprompt[mountmovement]}}}}}}}
+	}
+}
+
 #VARIABLE         {mountNumber}  {1}
 #VARIABLE         {mounting}  {0}
+#VARIABLE         {tetherMob}  {}
+#VARIABLE         {tetherNumber}  {1}
+#VARIABLE         {tethering}  {0}
