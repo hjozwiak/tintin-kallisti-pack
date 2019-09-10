@@ -1,6 +1,14 @@
 #ACTION {%1 drags you off your mount!$}
 {
-	#list {onDeath} {add} {mount ${character[mount]};#var {mounting} {1}}
+	#if {&{character[fightRide]} && ${character[fightRide]}}
+	{
+		mount ${character[mount]};
+		#variable {mounting} {1}
+	};
+	#else
+	{
+		#list {onDeath} {add} {mount ${character[mount]};#var {mounting} {1}}
+	}
 }
 {9}
 
@@ -19,6 +27,24 @@
 	#unvariable {character[mount]};
 	#variable {mounting} {0};
 	#variable {mountNumber} {1}
+}
+{9}
+
+#ACTION {^No one by that name around.$}
+{
+	#variable {tethering} {0};
+	#variable {tetherNumber} {1};
+	#variable {tetherMob} {}
+}
+{9}
+
+#ACTION {^Tether time set to around 20 hours.$}
+{
+	#if {$tethering}
+	{
+		#math {tetherNumber} {$tetherNumber + 1};
+		#send {tether ${tetherNumber}.${tetherMob}}
+	}
 }
 {9}
 
@@ -50,11 +76,22 @@
 
 #ACTION {^You lose control and fall off of %1.$}
 {
-	#regexp {%1} {{.*} {.*}} {#list {onDeath} {add} {mount &2;#var {mounting} {1}}};
+	#if {&{character[fightRide]} && ${character[fightRide]}}
+	{
+		#regexp {%1} {{.*} {.*}} {mount &2;#var {mounting} {1}};
+		#else
+		{
+			mount %1;
+			#variable {mounting} {1}
+		}
+	};
 	#else
 	{
-		#list {onDeath} {add} {mount %1};
-		#variable {mounting} {1}
+		#regexp {%1} {{.*} {.*}} {#list {onDeath} {add} {mount &2;#var {mounting} {1}}};
+		#else
+		{
+			#list {onDeath} {add} {mount %1;#variable {mounting} {1}}
+		}
 	}
 }
 {9}
@@ -97,6 +134,29 @@
 }
 {1}
 
+#ALIAS {^tether %*}
+{
+	#variable {tethering} {1};
+	#variable {tetherMob} {%1};
+	#send {%0}
+}
+{9}
+
+#ALIAS {^{no|}fightride$}
+{
+	#if {"%1" == ""}
+	{
+		#showme {You will now attempt to remount while fighting.};
+		#variable {character[fightRide]} {1}
+	};
+	#else
+	{
+		#showme {You will no longer attempt to remount while fighting.};
+		#variable {character[fightRide]} {0}
+	}
+}
+{9}
+
 #EVENT {VARIABLE UPDATE MSDP_MOUNT_HEALTH}
 {
 	#if {"%1" != "" && "${MSDP_CHARACTER_NAME}" != "" && !$copying && &{MSDP_MOUNT_HEALTH_MAX} && "$MSDP_MOUNT_HEALTH_MAX" != "0" && "$MSDP_MOUNT_HEALTH_MAX" != ""}
@@ -115,3 +175,6 @@
 
 #VARIABLE         {mountNumber}  {1}
 #VARIABLE         {mounting}  {0}
+#VARIABLE         {tetherMob}  {}
+#VARIABLE         {tetherNumber}  {1}
+#VARIABLE         {tethering}  {0}
