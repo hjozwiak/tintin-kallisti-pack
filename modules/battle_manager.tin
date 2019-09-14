@@ -162,18 +162,7 @@
 		};
 		#switch {"%2"}
 		{
-			#case {"moderately hurt"}
-			{
-				${heal[moderate]} $target
-			};
-			#case {"severely hurt"}
-			{
-				${heal[severe]} $target
-			};
-			#case {"near death"}
-			{
-				${heal[nearDeath]} $target
-			};
+			#nop {Moved to a variable update. #case {"moderately hurt"}{${heal[moderate]} $target};#case {"severely hurt"}{${heal[severe]} $target};#case {"near death"}{${heal[nearDeath]} $target}};
 			#case {"incapacitated%*"}
 			{
 				${heal[incapacitated]} $target
@@ -446,6 +435,100 @@
 }
 {9}
 
+#ALIAS {^autorefresh {remove|add} %w$}
+{
+	#if {!&{auto[refreshgroup]} || "${auto[refreshgroup]}" == ""}
+	{
+		#variable {auto[refreshgroup]} {refresh}
+	};
+	#local {target} {};
+	#format {target} {%n} {%2};
+	#if {"%1" == "remove"}
+	{
+		#if {"$target" == "All"}
+		{
+			#variable {autorefreshList} {};
+			#showme {Autorefresh cleared.}
+		};
+		#else
+		{
+			#local {i} {};
+			#list {autorefreshList} {find} {$target} {i};
+			#if {$i > 0}
+			{
+				#list {autorefreshList} {delete} {$i};
+				#showme {Removed %2 from autorefresh.}
+			};
+			#else
+			{
+				#showme {%2 not found in autorefresh.}
+			}
+		}
+	};
+	#else
+	{
+		#if {"$target" == "All"}
+		{
+			#local {i} {};
+			#local {j} {};
+			#foreach {${MSDP_GROUP[]}} {i}
+			{
+				#list {autorefreshList} {find} {${MSDP_GROUP[$i][name]}} {j};
+				#if {$j == 0}
+				{
+					#list {autorefreshList} {add} {${MSDP_GROUP[$i][name]}}
+				}
+			};
+			#showme {Added everyone to autorefresh.}
+		};
+		#else
+		{
+			#local {i} {};
+			#list {autorefreshList} {find} {$target} {i};
+			#if {$i == 0}
+			{
+				#list {autorefreshList} {add} {$target};
+				#showme {Added %2 to autorefresh.}
+			};
+			#else
+			{
+				#showme {%2 already in autorefresh.}
+			}
+		}
+	}
+}
+{9}
+
+#ALIAS {^autorefresh$}
+{
+	#if {&{autorefreshList} && "${autorefreshList}" != ""}
+	{
+		#showme {You are currently refreshing:};
+		#local {i} {};
+		#foreach {${autorefreshList[]}} {i}
+		{
+			#showme {${autorefreshList[$i]}}
+		};
+		#if {!&{auto[refreshgroup]}}
+		{
+			#variable {auto[refreshgroup]} {refresh}
+		};
+		#showme {Refreshing with ${auto[refreshgroup]}}
+	};
+	#else
+	{
+		#showme {You are currently refreshing nobody.}
+	}
+}
+{9}
+
+#ALIAS {^autorefreshgroup %*}
+{
+	#variable {auto[refreshgroup]} {%1};
+	#showme {You will refresh your group with %1. Use autorefresh add or remove to manage who is refreshed.}
+}
+{9}
+
 #ALIAS {^auto{heal|rescue} %s{add|remove} %s%w$}
 {
 	#local {i} {};
@@ -601,6 +684,82 @@
 	#echo {You will now try to join battle using %1.}
 }
 {9}
+
+#EVENT {VARIABLE UPDATE MSDP_GROUP}
+{
+	#if {"%1" != "" && !$copying}
+	{
+		#variable {tmp} {%1};
+		#local {i} {};
+		#foreach {${tmp[]}} {i}
+		{
+			#local {j} {};
+			#list {autohealList} {find} {${tmp[$i][name]}} {j};
+			#if {$j > 0 && "${tmp[$i][name]}" != "$MSDP_CHARACTER_NAME"}
+			{
+				#switch {"${MSDP_CLASS}"}
+				{
+					#case {"Paladin"}
+					{
+						#foreach {moderate;severe;nearDeath;incapacitated;;stunned;morted} {j}
+						{
+							#if {!&{heal[$j]}}
+							{
+								#variable {heal[$j]} {lay}
+							}
+						}
+					};
+					#default
+					{
+						#foreach {moderate;severe;nearDeath;incapacitated;stunned;morted} {j}
+						{
+							#if {!&{heal[$j]}}
+							{
+								#variable {heal[$j]} {heal}
+							}
+						}
+					}
+				};
+				#if {${tmp[$i][health]} <= 80 && ${tmp[$i][health]} > 50}
+				{
+					#nop {moderately hurt.};
+					${heal[moderate]} ${tmp[$i][name]}
+				};
+				#elseif {${tmp[$i][health]} <= 50 && ${tmp[$i][health]} > 20}
+				{
+					#nop {severely hurt.};
+					${heal[severe]} ${tmp[$i][name]}
+				};
+				#elseif {${tmp[$i][health]} <= 20 && ${tmp[$i][health]} > 0}
+				{
+					#nop {near death.};
+					${heal[nearDeath]} ${tmp[$i][name]}
+				};
+				#elseif {${tmp[$i][health]} <= 0}
+				{
+					#nop {Use morted as a last ditch effort, in case the trigger doesn't work.};
+					${heal[morted]} ${tmp[$i][name]}
+				}
+			};
+			#if {${tmp[$i][stamina]} < 65 && @percent{MSDP_MANA} > 75}
+			{
+				#if {!&{auto[refreshgroup]} || "${auto[refreshgroup]}" == ""}
+				{
+					#variable {auto[refreshgroup]} {refresh}
+				};
+				#list {autorefreshList} {find} {${tmp[$i][name]}} {j};
+				#if {$j > 0}
+				{
+					${auto[refreshgroup]} ${tmp[$i][name]}
+				}
+			}
+		};
+		#unvariable {tmp};
+		#nop {Hook name is groupVariable};
+		#nop {Hook argument is %1 variable contents.};
+		@do_hook{groupVariable;%1}
+	}
+}
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_NAME}
 {
