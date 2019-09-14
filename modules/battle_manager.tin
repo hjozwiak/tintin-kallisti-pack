@@ -695,8 +695,9 @@
 		{
 			#local {j} {};
 			#list {autohealList} {find} {${tmp[$i][name]}} {j};
-			#if {$j > 0 && "${tmp[$i][name]}" != "$MSDP_CHARACTER_NAME"}
+			#if {$j > 0 && "${tmp[$i][name]}" != "$MSDP_CHARACTER_NAME" && !${spam[heal_${tmp[$i][name]}}}
 			{
+				spamset heal${tmp[$i][name]};
 				#switch {"${MSDP_CLASS}"}
 				{
 					#case {"Paladin"}
@@ -748,8 +749,9 @@
 					#variable {auto[refreshgroup]} {refresh}
 				};
 				#list {autorefreshList} {find} {${tmp[$i][name]}} {j};
-				#if {$j > 0 && "${tmp[$i][name]}" != "$MSDP_CHARACTER_NAME"}
+				#if {$j > 0 && "${tmp[$i][name]}" != "$MSDP_CHARACTER_NAME" && !${spam[refresh${tmp[$i][name]}}}
 				{
+					spamset refresh_${tmp[$i][name]};
 					#send {${auto[refreshgroup]} ${tmp[$i][name]}}
 				}
 			}
