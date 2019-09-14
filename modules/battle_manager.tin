@@ -723,22 +723,22 @@
 				#if {${tmp[$i][health]} <= 80 && ${tmp[$i][health]} > 50}
 				{
 					#nop {moderately hurt.};
-					${heal[moderate]} ${tmp[$i][name]}
+					#send {${heal[moderate]} ${tmp[$i][name]}}
 				};
 				#elseif {${tmp[$i][health]} <= 50 && ${tmp[$i][health]} > 20}
 				{
 					#nop {severely hurt.};
-					${heal[severe]} ${tmp[$i][name]}
+					#send {${heal[severe]} ${tmp[$i][name]}}
 				};
 				#elseif {${tmp[$i][health]} <= 20 && ${tmp[$i][health]} > 0}
 				{
 					#nop {near death.};
-					${heal[nearDeath]} ${tmp[$i][name]}
+					#send {${heal[nearDeath]} ${tmp[$i][name]}}
 				};
 				#elseif {${tmp[$i][health]} <= 0}
 				{
 					#nop {Use morted as a last ditch effort, in case the trigger doesn't work.};
-					${heal[morted]} ${tmp[$i][name]}
+					#send {${heal[morted]} ${tmp[$i][name]}}
 				}
 			};
 			#if {${tmp[$i][stamina]} < 65 && @percent{MSDP_MANA} > 75}
@@ -748,9 +748,9 @@
 					#variable {auto[refreshgroup]} {refresh}
 				};
 				#list {autorefreshList} {find} {${tmp[$i][name]}} {j};
-				#if {$j > 0}
+				#if {$j > 0 && "${tmp[$i][name]}" != "$MSDP_CHARACTER_NAME"}
 				{
-					${auto[refreshgroup]} ${tmp[$i][name]}
+					#send {${auto[refreshgroup]} ${tmp[$i][name]}}
 				}
 			}
 		};
