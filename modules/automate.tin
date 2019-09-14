@@ -823,6 +823,26 @@
 }
 {9}
 
+#ALIAS {^{autorefresh .+(?: \d+)?|noautorefresh}$}
+{
+	#if {"%0" == "autorefresh%*"}
+	{
+		#regexp {%0} {autorefresh {.+} {\d+}} {#var {auto[refreshPercent]} {&2};#var {auto[refresh]} {&1}};
+		#else
+		{
+			#regexp {%0} {autorefresh {.+}} {#var {auto[refreshPercent]} {50};#var {auto[refresh]} {&1}}
+		};
+		#showme {Autorefresh enabled. Using "${auto[refresh]}" to refresh at ${auto[refreshPercent]}%.}
+	};
+	#else
+	{
+		#unvariable {auto[refreshPercent]};
+		#unvariable {auto[refresh]};
+		#showme {Autorefresh disabled.}
+	}
+}
+{9}
+
 #ALIAS {^{auto|character}.%w$}
 {
 	#local {variable} {%0};
