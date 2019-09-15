@@ -657,6 +657,45 @@
 }
 {9}
 
+#ALIAS {^{mv|hp|mn} %w$}
+{
+	#local {target} {};
+	#format {target} {%n} {%2};
+	#local {found} {0};
+	#local {i} {};
+	#foreach {${MSDP_GROUP[]}} {i}
+	{
+		#if {"${MSDP_GROUP[$i][name]}" == "$target%*"}
+		{
+			#variable {found} {1};
+			#break
+		}
+	};
+	#if {$found}
+	{
+		#switch {"%1"}
+		{
+			#case {"hp"}
+			{
+				#showme {%1: ${MSDP_GROUP[$i][health]}}
+			};
+			#case {"mn"}
+			{
+				#showme {%1: ${MSDP_GROUP[$i][mana]}}
+			};
+			#case {"mv"}
+			{
+				#showme {%1: ${MSDP_GROUP[$i][stamina]}}
+			}
+		}
+	};
+	#else
+	{
+		#showme {Not found in your group.}
+	}
+}
+{9}
+
 #ALIAS {^{noc|c}hainattack$}
 {
 	#if {"%0" == "nochainattack"}
