@@ -24,7 +24,7 @@
 {
 	#local {i} {};
 	#echo {Automatic combat:};
-	#if {"${autocombatList}" != ""}
+	#if {{${autocombatList}} != {}}
 	{
 		#foreach {${autocombatList[]}} {i}
 		{
@@ -50,6 +50,6 @@
 	{
 		#variable {autoHealSelfPercent} {30}
 	};
-	#ticker {auto_combat}  {#if {$MSDP_OPPONENT_NUMBER != 0 && @percent{MSDP_HEALTH} > ${autoHealSelfPercent}}{#if {"${autocombatList}" != ""}{${autocombatList[@list_rand{autocombatList}]}}}}                                                                                            {%1};
+	#ticker {auto_combat}  {#if {$MSDP_OPPONENT_NUMBER != 0 && @percent{MSDP_HEALTH} > ${autoHealSelfPercent}}{#if {{${autocombatList}} != {}}{${autocombatList[@list_rand{autocombatList}]}}}}                                                                                            {%1};
 	#return #nop
 }

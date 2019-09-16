@@ -34,7 +34,7 @@
 
 #ACTION {^%w {pokes|points at} %S$}
 {
-	#if {"%1" == "$leader"}
+	#if {{%1} == {$leader}}
 	{
 		#if {&{auto[poke]}}
 		{
@@ -52,7 +52,7 @@
 {
 	#if {&{auto[grimward]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[grimward]}" == "{gt|say}%*"}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || {${auto[grimward]}} == {{gt|say}%*}}
 		{
 			${auto[grimward]}
 		};
@@ -68,7 +68,7 @@
 {
 	#if {&{auto[aura]}}
 	{
-		#if {"$MSDP_POSITION" != "Fighting" || "${auto[aura]}" == "{gt|say}%*"}
+		#if {{$MSDP_POSITION} != {Fighting} || {${auto[aura]}} == {{gt|say}%*}}
 		{
 			${auto[aura]}
 		};
@@ -93,7 +93,7 @@
 {
 	#if {&{auto[magicshield]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[magicshield]}" == "{gt|say}%*"}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || {${auto[magicshield]}} == {{gt|say}%*}}
 		{
 			${auto[magicshield]}
 		};
@@ -115,7 +115,7 @@
 {
 	#if {&{auto[ffire]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[ffire]}" == "{gt|say}%*"}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || {${auto[ffire]}} == {{gt|say}%*}}
 		{
 			${auto[ffire]}
 		};
@@ -147,7 +147,7 @@
 {
 	#if {&{auto[sanc]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[sanc]}" == "{gt|say}%*"}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || {${auto[sanc]}} == {{gt|say}%*}}
 		{
 			${auto[sanc]}
 		};
@@ -192,7 +192,7 @@
 {
 	#if {&{auto[darmor]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[darmor]}" == "{gt|say}%*"}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || {${auto[darmor]}} == {{gt|say}%*}}
 		{
 			${auto[darmor]}
 		};
@@ -208,7 +208,7 @@
 {
 	#if {&{auto[bless]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[bless]}" == "{gt|say}%*"}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || {${auto[bless]}} == {{gt|say}%*}}
 		{
 			${auto[bless]}
 		};
@@ -224,7 +224,7 @@
 {
 	#if {&{auto[haste]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[haste]}" == "{gt|say}%*"}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || {${auto[haste]}} == {{gt|say}%*}}
 		{
 			${auto[haste]}
 		};
@@ -240,7 +240,7 @@
 {
 	#if {&{auto[strength]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[strength]}" == "{gt|say}%*"}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || {${auto[strength]}} == {{gt|say}%*}}
 		{
 			${auto[strength]}
 		};
@@ -272,20 +272,20 @@
 {
 	#nop {Hook name  concentration.};
 	#nop {Hook args: the item on which you were concentrating, e.g. shapechange.};
-	#switch {"%1"}
+	#switch {{%1}}
 	{
-		#case {"shapechange"}
+		#case {{shapechange}}
 		{
 			#if {&{auto[shape]}}
 			{
 				%1 ${auto[shape]}
 			}
 		};
-		#case {"{magic shield|blur|blade barrier|shroud of darkness|wraithform}"}
+		#case {{{magic shield|blur|blade barrier|shroud of darkness|wraithform}}}
 		{
 			cast '%1'
 		};
-		#case {"{vampiric drain|energy drain}"}
+		#case {{{vampiric drain|energy drain}}}
 		{
 			cast '%1' corpse
 		};
@@ -293,7 +293,7 @@
 		{
 			#if {${auto[recast]}}
 			{
-				#if {"$MSDP_POSITION" == "{Flying|Mounted|Standing|Swimming}"}
+				#if {{$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming}}}
 				{
 					!
 				}
@@ -306,7 +306,7 @@
 
 #ACTION {^You must be sitting to concentrate.$}
 {
-	#if {"$MSDP_POSITION" != "Fighting"}
+	#if {{$MSDP_POSITION} != {Fighting}}
 	{
 		#line {gag};
 		#if {&{character[mount]}}
@@ -349,7 +349,7 @@
 {
 	#if {&{auto[zombify]}}
 	{
-		#if {"$MSDP_POSITION" != "Fighting"}
+		#if {{$MSDP_POSITION} != {Fighting}}
 		{
 			zombify
 		};
@@ -377,7 +377,7 @@
 {
 	#if {&{auto[pfd]}}
 	{
-		#if {"$MSDP_POSITION" != "Fighting"}
+		#if {{$MSDP_POSITION} != {Fighting}}
 		{
 			pfd
 		};
@@ -393,10 +393,10 @@
 {
 	#if {&{auto[shape]}}
 	{
-		#regexp {%1} {{.*} {.*}} {#if {"${auto[shape]}" != "&1"} {autoshape &1}};
+		#regexp {%1} {{.*} {.*}} {#if {{${auto[shape]}} != {&1}} {autoshape &1}};
 		#else
 		{
-			#if {"${auto[shape]}" != "%1"}
+			#if {{${auto[shape]}} != {%1}}
 			{
 				autoshape %1
 			}
@@ -433,9 +433,9 @@
 	{
 		#if {$MSDP_OPPONENT_NUMBER == 0}
 		{
-			#switch {"${MSDP_CLASS}"}
+			#switch {{${MSDP_CLASS}}}
 			{
-				#case {"Druid"}
+				#case {{Druid}}
 				{
 					shape ${auto[shape]}
 				};
@@ -447,9 +447,9 @@
 		};
 		#else
 		{
-			#switch {"${MSDP_CLASS}"}
+			#switch {{${MSDP_CLASS}}}
 			{
-				#case {"Druid"}
+				#case {{Druid}}
 				{
 					#list {onDeath} {add} {shape ${auto[shape]}}
 				};
@@ -499,7 +499,7 @@
 {
 	#if {&{auto[vigor]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[vigor]}" == "{gt|say}%*"}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || {${auto[vigor]}} == {{gt|say}%*}}
 		{
 			${auto[vigor]}
 		};
@@ -531,7 +531,7 @@
 {
 	#if {&{auto[barkskin]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[barkskin]}" == "{gt|say}%*"}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || {${auto[barkskin]}} == {{gt|say}%*}}
 		{
 			${auto[barkskin]}
 		};
@@ -638,7 +638,7 @@
 {
 	#if {&{auto[shroud]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0 && "%0" != "You slowly fade into view."}
+		#if {$MSDP_OPPONENT_NUMBER == 0 && {%0} != {You slowly fade into view.}}
 		{
 			shroud
 		};
@@ -654,7 +654,7 @@
 {
 	#if {${auto[eyes]}}
 	{
-		#if {"$MSDP_CLASS" == "{Priest|Druid|Prophet|Templar}"}
+		#if {{$MSDP_CLASS} == {{Priest|Druid|Prophet|Templar}}}
 		{
 			#local {eyesSpell} {trueseeing}
 		};
@@ -746,17 +746,17 @@
 	{
 		#if {&{auto[$i]}}
 		{
-			#switch {"$i"}
+			#switch {{$i}}
 			{
-				#case {"{bless|prayer|warcry}"}
+				#case {{{bless|prayer|warcry}}}
 				{
 					$i
 				};
-				#case {"eyes"}
+				#case {{eyes}}
 				{
 					true
 				};
-				#case {"{focus|shape}"}
+				#case {{{focus|shape}}}
 				{
 					$i ${auto[$i]}
 				};
@@ -781,7 +781,7 @@
 		};
 		#else
 		{
-			#if {"${heal[$i]}" != "#nop"}
+			#if {{${heal[$i]}} != {#nop}}
 			{
 				#echo {Healing at $i set to ${heal[$i]}.}
 			};
@@ -825,7 +825,7 @@
 
 #ALIAS {^{autorefresh .+(?: \d+)?|noautorefresh}$}
 {
-	#if {"%0" == "autorefresh%*"}
+	#if {{%0} == {autorefresh%*}}
 	{
 		#regexp {%0} {autorefresh {.+} {\d+}} {#var {auto[refreshPercent]} {&2};#var {auto[refresh]} {&1}};
 		#else
@@ -850,13 +850,13 @@
 	#local {variable} {${variable}]};
 	#if {&{${variable}}}
 	{
-		#switch {"${${variable}}"}
+		#switch {{${${variable}}}}
 		{
-			#case {"0"}
+			#case {{0}}
 			{
 				#echo {auto-%2 is disabled.}
 			};
-			#case {"1"}
+			#case {{1}}
 			{
 				#echo {auto-%2 is enabled.}
 			};
@@ -875,7 +875,7 @@
 
 #ALIAS {^{noauto|auto}{cvissage.*|aura.*|magicshield.*|blur|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
 {
-	#if {"%0" == "noauto%*"}
+	#if {{%0} == {noauto%*}}
 	{
 		#echo {auto%2 disabled.};
 		#unvariable {auto[%2]}
@@ -895,7 +895,7 @@
 
 #ALIAS {^{notrack|track .*}$}
 {
-	#if {"%0" == "notrack"}
+	#if {{%0} == {notrack}}
 	{
 		#unvariable {auto[track]};
 		hunt
@@ -947,13 +947,13 @@
 {
 	#nop {Hook name is race};
 	#nop {Hook args: new race.};
-	#if {"%1" != "" && !$copying}
+	#if {{%1} != {} && !$copying}
 	{
-		#if {"%1" == "human" && &{auto[werewolf]} && $MSDP_LEVEL >= 50 && !&{manualWerewolf}}
+		#if {{%1} == {human} && &{auto[werewolf]} && $MSDP_LEVEL >= 50 && !&{manualWerewolf}}
 		{
 			werewolf
 		};
-		#elseif {"%1" == "{human|werewolf}" && &{manualWerewolf}}
+		#elseif {{%1} == {{human|werewolf}} && &{manualWerewolf}}
 		{
 			#unvariable {manualWerewolf}
 		};
@@ -963,7 +963,7 @@
 
 #EVENT {VARIABLE UPDATE MSDP_WORLD_TIME}
 {
-	#if {"%1" != "" && !$copying}
+	#if {{%1} != {} && !$copying}
 	{
 		#if {&{at[%1]}}
 		{

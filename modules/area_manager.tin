@@ -18,7 +18,7 @@
 {
 	#if {$MSDP_LEVEL < 200}
 	{
-		#if {"$MSDP_ROOM_NAME" == "The Temple Of Midgaard"}
+		#if {{$MSDP_ROOM_NAME} == {The Temple Of Midgaard}}
 		{
 			#if {&{goto[%1]}}
 			{

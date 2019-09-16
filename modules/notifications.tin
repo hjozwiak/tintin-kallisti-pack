@@ -16,7 +16,7 @@
 
 #ACTION {^The corpse of %w is lying here.$}
 {
-	#if {"%1" == "$MSDP_CHARACTER_NAME"}
+	#if {{%1} == {$MSDP_CHARACTER_NAME}}
 	{
 		SYNTH_PLAY warningSound
 	}

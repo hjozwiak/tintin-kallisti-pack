@@ -2,16 +2,16 @@
 {
 	#local {accountName} {%2};
 	#replace {accountName} {{\(|\)| }} {};
-	#if {@is_friend{$accountName} && !@is_friend{%1} && "%1" != "{Someone|someone}"}
+	#if {@is_friend{$accountName} && !@is_friend{%1} && {%1} != {{Someone|someone}}}
 	{
 		friend add %1
 	};
 	Channel_Event Tell %0;
 	#if {@is_friend{%1}}
 	{
-		#switch {"%3"}
+		#switch {{%3}}
 		{
-			#case {"where"}
+			#case {{where}}
 			{
 				reply $MSDP_ROOM_NAME
 			};
@@ -28,7 +28,7 @@
 {
 	#nop {See communication.tin for groupTell hook info.};
 	Channel_Event GroupTell %0;
-	#if {@is_friend{%1} && "%2" == "{${MSDP_CHARACTER_NAME}|all}"}
+	#if {@is_friend{%1} && {%2} == {{${MSDP_CHARACTER_NAME}|all}}}
 	{
 		@trust_exec{%3}
 	};
@@ -57,7 +57,7 @@
 	#local {i} {0};
 	#format {f} {%n} {%4};
 	#list {friends} {find} {${f}} {i};
-	#if {"%2" == "remove"}
+	#if {{%2} == {remove}}
 	{
 		#if {$i != 0}
 		{
@@ -122,9 +122,9 @@
 	#local {f} {};
 	#format {f} {%l} {%0};
 	#local {deniedList} {hardc|outl|gem|friend|ste|homa|#};
-	#switch {"${f}"}
+	#switch {{${f}}}
 	{
-		#case {"{.*;.*}"}
+		#case {{{.*;.*}}}
 		{
 			#return #nop
 		};

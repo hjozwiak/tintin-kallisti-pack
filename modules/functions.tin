@@ -16,11 +16,11 @@
 	#variable {result} {};
 	#parse {${string}} {character}
 	{
-		#if {"$character" == "${delimiter}"}
+		#if {{$character} == {${delimiter}}}
 		{
 			#math {fieldIndex} {${fieldIndex} + 1}
 		};
-		#if {${fieldIndex} == ${field} && "${character}" != "${delimiter}"}
+		#if {${fieldIndex} == ${field} && {${character}} != {${delimiter}}}
 		{
 			#variable {result} {${result}${character}}
 		}
@@ -58,7 +58,7 @@
 		{
 			#local {exists} {@${j}{${hookArgs}}};
 			#variable {exists} {$exists};
-			#if {"$exists" != "@%*"}
+			#if {{$exists} != {@%*}}
 			{
 				$exists
 			}
@@ -88,7 +88,7 @@
 #FUNCTION {separator}
 {
 	#nop {Takes 1 optional argument, the separator string. The default is -.};
-	#if {"%1" == ""}
+	#if {{%1} == {}}
 	{
 		#script {result} {for x in $(seq $(tput cols)) ; do echo -n "-";done}
 	};

@@ -88,34 +88,34 @@
 
 #ALIAS {^{gnusocial||mastodon|twitter|nognusocial|nomastodon|notwitter}$}
 {
-	#switch {"%0"}
+	#switch {{%0}}
 	{
-		#case {"gnusocial"}
+		#case {{gnusocial}}
 		{
 			#variable {gnusocial} {1};
 			#showme {Achievements will now be posted to GNU Social. Remember to set your information with ginfo webfinger password.}
 		};
-		#case {"nognusocial"}
+		#case {{nognusocial}}
 		{
 			#unvariable {gnusocial};
 			#showme {Achievements will no longer be posted to GNU Social.}
 		};
-		#case {"mastodon"}
+		#case {{mastodon}}
 		{
 			#variable {mastodon} {1};
 			#showme {Achievements will now be posted to Mastodon. You will need to have madonctl installed and configured.}
 		};
-		#case {"nomastodon"}
+		#case {{nomastodon}}
 		{
 			#unvariable {mastodon};
 			#showme {Achievements will no longer be posted to Mastodon.}
 		};
-		#case {"twitter"}
+		#case {{twitter}}
 		{
 			#variable {twitter} {1};
 			#showme {Achievements will now be posted to Twitter. You will need to have oysttyer installed and configured.}
 		};
-		#case {"notwitter"}
+		#case {{notwitter}}
 		{
 			#unvariable {twitter};
 			#showme {Achievements will no longer be posted to Twitter.}
