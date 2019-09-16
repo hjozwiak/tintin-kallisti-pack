@@ -128,7 +128,7 @@
 		{
 			#return #nop
 		};
-		#case {"{\s*(?:$deniedList)}%*}
+		#case {{{\s*(?:$deniedList)}%*}}
 		{
 			#return #nop
 		};
