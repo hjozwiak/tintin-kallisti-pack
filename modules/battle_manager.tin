@@ -734,7 +734,7 @@
 		{
 			#local {j} {};
 			#list {autohealList} {find} {${tmp[$i][name]}} {j};
-			#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}}}
+			#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}} && ${tmp[$i][health]} <= 80}
 			{
 				spamset heal${tmp[$i][name]} 3;
 				#switch {{${MSDP_CLASS}}}
