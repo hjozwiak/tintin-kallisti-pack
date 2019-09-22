@@ -736,7 +736,7 @@
 			#list {autohealList} {find} {${tmp[$i][name]}} {j};
 			#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}} && ${tmp[$i][health]} <= 80}
 			{
-				spamset heal${tmp[$i][name]} 3;
+				spamset heal${tmp[$i][name]} 6;
 				#switch {{${MSDP_CLASS}}}
 				{
 					#case {{Paladin}}
@@ -760,7 +760,7 @@
 						}
 					}
 				};
-				#if {${tmp[$i][health]} <= 80 && ${tmp[$i][health]} > 50}
+				#if {${tmp[$i][health]} <= 70 && ${tmp[$i][health]} > 50}
 				{
 					#nop {moderately hurt.};
 					#send {${heal[moderate]} ${tmp[$i][name]}}
@@ -790,7 +790,7 @@
 				#list {autorefreshList} {find} {${tmp[$i][name]}} {j};
 				#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[refresh${tmp[$i][name]}}}
 				{
-					spamset refresh${tmp[$i][name]} 3;
+					spamset refresh${tmp[$i][name]} 6;
 					#send {${auto[refreshgroup]} ${tmp[$i][name]}}
 				}
 			}
