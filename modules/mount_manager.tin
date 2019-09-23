@@ -161,7 +161,7 @@
 {
 	#if {{%1} != {} && {${MSDP_CHARACTER_NAME}} != {} && !$copying && &{MSDP_MOUNT_HEALTH_MAX} && {$MSDP_MOUNT_HEALTH_MAX} != {0} && {$MSDP_MOUNT_HEALTH_MAX} != {}}
 	{
-		#delay {0.25} { #if {!&{character[audioprompt]}}{#variable {character[audioprompt]} {1}};#math {audioprompt[mounthealth]} {(%1 / $MSDP_MOUNT_HEALTH_MAX) *100.0};#if {${audioprompt[mounthealth]} < 100}{#format {audioprompt[mounthealth]} {%d} {${audioprompt[mounthealth]} - ${audioprompt[mounthealth]} % 10};#if {${audioprompt[mounthealth]} != ${audioprompt[oldMountHealth]} && ${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{mounthealth${audioprompt[mounthealth]}}}{SYNTH_PLAY mounthealth${audioprompt[mounthealth]};#variable {audioprompt[oldMountHealth]} {${audioprompt[mounthealth]}}}}}}
+		#delay {0.25} {#if {&{MSDP_MOUNT_HEALTH_MAX} && {$MSDP_MOUNT_HEALTH_MAX} != {0} && {$MSDP_MOUNT_HEALTH_MAX} != {}} {#if {!&{character[audioprompt]}}{#variable {character[audioprompt]} {1}};#math {audioprompt[mounthealth]} {(%1 / $MSDP_MOUNT_HEALTH_MAX) *100.0};#if {${audioprompt[mounthealth]} < 100}{#format {audioprompt[mounthealth]} {%d} {${audioprompt[mounthealth]} - ${audioprompt[mounthealth]} % 10};#if {${audioprompt[mounthealth]} != ${audioprompt[oldMountHealth]} && ${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{mounthealth${audioprompt[mounthealth]}}}{SYNTH_PLAY mounthealth${audioprompt[mounthealth]};#variable {audioprompt[oldMountHealth]} {${audioprompt[mounthealth]}}}}}}}
 	}
 }
 

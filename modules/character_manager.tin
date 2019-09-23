@@ -130,22 +130,22 @@
 	{
 		#case {{audioprompt}}
 		{
-			#variable {character.audioprompt} {1};
+			#variable {character{audioprompt}} {1};
 			#echo {Audio prompt enabled.}
 		};
 		#case {{beeps}}
 		{
-			#variable {character.beeps} {1};
+			#variable {character{beeps}} {1};
 			#echo {Opponent condition beeps enabled.}
 		};
 		#case {{noaudioprompt}}
 		{
-			#variable {character.audioprompt} {0};
+			#variable {character[audioprompt]} {0};
 			#echo {Audio prompt disabled.}
 		};
 		#case {{nobeeps}}
 		{
-			#variable {character.beeps} {0};
+			#variable {character[beeps]} {0};
 			#echo {Opponent condition beeps disabled.}
 		}
 	}
