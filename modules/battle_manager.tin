@@ -746,6 +746,7 @@
 		#variable {tmp} {%1};
 		@var_save{i};
 		@var_save{j};
+		@var_save{target};
 		#nop #local {i} {};
 		#foreach {${tmp[]}} {i}
 		{
@@ -818,6 +819,7 @@
 		@var_restore{target};
 		@var_restore{i};
 		@var_restore{j};
+		@var_restore{tmp};
 		#nop {Hook name is groupVariable};
 		#nop {Hook argument is %1 variable contents.};
 		@do_hook{groupVariable;%1}

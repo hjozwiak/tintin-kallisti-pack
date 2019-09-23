@@ -124,15 +124,20 @@
 
 #FUNCTION {var_restore}
 {
-	#variable {result} {#if {$varFound} {#var {%1} {${tmpVariable}}}}
+	#if {&{varList[%1]}}
+	{
+		var {%1} {${varList[%1]}};
+		#unvariable {varList[%1]}
+	};
+	#return #nop
 }
 
 #FUNCTION {var_save}
 {
-	#variable {result} {#var {varFound} {0}};
-	#if {&{%1}}
+	#if {&{%1]}}
 	{
-		#variable {result} {$result;#var {varFound} {1};#var {tmpVariable} {${%1}}}
-	}
+		#variable {varList[%1]} {${%1}}
+	};
+	#return #nop
 }
 
