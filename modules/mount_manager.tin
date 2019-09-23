@@ -1,5 +1,7 @@
 #ACTION {%1 drags you off your mount!$}
 {
+	#nop {Hook name: dismounted};
+	#nop {Hook args: none};
 	#if {&{character[fightRide]} && ${character[fightRide]}}
 	{
 		mount ${character[mount]};
@@ -8,7 +10,8 @@
 	#else
 	{
 		#list {onDeath} {add} {mount ${character[mount]};#var {mounting} {1}}
-	}
+	};
+	@do_hook{dismounted}
 }
 {9}
 
@@ -52,7 +55,10 @@
 {
 	#if {${tetherable}}
 	{
-		#regexp {%1} {{.*} {.*}} {tether &2;#variable {character[mount]} {&2}};
+		#regexp {%1} {{.*} {.*}}
+		{
+			tether &2;#variable {character[mount]} {&2}
+		};
 		#else
 		{
 			tether %1;
@@ -64,7 +70,10 @@
 
 #ACTION {^You hop on %1's back.$}
 {
-	#regexp {%1} {{.*} {.*}} {#variable {character[mount]} {&2}};
+	#regexp {%1} {{.*} {.*}}
+	{
+		#variable {character[mount]} {&2}
+	};
 	#else
 	{
 		#variable {character[mount]} {%1}
@@ -76,9 +85,14 @@
 
 #ACTION {^You lose control and fall off of %1.$}
 {
+	#nop {Hook name: dismounted};
+	#nop {Hook args: none};
 	#if {&{character[fightRide]} && ${character[fightRide]}}
 	{
-		#regexp {%1} {{.*} {.*}} {mount &2;#var {mounting} {1}};
+		#regexp {%1} {{.*} {.*}}
+		{
+			mount &2;#var {mounting} {1}
+		};
 		#else
 		{
 			mount %1;
@@ -87,12 +101,16 @@
 	};
 	#else
 	{
-		#regexp {%1} {{.*} {.*}} {#list {onDeath} {add} {mount &2;#var {mounting} {1}}};
+		#regexp {%1} {{.*} {.*}}
+		{
+			#list {onDeath} {add} {mount &2;#var {mounting} {1}}
+		};
 		#else
 		{
 			#list {onDeath} {add} {mount %1;#variable {mounting} {1}}
 		}
-	}
+	};
+	@do_hook{dismounted}
 }
 {9}
 
@@ -100,7 +118,10 @@
 {
 	#variable {mounting} {1};
 	stand;
-	#regexp {%1} {{.*} {.*}} {mount &2};
+	#regexp {%1} {{.*} {.*}}
+	{
+		mount &2
+	};
 	#else
 	{
 		mount %1
