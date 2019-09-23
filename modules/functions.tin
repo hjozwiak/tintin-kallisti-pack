@@ -3,12 +3,18 @@
 	#nop {Can cut with specified field and delimiter, defaults are space for the delimiter and 1 for field.};
 	#local {fieldIndex} {1};
 	#local {string} {%0};
-	#regexp {${string}} {{.*}-d {.} } {#variable {delimiter} {&2};#replace {string} {-d &2 }};
+	#regexp {${string}} {{.*}-d {.} }
+	{
+		#variable {delimiter} {&2};#replace {string} {-d &2 }
+	};
 	#else
 	{
 		#variable {delimiter} { }
 	};
-	#regexp {${string}} {{.*}-f {\d+} } {#variable {field} {&2};#replace {string} {-f &2 }};
+	#regexp {${string}} {{.*}-f {\d+} }
+	{
+		#variable {field} {&2};#replace {string} {-f &2 }
+	};
 	#else
 	{
 		#variable {field} {1}
@@ -114,5 +120,19 @@
 {
 	#nop Return the length of a string.;
 	#format result {%L} {%0}
+}
+
+#FUNCTION {var_restore}
+{
+	#variable {result} {#if {$varFound} {#var {%1} {${tmpVariable}}}}
+}
+
+#FUNCTION {var_save}
+{
+	#variable {result} {#var {varFound} {0}};
+	#if {&{%1}}
+	{
+		#variable {result} {$result;#var {varFound} {1};#var {tmpVariable} {${%1}}}
+	}
 }
 

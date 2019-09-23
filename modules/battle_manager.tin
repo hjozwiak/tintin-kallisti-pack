@@ -39,7 +39,10 @@
 
 #ACTION {%1 flies from your grasp.$}
 {
-	#regexp {%1} {{.*} {.*}} {wield &2};
+	#regexp {%1} {{.*} {.*}}
+	{
+		wield &2
+	};
 	#else
 	{
 		wield %1
@@ -132,8 +135,12 @@
 	};
 	#local {i} {};
 	#local {j} {};
+	@var_save{target};
 	#variable {target} {%1};
-	#regexp {$target} {{.*} {.*}} {#format {target} {%n} {&2}};
+	#regexp {$target} {{.*} {.*}}
+	{
+		#format {target} {%n} {&2}
+	};
 	#list {autohealList} {find} {$target} {i};
 	#if {$i != 0}
 	{
@@ -182,7 +189,8 @@
 	{
 		Rescue $target
 	};
-	#unvariable {target}
+	#unvariable {target};
+	@var_restore{target}
 }
 {9}
 
@@ -222,7 +230,10 @@
 		@do_hook{groupAdd;%2};
 		#list {groupMemberList} {add} {%2}
 	};
-	#regexp {%0} {{.*}Leader{.}} {#if {{%2} != {$MSDP_CHARACTER_NAME}} {#variable {leader} {%2}}}
+	#regexp {%0} {{.*}Leader{.}}
+	{
+		#if {{%2} != {$MSDP_CHARACTER_NAME}} {#variable {leader} {%2}}
+	}
 }
 {9}
 
@@ -281,7 +292,10 @@
 	#nop {Hook name: redemption.};
 	#nop {Hook args: number gained.};
 	#nop {Hook args: Type of gain, e.g. mana.};
-	#regexp {%1} {You gain {\d+} {hitpoints|mana|stamina}} {@do_hook{redemption;&1;&2}};
+	#regexp {%1} {You gain {\d+} {hitpoints|mana|stamina}}
+	{
+		@do_hook{redemption;&1;&2}
+	};
 	#else
 	{
 		@do_hook{redemption;0;alignment}
@@ -728,7 +742,10 @@
 {
 	#if {{%1} != {} && !$copying}
 	{
+		@var_save{tmp};
 		#variable {tmp} {%1};
+		@var_save{i};
+		@var_save{j};
 		#nop #local {i} {};
 		#foreach {${tmp[]}} {i}
 		{
@@ -796,8 +813,11 @@
 			}
 		};
 		#unvariable {tmp};
-#unvar {i};
-#unvar {j};
+		#unvariable {i};
+		#unvariable {j};
+		@var_restore{target};
+		@var_restore{i};
+		@var_restore{j};
 		#nop {Hook name is groupVariable};
 		#nop {Hook argument is %1 variable contents.};
 		@do_hook{groupVariable;%1}
@@ -846,7 +866,10 @@
 	{
 		#if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0}
 		{
-			#regexp {%2} {{.*} {.*}} {${character[chainAttack]} &2};
+			#regexp {%2} {{.*} {.*}}
+			{
+				${character[chainAttack]} &2
+			};
 			#else
 			{
 				${character[chainAttack]} %2
@@ -867,7 +890,10 @@
 	{
 		#if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0}
 		{
-			#regexp {%1} {{.*} {.*}} {${character[chainAttack]} &2};
+			#regexp {%1} {{.*} {.*}}
+			{
+				${character[chainAttack]} &2
+			};
 			#else
 			{
 				${character[chainAttack]} %1
