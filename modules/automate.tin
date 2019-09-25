@@ -986,7 +986,7 @@
 	#nop {Hook args: new race.};
 	#if {{%1} != {} && !$copying}
 	{
-		#if {{%1} == {human} && &{auto[werewolf]} && $MSDP_LEVEL >= 50 && !&{manualWerewolf}}
+		#if {{%1} == {human} && &{auto[werewolf]} && $MSDP_LEVEL >= 50 && !&{manualWerewolf} && $MSDP_ROOM_VNUM != 13200}
 		{
 			werewolf
 		};
