@@ -39,14 +39,18 @@
 
 #ACTION {%1 flies from your grasp.$}
 {
+	#nop {Hook name: disarmed.};
+	#nop {Hook args: name of weapon.};
 	#regexp {%1} {{.*} {.*}}
 	{
-		wield &2
+		hold &2;wield &2
 	};
 	#else
 	{
+		hold %1;
 		wield %1
-	}
+	};
+	@do_hook{disarmed;%1}
 }
 {9}
 
@@ -752,7 +756,7 @@
 		{
 			#nop #local {j} {};
 			#list {autohealList} {find} {${tmp[$i][name]}} {j};
-			#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}} && ${tmp[$i][health]} <= 80}
+			#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}]} && ${tmp[$i][health]} <= 80}
 			{
 				spamset heal${tmp[$i][name]} 6;
 				#switch {{${MSDP_CLASS}}}
@@ -778,7 +782,7 @@
 						}
 					}
 				};
-				#if {${tmp[$i][health]} <= 70 && ${tmp[$i][health]} > 50}
+				#if {((${tmp[$i][health]} <= 70 && {${heal[moderate]}} == {{fh(((e)?a)?l)?|c(((a)?s)?t)? 'fu((((((u)?l)?l)? )?h)?e)?a)?l)?'}}) || (${tmp[$i][health]} <= 80 && {${heal[moderate]}} != {{fh(((e)?a)?l)?|c(((a)?s)?t)? 'fu((((((u)?l)?l)? )?h)?e)?a)?l)?'}})) && ${tmp[$i][health]} > 50}
 				{
 					#nop {moderately hurt.};
 					#send {${heal[moderate]} ${tmp[$i][name]}}
@@ -806,7 +810,7 @@
 					#variable {auto[refreshgroup]} {refresh}
 				};
 				#list {autorefreshList} {find} {${tmp[$i][name]}} {j};
-				#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[refresh${tmp[$i][name]}}}
+				#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[refresh${tmp[$i][name]}]}}
 				{
 					spamset refresh${tmp[$i][name]} 6;
 					#send {${auto[refreshgroup]} ${tmp[$i][name]}}
