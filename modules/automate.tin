@@ -52,7 +52,7 @@
 {
 	#if {&{auto[grimward]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[grimward]}" == "{gt|say}%*"}
 		{
 			${auto[grimward]}
 		};
@@ -68,7 +68,7 @@
 {
 	#if {&{auto[aura]}}
 	{
-		#if {"$MSDP_POSITION" != "Fighting"}
+		#if {"$MSDP_POSITION" != "Fighting" || "${auto[aura]}" == "{gt|say}%*"}
 		{
 			${auto[aura]}
 		};
@@ -93,7 +93,7 @@
 {
 	#if {&{auto[magicshield]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[magicshield]}" == "{gt|say}%*"}
 		{
 			${auto[magicshield]}
 		};
@@ -115,7 +115,7 @@
 {
 	#if {&{auto[ffire]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[ffire]}" == "{gt|say}%*"}
 		{
 			${auto[ffire]}
 		};
@@ -147,7 +147,7 @@
 {
 	#if {&{auto[sanc]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[sanc]}" == "{gt|say}%*"}
 		{
 			${auto[sanc]}
 		};
@@ -192,7 +192,7 @@
 {
 	#if {&{auto[darmor]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[darmor]}" == "{gt|say}%*"}
 		{
 			${auto[darmor]}
 		};
@@ -208,7 +208,7 @@
 {
 	#if {&{auto[bless]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[bless]}" == "{gt|say}%*"}
 		{
 			${auto[bless]}
 		};
@@ -224,7 +224,7 @@
 {
 	#if {&{auto[haste]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[haste]}" == "{gt|say}%*"}
 		{
 			${auto[haste]}
 		};
@@ -240,7 +240,7 @@
 {
 	#if {&{auto[strength]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[strength]}" == "{gt|say}%*"}
 		{
 			${auto[strength]}
 		};
@@ -499,7 +499,7 @@
 {
 	#if {&{auto[vigor]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[vigor]}" == "{gt|say}%*"}
 		{
 			${auto[vigor]}
 		};
@@ -531,7 +531,7 @@
 {
 	#if {&{auto[barkskin]}}
 	{
-		#if {$MSDP_OPPONENT_NUMBER == 0}
+		#if {$MSDP_OPPONENT_NUMBER == 0 || "${auto[barkskin]}" == "{gt|say}%*"}
 		{
 			${auto[barkskin]}
 		};
@@ -823,6 +823,26 @@
 }
 {9}
 
+#ALIAS {^{autorefresh .+(?: \d+)?|noautorefresh}$}
+{
+	#if {"%0" == "autorefresh%*"}
+	{
+		#regexp {%0} {autorefresh {.+} {\d+}} {#var {auto[refreshPercent]} {&2};#var {auto[refresh]} {&1}};
+		#else
+		{
+			#regexp {%0} {autorefresh {.+}} {#var {auto[refreshPercent]} {50};#var {auto[refresh]} {&1}}
+		};
+		#showme {Autorefresh enabled. Using "${auto[refresh]}" to refresh at ${auto[refreshPercent]}%.}
+	};
+	#else
+	{
+		#unvariable {auto[refreshPercent]};
+		#unvariable {auto[refresh]};
+		#showme {Autorefresh disabled.}
+	}
+}
+{9}
+
 #ALIAS {^{auto|character}.%w$}
 {
 	#local {variable} {%0};
@@ -853,7 +873,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{aura.*|magicshield.*|blur|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
+#ALIAS {^{noauto|auto}{cvissage.*|aura.*|magicshield.*|blur|blade|barkskin.*|bless.*|bushido|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
 {
 	#if {"%0" == "noauto%*"}
 	{

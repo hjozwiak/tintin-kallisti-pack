@@ -30,15 +30,20 @@
 }
 {8}
 
-#ACTION {^%* %*tell%2, '%3'$}
+#ACTION {^%* %*tell%*, '%4'$}
 {
 	#nop {Hook name tell.};
 	#nop {Hook args %1 Name.};
 	#nop {Hook args %2 tell contents.};
+	#nop {Hook args %3 account name (may be empty).};
 	Channel_Event Tell %0;
-	#if {"%2" == "%*you%*"}
+	#if {"%3" == "%*you%*"}
 	{
-		@do_hook{tell;%1;%3}
+		#local {account} {%2};
+		#replace {account} {(} {};
+		#replace {account} {)} {};
+		#replace {account} { $} {};
+		@do_hook{tell;%1;%4;$account}
 	}
 }
 {9}
