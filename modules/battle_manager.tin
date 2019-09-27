@@ -754,9 +754,14 @@
 		#nop #local {i} {};
 		#foreach {${tmp[]}} {i}
 		{
+			#list {groupMemberList} {find} {${tmp[$i][name]}} {j};
+			#if {$j == 0}
+			{
+				#list {groupMemberList} {add} {${tmp[$i][name]}}
+			};
 			#nop #local {j} {};
 			#list {autohealList} {find} {${tmp[$i][name]}} {j};
-			#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}]} && ${tmp[$i][health]} <= 80}
+			#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}]} && ${tmp[$i][health]} <= 80 && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}}}
 			{
 				spamset heal${tmp[$i][name]} 6;
 				#switch {{${MSDP_CLASS}}}
@@ -810,7 +815,7 @@
 					#variable {auto[refreshgroup]} {refresh}
 				};
 				#list {autorefreshList} {find} {${tmp[$i][name]}} {j};
-				#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[refresh${tmp[$i][name]}]}}
+				#if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[refresh${tmp[$i][name]}]} && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}}}
 				{
 					spamset refresh${tmp[$i][name]} 6;
 					#send {${auto[refreshgroup]} ${tmp[$i][name]}}
