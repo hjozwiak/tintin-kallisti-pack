@@ -875,8 +875,9 @@
 	#list {groupMemberList} {find} {%1} {i};
 	#if {$i > 0}
 	{
-		#if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0}
+		#if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[chainattack]}}
 		{
+			spamset chainattack 2;
 			#regexp {%2} {{.*} {.*}}
 			{
 				${character[chainAttack]} &2
