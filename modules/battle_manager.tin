@@ -307,6 +307,20 @@
 }
 {9}
 
+#ACTION {^Assimilation...  {You feel more unholy|You gain \d+ (?:hitpoints|mana|stamina)}.$}
+{
+	#nop {Hook name: assimilation.};
+	#nop {Hook args: number gained.};
+	#nop {Hook args: Type of gain, e.g. mana.};
+	#regexp {%1} {You gain {\d+} {hitpoints|mana|stamina}} {@do_hook{assimilation;&1;&2}};
+	#else
+	{
+		@do_hook{assimilation;0;alignment}
+	}
+}
+{9}
+
+
 #ACTION {^SEEK SHELTER AT ONCE!%s%w has begun to sing.$}
 {
 	#local {i} {};
