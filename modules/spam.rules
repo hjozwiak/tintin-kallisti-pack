@@ -34,7 +34,7 @@
 #GAG              {^You use %1 to focus your spell.$}
 
 
-#SUBSTITUTE       {%s{Mage|Priest|Rogue|Fighter|Druid|Monk|Paladin|Assassin|Samurai|Ranger|Templar|Wizard|Prophet|Demoniac|Bard|Dreadlord|Barbarian|Monastic|Necromancer}%s:%s!}                                                                                                                                            {}  {5}
+#SUBSTITUTE       {%s{Mage|Priest|Rogue|Fighter|Druid|Monk|Paladin|Assassin|Samurai|Ranger|Templar|Wizard|Prophet|Demoniac|Bard|Dreadlord|Barbarian|Monastic|Necromancer|Valkyrie}%s:%s!}                                                                                                                                            {}  {5}
 #SUBSTITUTE       {^The corpse crumbles away as you capture its tormented soul. (%1)$}                                                {%1.}  {5}
 #SUBSTITUTE       {^The corpse crumbles to ash as you rip out its tormented soul. (%1)$}                                                  {%1.}  {5}
 #SUBSTITUTE       {^{Down|East|Here|North|South|Up|West}%s- %3}                         {%1}  {5}
