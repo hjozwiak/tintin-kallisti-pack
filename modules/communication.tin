@@ -37,7 +37,7 @@
 	#nop {Hook args %2 tell contents.};
 	#nop {Hook args %3 account name (may be empty).};
 	Channel_Event Tell %0;
-	#if {"%3" == "%*you%*"}
+	#if {{%3} == {%*you%*}}
 	{
 		#local {account} {%2};
 		#replace {account} {(} {};
@@ -52,7 +52,7 @@
 {
 	#nop {Hook name yell};
 	#nop {Hook arguments %1 name, %2 message.};
-	#if {"%1" != "You"}
+	#if {{%1} != {You}}
 	{
 		@do_hook{yell;%3}
 	};
@@ -67,7 +67,7 @@
 	#nop {Hook args %1 Name.};
 	#nop {Hook args %2 type, ask, grunt, say.};
 	#nop {Hook args %3 say contents.};
-	#if {"%2" == "{ask|exclaim|grunt|say}"}
+	#if {{%2} == {{ask|exclaim|grunt|say}}}
 	{
 		Channel_Event Say %0
 	};
@@ -75,7 +75,7 @@
 	{
 		Channel_Event %2 %0
 	};
-	#if {"%1" != "you"}
+	#if {{%1} != {you}}
 	{
 		@do_hook{say;%1;%2;%4}
 	}
@@ -90,7 +90,7 @@
 	#local {i} {};
 	#local {j} {};
 	#list {channel[All]} {insert} {1} {%0};
-	#if {"%1" != "You%*"}
+	#if {{%1} != {You%*}}
 	{
 		@do_hook{report;%1;%3}
 	}
@@ -113,7 +113,7 @@
 	#local {channelName} {%1};
 	#format {channelName} {%l} {$channelName};
 	Channel_Event %1 %0;
-	#if {"%2" != "$MSDP_CHARACTER_NAME"}
+	#if {{%2} != {$MSDP_CHARACTER_NAME}}
 	{
 		@do_hook{${channelName};%2;%3}
 	}
@@ -170,7 +170,7 @@
 	#nop {Hook args %1 Name.};
 	#nop {Hook args %2 message to channel.};
 	Channel_Event ftalk %0;
-	#if {"%1" != "{You spousetalk to \w+}"}
+	#if {{%1} != {{You spousetalk to \w+}}}
 	{
 		@do_hook{ftalk;%1;%2}
 	}

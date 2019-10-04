@@ -1,25 +1,28 @@
 #ACTION {^<%1{light|finger|neck|about body|on body|body|head|left leg|right leg|legs|left foot|right foot|feet|left hand|right hand|hands|left arm|right arm|arms|shield|waist|wrist|wielded|held|face|earring|eyes|back|surrounding|floating|badge|anklets}%3> %s%d/{\s*}%S %*}
 {
-	#if {%5 == %7}
-	{
-		#line {gag}
-	}
+     #if {%5 == %7}
+     {
+          #line {gag}
+     }
 }
 {8}
 
 #ACTION {^You are hit %d tim{e|es} for %d damage.$}
 {
-	#if {%3 < ${MSDP_HEALTH} / 10}
-	{
-		#line {gag}
-	}
+     #if {%3 < ${MSDP_HEALTH} / 10}
+     {
+          #line {gag}
+     }
 }
 {9}
+
+
 
 #GAG              {^%w pokes Ptam the God of the Ancients in the ribs.$}
 #GAG              {^%w {floats|lights|puts|slides|straps|sticks|wears}%3{ancles|arm|arms|belt|body|ear|face|finger|feet|foot|neck+wrist}{\.|\.\s*}$}
 #GAG              {^%w {starts|stops} using %2{\.|\.\s*}$}
 #GAG              {^Ptam the God of the Ancients gives a purple potion of sanctuary to {[A-Z].*}.}
+#GAG              {^Ptam the God of the Ancients sacrifices a purple potion of sanctuary to the Gods.$}
 #GAG              {^You are hit 0 times.$}
 #GAG              {^You can't get any coins from the corpse.$}
 #GAG              {^You follow %w {down|east|north|south|up|west}.$}
@@ -29,7 +32,9 @@
 #GAG              {^You swiftly dodge %1 attack.$}
 #GAG              {^You tap %1 %d times.$}
 #GAG              {^You use %1 to focus your spell.$}
-#SUBSTITUTE       {%s{Mage|Priest|Rogue|Fighter|Druid|Monk|Paladin|Assassin|Samurai|Ranger|Templar|Wizard|Prophet|Demoniac|Bard|Dreadlord|Barbarian|Monastic|Necromancer} %s:   !}                                                                                                                                            {}  {5}
+
+
+#SUBSTITUTE       {%s{Mage|Priest|Rogue|Fighter|Druid|Monk|Paladin|Assassin|Samurai|Ranger|Templar|Wizard|Prophet|Demoniac|Bard|Dreadlord|Barbarian|Monastic|Necromancer|Valkyrie}%s:%s!}                                                                                                                                            {}  {5}
 #SUBSTITUTE       {^The corpse crumbles away as you capture its tormented soul. (%1)$}                                                {%1.}  {5}
 #SUBSTITUTE       {^The corpse crumbles to ash as you rip out its tormented soul. (%1)$}                                                  {%1.}  {5}
 #SUBSTITUTE       {^{Down|East|Here|North|South|Up|West}%s- %3}                         {%1}  {5}
@@ -39,3 +44,4 @@
 #SUBSTITUTE       {%1 quickly avoids your backstab and you nearly cut your own finger!$}                                                  {%1 avoids your backstab!}  {9}
 #SUBSTITUTE       {%1 stands relaxed as {her|his|its} mind wanders on to other things.$}                                                  {%1 relaxes.}  {9}
 #SUBSTITUTE       {\x7BRp\x7D}  {}  {9}
+

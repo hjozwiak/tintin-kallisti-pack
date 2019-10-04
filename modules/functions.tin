@@ -3,12 +3,18 @@
 	#nop {Can cut with specified field and delimiter, defaults are space for the delimiter and 1 for field.};
 	#local {fieldIndex} {1};
 	#local {string} {%0};
-	#regexp {${string}} {{.*}-d {.} } {#variable {delimiter} {&2};#replace {string} {-d &2 }};
+	#regexp {${string}} {{.*}-d {.} }
+	{
+		#variable {delimiter} {&2};#replace {string} {-d &2 }
+	};
 	#else
 	{
 		#variable {delimiter} { }
 	};
-	#regexp {${string}} {{.*}-f {\d+} } {#variable {field} {&2};#replace {string} {-f &2 }};
+	#regexp {${string}} {{.*}-f {\d+} }
+	{
+		#variable {field} {&2};#replace {string} {-f &2 }
+	};
 	#else
 	{
 		#variable {field} {1}
@@ -16,11 +22,11 @@
 	#variable {result} {};
 	#parse {${string}} {character}
 	{
-		#if {"$character" == "${delimiter}"}
+		#if {{$character} == {${delimiter}}}
 		{
 			#math {fieldIndex} {${fieldIndex} + 1}
 		};
-		#if {${fieldIndex} == ${field} && "${character}" != "${delimiter}"}
+		#if {${fieldIndex} == ${field} && {${character}} != {${delimiter}}}
 		{
 			#variable {result} {${result}${character}}
 		}
@@ -58,7 +64,7 @@
 		{
 			#local {exists} {@${j}{${hookArgs}}};
 			#variable {exists} {$exists};
-			#if {"$exists" != "@%*"}
+			#if {{$exists} != {@%*}}
 			{
 				$exists
 			}
@@ -88,7 +94,7 @@
 #FUNCTION {separator}
 {
 	#nop {Takes 1 optional argument, the separator string. The default is -.};
-	#if {"%1" == ""}
+	#if {{%1} == {}}
 	{
 		#script {result} {for x in $(seq $(tput cols)) ; do echo -n "-";done}
 	};
@@ -114,5 +120,24 @@
 {
 	#nop Return the length of a string.;
 	#format result {%L} {%0}
+}
+
+#FUNCTION {var_restore}
+{
+	#if {&{varList[%1]}}
+	{
+		var {%1} {${varList[%1]}};
+		#unvariable {varList[%1]}
+	};
+	#return #nop
+}
+
+#FUNCTION {var_save}
+{
+	#if {&{%1]}}
+	{
+		#variable {varList[%1]} {${%1}}
+	};
+	#return #nop
 }
 
