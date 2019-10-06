@@ -811,22 +811,22 @@
 						}
 					}
 				};
-				#if {((${tmp[$i][health]} <= 70 && {${heal[moderate]}} == {{fh(((e)?a)?l)?|c(((a)?s)?t)? 'fu((((((u)?l)?l)? )?h)?e)?a)?l)?'}}) || (${tmp[$i][health]} <= 80 && {${heal[moderate]}} != {{fh(((e)?a)?l)?|c(((a)?s)?t)? 'fu((((((u)?l)?l)? )?h)?e)?a)?l)?'}})) && ${tmp[$i][health]} > 50}
+				#if {((${tmp[$i][health]} <= 70 && {${heal[moderate]}} == {{fh(((e)?a)?l)?|c(((a)?s)?t)? 'fu((((((u)?l)?l)? )?h)?e)?a)?l)?'}}) || (${tmp[$i][health]} <= 80 && {${heal[moderate]}} != {{fh(((e)?a)?l)?|c(((a)?s)?t)? 'fu((((((u)?l)?l)? )?h)?e)?a)?l)?'}})) && ${tmp[$i][health]} > 50 && {${heal[moderate]}} != {#nop}}
 				{
 					#nop {moderately hurt.};
 					#send {${heal[moderate]} ${tmp[$i][name]}}
 				};
-				#elseif {${tmp[$i][health]} <= 50 && ${tmp[$i][health]} > 20}
+				#elseif {${tmp[$i][health]} <= 50 && ${tmp[$i][health]} > 20 && {${heal[severe]}} != {#nop}}
 				{
 					#nop {severely hurt.};
 					#send {${heal[severe]} ${tmp[$i][name]}}
 				};
-				#elseif {${tmp[$i][health]} <= 20 && ${tmp[$i][health]} > 0}
+				#elseif {${tmp[$i][health]} <= 20 && ${tmp[$i][health]} > 0 && {${heal[nearDeath]}} != {#nop}}
 				{
 					#nop {near death.};
 					#send {${heal[nearDeath]} ${tmp[$i][name]}}
 				};
-				#elseif {${tmp[$i][health]} <= 0}
+				#elseif {${tmp[$i][health]} <= 0 && {${heal[morted]}} != {#nop}}
 				{
 					#nop {Use morted as a last ditch effort, in case the trigger doesn't work.};
 					#send {${heal[morted]} ${tmp[$i][name]}}
