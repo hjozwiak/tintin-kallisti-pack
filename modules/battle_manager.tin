@@ -790,6 +790,16 @@
 							}
 						}
 					};
+					#case {{Valkyrie}}
+					{
+						#foreach {moderate;severe;nearDeath;incapacitated;;stunned;morted} {j}
+						{
+							#if {!&{heal[$j]}}
+							{
+								#variable {heal[$j]} {wio}
+							}
+						}
+					};
 					#default
 					{
 						#foreach {moderate;severe;nearDeath;incapacitated;stunned;morted} {j}
