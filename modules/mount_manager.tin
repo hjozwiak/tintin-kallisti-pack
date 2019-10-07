@@ -117,6 +117,7 @@
 #ACTION {^You try to ride %1, but you fall on your butt.$}
 {
      #variable {mounting} {1};
+     #variable {mountNumber} {1};
      stand;
      #regexp {%1} {{.*} {.*}}
      {
