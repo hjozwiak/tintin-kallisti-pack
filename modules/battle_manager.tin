@@ -709,15 +709,15 @@
 		{
 			#case {{hp}}
 			{
-				#showme {%1: ${MSDP_GROUP[$i][health]}}
+				#showme {%1: ${MSDP_GROUP[$i][health]}%}
 			};
 			#case {{mn}}
 			{
-				#showme {%1: ${MSDP_GROUP[$i][mana]}}
+				#showme {%1: ${MSDP_GROUP[$i][mana]}%}
 			};
 			#case {{mv}}
 			{
-				#showme {%1: ${MSDP_GROUP[$i][stamina]}}
+				#showme {%1: ${MSDP_GROUP[$i][stamina]}%}
 			}
 		}
 	};
