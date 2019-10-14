@@ -1,4 +1,4 @@
-#ACTION {^You get %1 from the corpse.$}
+#ACTION {^You get %1 from the corpse{(?: of .+)?}.$}
 {
 	#nop {Hook name: lootCorpse};
 	#nop {Hook args: full text of looted item, e.g. a longsword.};
