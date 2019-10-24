@@ -777,7 +777,7 @@
           #variable {newSubleaders} {};
           #foreach {${tmp[]}} {i}
           {
-               #if {${tmp[$i][is_leader]}}
+               #if {${tmp[$i][is_leader]} && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME}}
                {
                     #variable {newLeader} {${tmp[$i][name]}}
                };
