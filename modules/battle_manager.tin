@@ -887,7 +887,7 @@
           #nop {Hook argument is %1 variable contents.};
           @do_hook{groupVariable;%1}
      };
-     #else
+     #elseif {!$copying}
      {
           #nop {The group has been disbanded or you are otherwise no longer in a group, remove leader and subleader variables.};
           #unvariable {leader};
