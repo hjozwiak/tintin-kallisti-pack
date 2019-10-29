@@ -299,10 +299,7 @@
           {
                #if {${auto[recast]}}
                {
-                    #if {{$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming}}}
-                    {
-                         !
-                    }
+                    !
                }
           }
      };
@@ -999,6 +996,8 @@
 }
 {9}
 
+
+
 #EVENT {VARIABLE UPDATE MSDP_RACE}
 {
      #nop {Hook name is race};
@@ -1028,6 +1027,8 @@
           }
      }
 }
+
+
 
 #VARIABLE         {at}  {}
 #VARIABLE         {tetherable}  {1}

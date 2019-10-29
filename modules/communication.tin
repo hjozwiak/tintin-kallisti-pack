@@ -48,13 +48,13 @@
 }
 {9}
 
-#ACTION {^%* yell{s,|} '%*'$}
+#ACTION {^%* {shout|yell}{s,|,|} '%*'$}
 {
-	#nop {Hook name yell};
+	#nop {Hook name yell or shout};
 	#nop {Hook arguments %1 name, %2 message.};
 	#if {{%1} != {You}}
 	{
-		@do_hook{yell;%3}
+		@do_hook{%2;%1;%4}
 	};
 	SYNTH_PLAY yellChannel;
 	Channel_Event say %0

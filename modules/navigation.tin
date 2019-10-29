@@ -23,7 +23,9 @@
 	#replace {i} {above} {up};
 	#replace {i} {below} {down};
 	#replace {i} {to the } {};
-	#line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i} {open %1 $i};
+#nop {Hook name: closed.};
+#nop {Hook args: %1 name of door %2 direction.};
+	#line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i;@do_hook{closed;&2;$i}} {open %1 $i;@do_hook{closed;%1;$i}};
 	#if {{${auto[track]}} != {}}
 	{
 		look
@@ -134,42 +136,6 @@
 		#nop {Hook name: roomNumber};
 		#nop {Hook args: the rooms vnum.};
 		#variable {fleeString} {};
-		#switch {%1}
-		{
-			#case {13200}
-			{
-				#nop {at Meta Shop, deposit all gold if autodeposit is enabled.};
-				#if {${auto[deposit]}}
-				{
-					#if {$MSDP_GOLD > 0}
-					{
-						deposit all
-					}
-				}
-			};
-			#case {3546}
-			{
-				#nop {at Midgaard bank, deposit all gold if autodeposit is enabled.};
-				#if {${auto[deposit]}}
-				{
-					#if {$MSDP_GOLD > 0}
-					{
-						deposit all
-					}
-				}
-			};
-			#case {3559}
-			{
-				#nop {at Adventurers Guild, deposit all gold if autodeposit is enabled.};
-				#if {${auto[deposit]}}
-				{
-					#if {$MSDP_GOLD > 0}
-					{
-						deposit all
-					}
-				}
-			}
-		};
 		@do_hook{roomNumber;%1}
 	}
 }
