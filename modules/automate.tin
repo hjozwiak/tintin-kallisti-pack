@@ -533,10 +533,11 @@
 }
 {9}
 
-#ACTION {^Your mount sees: The holy blessing bestowed by your rider is no more.$}
+#ACTION {^Your mount sees: {The holy blessing bestowed by your rider is no more|The ability to fly leaves you}.$}
 {
-     #if {&{auto[holysteed]}}
+     #if {&{auto[holysteed]} && !${spam[holysteed]}}
      {
+spamset holysteed;
           #if {$MSDP_OPPONENT_NUMBER == 0}
           {
                holysteed ${character[mount]}
