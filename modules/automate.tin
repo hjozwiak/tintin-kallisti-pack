@@ -543,7 +543,7 @@
           };
           #else
           {
-               #list {onDeath} {add} {holysteed} ${character[mount]}
+               #list {onDeath} {add} {holysteed ${character[mount]}}
           }
      }
 }
