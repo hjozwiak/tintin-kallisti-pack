@@ -1,3 +1,13 @@
+#ACTION {%*(PAGES LEFT: %d):$}
+{
+     #if {{$MSDP_POSITION} == {Menu}}
+     {
+          #nop {Send a carriage return, since you can't do any command until you page all the way.};
+          #cr
+     }
+}
+{9}
+
 #ACTION {^You will not try to fight from ranged combat distance.  You will still need to ADVANCE on opponents who are attempting to use ranged combat in order to hit them.$}
 {
      #if {$checkingRanged}
