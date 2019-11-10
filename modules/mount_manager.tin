@@ -2,7 +2,7 @@
 {
      #nop {Hook name: dismounted};
      #nop {Hook args: none};
-     #if {&{character[fightRide]} && ${character[fightRide]}}
+     #if {(&{character[fightRide]} && ${character[fightRide]}) || $MSDP_OPPONENT_NUMBER == 0}
      {
           mount ${character[mount]};
           #variable {mounting} {1}
@@ -87,14 +87,15 @@
 {
      #nop {Hook name: dismounted};
      #nop {Hook args: none};
-     #if {&{character[fightRide]} && ${character[fightRide]}}
+     #if {(&{character[fightRide]} && ${character[fightRide]}) || $MSDP_OPPONENT_NUMBER == 0}
      {
           #regexp {%1} {{.*} {.*}}
           {
-               mount &2;#var {mounting} {1}
+               stand;mount &2;#var {mounting} {1}
           };
           #else
           {
+               stand;
                mount %1;
                #variable {mounting} {1}
           }
