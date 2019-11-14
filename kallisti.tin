@@ -1,3 +1,4 @@
+#!/bin/tt++ -G
 #ACTION {^Wrong password.$}
 {
 	#system {play -qV0 wrong-password.wav gain ${MSP[VOLUME]} &> /dev/null &}
