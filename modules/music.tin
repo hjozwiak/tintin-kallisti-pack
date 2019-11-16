@@ -347,7 +347,7 @@
 {
 	#nop {Currently playing track};
 	Get_Music_Message_String;
-	#showme {$msg.}
+	#echo {{%s} {1}} {$msg.}
 }
 
 #MACRO {\eV}

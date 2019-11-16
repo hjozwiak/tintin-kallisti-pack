@@ -87,7 +87,7 @@
      {
           #script {for module in $modpath/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {character_$(basename "$module" .tin)} {read} {$module}";done};
           #script {if [ -d "$HOME/modules" ]; then for module in $HOME/modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
-          #echo {All character modules reloaded}
+          #echo {{%s} {1}} {All character modules reloaded}
      };
      #else
      {
@@ -95,11 +95,11 @@
           #if {{%1} == {{kill|reload}}}
           {
                #class {character_%2} {kill};
-               #showme {Character module %2 has been killed.}
+               #echo {{%s} {1}} {Character module %2 has been killed.}
           };
           #if {{%1} == {{load|reload}}}
           {
-               #showme {Loading character module %2.tin};
+               #echo {{%s} {1}} {Loading character module %2.tin};
                #script {if [ -r "$HOME/modules/%2.tin" ]; then echo "#class {character_%2} {read} {$HOME/modules/%2.tin}";elif [ -r "$modpath/%2.tin" ]; then echo "#class {character_%2} {read} {$modpath/%2.tin}";else echo "#echo {Character module %2.tin not found.}";fi};
                #class {$MSDP_CHARACTER_NAME} {open}
           }
