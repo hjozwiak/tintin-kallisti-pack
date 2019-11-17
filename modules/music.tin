@@ -241,7 +241,10 @@
 		{
 			#system {cmus-remote -n}
 		}
-	}
+	};
+	#nop {Currently playing track};
+	Get_Music_Message_String;
+	#echo {{%s} {1}} {$msg.}
 }
 
 #MACRO {\eC}
@@ -411,7 +414,10 @@
 		{
 			#system {cmus-remote -p}
 		}
-	}
+	};
+	#nop {Currently playing track};
+	Get_Music_Message_String;
+	#echo {{%s} {1}} {$msg.}
 }
 
 #MACRO {\eZ}
@@ -439,7 +445,10 @@
 		{
 			#system {cmus-remote -r}
 		}
-	}
+	};
+	#nop {Currently playing track};
+	Get_Music_Message_String;
+	#echo {{%s} {1}} {$msg.}
 }
 
 #MACRO {\e\x7B}
