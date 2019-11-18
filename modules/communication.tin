@@ -1,454 +1,463 @@
 #ACTION {^<Clan: %w> '%2'$}
 {
-	#nop {Hook name is cchat.};
-	#nop {Hook args %1 Name.};
-	#nop {Hook args %2 message to channel.};
-	Channel_Event cchat %0;
-	@do_hook{cchat;%1;%2}
+     #nop {Hook name is cchat.};
+     #nop {Hook args %1 Name.};
+     #nop {Hook args %2 message to channel.};
+     Channel_Event cchat %0;
+     @do_hook{cchat;%1;%2}
 }
-{5}
 
 #ACTION {^**%w: %2}
 {
-	#nop {Hook name is groupTell.};
-	#nop {Hook args %1 Name.};
-	#nop {Hook args %2 message to channel, includes '' if present.};
-	Channel_Event GroupTell %0;
-	@do_hook{groupTell;%1;%2}
+     #nop {Hook name is groupTell.};
+     #nop {Hook args %1 Name.};
+     #nop {Hook args %2 message to channel, includes '' if present.};
+     Channel_Event GroupTell %0;
+     @do_hook{groupTell;%1;%2}
 }
 {8}
 
 #ACTION {^You cchat, '%1'$}
 {
-	Channel_Event cchat %0
+     Channel_Event cchat %0
 }
 {8}
 
 #ACTION {^You grouptell: %2}
 {
-	Channel_Event GroupTell %0
+     Channel_Event GroupTell %0
 }
 {8}
 
 #ACTION {^%* %*tell%*, '%4'$}
 {
-	#nop {Hook name tell.};
-	#nop {Hook args %1 Name.};
-	#nop {Hook args %2 tell contents.};
-	#nop {Hook args %3 account name (may be empty).};
-	Channel_Event Tell %0;
-	#if {{%3} == {%*you%*}}
-	{
-		#local {account} {%2};
-		#replace {account} {(} {};
-		#replace {account} {)} {};
-		#replace {account} { $} {};
-		@do_hook{tell;%1;%4;$account}
-	}
-}
-{9}
-
-#ACTION {^%* {shout|yell}{s,|,|} '%*'$}
-{
-	#nop {Hook name yell or shout};
-	#nop {Hook arguments %1 name, %2 message.};
-	#if {{%1} != {You}}
-	{
-		@do_hook{%2;%1;%4}
-	};
-	SYNTH_PLAY yellChannel;
-	Channel_Event say %0
+     #nop {Hook name tell.};
+     #nop {Hook args %1 Name.};
+     #nop {Hook args %2 tell contents.};
+     #nop {Hook args %3 account name (may be empty).};
+     Channel_Event Tell %0;
+     #if {{%3} == {%*you%*}}
+     {
+          #local {account} {%2};
+          #replace {account} {(} {};
+          #replace {account} {)} {};
+          #replace {account} { $} {};
+          @do_hook{tell;%1;%4;$account}
+     }
 }
 {9}
 
 #ACTION {^%* {ask|exclaim|grunt|say|tell}%3 '%4'$}
 {
-	#nop {Hook name say.};
-	#nop {Hook args %1 Name.};
-	#nop {Hook args %2 type, ask, grunt, say.};
-	#nop {Hook args %3 say contents.};
-	#if {{%2} == {{ask|exclaim|grunt|say}}}
-	{
-		Channel_Event Say %0
-	};
-	#else
-	{
-		Channel_Event %2 %0
-	};
-	#if {{%1} != {you}}
-	{
-		@do_hook{say;%1;%2;%4}
-	}
+     #nop {Hook name say.};
+     #nop {Hook args %1 Name.};
+     #nop {Hook args %2 type, ask, grunt, say.};
+     #nop {Hook args %3 say contents.};
+     #if {{%2} == {{ask|exclaim|grunt|say}}}
+     {
+          Channel_Event Say %0
+     };
+     #else
+     {
+          Channel_Event %2 %0
+     };
+     #if {{%1} != {you}}
+     {
+          @do_hook{say;%1;%2;%4}
+     }
+}
+{9}
+
+#ACTION {^%* {shout|yell}{s,|,|} '%*'$}
+{
+     #nop {Hook name yell or shout};
+     #nop {Hook arguments %1 name, %2 message.};
+     #if {{%1} != {You}}
+     {
+          @do_hook{%2;%1;%4}
+     };
+     SYNTH_PLAY yellChannel;
+     Channel_Event say %0
 }
 {9}
 
 #ACTION {^%w repor{t|ts|ts to you}: %3.$}
 {
-	#nop {Hook name report.};
-	#nop {Hook args %1 Name.};
-	#nop {Hook args %2 report information.};
-	#local {i} {};
-	#local {j} {};
-	#list {channel[All]} {insert} {1} {%0};
-	#if {{%1} != {You%*}}
-	{
-		@do_hook{report;%1;%3}
-	}
+     #nop {Hook name report.};
+     #nop {Hook args %1 Name.};
+     #nop {Hook args %2 report information.};
+     #local {i} {};
+     #local {j} {};
+     #list {channel[All]} {insert} {1} {%0};
+     #if {{%1} != {You%*}}
+     {
+          @do_hook{report;%1;%3}
+     }
 }
 {9}
 
 #ACTION {^< Hero > %*}
 {
-	#nop {Hook name hero.};
-	#nop {Hook args hero contents.};
-	Channel_Event Hero %0;
-	@do_hook{hero;%1}
+     #nop {Hook name hero.};
+     #nop {Hook args hero contents.};
+     Channel_Event Hero %0;
+     @do_hook{hero;%1}
 }
 {9}
 
 #ACTION {^<%w: %2> '%3'$}
 {
-	#nop {Hook name varied, channel name, e.g. gossip.};
-	#nop {Hook args %1 name %2 channel send.};
-	#local {channelName} {%1};
-	#format {channelName} {%l} {$channelName};
-	Channel_Event %1 %0;
-	#if {{%2} != {$MSDP_CHARACTER_NAME}}
-	{
-		@do_hook{${channelName};%2;%3}
-	}
+     #nop {Hook name varied, channel name, e.g. gossip.};
+     #nop {Hook args %1 name %2 channel send.};
+     #local {channelName} {%1};
+     #format {channelName} {%l} {$channelName};
+     Channel_Event %1 %0;
+     #if {{%2} != {$MSDP_CHARACTER_NAME}}
+     {
+          @do_hook{${channelName};%2;%3}
+     }
 }
 {9}
 
 #ACTION {^<Gemote> %1}
 {
-	Channel_Event Gossip %0;
-	@do_hook{gossip;%1}
+     Channel_Event Gossip %0;
+     @do_hook{gossip;%1}
 }
 {9}
 
 #ACTION {^<Kingdom> %*}
 {
-	#nop {Hook name kingdom.};
-	#nop {Hook args kingdom contents.};
-	Channel_Event Kingdom %0;
-	@do_hook{kingdom;%1}
+     #nop {Hook name kingdom.};
+     #nop {Hook args kingdom contents.};
+     Channel_Event Kingdom %0;
+     @do_hook{kingdom;%1}
 }
 {9}
 
 #ACTION {^The winds whisper, '%1'$}
 {
-	#nop {Hook name info.};
-	#nop {Hook args info contents.};
-	Channel_Event Info %0;
-	@do_hook{info;%1}
+     #nop {Hook name info.};
+     #nop {Hook args info contents.};
+     Channel_Event Info %0;
+     @do_hook{info;%1}
 }
 {9}
 
 #ACTION {^There's not enough room to fit in there!$}
 {
-	#if {!${spam[spaceWarning]}}
-	{
-		gt There's not enough room in there for me.;
-		spamset spaceWarning 1
-	}
+     #if {!${spam[spaceWarning]}}
+     {
+          gt There's not enough room in there for me.;
+          spamset spaceWarning 1
+     }
 }
 {9}
 
 #ACTION {^[%w{:|:\(.*\)}] '%2'$}
 {
-	#nop {Hook name: chat.};
-	#nop {Hook args: chat message.};
-	Channel_Event Chat %0;
-	@do_hook{chat;%1}
+     #nop {Hook name: chat.};
+     #nop {Hook args: chat message.};
+     Channel_Event Chat %0;
+     @do_hook{chat;%1}
 }
 {9}
 
 #ACTION {^{You spousetalk to \w+|\w+ spousetalks to you}, '%*'$}
 {
-	#nop {Hook name is ftalk.};
-	#nop {Hook args %1 Name.};
-	#nop {Hook args %2 message to channel.};
-	Channel_Event ftalk %0;
-	#if {{%1} != {{You spousetalk to \w+}}}
-	{
-		@do_hook{ftalk;%1;%2}
-	}
+     #nop {Hook name is ftalk.};
+     #nop {Hook args %1 Name.};
+     #nop {Hook args %2 message to channel.};
+     Channel_Event ftalk %0;
+     #if {{%1} != {{You spousetalk to \w+}}}
+     {
+          @do_hook{ftalk;%1;%2}
+     }
 }
 {9}
 
+
 #ALIAS {^pimptell %S %2}
 {
-	tell %1 @pimp{%2}
+     tell %1 @pimp{%2}
 }
 {8}
 
 #ALIAS {^Channel_Event %S %2}
 {
-	SYNTH_PLAY %1Channel;
-	#list {channel[All]} {insert} {1} {%2};
-	#list {channel[%1]} {insert} {1} {%2};
-	#list {channel[%1]} {size} {i};
-	#if {$i >= 11}
-	{
-		#list {channel[%1]} {delete} {11}
-	};
-	#unvariable {i};
-	@extract_link{%2}
+     SYNTH_PLAY %1Channel;
+     #list {channel[All]} {insert} {1} {%2};
+     #list {channel[%1]} {insert} {1} {%2};
+     #list {channel[%1]} {size} {i};
+     #if {$i >= 11}
+     {
+          #list {channel[%1]} {delete} {11}
+     };
+     #unvariable {i};
+     @extract_link{%2}
+}
+{9}
+
+#ALIAS {^NOTIFY %1}
+{
+     #draw {tile} {1} {1} {1} {-1} {%1}
 }
 {9}
 
 #ALIAS {^display_channel %w %d}
 {
-	#echo {{%s} {1}} {${channel[%1][%2]}}
+     NOTIFY ${channel[%1][%2]}
 }
 {9}
 
 #ALIAS {^pimp%+ %2}
 {
-	%1 @pimp{%2}
+     %1 @pimp{%2}
 }
 {9}
 
 #ALIAS {^view %s%w$}
 {
-	#format {i} {%n} {%2};
-	#replace {i} {Repl{y|ies}} {Tell};
-	#if {&{channel[$i]}}
-	{
-		#list {channelBuffer} {find} {$i} {channelBufferIndex};
-		#if {$channelBufferIndex == 0}
-		{
-			#list {channelBuffer} {add} {$i};
-			#list {channelBuffer} {find} {$i} {channelBufferIndex}
-		};
-		#echo {{%s} {1}} {Channel buffer set to $channelBuffer[$channelBufferIndex]}
-	};
-	#else
-	{
-		#echo {{%s} {1}}  {Nothing to show for channel $i.}
-	}
+     #format {i} {%n} {%2};
+     #replace {i} {Repl{y|ies}} {Tell};
+     #if {&{channel[$i]}}
+     {
+          #list {channelBuffer} {find} {$i} {channelBufferIndex};
+          #if {$channelBufferIndex == 0}
+          {
+               #list {channelBuffer} {add} {$i};
+               #list {channelBuffer} {find} {$i} {channelBufferIndex}
+          };
+          NOTIFY Channel buffer set to ${channelBuffer[$channelBufferIndex]}
+     };
+     #else
+     {
+          NOTIFY Nothing to show for channel $i.
+     }
 }
 {9}
 
+
 #FUNCTION {pimp}
 {
-	#script {result} {curl -s --data-urlencode English="%0" --data-urlencode submit="Talk Like a Pimp " http://joel.net/EBONICS/translator/ | grep '<textarea id="Ebonics"' | html2text};
-	#variable {result} {${result[1]}}
+     #script {result} {curl -s --data-urlencode English="%0" --data-urlencode submit="Talk Like a Pimp " http://joel.net/EBONICS/translator/ | grep '<textarea id="Ebonics"' | html2text};
+     #variable {result} {${result[1]}}
 }
+
 
 #MACRO {\c!}
 {
-	#variable {channelBufferIndex} {13};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {13};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\cB}
 {
-	#system {echo 'talk' > ~/.config/barnard/cmd}
+     #system {echo 'talk' > ~/.config/barnard/cmd}
 }
 
 #MACRO {\e!}
 {
-	#variable {channelBufferIndex} {2};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {2};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e#}
 {
-	#variable {channelBufferIndex} {4};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {4};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e$}
 {
-	#variable {channelBufferIndex} {5};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {5};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e%}
 {
-	#variable {channelBufferIndex} {6};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {6};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e&}
 {
-	#variable {channelBufferIndex} {8};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {8};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e(}
 {
-	#variable {channelBufferIndex} {10};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {10};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e)}
 {
-	#variable {channelBufferIndex} {11};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {11};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e*}
 {
-	#variable {channelBufferIndex} {9};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {9};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e-}
 {
-	#if {!&{channelBufferIndex} || $channelBufferIndex <= 1}
-	{
-		#variable {channelBufferIndex} {1}
-	};
-	#else
-	{
-		#math {channelBufferIndex} {$channelBufferIndex - 1}
-	};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #if {!&{channelBufferIndex} || $channelBufferIndex <= 1}
+     {
+          #variable {channelBufferIndex} {1}
+     };
+     #else
+     {
+          #math {channelBufferIndex} {$channelBufferIndex - 1}
+     };
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e0}
 {
-	display_channel $channelBuffer[$channelBufferIndex] 10
+     display_channel $channelBuffer[$channelBufferIndex] 10
 }
 
 #MACRO {\e1}
 {
-	display_channel $channelBuffer[$channelBufferIndex] 1
+     display_channel $channelBuffer[$channelBufferIndex] 1
 }
 
 #MACRO {\e2}
 {
-	display_channel $channelBuffer[$channelBufferIndex] 2
+     display_channel $channelBuffer[$channelBufferIndex] 2
 }
 
 #MACRO {\e3}
 {
-	display_channel $channelBuffer[$channelBufferIndex] 3
+     display_channel $channelBuffer[$channelBufferIndex] 3
 }
 
 #MACRO {\e4}
 {
-	display_channel $channelBuffer[$channelBufferIndex] 4
+     display_channel $channelBuffer[$channelBufferIndex] 4
 }
 
 #MACRO {\e5}
 {
-	display_channel $channelBuffer[$channelBufferIndex] 5
+     display_channel $channelBuffer[$channelBufferIndex] 5
 }
 
 #MACRO {\e6}
 {
-	display_channel $channelBuffer[$channelBufferIndex] 6
+     display_channel $channelBuffer[$channelBufferIndex] 6
 }
 
 #MACRO {\e7}
 {
-	display_channel $channelBuffer[$channelBufferIndex] 7
+     display_channel $channelBuffer[$channelBufferIndex] 7
 }
 
 #MACRO {\e8}
 {
-	display_channel $channelBuffer[$channelBufferIndex] 8
+     display_channel $channelBuffer[$channelBufferIndex] 8
 }
 
 #MACRO {\e9}
 {
-	display_channel $channelBuffer[$channelBufferIndex] 9
+     display_channel $channelBuffer[$channelBufferIndex] 9
 }
 
 #MACRO {\e=}
 {
-	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer}}
-	{
-		#variable {channelBufferIndex} {@list_size{channelBuffer}}
-	};
-	#else
-	{
-		#math {channelBufferIndex} {$channelBufferIndex + 1}
-	};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer}}
+     {
+          #variable {channelBufferIndex} {@list_size{channelBuffer}}
+     };
+     #else
+     {
+          #math {channelBufferIndex} {$channelBufferIndex + 1}
+     };
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e@}
 {
-	#variable {channelBufferIndex} {3};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {3};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\eOP}
 {
-	#variable {channelBufferIndex} {13};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {13};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\eOQ}
 {
-	#variable {channelBufferIndex} {14};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {14};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\eOR}
 {
-	#variable {channelBufferIndex} {15};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {15};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\eOS}
 {
-	#variable {channelBufferIndex} {16};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {16};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e[1;3C}
 {
-	#nop {Alt right arrow};
-	#if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer}}
-	{
-		#variable {channelBufferIndex} {@list_size{channelBuffer}}
-	};
-	#else
-	{
-		#math {channelBufferIndex} {$channelBufferIndex + 1}
-	};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #nop {Alt right arrow};
+     #if {!&{channelBufferIndex} || $channelBufferIndex >= @list_size{channelBuffer}}
+     {
+          #variable {channelBufferIndex} {@list_size{channelBuffer}}
+     };
+     #else
+     {
+          #math {channelBufferIndex} {$channelBufferIndex + 1}
+     };
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e[1;3D}
 {
-	#nop {Alt left arrow};
-	#if {!&{channelBufferIndex} || $channelBufferIndex <= 1}
-	{
-		#variable {channelBufferIndex} {1}
-	};
-	#else
-	{
-		#math {channelBufferIndex} {$channelBufferIndex - 1}
-	};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #nop {Alt left arrow};
+     #if {!&{channelBufferIndex} || $channelBufferIndex <= 1}
+     {
+          #variable {channelBufferIndex} {1}
+     };
+     #else
+     {
+          #math {channelBufferIndex} {$channelBufferIndex - 1}
+     };
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e^}
 {
-	#variable {channelBufferIndex} {7};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {7};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e`}
 {
-	#variable {channelBufferIndex} {12};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {12};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #MACRO {\e~}
 {
-	#variable {channelBufferIndex} {1};
-	#showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+     #variable {channelBufferIndex} {1};
+     #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
 #VARIABLE         {awayMessage}  {false}
 #VARIABLE         {channel}  {}
 #VARIABLE         {channelBuffer}  {{1}{All}{2}{Advice}{3}{Barter}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Rude}{10}{Say}{11}{Tell}{12}{Chat}{13}{cchat}{14}{Code}{15}{Hero}}
 #VARIABLE         {channelBufferIndex}  {1}
+
