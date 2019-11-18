@@ -32,7 +32,7 @@
           #class {${msdpOldList[CHARACTER_NAME]}} {close};
           #variable {copying} {1};
           #local {i} {};
-          #foreach {${msdpOldList[]}} {i}
+          #foreach {*{msdpOldList[]}} {i}
           {
                #variable {MSDP_$i} {${msdpOldList[$i]}}
           };
@@ -118,7 +118,7 @@
 #ALIAS {^q{f|ff|ffe|ffec|ffect|ffects}$}
 {
      #local {i} {};
-     #foreach {${MSDP_AFFECTS[]}} {i}
+     #foreach {*{MSDP_AFFECTS[]}} {i}
      {
           #regexp {$i} {{^[^0-9]+$}}
           {
@@ -196,7 +196,7 @@
                #class {${OLD_MSDP_CHARACTER_NAME}} {kill};
                #variable {copying} {1};
                #local {i} {};
-               #foreach {${msdpOldList[]}} {i}
+               #foreach {*{msdpOldList[]}} {i}
                {
                     #variable {MSDP_$i} {${msdpOldList[$i]}}
                };

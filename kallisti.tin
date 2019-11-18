@@ -38,7 +38,8 @@
 #ALIAS {^CMOTD$}
 {
 	#echo {@separator{}};
-	#system {fold -w $(tput cols) -s MOTD}#echo {@separator{}}
+	#system {fold -w $(tput cols) -s MOTD};
+	#echo {@separator{}}
 }
 {9}
 
@@ -81,11 +82,21 @@
 	#system {scripts/soundpack_manager.sh ${HOME}/sounds};
 	#nop {Load all the .tin files in the modules directory in classes named after the module name.};
 	#script {for module in modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {read} {$module}";done};
+	#split {1} {0};
 	#nop {Display intro message.};
 	#echo {@separator{}};
 	#system {fold -w $(tput cols) -s MOTD};
 	#echo {@separator{}};
-	#echo {To get started type login}
+	#echo {To get started type login};
+	#nop {#nop {Set scrollable region to all but the top line.};
+	#local {cols} {};
+	#local {rows} {};
+	#format {rows} {%R};
+	#format {cols} {%C};
+	#math {cols} {$cols - 1};
+#math {rows} {$rows - 1};
+	#screen {scroll} {0} {0} {$rows} {$cols}
+}
 }
 
 #EVENT {SESSION CONNECTED}
@@ -99,7 +110,7 @@
 	#script {logFileName} {date +'%I_%M%p.log'};
 	#system {mkdir -p $logFilePath};
 	#log {overwrite} {${logFilePath}${logFileName[1]}};
-	#foreach {${goto[]}} {i}
+	#foreach {*{goto[]}} {i}
 	{
 		#tab {$i}
 	}

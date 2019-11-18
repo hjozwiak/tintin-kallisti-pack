@@ -36,7 +36,7 @@
 		#list {idleList} {add} {pose}
 	};
 	#echo {Current commands to avoide the void are:};
-	#foreach {${idleList[]}} {i}
+	#foreach {*{idleList[]}} {i}
 	{
 		#echo {${idleList[$i]}}
 	};
