@@ -49,7 +49,7 @@
 	#if {{%0} == {modreload all}}
 	{
 		#script {for module in modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {$(basename "$module" .tin)} {read} {$module}";done};
-		#echo {{%s} {1}} {All modules reloaded}
+		#echo {{%s} {-1}} {All modules reloaded}
 	};
 	#else
 	{
@@ -57,11 +57,11 @@
 		#if {{%1} == {{kill|reload}}}
 		{
 			#class {%2} {kill};
-			#echo {{%s} {1}} {Class %2 has been killed.}
+			#echo {{%s} {-1}} {Class %2 has been killed.}
 		};
 		#if {{%1} == {{load|reload}}}
 		{
-			#echo {{%s} {1}} {Loading modules/%2.tin};
+			#echo {{%s} {-1}} {Loading modules/%2.tin};
 			#class {%2} {read} {modules/%2.tin};
 			#class {$MSDP_CHARACTER_NAME} {open}
 		}
