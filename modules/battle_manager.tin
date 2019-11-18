@@ -290,7 +290,7 @@
      #list {autorescueList} {size} {i};
      #if {$i > 0}
      {
-          #foreach {${autorescueList[]}} {j}
+          #foreach {*{autorescueList[]}} {j}
           {
                rescue ${autorescueList[$j]}
           }
@@ -399,7 +399,7 @@
 #ACTION {^You try but are unable to head off {her|his|its} opponent.$}
 {
      #local {i} {};
-     #foreach {${autorescueList[]}} {i}
+     #foreach {*{autorescueList[]}} {i}
      {
           rescue ${autorescueList[$i]}
      }
@@ -458,7 +458,7 @@
      #list {groupMemberList} {size} {i};
      #if {$i > 0}
      {
-          #foreach {${groupMemberList[]}} {j}
+          #foreach {*{groupMemberList[]}} {j}
           {
                #if {{${groupMemberList[$j]}} != {${MSDP_CHARACTER_NAME}}}
                {
@@ -506,7 +506,7 @@
           {
                #local {i} {};
                #local {j} {};
-               #foreach {${MSDP_GROUP[]}} {i}
+               #foreach {*{MSDP_GROUP[]}} {i}
                {
                     #list {autorefreshList} {find} {${MSDP_GROUP[$i][name]}} {j};
                     #if {$j == 0}
@@ -540,7 +540,7 @@
      {
           #showme {You are currently refreshing:};
           #local {i} {};
-          #foreach {${autorefreshList[]}} {i}
+          #foreach {*{autorefreshList[]}} {i}
           {
                #showme {${autorefreshList[$i]}}
           };
@@ -604,7 +604,7 @@
      #list {auto%1List} {size} {i};
      #if {$i > 0}
      {
-          #foreach {${auto%1List[]}} {j}
+          #foreach {*{auto%1List[]}} {j}
           {
                #echo {${auto%1List[$j]}}
           }
@@ -636,7 +636,7 @@
      };
      #else
      {
-          #foreach {${autohealList[]}} {j}
+          #foreach {*{autohealList[]}} {j}
           {
                he%1 ${autohealList[$j]}
           }
@@ -662,7 +662,7 @@
      };
      #else
      {
-          #foreach {${autorescueList[]}} {j}
+          #foreach {*{autorescueList[]}} {j}
           {
                res%1 ${autorescueList[$j]}
           }
@@ -677,7 +677,7 @@
      #list {groupMemberList} {size} {i};
      #if {$i > 0}
      {
-          #foreach {${groupMemberList[]}} {j}
+          #foreach {*{groupMemberList[]}} {j}
           {
                #if {{${groupMemberList[$j]}} != {$MSDP_CHARACTER_NAME}}
                {
@@ -698,7 +698,7 @@
      #format {target} {%n} {%2};
      #local {found} {0};
      #local {i} {};
-     #foreach {${MSDP_GROUP[]}} {i}
+     #foreach {*{MSDP_GROUP[]}} {i}
      {
           #if {{${MSDP_GROUP[$i][name]}} == {$target%*}}
           {
@@ -775,7 +775,7 @@
           #nop #local {i} {};
           #variable {newLeader} {};
           #variable {newSubleaders} {};
-          #foreach {${tmp[]}} {i}
+          #foreach {*{tmp[]}} {i}
           {
                #if {${tmp[$i][is_leader]} && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME}}
                {

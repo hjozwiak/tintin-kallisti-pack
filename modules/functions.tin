@@ -45,7 +45,7 @@
 		#local {j} {};
 		#local {k} {};
 		#list {hookArgsList} {create} {%0};
-		#foreach {${hookArgsList[]}} {k}
+		#foreach {*{hookArgsList[]}} {k}
 		{
 			#if {$k == 1}
 			{

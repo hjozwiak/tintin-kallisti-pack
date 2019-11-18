@@ -26,7 +26,7 @@
 	#echo {Automatic combat:};
 	#if {{${autocombatList}} != {}}
 	{
-		#foreach {${autocombatList[]}} {i}
+		#foreach {*{autocombatList[]}} {i}
 		{
 			#echo {${autocombatList[$i]}}
 		}

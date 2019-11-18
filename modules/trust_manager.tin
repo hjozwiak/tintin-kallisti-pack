@@ -94,7 +94,7 @@
 	#list {friends} {size} {i};
 	#if {$i > 0}
 	{
-		#foreach {${friends[]}} {j}
+		#foreach {*{friends[]}} {j}
 		{
 			#echo {${friends[$j]}}
 		}

@@ -7,7 +7,7 @@
 #ALIAS {^goto %slist$}
 {
 	#local {i} {};
-	#foreach {${goto[]}} {i}
+	#foreach {*{goto[]}} {i}
 	{
 		#echo {$i - ${goto[$i]}}
 	}
