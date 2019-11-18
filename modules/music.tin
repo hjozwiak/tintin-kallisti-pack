@@ -92,7 +92,7 @@
 {
 	#variable {music[links][apiUrl]} {%2/yourls-api.php};
 	#variable {music[links][apiKey]} {%4};
-	#echo {{%s} {-1}} {music links enabled using ${music[links][apiUrl]}.};
+	#echo {{%s} {1}} {music links enabled using ${music[links][apiUrl]}.};
 	CSAVE
 }
 {9}
@@ -107,7 +107,7 @@
 	{
 		#variable {music[player]} {%2}
 	};
-	#echo {{%s} {-1}} {music player set to ${music[player]}.};
+	#echo {{%s} {1}} {music player set to ${music[player]}.};
 	CSAVE
 }
 {9}
@@ -135,12 +135,12 @@
 {
 	#if {{%0} == {autotitle}}
 	{
-		#echo {{%s} {-1}} {Your title will automatically change to currently playing song.};
+		#echo {{%s} {1}} {Your title will automatically change to currently playing song.};
 		#variable {auto[title]} {1}
 	};
 	#else
 	{
-		#echo {{%s} {-1}} {Your title will no longer be automatically set.};
+		#echo {{%s} {1}} {Your title will no longer be automatically set.};
 		#variable {auto[title]} {0}
 	}
 }
@@ -149,7 +149,7 @@
 #ALIAS {^{musicc|musicch|musiccha|musicchan|musicchann|musicchanne|musicchannel} %s%S$}
 {
 	#variable {channel[music]} {%3};
-	#echo {{%s} {-1}} {Music channel set to %3.};
+	#echo {{%s} {1}} {Music channel set to %3.};
 	CSAVE
 }
 {9}
@@ -160,12 +160,12 @@
 	{
 		#variable {music[links][apiUrl]} {https://1u.rs/yourls-api.php};
 		#variable {music[links][apiKey]} {b0dda9c182};
-		#echo {{%s} {-1}} {music links enabled using ${music[links][apiUrl]}.}
+		#echo {{%s} {1}} {music links enabled using ${music[links][apiUrl]}.}
 	};
 	#else
 	{
 		#unvariable {music[links]};
-		#echo {{%s} {-1}} {Music links disabled.}
+		#echo {{%s} {1}} {Music links disabled.}
 	};
 	CSAVE
 }
@@ -244,7 +244,7 @@
 	};
 	#nop {Currently playing track};
 	Get_Music_Message_String;
-	#echo {{%s} {-1}} {$msg.}
+	#echo {{%s} {1}} {$msg.}
 }
 
 #MACRO {\eC}
@@ -350,7 +350,7 @@
 {
 	#nop {Currently playing track};
 	Get_Music_Message_String;
-	#echo {{%s} {-1}} {$msg.}
+	#echo {{%s} {1}} {$msg.}
 }
 
 #MACRO {\eV}
@@ -417,7 +417,7 @@
 	};
 	#nop {Currently playing track};
 	Get_Music_Message_String;
-	#echo {{%s} {-1}} {$msg.}
+	#echo {{%s} {1}} {$msg.}
 }
 
 #MACRO {\eZ}
@@ -448,7 +448,7 @@
 	};
 	#nop {Currently playing track};
 	Get_Music_Message_String;
-	#echo {{%s} {-1}} {$msg.}
+	#echo {{%s} {1}} {$msg.}
 }
 
 #MACRO {\e\x7B}

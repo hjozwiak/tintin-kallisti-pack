@@ -200,7 +200,7 @@
 
 #ALIAS {^display_channel %w %d}
 {
-	#echo {{%s} {-1}} {${channel[%1][%2]}}
+	#echo {{%s} {1}} {${channel[%1][%2]}}
 }
 {9}
 
@@ -222,11 +222,11 @@
 			#list {channelBuffer} {add} {$i};
 			#list {channelBuffer} {find} {$i} {channelBufferIndex}
 		};
-		#echo {Channel buffer set to $channelBuffer[$channelBufferIndex]}
+		#echo {{%s} {1}} {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 	};
 	#else
 	{
-		#echo {Nothing to show for channel $i.}
+		#echo {{%s} {1}}  {Nothing to show for channel $i.}
 	}
 }
 {9}
