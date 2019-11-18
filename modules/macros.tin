@@ -24,11 +24,11 @@
 	};
 	#if {&{keyProfile[${keySetName}][%1]}}
 	{
-		#showme {alt+%1 is set to ${keyProfile[${keySetName}][%1]}.}
+		NOTIFY alt+%1 is set to ${keyProfile[${keySetName}][%1]}.
 	};
 	#else
 	{
-		#showme {alt+%1 is not set.}
+		NOTIFY alt+%1 is not set.
 	}
 }
 {9}
@@ -38,11 +38,11 @@
 	#format {keySetName} {%n} {%3};
 	#if {!&{keyProfile[${keySetName}]}}
 	{
-		#showme {keyset ${keySetName} (new).}
+		NOTIFY keyset ${keySetName} (new).
 	};
 	#else
 	{
-		#showme {keyset ${keySetName}.}
+		NOTIFY keyset ${keySetName}.
 	};
 	CSAVE
 }
@@ -54,7 +54,7 @@
 	{
 		#variable {keySetName} {Default}
 	};
-	#showme {Keyset $keySetName.}
+	NOTIFY Keyset $keySetName.
 }
 {9}
 
