@@ -200,13 +200,58 @@
 
 #ALIAS {^NOTIFY %1}
 {
-     #draw {tile} {1} {1} {1} {-1} {%1}
+     #if {!&{character[notify]}}
+     {
+          #variable {character[notify]} {top}
+     };
+     #switch {{${character[notify]}}}
+     {
+          #case {{inline}}
+          {
+               #echo {%s} {%1}
+          };
+          #case {{notify-send}}
+          {
+               #system {notify-send %1}
+          };
+          #default
+          {
+               #draw {tile} {1} {1} {1} {-1} {%1}
+          }
+     }
 }
 {9}
 
 #ALIAS {^display_channel %w %d}
 {
      NOTIFY ${channel[%1][%2]}
+}
+{9}
+
+#ALIAS {^notify %S$}
+{
+     #switch {{%1}}
+     {
+          #case {{inline}}
+          {
+               #variable {character[notify]} {%1};
+               NOTIFY Notification type set to %1.
+          };
+          #case {{notify-send}}
+          {
+               #variable {character[notify]} {%1};
+               NOTIFY Notification type set to %1.
+          };
+          #case {{top}}
+          {
+               #variable {character[notify]} {%1};
+               NOTIFY Notification type set to %1.
+          };
+          #default
+          {
+               NOTIFY Unknown notification option "%1".
+          }
+     }
 }
 {9}
 
@@ -236,7 +281,6 @@
      }
 }
 {9}
-
 
 #FUNCTION {pimp}
 {
