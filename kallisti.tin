@@ -82,7 +82,6 @@
 	#system {scripts/soundpack_manager.sh ${HOME}/sounds};
 	#nop {Load all the .tin files in the modules directory in classes named after the module name.};
 	#script {for module in modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {read} {$module}";done};
-	#split {1} {0};
 	#nop {Display intro message.};
 	#echo {@separator{}};
 	#system {fold -w $(tput cols) -s MOTD};
