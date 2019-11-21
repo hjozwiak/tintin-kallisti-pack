@@ -92,7 +92,7 @@
 {
 	#variable {music[links][apiUrl]} {%2/yourls-api.php};
 	#variable {music[links][apiKey]} {%4};
-	#echo {music links enabled using ${music[links][apiUrl]}.};
+	NOTIFY music links enabled using ${music[links][apiUrl]}.;
 	CSAVE
 }
 {9}
@@ -107,7 +107,7 @@
 	{
 		#variable {music[player]} {%2}
 	};
-	#echo {music player set to ${music[player]}.};
+	NOTIFY music player set to ${music[player]}.;
 	CSAVE
 }
 {9}
@@ -135,12 +135,12 @@
 {
 	#if {{%0} == {autotitle}}
 	{
-		#echo {Your title will automatically change to currently playing song.};
+		NOTIFY Your title will automatically change to currently playing song.;
 		#variable {auto[title]} {1}
 	};
 	#else
 	{
-		#echo {Your title will no longer be automatically set.};
+		NOTIFY Your title will no longer be automatically set.;
 		#variable {auto[title]} {0}
 	}
 }
@@ -149,7 +149,7 @@
 #ALIAS {^{musicc|musicch|musiccha|musicchan|musicchann|musicchanne|musicchannel} %s%S$}
 {
 	#variable {channel[music]} {%3};
-	#echo {Music channel set to %3.};
+	NOTIFY Music channel set to %3.;
 	CSAVE
 }
 {9}
@@ -160,12 +160,12 @@
 	{
 		#variable {music[links][apiUrl]} {https://1u.rs/yourls-api.php};
 		#variable {music[links][apiKey]} {b0dda9c182};
-		#echo {music links enabled using ${music[links][apiUrl]}.}
+		NOTIFY music links enabled using ${music[links][apiUrl]}.
 	};
 	#else
 	{
 		#unvariable {music[links]};
-		#echo {Music links disabled.}
+		NOTIFY Music links disabled.
 	};
 	CSAVE
 }
@@ -241,7 +241,10 @@
 		{
 			#system {cmus-remote -n}
 		}
-	}
+	};
+	#nop {Currently playing track};
+	Get_Music_Message_String;
+	NOTIFY $msg.
 }
 
 #MACRO {\eC}
@@ -347,7 +350,7 @@
 {
 	#nop {Currently playing track};
 	Get_Music_Message_String;
-	#showme {$msg.}
+	NOTIFY $msg.
 }
 
 #MACRO {\eV}
@@ -411,7 +414,10 @@
 		{
 			#system {cmus-remote -p}
 		}
-	}
+	};
+	#nop {Currently playing track};
+	Get_Music_Message_String;
+	NOTIFY $msg.
 }
 
 #MACRO {\eZ}
@@ -439,7 +445,10 @@
 		{
 			#system {cmus-remote -r}
 		}
-	}
+	};
+	#nop {Currently playing track};
+	Get_Music_Message_String;
+	NOTIFY $msg.
 }
 
 #MACRO {\e\x7B}

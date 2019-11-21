@@ -46,6 +46,12 @@
 }
 {9}
 
+#ACTION {^{Lamp Oil|Lapis Lazuli|Mithril|Pygmy Pigs|Rordack Cheese|Siege Equipment|Weapons} stocks paid you a dividend of %d gold.$}
+{
+	POST %1 stocks paid $MSDP_CHARACTER_NAME a dividend of %2 gold. ${socialmedia[hashtag]} ${socialmedia[url]}
+}
+{9}
+
 #ALIAS {^POST %1}
 {
 	#if {$twitter}
@@ -60,7 +66,7 @@
 	{
 		#if {!&{gusername} || !&{gpassword}}
 		{
-			#showme {Before you can post, you need to set your username and password. To do so please type ginfo username@node.ext password.};
+			NOTIFY Before you can post, you need to set your username and password. To do so please type ginfo username@node.ext password.;
 			#break
 		};
 		#if {!&{gurl}}
@@ -81,7 +87,7 @@
 	#variable {gusername} {%1};
 	#variable {gurl} {https://%2};
 	#variable {gpassword} {%4};
-	#showme {Now posting to GNU Social as %1@%2.};
+	NOTIFY Now posting to GNU Social as %1@%2.;
 	#history {delete}
 }
 {9}
@@ -93,32 +99,32 @@
 		#case {{gnusocial}}
 		{
 			#variable {gnusocial} {1};
-			#showme {Achievements will now be posted to GNU Social. Remember to set your information with ginfo webfinger password.}
+			NOTIFY Achievements will now be posted to GNU Social. Remember to set your information with ginfo webfinger password.
 		};
 		#case {{nognusocial}}
 		{
 			#unvariable {gnusocial};
-			#showme {Achievements will no longer be posted to GNU Social.}
+			NOTIFY Achievements will no longer be posted to GNU Social.
 		};
 		#case {{mastodon}}
 		{
 			#variable {mastodon} {1};
-			#showme {Achievements will now be posted to Mastodon. You will need to have madonctl installed and configured.}
+			NOTIFY Achievements will now be posted to Mastodon. You will need to have madonctl installed and configured.
 		};
 		#case {{nomastodon}}
 		{
 			#unvariable {mastodon};
-			#showme {Achievements will no longer be posted to Mastodon.}
+			NOTIFY Achievements will no longer be posted to Mastodon.
 		};
 		#case {{twitter}}
 		{
 			#variable {twitter} {1};
-			#showme {Achievements will now be posted to Twitter. You will need to have oysttyer installed and configured.}
+			NOTIFY Achievements will now be posted to Twitter. You will need to have oysttyer installed and configured.
 		};
 		#case {{notwitter}}
 		{
 			#unvariable {twitter};
-			#showme {Achievements will no longer be posted to Twitter.}
+			NOTIFY Achievements will no longer be posted to Twitter.
 		}
 	}
 }

@@ -1,3 +1,13 @@
+#ACTION {%*(PAGES LEFT: %d):$}
+{
+     #if {{$MSDP_POSITION} == {Menu}}
+     {
+          #nop {Send a carriage return, since you can't do any command until you page all the way.};
+          #cr
+     }
+}
+{9}
+
 #ACTION {^You will not try to fight from ranged combat distance.  You will still need to ADVANCE on opponents who are attempting to use ranged combat in order to hit them.$}
 {
      #if {$checkingRanged}
@@ -22,7 +32,7 @@
           #class {${msdpOldList[CHARACTER_NAME]}} {close};
           #variable {copying} {1};
           #local {i} {};
-          #foreach {${msdpOldList[]}} {i}
+          #foreach {*{msdpOldList[]}} {i}
           {
                #variable {MSDP_$i} {${msdpOldList[$i]}}
           };
@@ -77,7 +87,7 @@
      {
           #script {for module in $modpath/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {character_$(basename "$module" .tin)} {read} {$module}";done};
           #script {if [ -d "$HOME/modules" ]; then for module in $HOME/modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
-          #echo {All character modules reloaded}
+          NOTIFY All character modules reloaded
      };
      #else
      {
@@ -85,12 +95,12 @@
           #if {{%1} == {{kill|reload}}}
           {
                #class {character_%2} {kill};
-               #showme {Character module %2 has been killed.}
+               NOTIFY Character module %2 has been killed.
           };
           #if {{%1} == {{load|reload}}}
           {
-               #showme {Loading character module %2.tin};
-               #script {if [ -r "$HOME/modules/%2.tin" ]; then echo "#class {character_%2} {read} {$HOME/modules/%2.tin}";elif [ -r "$modpath/%2.tin" ]; then echo "#class {character_%2} {read} {$modpath/%2.tin}";else echo "#echo {Character module %2.tin not found.}";fi};
+               NOTIFY Loading character module %2.tin;
+               #script {if [ -r "$HOME/modules/%2.tin" ]; then echo "#class {character_%2} {read} {$HOME/modules/%2.tin}";elif [ -r "$modpath/%2.tin" ]; then echo "#class {character_%2} {read} {$modpath/%2.tin}";else echo "NOTIFY Character module %2.tin not found.";fi};
                #class {$MSDP_CHARACTER_NAME} {open}
           }
      };
@@ -101,14 +111,14 @@
 #ALIAS {^container %s%w$}
 {
      #variable {character[container]} {%2};
-     #echo {Your container is now %2.}
+     NOTIFY Your container is now %2.
 }
 {9}
 
 #ALIAS {^q{f|ff|ffe|ffec|ffect|ffects}$}
 {
      #local {i} {};
-     #foreach {${MSDP_AFFECTS[]}} {i}
+     #foreach {*{MSDP_AFFECTS[]}} {i}
      {
           #regexp {$i} {{^[^0-9]+$}}
           {
@@ -135,22 +145,22 @@
           #case {{audioprompt}}
           {
                #variable {character{audioprompt}} {1};
-               #echo {Audio prompt enabled.}
+               NOTIFY Audio prompt enabled.
           };
           #case {{beeps}}
           {
                #variable {character{beeps}} {1};
-               #echo {Opponent condition beeps enabled.}
+               NOTIFY Opponent condition beeps enabled.
           };
           #case {{noaudioprompt}}
           {
                #variable {character[audioprompt]} {0};
-               #echo {Audio prompt disabled.}
+               NOTIFY Audio prompt disabled.
           };
           #case {{nobeeps}}
           {
                #variable {character[beeps]} {0};
-               #echo {Opponent condition beeps disabled.}
+               NOTIFY Opponent condition beeps disabled.
           }
      }
 }
@@ -186,7 +196,7 @@
                #class {${OLD_MSDP_CHARACTER_NAME}} {kill};
                #variable {copying} {1};
                #local {i} {};
-               #foreach {${msdpOldList[]}} {i}
+               #foreach {*{msdpOldList[]}} {i}
                {
                     #variable {MSDP_$i} {${msdpOldList[$i]}}
                };
@@ -214,7 +224,7 @@
           #if {${cspam}}
           {
                #class {applied_spam_settings} {read} {modules/spam.rules};
-               #echo {Client side spam filters applied.}
+               NOTIFY Client side spam filters applied.
           };
           #class {%1} {open};
           @do_hook{charactername;%1}

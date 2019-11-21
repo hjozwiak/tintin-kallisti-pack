@@ -40,7 +40,7 @@
 	#list {hook[charmEnd]} {size} {i};
 	#if {$i > 0}
 	{
-		#foreach {${hook[charmEnd][]}} {@${j}{%1}}
+		#foreach {*{hook[charmEnd][]}} {@${j}{%1}}
 		{
 			
 		}

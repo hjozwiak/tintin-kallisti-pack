@@ -26,12 +26,12 @@
 	#echo {Automatic combat:};
 	#if {{${autocombatList}} != {}}
 	{
-		#foreach {${autocombatList[]}} {i}
+		#foreach {*{autocombatList[]}} {i}
 		{
 			#echo {${autocombatList[$i]}}
 		}
 	};
-	#echo {To set your autocombat commands, type autocombat follow by a list of commands enclosed in braces and separated by semi-colons.}
+	#echo {To set your autocombat commands, type autocombat followed by a list of commands enclosed in braces and separated by semi-colons.}
 }
 {9}
 

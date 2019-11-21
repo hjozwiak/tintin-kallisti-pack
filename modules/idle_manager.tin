@@ -36,11 +36,11 @@
 		#list {idleList} {add} {pose}
 	};
 	#echo {Current commands to avoide the void are:};
-	#foreach {${idleList[]}} {i}
+	#foreach {*{idleList[]}} {i}
 	{
 		#echo {${idleList[$i]}}
 	};
-	#echo {To set your idle commands, type idle follow by a list of commands enclosed in braces and separated by semi-colons.}
+	#echo {To set your idle commands, type idle followed by a list of commands enclosed in braces and separated by semi-colons.}
 }
 {9}
 

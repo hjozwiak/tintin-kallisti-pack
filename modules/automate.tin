@@ -37,7 +37,12 @@
 
 #ACTION {^%w {pokes|points at} %S$}
 {
-     #if {{%1} == {$leader}}
+     #local {i} {0};
+     #if {&{subleaders}}
+     {
+          #list {subleaders} {find} {%1} {i}
+     };
+     #if {{%1} == {$leader} || $i > 0}
      {
           #if {&{auto[poke]}}
           {
@@ -533,17 +538,18 @@
 }
 {9}
 
-#ACTION {^Your mount sees: The holy blessing bestowed by your rider is no more.$}
+#ACTION {^Your mount sees: {The holy blessing bestowed by your rider is no more|The ability to fly leaves you}.$}
 {
-     #if {&{auto[holysteed]}}
+     #if {&{auto[holysteed]} && !${spam[holysteed]}}
      {
+          spamset holysteed;
           #if {$MSDP_OPPONENT_NUMBER == 0}
           {
                holysteed ${character[mount]}
           };
           #else
           {
-               #list {onDeath} {add} {holysteed} ${character[mount]}
+               #list {onDeath} {add} {holysteed ${character[mount]}}
           }
      }
 }
