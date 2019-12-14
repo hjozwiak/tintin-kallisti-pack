@@ -459,7 +459,7 @@
                {
                     #case {{Druid}}
                     {
-                         shape ${auto[shape]}
+                         shapechange ${auto[shape]}
                     };
                     #default
                     {
@@ -473,7 +473,7 @@
                {
                     #case {{Druid}}
                     {
-                         #list {onDeath} {add} {shape ${auto[shape]}}
+                         #list {onDeath} {add} {shapechange ${auto[shape]}}
                     };
                     #default
                     {
