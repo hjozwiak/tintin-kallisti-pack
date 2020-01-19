@@ -90,8 +90,8 @@
 	#nop {#nop {Set scrollable region to all but the top line.};
 	#local {cols} {};
 	#local {rows} {};
-	#format {rows} {%R};
-	#format {cols} {%C};
+	#screen get rows rows;
+	#screen get cols cols;
 	#math {cols} {$cols - 1};
 #math {rows} {$rows - 1};
 	#screen {scroll} {0} {0} {$rows} {$cols}
