@@ -803,9 +803,23 @@
                     {
                          true
                     };
-                    #case {{{focus|shape}}}
+                    #case {{focus}}
                     {
                          $i ${auto[$i]}
+                    };
+                    #case {{shape}}
+                    {
+                         #switch {{${MSDP_CLASS}}}
+                         {
+                              #case {{Druid}}
+                              {
+                                   shapechange ${auto[$i]}
+                              };
+                              #default
+                              {
+                                   mortify ${auto[$i]}
+                              }
+                         }
                     };
                     #default
                     {
@@ -1003,7 +1017,6 @@
 {9}
 
 
-
 #EVENT {VARIABLE UPDATE MSDP_RACE}
 {
      #nop {Hook name is race};
@@ -1033,7 +1046,6 @@
           }
      }
 }
-
 
 
 #VARIABLE         {at}  {}
