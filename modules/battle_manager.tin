@@ -202,6 +202,18 @@
 }
 {9}
 
+#ACTION {^%1 lands an assassination strike in the back of %2, resulting in a massive gush of blood!$}
+{
+     @combat_action{%1;%2}
+}
+{9}
+
+#ACTION {^%1 tries to assassinate %2 but nearly cuts {her|his|its} own finger!$}
+{
+     @combat_action{%1;%2}
+}
+{9}
+
 #ACTION {^%S heals %w's wounds.$}
 {
      #local {i} {};
