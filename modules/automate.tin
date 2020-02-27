@@ -35,6 +35,30 @@
 }
 {9}
 
+#ACTION {^%w marks %w for death.$}
+{
+     #local {i} {0};
+     #if {&{subleaders}}
+     {
+          #list {subleaders} {find} {%1} {i}
+     };
+     #if {{%1} == {$leader} || $i > 0}
+     {
+          #if {&{auto[poke]}}
+          {
+               #regexp {${auto[poke]}} {{.*?};{.*}}
+               {
+                    &1 %2;&2
+               };
+               #else
+               {
+                    ${auto[poke]} %2
+               }
+          }
+     }
+}
+{9}
+
 #ACTION {^%w {pokes|points at} %S$}
 {
      #local {i} {0};
