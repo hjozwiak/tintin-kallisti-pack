@@ -11,7 +11,7 @@
 		#variable {keySetName} {Default}
 	};
 	#variable {keyProfile[${keySetName}][%1]} {@strip_braces{%2}};
-	set%1;
+	keyset%1;
 	CSAVE
 }
 {9}
