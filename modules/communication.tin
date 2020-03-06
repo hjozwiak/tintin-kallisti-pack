@@ -105,16 +105,16 @@
 }
 {9}
 
-#ACTION {^<%w: %2> '%3'$}
+#ACTION {^{<|\x7B}%w: %2{>|\x7D} '%3'$}
 {
      #nop {Hook name varied, channel name, e.g. gossip.};
      #nop {Hook args %1 name %2 channel send.};
-     #local {channelName} {%1};
+     #local {channelName} {%2};
      #format {channelName} {%l} {$channelName};
      Channel_Event %1 %0;
-     #if {{%2} != {$MSDP_CHARACTER_NAME}}
+     #if {{%3} != {$MSDP_CHARACTER_NAME}}
      {
-          @do_hook{${channelName};%2;%3}
+          @do_hook{${channelName};%3;%5}
      }
 }
 {9}
