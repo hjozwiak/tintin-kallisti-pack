@@ -912,8 +912,9 @@
                          ${character[chainAttack]} %2
                     }
                };
-               #else
+               #elseif {!${spam[chainattack]}}
                {
+                    spamset chainattack 2;
                     join %1
                }
           }
@@ -932,7 +933,7 @@
           #list {groupMemberList} {find} {%2} {i};
           #if {$i > 0}
           {
-               #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !&{spam[chainattack]}}
+               #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[chainattack]}}
                {
                     spamset chainattack 2;
                     #regexp {%1} {{.*} {.*}}
@@ -944,8 +945,9 @@
                          ${character[chainAttack]} %1
                     }
                };
-               #else
+               #elseif {!${spam[chainattack]} && $MSDP_OPPONENT_NUMBER == 0}
                {
+                    spamset chainattack 2;
                     join %2
                }
           }
