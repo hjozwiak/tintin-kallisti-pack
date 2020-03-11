@@ -361,7 +361,7 @@
      #variable {manualWerewolf} {1};
      #send {werewolf}
 }
-{1}
+{9}
 
 #ALIAS {^autoheal%s {me|self} %3 %d$}
 {
