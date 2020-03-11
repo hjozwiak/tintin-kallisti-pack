@@ -487,6 +487,13 @@
 }
 {8}
 
+#ALIAS {^GENERATE_RENEW_LIFE_TICKER$}
+{
+     #unticker {renewLife};
+     #ticker {renewLife} {#if {&{auto[renewLife]} && @percent{MSDP_HEALTH} <= ${auto[renewLife]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[renewLife]}} {spamset renewLife 2;renewlife}} {1}
+}
+{9}
+
 #ALIAS {^POPULATE_%w_LIST$}
 {
      #local {i} {};
@@ -706,6 +713,28 @@
           {
                #echo {You have no chain attack set.}
           }
+     }
+}
+{9}
+
+#ALIAS {^{no|}autorenewlife{(?: \d+)?}$}
+{
+     #if {{%1} == {no}}
+     {
+          NOTIFY Auto renew life disabled.;
+          #unvariable {auto[renewLife]};
+          #unticker {renewLife}
+     };
+     #else
+     {
+          #local {hp} {75};
+          #regexp {%2} {{ +}{\d+}}
+          {
+               #var {hp} {&2}
+          };
+          NOTIFY Auto renew life enabled at $hp%% health.;
+          #variable {auto[renewLife]} {$hp};
+          GENERATE_RENEW_LIFE_TICKER
      }
 }
 {9}
