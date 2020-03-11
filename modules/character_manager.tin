@@ -203,7 +203,7 @@
                #nop {unload any old character classes};
                #variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.modules};
                #replace {modpath} {\\} {};
-               #script {for module in $(find "$modpath" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {kill}";done}
+               #script {for module in $(find "$modpath" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {kill}";done;for module in $(find "$HOME/modules" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {kill}";done}
           };
           #nop {Make sure the character file exists so there's no error on read.};
           #system {if ! [ -f "$HOME/%1" ] && [ "%1" != "" ] ; then echo "#nop" > "$HOME/%1" ; fi ; if ! [ -d "$HOME/%1.modules" ] && [ "%1" != "" ] ; then mkdir "$HOME/%1.modules" ; fi ; if ! [ -d "$HOME/modules" ] ; then mkdir "$HOME/modules" ; cp modules/config.txt "$HOME/modules" ; fi};
@@ -218,7 +218,7 @@
           #class {%1} {read} {${HOME}/%1};
           #if {!&{auto}}
           {
-               #nop {The auto variable isn't set, create it in the character clasas so prevent character modules using it from grabbing it and preventing saving.};
+               #nop {The auto variable isn't set, create it in the character class to prevent character modules using it from grabbing it and preventing saving.};
                #class {%1} {open};
                #variable {auto} {};
                #class {%1} {close}
