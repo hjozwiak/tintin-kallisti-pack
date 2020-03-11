@@ -1,90 +1,93 @@
 #ALIAS {^CREATE_MACRO %.$}
 {
-	#macro {\e%1} {#if {&keyProfile[${keySetName}][%1]}{$keyProfile[${keySetName}][%1]}}
+     #macro {\e%1} {#if {&keyProfile[${keySetName}][%1]}{$keyProfile[${keySetName}][%1]}}
+}
+{9}
+
+#ALIAS {^generate_macros$}
+{
+     #local {i} {};
+     #foreach {a;b;c;d;e;f;g;h;n;q;r;s;t;v;w;x;y;z;A;D;F;H;Q;W;E} {i}
+     {
+          CREATE_MACRO $i
+     }
 }
 {9}
 
 #ALIAS {^keyset{a|b|c|d|e|f|g|h|n|q|r|s|t|v|w|x|y|z|A|D|F|H|Q|W|E} %2}
 {
-	#if {!&{keySetName}}
-	{
-		#variable {keySetName} {Default}
-	};
-	#variable {keyProfile[${keySetName}][%1]} {@strip_braces{%2}};
-	keyset%1;
-	CSAVE
+     #if {!&{keySetName}}
+     {
+          #variable {keySetName} {Default}
+     };
+     #variable {keyProfile[${keySetName}][%1]} {@strip_braces{%2}};
+     keyset%1;
+     CSAVE
 }
 {9}
 
 #ALIAS {^keyset{a|b|c|d|e|f|g|h|n|q|r|s|t|v|w|x|y|z|A|D|F|H|Q|W|E}$}
 {
-	#if {!&{keySetName}}
-	{
-		#variable {keySetName} {Default}
-	};
-	#if {&{keyProfile[${keySetName}][%1]}}
-	{
-		NOTIFY alt+%1 is set to ${keyProfile[${keySetName}][%1]}.
-	};
-	#else
-	{
-		NOTIFY alt+%1 is not set.
-	}
+     #if {!&{keySetName}}
+     {
+          #variable {keySetName} {Default}
+     };
+     #if {&{keyProfile[${keySetName}][%1]}}
+     {
+          NOTIFY alt+%1 is set to ${keyProfile[${keySetName}][%1]}.
+     };
+     #else
+     {
+          NOTIFY alt+%1 is not set.
+     }
 }
 {9}
 
 #ALIAS {^{ke|key|keyp|keypr|keypro|keyprof|keyprofi|keyprofil|keyprofile|kp|kpr|kpro|kprof|kprofi|kprofil|kprofile|ks|kse|kset|keys|keyse|keyset} %s%S$}
 {
-	#format {keySetName} {%n} {%3};
-	#if {!&{keyProfile[${keySetName}]}}
-	{
-		NOTIFY keyset ${keySetName} (new).
-	};
-	#else
-	{
-		NOTIFY keyset ${keySetName}.
-	};
-	CSAVE
+     #format {keySetName} {%n} {%3};
+     #if {!&{keyProfile[${keySetName}]}}
+     {
+          NOTIFY keyset ${keySetName} (new).
+     };
+     #else
+     {
+          NOTIFY keyset ${keySetName}.
+     };
+     CSAVE
 }
 {9}
 
 #ALIAS {^{ke|key|keyp|keypr|keypro|keyprof|keyprofi|keyprofil|keyprofile|kp|kpr|kpro|kprof|kprofi|kprofil|kprofile}$}
 {
-	#if {!&{keySetName}}
-	{
-		#variable {keySetName} {Default}
-	};
-	NOTIFY Keyset $keySetName.
+     #if {!&{keySetName}}
+     {
+          #variable {keySetName} {Default}
+     };
+     NOTIFY Keyset $keySetName.
 }
 {9}
 
-#FUNCTION {generate_macros}
-{
-	#local {i} {};
-	#foreach {a;b;c;d;e;f;g;h;n;q;r;s;t;v;w;x;y;z;A;D;F;H;Q;W;E} {i}
-	{
-		CREATE_MACRO $i
-	};
-	#return #nop
-}
 
 #MACRO {\cc}
 {
-	#if {!${spam[breakout]}}
-	{
-		spamset breakout;
-		breakout
-	}
+     #if {!${spam[breakout]}}
+     {
+          spamset breakout;
+          breakout
+     }
 }
 
 #MACRO {\e[2~}
 {
-	#buffer {home}
+     #buffer {home}
 }
 
 #MACRO {\e[3~}
 {
-	#buffer {end}
+     #buffer {end}
 }
 
-@generate_macros{}
+
+#VARIABLE         {macrosStartup}  {generate_macros}
+
