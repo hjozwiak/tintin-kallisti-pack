@@ -216,6 +216,13 @@
           #nop {clear old hooks.};
           #unvariable {hook};
           #class {%1} {read} {${HOME}/%1};
+          #if {!&{auto}}
+          {
+               #nop {The auto variable isn't set, create it in the character clasas so prevent character modules using it from grabbing it and preventing saving.};
+               #class {%1} {open};
+               #variable {auto} {};
+               #class {%1} {close}
+          };
           #nop {Load common personal modules.};
           #script {if [ -d "$HOME/modules" ]; then for module in $(find "$HOME/modules" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
           #nop {Load personal modules.};
