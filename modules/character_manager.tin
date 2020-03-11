@@ -21,7 +21,7 @@
 
 #ALIAS {^CSAVE$}
 {
-     #if {{$MSDP_CHARACTER_NAME} != {} && {$MSDP_CHARACTER_NAME} != {\$MSDP_CHARACTER_NAME}}
+     #if {{$MSDP_CHARACTER_NAME} != {} && &{MSDP_CHARACTER_NAME} && {$MSDP_CHARACTER_NAME} != {\$MSDP_CHARACTER_NAME}}
      {
           #variable {historyPath} {${HOME}/${MSDP_CHARACTER_NAME}.history};
           #replace {historyPath} {\\} {};
@@ -222,7 +222,9 @@
           #script {if [ -d "$HOME/%1.modules" ]; then for module in $(find "$HOME/%1.modules" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
           #if {${cspam}}
           {
+               #class {%1} {close};
                #class {applied_spam_settings} {read} {modules/spam.rules};
+               #class {%1} {open};
                NOTIFY Client side spam filters applied.
           };
           #class {%1} {open};

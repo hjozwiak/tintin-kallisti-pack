@@ -799,7 +799,7 @@
 
 #EVENT {VARIABLE UPDATE MSDP_AFFECTS}
 {
-     #if {{$MSDP_CHARACTER_NAME} != {} && !${copying}}
+     #if {{$MSDP_CHARACTER_NAME} != {} && &{MSDP_CHARACTER_NAME} && !${copying}}
      {
           #variable {tmp} {%1};
           #local {i} {};
