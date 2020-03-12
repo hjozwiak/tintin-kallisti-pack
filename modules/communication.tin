@@ -222,7 +222,7 @@
                };
                #local {rowsNeeded} {1};
                @var_save{script};
-               #script {script} {echo "%1" | fold -s -w $(tput cols)};
+               #line substitute escapes #script {script} {echo "%1" | fold -s -w $(tput cols)};
                #list {script} {size} {rowsNeeded};
                #local {rows} {};
                #screen get rows rows;
@@ -241,7 +241,7 @@
                #local {i} {};
                #foreach {*{script[]}} {i}
                {
-                    #echo {{${script[$i]}} {$i}}
+                    #line substitute escapes #echo {{${script[$i]}} {$i}}
                };
                #nop #echo {{%1} {1}};
                #nop #draw {tile} {1} {1} {1} {-1} {%1}#unvar {script};
