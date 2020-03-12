@@ -243,6 +243,15 @@
                {
                     #line substitute escapes #echo {{${script[$i]}} {$i}}
                };
+               #if {$i < $currentSplitRows}
+               {
+                    #local {counter} {};
+                    #math {counter} {$i + 1};
+                    #loop {$counter} {$currentSplitRows} {counter}
+                    {
+                         #showme {@separator{}} {$counter}
+                    }
+               };
                #nop #echo {{%1} {1}};
                #nop #draw {tile} {1} {1} {1} {-1} {%1}#unvar {script};
                @var_restore{script}
