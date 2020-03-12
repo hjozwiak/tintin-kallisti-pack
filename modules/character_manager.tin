@@ -285,7 +285,8 @@
                #unvariable {historyPath};
                #if {${character[mapping]}}
                {
-                    #map write $HOME/map/msdp.map
+                    #map write $HOME/map/msdp.map;
+                    #map destroy world
                };
                #variable {copying} {1};
                #unvariable {MSDP_%*};
@@ -337,7 +338,8 @@
           };
           #if {${character[mapping]}}
           {
-               MAP_STARTUP
+               MAP_STARTUP;
+               #delay {0.05} {mapRoom}
           };
           #class {%1} {open};
           @do_hook{charactername;%1}
