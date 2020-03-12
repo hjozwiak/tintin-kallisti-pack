@@ -32,7 +32,11 @@
      #list {autorescueList} {find} {%2} {i};
      #if {$i != 0}
      {
-          rescue ${autorescueList[$i]}
+          #if {!&{auto[rescueCommand]}}
+          {
+               #variable {auto[rescueCommand]} {rescue}
+          };
+          ${auto[rescueCommand]} ${autorescueList[$i]}
      }
 }
 {9}
@@ -191,10 +195,22 @@
      #list {autorescueList} {find} {$target} {i};
      #if {$i != 0}
      {
-          Rescue $target
+          ${auto[rescueCommand]} $target
      };
      #unvariable {target};
      @var_restore{target}
+}
+{9}
+
+#ACTION {^%1 lands an assassination strike in the back of %2, resulting in a massive gush of blood!$}
+{
+     @combat_action{%1;%2}
+}
+{9}
+
+#ACTION {^%1 tries to assassinate %2 but nearly cuts {her|his|its} own finger!$}
+{
+     @combat_action{%1;%2}
 }
 {9}
 
@@ -204,7 +220,11 @@
      #list {autorescueList} {find} {%2} {i};
      #if {$i != 0}
      {
-          rescue ${autorescueList[$i]}
+          #if {!&{auto[rescueCommand]}}
+          {
+               #variable {auto[rescueCommand]} {rescue}
+          };
+          ${auto[rescueCommand]} ${autorescueList[$i]}
      }
 }
 {9}
@@ -292,7 +312,11 @@
      {
           #foreach {*{autorescueList[]}} {j}
           {
-               rescue ${autorescueList[$j]}
+               #if {!&{auto[rescueCommand]}}
+               {
+                    #variable {auto[rescueCommand]} {rescue}
+               };
+               ${auto[rescueCommand]} ${autorescueList[$j]}
           }
      }
 }
@@ -329,7 +353,11 @@
      #list {autorescueList} {find} {%1} {i};
      #if {$i != 0}
      {
-          rescue ${autorescueList[$i]}
+          #if {!&{auto[rescueCommand]}}
+          {
+               #variable {auto[rescueCommand]} {rescue}
+          };
+          ${auto[rescueCommand]} ${autorescueList[$i]}
      }
 }
 {9}
@@ -349,7 +377,11 @@
      #list {autorescueList} {find} {%1} {i};
      #if {$i != 0}
      {
-          rescue ${autorescueList[$i]}
+          #if {!&{auto[rescueCommand]}}
+          {
+               #variable {auto[rescueCommand]} {rescue}
+          };
+          ${auto[rescueCommand]} ${autorescueList[$i]}
      }
 }
 {9}
@@ -392,7 +424,11 @@
 
 #ACTION {^You take %w's position in the formation.$}
 {
-     rescue %1
+     #if {!&{auto[rescueCommand]}}
+     {
+          #variable {auto[rescueCommand]} {rescue}
+     };
+     ${auto[rescueCommand]} %1
 }
 {9}
 
@@ -401,7 +437,11 @@
      #local {i} {};
      #foreach {*{autorescueList[]}} {i}
      {
-          rescue ${autorescueList[$i]}
+          #if {!&{auto[rescueCommand]}}
+          {
+               #variable {auto[rescueCommand]} {rescue}
+          };
+          ${auto[rescueCommand]} ${autorescueList[$i]}
      }
 }
 {9}
@@ -433,7 +473,7 @@
 {9}
 
 
-#ALIAS {^auto{heal|rescue} {add|remove} {all|group}$}
+#ALIAS {^auto{heal|rescue|refresh} {add|remove} {all|group}$}
 {
      #list {auto%1List} {clear};
      #if {{%2} == {remove}}
@@ -442,11 +482,7 @@
      };
      #else
      {
-          #nop {Refresh the groupMemberList variable};
-          #list {groupMemberList} {clear};
-          group;
-          #nop {The actual list management takes place in a POPULATE_whatever_LIST alias called with localecho so we know all the group members have been added.};
-          localecho silent_do POPULATE_%1_LIST
+          POPULATE_%1_LIST
      }
 }
 {8}
@@ -470,101 +506,21 @@
 }
 {9}
 
-#ALIAS {^autorefresh {remove|add} %w$}
-{
-     #if {!&{auto[refreshgroup]} || {${auto[refreshgroup]}} == {}}
-     {
-          #variable {auto[refreshgroup]} {refresh}
-     };
-     #local {target} {};
-     #format {target} {%n} {%2};
-     #if {{%1} == {remove}}
-     {
-          #if {{$target} == {All}}
-          {
-               #variable {autorefreshList} {};
-               #showme {Autorefresh cleared.}
-          };
-          #else
-          {
-               #local {i} {};
-               #list {autorefreshList} {find} {$target} {i};
-               #if {$i > 0}
-               {
-                    #list {autorefreshList} {delete} {$i};
-                    #showme {Removed %2 from autorefresh.}
-               };
-               #else
-               {
-                    #showme {%2 not found in autorefresh.}
-               }
-          }
-     };
-     #else
-     {
-          #if {{$target} == {All}}
-          {
-               #local {i} {};
-               #local {j} {};
-               #foreach {*{MSDP_GROUP[]}} {i}
-               {
-                    #list {autorefreshList} {find} {${MSDP_GROUP[$i][name]}} {j};
-                    #if {$j == 0}
-                    {
-                         #list {autorefreshList} {add} {${MSDP_GROUP[$i][name]}}
-                    }
-               };
-               #showme {Added everyone to autorefresh.}
-          };
-          #else
-          {
-               #local {i} {};
-               #list {autorefreshList} {find} {$target} {i};
-               #if {$i == 0}
-               {
-                    #list {autorefreshList} {add} {$target};
-                    #showme {Added %2 to autorefresh.}
-               };
-               #else
-               {
-                    #showme {%2 already in autorefresh.}
-               }
-          }
-     }
-}
-{9}
-
-#ALIAS {^autorefresh$}
-{
-     #if {&{autorefreshList} && {${autorefreshList}} != {}}
-     {
-          #showme {You are currently refreshing:};
-          #local {i} {};
-          #foreach {*{autorefreshList[]}} {i}
-          {
-               #showme {${autorefreshList[$i]}}
-          };
-          #if {!&{auto[refreshgroup]}}
-          {
-               #variable {auto[refreshgroup]} {refresh}
-          };
-          #showme {Refreshing with ${auto[refreshgroup]}}
-     };
-     #else
-     {
-          #showme {You are currently refreshing nobody.}
-     }
-}
-{9}
-
 #ALIAS {^autorefreshgroup %*}
 {
-     #variable {auto[refreshgroup]} {%1};
+     #variable {auto[refreshGroup]} {%1};
      #showme {You will refresh your group with %1. Use autorefresh add or remove to manage who is refreshed.}
 }
 {9}
 
-#ALIAS {^auto{heal|rescue} %s{add|remove} %s%w$}
+#ALIAS {^autorescuecommand %*}
+{
+     #variable {auto[rescueCommand]} {%1};
+     #showme {You will rescue with %1. Use autorescue add or remove to manage who is rescued.}
+}
+{9}
+
+#ALIAS {^auto{heal|rescue|refresh} %s{add|remove} %s%w$}
 {
      #local {i} {};
      #format {battle_manager[tmp]} {%n} {%5};
@@ -573,7 +529,7 @@
      {
           #if {$i == 0}
           {
-               #echo {You are not current automatically %1ing ${battle_manager[tmp]}.}
+               #echo {You are not currently automatically %1ing ${battle_manager[tmp]}.}
           };
           #else
           {
@@ -596,7 +552,7 @@
 }
 {9}
 
-#ALIAS {^auto{heal|rescue}$}
+#ALIAS {^auto{heal|rescue|refresh}$}
 {
      #local {i} {};
      #local {j} {};
@@ -609,9 +565,11 @@
                #echo {${auto%1List[$j]}}
           }
      };
-     #if {&{autoHealSelf} && {%0} == {autoheal}}
+     #local {tmp} {};
+     #format {tmp} {%n} {%1};
+     #if {&{auto${tmp}Self} && &{auto${tmp}SelfPercent}}
      {
-          #echo {Yourself with: ${autoHealSelf} at ${autoHealSelfPercent} percent.}
+          #echo {Yourself with: ${auto${tmp}Self} at ${auto${tmp}SelfPercent} percent.}
      }
 }
 {9}
@@ -644,7 +602,7 @@
 }
 {9}
 
-#ALIAS {^noauto{heal|rescue}$}
+#ALIAS {^noauto{heal|rescue|refresh}$}
 {
      #list {auto%1List} {clear};
      #echo {You are no longer %1ing anyone.}
@@ -664,7 +622,7 @@
      {
           #foreach {*{autorescueList[]}} {j}
           {
-               res%1 ${autorescueList[$j]}
+               ${auto[rescueCommand]} ${autorescueList[$j]}
           }
      }
 }
@@ -760,7 +718,6 @@
 {9}
 
 
-
 #EVENT {VARIABLE UPDATE MSDP_GROUP}
 {
      #if {{%1} != {} && !$copying}
@@ -851,15 +808,15 @@
                };
                #if {${tmp[$i][stamina]} < 65 && @percent{MSDP_MANA} > 75}
                {
-                    #if {!&{auto[refreshgroup]} || {${auto[refreshgroup]}} == {}}
+                    #if {!&{auto[refreshGroup]} || {${auto[refreshGroup]}} == {}}
                     {
-                         #variable {auto[refreshgroup]} {refresh}
+                         #variable {auto[refreshGroup]} {refresh}
                     };
                     #list {autorefreshList} {find} {${tmp[$i][name]}} {j};
                     #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[refresh${tmp[$i][name]}]} && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
                     {
                          spamset refresh${tmp[$i][name]} 6;
-                         #send {${auto[refreshgroup]} ${tmp[$i][name]}}
+                         #send {${auto[refreshGroup]} ${tmp[$i][name]}}
                     }
                }
           };
@@ -889,9 +846,10 @@
      };
      #elseif {!$copying}
      {
-          #nop {The group has been disbanded or you are otherwise no longer in a group, remove leader and subleader variables.};
+          #nop {The group has been disbanded or you are otherwise no longer in a group, remove leader and subleader variables and clear group members.};
           #unvariable {leader};
-          #unvariable {subleaders}
+          #unvariable {subleaders};
+          #variable {groupMemberList} {}
      }
 }
 
@@ -931,55 +889,71 @@
      #list {autorescueList} {find} {%1} {i};
      #if {$i != 0}
      {
-          rescue ${autorescueList[$i]}
-     };
-     #list {groupMemberList} {find} {%1} {i};
-     #if {$i > 0}
-     {
-          #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[chainattack]}}
+          #if {!&{auto[rescueCommand]}}
           {
-               spamset chainattack 2;
-               #regexp {%2} {{.*} {.*}}
-               {
-                    ${character[chainAttack]} &2
-               };
-               #else
-               {
-                    ${character[chainAttack]} %2
-               }
+               #variable {auto[rescueCommand]} {rescue}
           };
-          #else
+          ${auto[rescueCommand]} ${autorescueList[$i]}
+     };
+     #else
+     {
+          #list {groupMemberList} {find} {%1} {i};
+          #if {$i > 0}
           {
-               join %1
+               #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[chainattack]}}
+               {
+                    spamset chainattack 2;
+                    #regexp {%2} {{.*} {.*}}
+                    {
+                         ${character[chainAttack]} &2
+                    };
+                    #else
+                    {
+                         ${character[chainAttack]} %2
+                    }
+               };
+               #elseif {!${spam[chainattack]}}
+               {
+                    spamset chainattack 2;
+                    join %1
+               }
           }
      };
      #list {autorescueList} {find} {%2} {i};
      #if {$i != 0}
      {
-          rescue ${autorescueList[$i]}
-     };
-     #list {groupMemberList} {find} {%2} {i};
-     #if {$i > 0}
-     {
-          #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0}
+          #if {!&{auto[rescueCommand]}}
           {
-               #regexp {%1} {{.*} {.*}}
-               {
-                    ${character[chainAttack]} &2
-               };
-               #else
-               {
-                    ${character[chainAttack]} %1
-               }
+               #variable {auto[rescueCommand]} {rescue}
           };
-          #else
+          ${auto[rescueCommand]} ${autorescueList[$i]}
+     };
+     #else
+     {
+          #list {groupMemberList} {find} {%2} {i};
+          #if {$i > 0}
           {
-               join %2
+               #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[chainattack]}}
+               {
+                    spamset chainattack 2;
+                    #regexp {%1} {{.*} {.*}}
+                    {
+                         ${character[chainAttack]} &2
+                    };
+                    #else
+                    {
+                         ${character[chainAttack]} %1
+                    }
+               };
+               #elseif {!${spam[chainattack]} && $MSDP_OPPONENT_NUMBER == 0}
+               {
+                    spamset chainattack 2;
+                    join %2
+               }
           }
      };
      #return #nop
 }
-
 
 
 #VARIABLE         {groupMemberList}  {}

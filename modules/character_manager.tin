@@ -21,7 +21,7 @@
 
 #ALIAS {^CSAVE$}
 {
-     #if {{$MSDP_CHARACTER_NAME} != {} && {$MSDP_POSITION} != {Menu} && {$MSDP_CHARACTER_NAME} != {\$MSDP_CHARACTER_NAME}}
+     #if {{$MSDP_CHARACTER_NAME} != {} && {$MSDP_CHARACTER_NAME} != {\$MSDP_CHARACTER_NAME}}
      {
           #variable {historyPath} {${HOME}/${MSDP_CHARACTER_NAME}.history};
           #replace {historyPath} {\\} {};
@@ -173,7 +173,6 @@
 {9}
 
 
-
 #EVENT {SESSION DISCONNECTED}
 {
      CSAVE
@@ -246,7 +245,6 @@
           }
      }
 }
-
 
 
 #TICKER           {csave}  {#if {{$MSDP_CHARACTER_NAME} == {$OLD_MSDP_CHARACTER_NAME}}{CSAVE}}                                          {90}
