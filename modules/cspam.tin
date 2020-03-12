@@ -1,94 +1,106 @@
 #ACTION {^< %1{>|>\s*}$}
 {
-	#if {${character[prompt]} == 1}
-	{
-		#line {gag}
-	}
+     #if {${character[prompt]} == 1}
+     {
+          #line {gag}
+     };
+     #else
+     {
+          #if {!&{splitLines}}
+          {
+               #variable {splitLines} {1}
+          };
+          #line gag;
+          #echo {{%0} {-$splitLine}}
+     }
 }
 {9}
 
 #ACTION {^A ! means the object is unusable by you currently.$}
 {
-	#if {${filter}}
-	{
-		#echo {Filters applied, to remove them type nofilter.};
-		#line {gag}
-	}
+     #if {${filter}}
+     {
+          #echo {Filters applied, to remove them type nofilter.};
+          #line {gag}
+     }
 }
 {9}
 
 #ACTION {^{~*\**\s*! .+|.+ !\s*\**~*}$}
 {
-	#if {${filter}}
-	{
-		#line {gag}
-	}
+     #if {${filter}}
+     {
+          #line {gag}
+     }
 }
 {9}
 
 #ACTION {^{~*\*\s*!* .+|.+ !*\s*\*~*}$}
 {
-	#if {${filter}}
-	{
-		#line {gag}
-	}
+     #if {${filter}}
+     {
+          #line {gag}
+     }
 }
 {9}
 
+
 #ALIAS {^noprompt$}
 {
-	#if {${character[prompt]} != 1}
-	{
-		#variable {character[prompt]} {1};
-		#echo {Your prompt vanishes...}
-	};
-	#else
-	{
-		#variable {character[prompt]} {0};
-		#echo {Your prompt returns from its long absence.}
-	};
-	CSAVE
+     #if {${character[prompt]} != 1}
+     {
+          #variable {character[prompt]} {1};
+          #echo {Your prompt vanishes...}
+     };
+     #else
+     {
+          #variable {character[prompt]} {0};
+          #echo {Your prompt returns from its long absence.}
+     };
+     CSAVE
 }
 {9}
 
 #ALIAS {^{noc|c}spam$}
 {
-	#if {{%0} == {cspam}}
-	{
-		#class {applied_spam_settings} {read} {modules/spam.rules};
-		#class {$MSDP_CHARACTER_NAME} {open};
-		#variable {cspam} {1};
-		#echo {Client side spam filters applied.}
-	};
-	#else
-	{
-		#class {applied_spam_settings} {kill};
-		#variable {cspam} {0};
-		#echo {Client side spam filters removed.}
-	};
-	CSAVE
+     #if {{%0} == {cspam}}
+     {
+          #class {applied_spam_settings} {read} {modules/spam.rules};
+          #class {$MSDP_CHARACTER_NAME} {open};
+          #variable {cspam} {1};
+          #echo {Client side spam filters applied.}
+     };
+     #else
+     {
+          #class {applied_spam_settings} {kill};
+          #variable {cspam} {0};
+          #echo {Client side spam filters removed.}
+     };
+     CSAVE
 }
 {9}
 
 #ALIAS {^{nof|f}ilter$}
 {
-	#if {{%0} == {filter}}
-	{
-		#echo {Filters enabled.};
-		#variable {filter} {1}
-	};
-	#else
-	{
-		#echo {Filters disabled.};
-		#variable {filter} {0}
-	}
+     #if {{%0} == {filter}}
+     {
+          #echo {Filters enabled.};
+          #variable {filter} {1}
+     };
+     #else
+     {
+          #echo {Filters disabled.};
+          #variable {filter} {0}
+     }
 }
 {9}
 
+
 #MACRO {\e/}
 {
-	#nop {toggle the locked state of the buffer};
-	#echo {buffer lock toggled.};
-	#buffer {lock}
+     #nop {toggle the locked state of the buffer};
+     #echo {buffer lock toggled.};
+     #buffer {lock}
 }
+
 
