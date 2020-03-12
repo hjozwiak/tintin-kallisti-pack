@@ -60,13 +60,13 @@
      {
           #script {for module in modules/*.tin ; do if [ "$module" != "modules/msdp.tin" ] ; then echo "#class {$(basename "$module" .tin)} {kill};#class {$(basename "$module" .tin)} {read} {$module}";fi;done};
           #script {script} {for module in modules/*.tin ; do echo "$(basename "$module" .tin)";done};
-          #foreach {*{script[]}} {z}
+          #foreach {${script[%*]}} {z}
           {
-               #if {&{${script[$z]}Startup}}
+               #if {&{${z}Startup}}
                {
-                    #class {${script[$z]}} {open};
-                    ${${script[$z]}Startup};
-                    #class {${script[$z]}} {close}
+                    #class {$z} {open};
+                    ${${z}Startup};
+                    #class {$z} {close}
                }
           };
           #unvariable {script};
@@ -94,7 +94,9 @@
                #class {%2} {read} {modules/%2.tin};
                #if {&{%2Startup}}
                {
-                    ${%2Startup}
+                    #class {%2} {open};
+                    ${%2Startup};
+                    #class {%2} {close}
                };
                #class {$MSDP_CHARACTER_NAME} {open}
           }
@@ -107,6 +109,14 @@
 {
      #nop {Clear the screen so that generic startup messages are not shown.};
      #system {clear};
+     #nop {Set scrollable region to all but the top line and bottom two lines.};
+     #local {cols} {};
+     #local {rows} {};
+     #screen get rows rows;
+     #screen get cols cols;
+     #math {rows} {$rows - 2};
+     #nop #screen {scroll} {2} {1} {$rows} {$cols};
+     #split {1} {1};
      #nop {Set the home directory variable.};
      #script {HOME} {if [ -z "$XDG_CONFIG_HOME" ] ; then if ! [ -d "$HOME/.config/${tintinPackName}/" ] ; then mkdir -p "$HOME/.config/${tintinPackName}";fi;echo -n "$HOME/.config/${tintinPackName}";else if ! [ -d "$XDG_CONFIG_HOME/${tintinPackName}/" ] ; then mkdir -p "$XDG_CONFIG_HOME/-${tintinPackName}/";fi;echo -n "$XDG_CONFIG_HOME/${tintinPackName}";fi};
      #variable {HOME} {${HOME[1]}};
@@ -116,30 +126,24 @@
      #nop {Load all the .tin files in the modules directory in classes named after the module name.};
      #script {for module in modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {read} {$module}";done};
      #script {script} {for module in modules/*.tin ; do echo "$(basename "$module" .tin)";done};
-     #foreach {*{script[]}} {i}
+     #foreach {${script[%*]}} {z}
      {
-          #if {&{${script[$i]}Startup}}
+          #if {&{${z}Startup}}
           {
-               #class {${script[$i]}} {open};
-               ${${script[$i]}Startup};
-               #class {${script[$i]}} {close}
+               #class {$z} {open};
+               ${${z}Startup};
+               #class {$z} {close}
           }
      };
+     #showme {@separator{}} {1};
+     #showme {@separator{}} {-2};
      #nop {Display intro message.};
      #echo {@separator{}};
      #system {fold -w $(tput cols) -s MOTD};
      #echo {@separator{}};
      #echo {To get started type login};
-     #nop {Set scrollable region to all but the top line.};
-     #local {cols} {};
-     #local {rows} {};
-     #screen get rows rows;
-     #screen get cols cols;
-     #math {cols} {$cols - 1};
-     #math {rows} {$rows - 1};
-     #nop #screen {scroll} {0} {0} {$rows} {$cols};
      #unvariable script;
-     #unvariable i
+     #unvariable z
 }
 
 #EVENT {SESSION CONNECTED}
