@@ -58,8 +58,15 @@
      #nop {reload all modules};
      #if {{%0} == {modreload all}}
      {
-          #script {for module in modules/*.tin ; do if [ "$module" != "modules/msdp.tin" ] ; then echo "#class {$(basename "$module" .tin)} {kill};#class {$(basename "$module" .tin)} {read} {$module}";fi;done};
           #script {script} {for module in modules/*.tin ; do echo "$(basename "$module" .tin)";done};
+          #foreach {${script[%*]}} {z}
+          {
+               #if {&{${z}Shutdown}}
+               {
+                    ${${z}Shutdown}
+               }
+          };
+          #script {for module in modules/*.tin ; do if [ "$module" != "modules/msdp.tin" ] ; then echo "#class {$(basename "$module" .tin)} {kill};#class {$(basename "$module" .tin)} {read} {$module}";fi;done};
           #foreach {${script[%*]}} {z}
           {
                #if {&{${z}Startup}}
@@ -84,6 +91,10 @@
                };
                #else
                {
+                    #if {&{%2Shutdown}}
+                    {
+                         ${%2Shutdown}
+                    };
                     #class {%2} {kill};
                     NOTIFY Class %2 has been killed.
                }

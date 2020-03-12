@@ -42,34 +42,48 @@
 }
 {9}
 
-#ALIAS {^bot{kill|load} %S$}
+#ALIAS {^bot{kill|load|reload} %S$}
 {
      #nop {character bot path};
      #variable {modpath} {${HOME}/${MSDP_CHARACTER_NAME}.bots};
      #replace {modpath} {\\} {};
      #nop {Kill, load, or reload a specified bot.};
-     #if {{%1} == {kill}}
+     #if {{%1} == {{kill|reload}}}
      {
-          #local {exists} {@bot_%1{}};
+          #local {tmp} {%1};
+          #replace {tmp} {reload} {kill};
+          #local {exists} {@bot_${tmp}{}};
           #variable {exists} {$exists};
           #if {{$exists} != {@%*}}
           {
                $exists
           };
+          #if {&{b_%2Shutdown}}
+          {
+               ${b_%2Shutdown}
+          };
           #class {bot_%2} {kill};
           #class {$MSDP_CHARACTER_NAME} {open};
           #showme {bot %2 has been killed.}
      };
-     #if {{%1} == {load}}
+     #if {{%1} == {{load|reload}}}
      {
           #showme {Loading bot %2.tin};
           #class {$MSDP_CHARACTER_NAME} {close};
           #class {bot_%2} {read} {$modpath/%2.tin};
-          #local {exists} {@bot_%1{}};
+          #local {tmp} {%1};
+          #replace {tmp} {reload} {load};
+          #local {exists} {@bot_${tmp}{}};
           #variable {exists} {$exists};
           #if {{$exists} != {@%*}}
           {
                $exists
+          };
+          #if {&{b_%2Startup}}
+          {
+               #class {bot_%2} {open};
+               ${b_%2Startup};
+               #class {bot_%2} {close}
           }
      };
      #unvariable {modpath}
@@ -85,8 +99,48 @@
      #nop {reload all modules};
      #if {{%0} == {cmodreload all}}
      {
-          #script {for module in $modpath/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {character_$(basename "$module" .tin)} {read} {$module}";done};
-          #script {if [ -d "$HOME/modules" ]; then for module in $HOME/modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
+          @var_save{script};
+          @var_save{z};
+          #script {script} {for module in "$modpath/"*.tin ; do echo "$(basename "$module" .tin)";done};
+          #foreach {${script[%*]}} {z}
+          {
+               #if {&{c_${z}Shutdown}}
+               {
+                    ${c_${z}Shutdown}
+               }
+          };
+          #script {for module in "$modpath/"*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {$(basename "$module" .tin)} {read} {$module}";done};
+          #foreach {${script[%*]}} {z}
+          {
+               #if {&{c_${z}Startup}}
+               {
+                    #class {character_$z} {open};
+                    ${c_${z}Startup};
+                    #class {character_$z} {close}
+               }
+          };
+          #script {script} {if [ -d "$HOME/modules/" ] ; then for module in "$HOME/modules/"*.tin ; do echo "$(basename "$module" .tin)";done;fi};
+          #foreach {${script[%*]}} {z}
+          {
+               #if {&{c_${z}Shutdown}}
+               {
+                    ${c_${z}Shutdown}
+               }
+          };
+          #script {if [ -d "$HOME/modules" ]; then for module in "$HOME/modules/"*.tin ; do echo "#class {$(basename "$module" .tin)} {kill};#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
+          #foreach {${script[%*]}} {z}
+          {
+               #if {&{c_${z}Startup}}
+               {
+                    #class {character_$z} {open};
+                    ${c_${z}Startup};
+                    #class {character_$z} {close}
+               }
+          };
+          #unvariable z;
+          #unvariable script;
+          @var_restore{script};
+          @var_restore{z};
           NOTIFY All character modules reloaded
      };
      #else
@@ -94,13 +148,23 @@
           #nop {Kill, load, or reload a specified module.};
           #if {{%1} == {{kill|reload}}}
           {
+               #if {&{c_%2Shutdown}}
+               {
+                    ${c_%2Shutdown}
+               };
                #class {character_%2} {kill};
                NOTIFY Character module %2 has been killed.
           };
           #if {{%1} == {{load|reload}}}
           {
                NOTIFY Loading character module %2.tin;
-               #script {if [ -r "$HOME/modules/%2.tin" ]; then echo "#class {character_%2} {read} {$HOME/modules/%2.tin}";elif [ -r "$modpath/%2.tin" ]; then echo "#class {character_%2} {read} {$modpath/%2.tin}";else echo "NOTIFY Character module %2.tin not found.";fi};
+               #script {if [ -r "$modpath/%2.tin" ]; then echo "#class {character_%2} {read} {$modpath/%2.tin}";elif [ -r "$HOME/modules/%2.tin" ]; then echo "#class {character_%2} {read} {$HOME/modules/%2.tin}";else echo "NOTIFY Character module %2.tin not found.";fi};
+               #if {&{c_%2Startup}}
+               {
+                    #class {character_%2} {open};
+                    ${c_%2Startup};
+                    #class {character_%2} {close}
+               };
                #class {$MSDP_CHARACTER_NAME} {open}
           }
      };
@@ -175,7 +239,11 @@
 
 #EVENT {SESSION DISCONNECTED}
 {
-     CSAVE
+     CSAVE;
+     #if {${character[mapping]}}
+     {
+          #map write $HOME/map/msdp.map
+     }
 }
 
 #EVENT {VARIABLE UPDATE MSDP_CHARACTER_NAME}
