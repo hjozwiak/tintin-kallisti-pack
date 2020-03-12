@@ -671,6 +671,18 @@
                #break
           }
      };
+     #if {!$found}
+     {
+          #format {target} {%l} {%2};
+          #foreach {*{MSDP_GROUP[]}} {i}
+          {
+               #if {{${MSDP_GROUP[$i][name]}} == {$target%*}}
+               {
+                    #variable {found} {1};
+                    #break
+               }
+          }
+     };
      #if {$found}
      {
           #switch {{%1}}
