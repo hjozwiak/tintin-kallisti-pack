@@ -27,6 +27,10 @@
           #replace {historyPath} {\\} {};
           #history {write} {$historyPath};
           #unvariable {historyPath};
+          #if {${character[mapping]}}
+          {
+               #map write $HOME/map/msdp.map
+          };
           #variable {copying} {1};
           #unvariable {MSDP_%*};
           #class {${msdpOldList[CHARACTER_NAME]}} {write} {${HOME}/${msdpOldList[CHARACTER_NAME]}};
@@ -230,6 +234,30 @@
 }
 {9}
 
+#ALIAS {^{no|}mapping$}
+{
+     #if {{%1} == {no}}
+     {
+          #if {${character[mapping]}}
+          {
+               #map write $HOME/map/msdp.map
+          };
+          #variable {character[mapping]} {0};
+          #map destroy world;
+          NOTIFY Mapping disabled.
+     };
+     #else
+     {
+          #if {!${character[mapping]}}
+          {
+               MAP_STARTUP
+          };
+          #variable {character[mapping]} {1};
+          NOTIFY Mapping enabled.
+     }
+}
+{9}
+
 #ALIAS {^{sc|sco|scor|score}$}
 {
      oldscore
@@ -239,11 +267,7 @@
 
 #EVENT {SESSION DISCONNECTED}
 {
-     CSAVE;
-     #if {${character[mapping]}}
-     {
-          #map write $HOME/map/msdp.map
-     }
+     CSAVE
 }
 
 #EVENT {VARIABLE UPDATE MSDP_CHARACTER_NAME}
@@ -258,6 +282,10 @@
                #replace {historyPath} {\\} {};
                #history {write} {$historyPath};
                #unvariable {historyPath};
+               #if {${character[mapping]}}
+               {
+                    #map write $HOME/map/msdp.map
+               };
                #variable {copying} {1};
                #unvariable {MSDP_%*};
                #class {${OLD_MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
@@ -301,6 +329,10 @@
                #class {applied_spam_settings} {read} {modules/spam.rules};
                #class {%1} {open};
                NOTIFY Client side spam filters applied.
+          };
+          #if {${character[mapping]}}
+          {
+               MAP_STARTUP
           };
           #class {%1} {open};
           @do_hook{charactername;%1}

@@ -1,0 +1,106 @@
+#ACTION {~^\e[1;35m}
+{
+     #echo {VNUM: $MSDP_ROOM_VNUM AREA: $MSDP_AREA_NAME}
+}
+{9}
+
+
+#ALIAS {mapRoom}
+{
+     #if {!&{character[mapping]}}
+     {
+          #variable {character[mapping]} {0}
+     };
+     #if {${character[mapping]}}
+     {
+          #map goto {$MSDP_ROOM_VNUM} {dig};
+          #map set roomarea $MSDP_AREA_NAME;
+          #map set roomname $MSDP_ROOM_NAME;
+          #map set roomterrain @cleanTerrain{$MSDP_ROOM_TERRAIN};
+          #map set roomcolor <178>;
+          #nop Create unmapped exits and color unexplored rooms red.;
+          #local {exit} {};
+          #foreach {*MSDP_ROOM_EXITS[]} {EXIT}
+          {
+               #local {exit_list} {};
+               #map get {roomexits} {EXIT_LIST};
+               #if {&EXIT_LIST[$EXIT] == 0}
+               {
+                    #local {exit_vnum} {};
+                    #map get {roomvnum} {EXIT_VNUM} {$MSDP_ROOM_EXITS[$EXIT]};
+                    #if {"$MSDP_ROOM_EXITS[$EXIT]" != "?"}
+                    {
+                         #map dig {@dA{$EXIT}} {$MSDP_ROOM_EXITS[$EXIT]}
+                    };
+                    #else
+                    {
+                         #if {$EXIT_VNUM == 0}
+                         {
+                              #map set {roomcolor} {<118>} {$MSDP_ROOM_EXITS[$EXIT]}
+                         }
+                    }
+               }
+          };
+          #nop -- #map map 40 40 overwrite $mapFile
+     }
+}
+
+#ALIAS {^MAP_STARTUP}
+{
+     #map create 100000;
+     #map flag nofollow;
+     #map flag vtmap on;
+     #map flag static;
+     #map flag blockgraphics on;
+     #script {if [ ! -d "$HOME/map" ] ; then mkdir "$HOME/map";fi;if [ ! -f "$HOME/map/msdp.map" ] ; then cp map/msdp.map "$HOME/map";fi};
+     #map read $HOME/map/msdp.map;
+     #map terrain {Forest} {<228>♦} DENSE WIDE;
+     #map terrain {Field} {<128>·} DENSE WIDE;
+     #map terrain {Desert} {<cca>·} DENSE NARROW
+}
+{9}
+
+
+#FUNCTION {cleanTerrain}
+{
+     #local {_tmp} {};
+     #format {_tmp} {%p} {%1};
+     #line sub var #line strip #var result $_tmp
+}
+
+#FUNCTION {dA}
+{
+     #if {"%1" == "east"}
+     {
+          #variable result e
+     };
+     #elseif {"%1" == "west"}
+     {
+          #variable result w
+     };
+     #elseif {"%1" == "north"}
+     {
+          #variable result n
+     };
+     #elseif {"%1" == "south"}
+     {
+          #variable result s
+     };
+     #elseif {"%1" == "up"}
+     {
+          #variable result u
+     };
+     #elseif {"%1" == "down"}
+     {
+          #variable result d
+     };
+     #else
+     {
+          #variable result %1
+     }
+}
+
+
+#VARIABLE         {mapEmbed}  {off}
+#VARIABLE         {mapFile}  {/tmp/kallisti-map}
+
