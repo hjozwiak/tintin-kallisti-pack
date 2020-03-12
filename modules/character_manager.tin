@@ -252,6 +252,7 @@
           {
                MAP_STARTUP
           };
+          #delay {0.05} {mapRoom};
           #variable {character[mapping]} {1};
           NOTIFY Mapping enabled.
      }
