@@ -75,6 +75,97 @@
      #return #nop
 }
 
+#FUNCTION {fold}
+{
+     @var_save{characters};
+     #variable {characters} {};
+     #list {characters} {explode} {%1};
+     @var_save{y};
+     #variable {y} {1};
+     @var_save{length};
+     #variable {length} {0};
+     @var_save{spaces};
+     #variable {spaces} {0};
+     #local {cols} {};
+     #screen get cols cols;
+     @var_save{lastSpace};
+     #variable {lastSpace} {0};
+     @var_save{x};
+     @var_save{stop};
+     #variable {stop} {0};
+     @var_save{charSize};
+     #list {characters} {size} {charSize};
+     #while {$y <= $charSize}
+     {
+          #if {$y - $length >= $cols && $spaces && $lastSpace > 0}
+          {
+               #variable {stop} {$lastSpace}
+          };
+          #elseif {$y - $length >= $cols && !$spaces && $lastSpace <= 0}
+          {
+               #nop {There wasn't a space in the last cols worth of characters, back y up 5 characters and append --};
+               #math {y} {$y - 5};
+               #variable {stop} {$y}
+          };
+          #if {$stop > 0}
+          {
+               #local {line} {};
+               #loop {$length} {$stop} {x}
+               {
+                    #variable {line} {${line}${characters[$x]}}
+               };
+               #if {$lastSpace <= 0}
+               {
+                    #variable {line} {${line}--}
+               };
+               #else
+               {
+                    #variable {y} {$lastSpace}
+               };
+               #list {script} {insert} {-1} {$line};
+               #variable {length} {$y};
+               #variable {lastSpace} {-1};
+               #variable {spaces} {0};
+               #variable {stop} {0}
+          };
+          #if {{${characters[$y]}} == { }}
+          {
+               #variable {spaces} {1};
+               #variable {lastSpace} {$y}
+          };
+          #math {y} {$y + 1}
+     };
+     #if {$length < $charSize}
+     {
+          #local {line} {};
+          #loop {$length} {$charSize} {x}
+          {
+               #variable {line} {${line}${characters[$x]}}
+          };
+          #list {script} {insert} {-1} {$line}
+     };
+     #unvariable {stop};
+     @var_restore{stop};
+     #unvariable {characters};
+     @var_restore{characters};
+     #unvariable y;
+     @var_restore{y};
+     #unvariable length;
+     @var_restore{length};
+     #unvariable {spaces};
+     @var_restore{spaces};
+     #unvariable lastSpace;
+     @var_restore{lastSpace};
+     #unvariable x;
+     @var_restore{x};
+     #unvariable charSize;
+     @var_restore{charSize};
+     #local {tmp} {$script};
+     #unvariable {script};
+     @var_restore{script};
+     #return $tmp
+}
+
 #FUNCTION {list_rand}
 {
      #math {result} {1d@list_size{%1}}

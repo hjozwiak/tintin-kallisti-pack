@@ -222,7 +222,7 @@
                };
                #local {rowsNeeded} {1};
                @var_save{script};
-               #line substitute escapes #script {script} {echo "%1" | fold -s -w $(tput cols)};
+               #variable {script} {@fold{%1}};
                #list {script} {size} {rowsNeeded};
                #local {rows} {};
                #screen get rows rows;
@@ -238,22 +238,26 @@
                     NOTIFY Error: notification too long -- $rowsNeeded rows.;
                     #return
                };
-               #local {i} {};
-               #foreach {*{script[]}} {i}
+               @var_save{z};
+               #variable {z} {0};
+               #foreach {*{script[]}} {z}
                {
-                    #line substitute escapes #echo {{${script[$i]}} {$i}}
+                    #echo {{${script[$z]}} {$z}}
                };
-               #if {$i < $currentSplitRows}
+               #if {$z < $currentSplitRows}
                {
-                    #local {counter} {};
-                    #math {counter} {$i + 1};
+                    @var_save{counter};
+                    #math {counter} {$z + 1};
                     #loop {$counter} {$currentSplitRows} {counter}
                     {
                          #showme {@separator{}} {$counter}
-                    }
+                    };
+                    #unvariable counter;
+                    @var_restore{counter}
                };
-               #nop #echo {{%1} {1}};
-               #nop #draw {tile} {1} {1} {1} {-1} {%1}#unvar {script};
+               #unvariable z;
+               @var_restore{z};
+               #unvariable script;
                @var_restore{script}
           }
      }
