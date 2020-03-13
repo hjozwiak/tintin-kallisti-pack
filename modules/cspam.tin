@@ -8,7 +8,8 @@
      {
           #if {!&{splitLines}}
           {
-               #variable {splitLines} {1}#split {$currentSplitRows} {$splitLines}
+               #variable {splitLines} {1};
+               #split {$currentSplitRows} {$splitLines}
           };
           #line gag;
           #local {row} {};

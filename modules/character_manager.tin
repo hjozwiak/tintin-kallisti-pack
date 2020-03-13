@@ -283,11 +283,6 @@
                #replace {historyPath} {\\} {};
                #history {write} {$historyPath};
                #unvariable {historyPath};
-               #if {${character[mapping]}}
-               {
-                    #map write $HOME/map/msdp.map;
-                    #map destroy world
-               };
                #variable {copying} {1};
                #unvariable {MSDP_%*};
                #class {${OLD_MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
@@ -297,14 +292,38 @@
                {
                     #variable {MSDP_$i} {${msdpOldList[$i]}}
                };
-               #variable {copying} {0};
-               #nop {unload any old character classes};
-               #variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.modules};
-               #replace {modpath} {\\} {};
-               #script {for module in $(find "$modpath" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {kill}";done;for module in $(find "$HOME/modules" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {kill}";done}
+               #variable {copying} {0}
           };
+          #if {${character[mapping]}}
+          {
+               #map write $HOME/map/msdp.map;
+               #map destroy world
+          };
+          #nop {unload any old character classes};
+          #variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.modules};
+          #replace {modpath} {\\} {};
+          @var_save{script};
+          @var_save{z};
+          #script {script} {if [ ! -d "$modpath" ] ; then mkdir "$modpath" ; fi ; for module in $(find "$modpath/" -maxdepth 1 -iname "*.tin"); do echo "$(basename "$module" .tin)";done};
+          #foreach {${script[%*]}} {z}
+          {
+               #if {&{c_${z}Shutdown}}
+               {
+                    ${c_${z}Shutdown}
+               }
+          };
+          #script {for module in $(find "$modpath/" -maxdepth 1 -iname "*.tin"); do echo "#class {$(basename "$module" .tin)} {kill}";done};
+          #script {script} {if [ ! -d "$HOME/modules/" ] ; then mkdir "$HOME/modules/" ; cp modules/config.txt "$HOME/modules/config.tin" ; fi ; for module in $(find "$HOME/modules/" -maxdepth 1 -iname "*.tin"); do echo "$(basename "$module" .tin)";done};
+          #foreach {${script[%*]}} {z}
+          {
+               #if {&{c_${z}Shutdown}}
+               {
+                    ${c_${z}Shutdown}
+               }
+          };
+          #script {for module in $(find "$HOME/modules/" -maxdepth 1 -iname "*.tin") ; do echo "#class {$(basename "$module" .tin)} {kill}";done};
           #nop {Make sure the character file exists so there's no error on read.};
-          #system {if ! [ -f "$HOME/%1" ] && [ "%1" != "" ] ; then echo "#nop" > "$HOME/%1" ; fi ; if ! [ -d "$HOME/%1.modules" ] && [ "%1" != "" ] ; then mkdir "$HOME/%1.modules" ; fi ; if ! [ -d "$HOME/modules" ] ; then mkdir "$HOME/modules" ; cp modules/config.txt "$HOME/modules" ; fi};
+          #system {if ! [ -f "$HOME/%1" ] && [ "%1" != "" ] ; then echo "#nop" > "$HOME/%1" ; fi};
           #variable {OLD_MSDP_CHARACTER_NAME} {%1};
           #history {read} {${HOME}/%1.history};
           #nop {clear out old sound settings};
@@ -326,9 +345,28 @@
                #class {%1} {close}
           };
           #nop {Load common personal modules.};
-          #script {if [ -d "$HOME/modules" ]; then for module in $(find "$HOME/modules" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
+          #script {script} {if [ ! -d "$HOME/modules/" ] ; then mkdir "$HOME/modules/" ; cp modules/config.txt "$HOME/modules/config.tin" ; fi ; for module in $(find "$HOME/modules/" -maxdepth 1 -iname "*.tin") ; do echo "$(basename "$module" .tin)";done};
+          #script {for module in $(find "$HOME/modules" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done};
+          #foreach {${script[%*]}} {z}
+          {
+               #if {&{c_${z}Startup}}
+               {
+                    #class {character_$z} {open};
+                    ${c_${z}Startup};
+                    #class {character_$z} {close}
+               }
+          };
           #nop {Load personal modules.};
-          #script {if [ -d "$HOME/%1.modules" ]; then for module in $(find "$HOME/%1.modules" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done;fi};
+          #script {if [ ! -d "$HOME/%1.modules" ]; then mkdir "$HOME/%1.modules/" ; fi ; for module in $(find "$HOME/%1.modules" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done};
+          #foreach {${script[%*]}} {z}
+          {
+               #if {&{c_${z}Startup}}
+               {
+                    #class {character_$z} {open};
+                    ${c_${z}Startup};
+                    #class {character_$z} {close}
+               }
+          };
           #if {${cspam}}
           {
                #class {%1} {close};
@@ -345,6 +383,10 @@
                     look
                }
           };
+          #unvariable z;
+          #unvariable script;
+          @var_restore{script};
+          @var_restore{z};
           #class {%1} {open};
           @do_hook{charactername;%1}
      }
@@ -370,6 +412,7 @@
 #TICKER           {csave}  {#if {{$MSDP_CHARACTER_NAME} == {$OLD_MSDP_CHARACTER_NAME}}{CSAVE}}                                          {90}
 
 #VARIABLE         {OLD_MSDP}  {}
+#VARIABLE         {OLD_MSDP_CHARACTER_NAME}     {}
 #VARIABLE         {checkingRanged}  {0}
 #VARIABLE         {copying}  {0}
 
