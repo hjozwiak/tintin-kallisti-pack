@@ -1,16 +1,3 @@
-#ACTION {^%S{[^[]+}{(?:\[[^]]+\] )?}[{[^]]+}]$}
-{
-     #regexp {%3} {%*Bank%*}
-     {
-          #if {${auto[deposit]} && $MSDP_GOLD > 0} {deposit all}
-     };
-     #if {$mappable}
-     {
-          mapRoom
-     }
-}
-{9}
-
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
      #unvariable {auto[track]};
@@ -25,6 +12,19 @@
                #variable {auto[pick]} {%1 %2}
           };
           pick ${auto[pick]}
+     }
+}
+{9}
+
+#ACTION {^%S{[^[]+}{(?:\[[^]]+\] )?}[{[^]]+}]$}
+{
+     #regexp {%3} {%*Bank%*}
+     {
+          #if {${auto[deposit]} && $MSDP_GOLD > 0} {deposit all}
+     };
+     #if {$mappable}
+     {
+          mapRoom
      }
 }
 {9}
@@ -856,6 +856,16 @@
           #unvariable {oldAffectsKeys};
           #unvariable {tmpKeys};
           #unvariable {mappingKeys}
+     }
+}
+
+#EVENT {VARIABLE UPDATE MSDP_HERO_POINTS}
+{
+     #if {{%1} != {} && !$copying}
+     {
+          #nop {Hook name: heroPoints};
+          #nop {Hook args: %1 current hero points %2 OLD hero points.};
+          @do_hook{heroPoints;%1;$MSDP_HERO_POINTS}
      }
 }
 
