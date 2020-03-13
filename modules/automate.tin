@@ -1,11 +1,15 @@
 #ACTION {^%S{[^[]+}{(?:\[[^]]+\] )?}[{[^]]+}]$}
 {
+     #regexp {%3} {%*Bank%*}
+     {
+          #if {${auto[deposit]} && $MSDP_GOLD > 0} {deposit all}
+     };
      #if {$mappable}
      {
           mapRoom
      }
 }
-{8}
+{9}
 
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
@@ -21,22 +25,6 @@
                #variable {auto[pick]} {%1 %2}
           };
           pick ${auto[pick]}
-     }
-}
-{9}
-
-#ACTION {^%S%2[{[^B]+}Bank{[^]]+}] [{[^]]+}]$}
-{
-     #if {${auto[deposit]}}
-     {
-          #if {$MSDP_GOLD > 0}
-          {
-               deposit all
-          }
-     };
-     #if {$mappable}
-     {
-          mapRoom
      }
 }
 {9}
