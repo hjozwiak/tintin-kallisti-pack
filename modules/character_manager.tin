@@ -338,8 +338,12 @@
           };
           #if {${character[mapping]}}
           {
+               #variable {mappable} {1};
                MAP_STARTUP;
-               #delay {0.05} {mapRoom}
+               #if {{$MSDP_POSITION} != {Menu}}
+               {
+                    look
+               }
           };
           #class {%1} {open};
           @do_hook{charactername;%1}

@@ -7,11 +7,12 @@
 
 #ALIAS {mapRoom}
 {
+     #variable {mappable} {0};
      #if {!&{character[mapping]}}
      {
           #variable {character[mapping]} {0}
      };
-     #if {${character[mapping]}}
+     #if {${character[mapping]} && $MSDP_ROOM_VNUM != 0}
      {
           #map goto {$MSDP_ROOM_VNUM} {dig};
           #map set roomarea $MSDP_AREA_NAME;
@@ -19,29 +20,31 @@
           #map set roomterrain @cleanTerrain{$MSDP_ROOM_TERRAIN};
           #map set roomcolor <178>;
           #nop Create unmapped exits and color unexplored rooms red.;
-          #local {exit} {};
+          #local {EXIT} {};
+          #local {EXIT_LIST} {};
+          #map get {roomexits} {EXIT_LIST};
           #foreach {*MSDP_ROOM_EXITS[]} {EXIT}
           {
-               #local {exit_list} {};
-               #map get {roomexits} {EXIT_LIST};
-               #if {&EXIT_LIST[$EXIT] == 0}
+               #if {{$MSDP_ROOM_EXITS[$EXIT]} != {{\?|C|}} && ({${EXIT_LIST[@dA{$EXIT}]}} != {${MSDP_ROOM_EXITS[$EXIT]}} || !&{EXIT_LIST[@dA{$EXIT}]})}
                {
-                    #local {exit_vnum} {};
-                    #map get {roomvnum} {EXIT_VNUM} {$MSDP_ROOM_EXITS[$EXIT]};
-                    #if {"$MSDP_ROOM_EXITS[$EXIT]" != "?"}
+                    #map dig {@dA{$EXIT}} {$MSDP_ROOM_EXITS[$EXIT]};
+                    #nop #map link {@dA{$EXIT}} {$MSDP_ROOM_EXITS[$EXIT]} {both};
+                    #local {EXIT_NAME} {};
+                    #map get {roomname} {EXIT_NAME} {$MSDP_ROOM_EXITS[$EXIT]};
+                    #if {{$EXIT_NAME} == {}}
                     {
-                         #map dig {@dA{$EXIT}} {$MSDP_ROOM_EXITS[$EXIT]}
-                    };
-                    #else
-                    {
-                         #if {$EXIT_VNUM == 0}
-                         {
-                              #map set {roomcolor} {<118>} {$MSDP_ROOM_EXITS[$EXIT]}
-                         }
+                         #map set {roomcolor} {<118>} {$MSDP_ROOM_EXITS[$EXIT]}
                     }
                }
           };
-          #nop -- #map map 40 40 overwrite $mapFile
+          #map get {roomexits} {EXIT_LIST};
+          #foreach {*{EXIT_LIST[]}} {EXIT}
+          {
+               #if {!&{MSDP_ROOM_EXITS[@aD{$EXIT}]} || {${MSDP_ROOM_EXITS[@aD{$EXIT}]}} == {{\?|C|}}}
+               {
+                    #map unlink @dA{$EXIT}
+               }
+          }
      }
 }
 
@@ -60,6 +63,38 @@
 }
 {9}
 
+
+#FUNCTION {aD}
+{
+     #if {"%1" == "e"}
+     {
+          #variable result east
+     };
+     #elseif {"%1" == "w"}
+     {
+          #variable result west
+     };
+     #elseif {"%1" == "n"}
+     {
+          #variable result north
+     };
+     #elseif {"%1" == "s"}
+     {
+          #variable result south
+     };
+     #elseif {"%1" == "u"}
+     {
+          #variable result up
+     };
+     #elseif {"%1" == "d"}
+     {
+          #variable result down
+     };
+     #else
+     {
+          #variable result %1
+     }
+}
 
 #FUNCTION {cleanTerrain}
 {
@@ -103,4 +138,5 @@
 
 #VARIABLE         {mapEmbed}  {off}
 #VARIABLE         {mapFile}  {/tmp/kallisti-map}
+#VARIABLE         {mappable}  {0}
 

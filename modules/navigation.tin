@@ -26,6 +26,10 @@
      #nop {Hook name: closed.};
      #nop {Hook args: %1 name of door %2 direction.};
      #line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i;@do_hook{closed;&2;$i}} {open %1 $i;@do_hook{closed;%1;$i}};
+     #if {${character[mapping]}}
+     {
+          #line substitute variables #regexp {%1} {{.*} {.*}} {#map exit {@dA{$i}} {open &2 $i;$i}} {#map exit {@dA{$i}} {open %1 $i;$i}}
+     };
      #if {{${auto[track]}} != {}}
      {
           look
@@ -120,7 +124,8 @@
                          SYNTH_PLAY door${j}
                     }
                }
-          }
+          };
+          @do_hook{exitsVariable;%1}
      }
 }
 
@@ -134,6 +139,16 @@
      }
 }
 
+#EVENT {VARIABLE UPDATE MSDP_ROOM_TERRAIN}
+{
+     #nop {Hook name: roomTerrain};
+     #nop {Hook args: %1 terrains};
+     #if {{%1} != {} && !${copying}}
+     {
+          @do_hook{roomTerrain;%1}
+     }
+}
+
 #EVENT {VARIABLE UPDATE MSDP_ROOM_VNUM}
 {
      #if {{%1} != {} && !$copying}
@@ -141,10 +156,7 @@
           #nop {Hook name: roomNumber};
           #nop {Hook args: the rooms vnum.};
           #variable {fleeString} {};
-          #if {${character[mapping]}}
-          {
-               #delay {0.05} {mapRoom}
-          };
+          #variable {mappable} {1};
           @do_hook{roomNumber;%1}
      }
 }

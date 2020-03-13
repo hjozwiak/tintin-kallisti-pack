@@ -1,3 +1,12 @@
+#ACTION {^%S{[^[]+}{(?:\[[^]]+\] )?}[{[^]]+}]$}
+{
+     #if {$mappable}
+     {
+          mapRoom
+     }
+}
+{8}
+
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
      #unvariable {auto[track]};
@@ -16,7 +25,7 @@
 }
 {9}
 
-#ACTION {^%S%2[ %3Bank %4]$}
+#ACTION {^%S%2[{[^B]+}Bank{[^]]+}] [{[^]]+}]$}
 {
      #if {${auto[deposit]}}
      {
@@ -24,6 +33,10 @@
           {
                deposit all
           }
+     };
+     #if {$mappable}
+     {
+          mapRoom
      }
 }
 {9}
@@ -356,13 +369,6 @@
 {9}
 
 
-#ALIAS {^{wer|were|werew|werewo|werewol|werewolf}$}
-{
-     #variable {manualWerewolf} {1};
-     #send {werewolf}
-}
-{9}
-
 #ALIAS {^autoheal%s {me|self} %3 %d$}
 {
      #variable {autoHealSelf} {@strip_braces{%3}};
@@ -633,6 +639,13 @@
 }
 {9}
 
+#ALIAS {^{wer|were|werew|werewo|werewol|werewolf}$}
+{
+     #variable {manualWerewolf} {1};
+     #send {werewolf}
+}
+{9}
+
 #ALIAS {^{~|/} %1}
 {
      #echo {You are now using %1 to recall out of combat.};
@@ -746,10 +759,10 @@
                     };
                     #switch {{$i}}
                     {
-                              #case {{focus}}
-                              {
-                                   focus ${auto[focus]}
-                              };
+                         #case {{focus}}
+                         {
+                              focus ${auto[focus]}
+                         };
                          #case {{warpaint}}
                          {
                               warpaint ${auto[warpaint]}
