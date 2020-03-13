@@ -26,10 +26,6 @@
      #nop {Hook name: closed.};
      #nop {Hook args: %1 name of door %2 direction.};
      #line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i;@do_hook{closed;&2;$i}} {open %1 $i;@do_hook{closed;%1;$i}};
-     #if {${character[mapping]}}
-     {
-          #line substitute variables #regexp {%1} {{.*} {.*}} {#map exit {@dA{$i}} {open &2 $i;$i}} {#map exit {@dA{$i}} {open %1 $i;$i}}
-     };
      #if {{${auto[track]}} != {}}
      {
           look
@@ -76,6 +72,22 @@
      #if {{${auto[track]}} != {}}
      {
           look
+     }
+}
+{9}
+
+#ACTION {^You open the %* {to the .+|above|below}.$}
+{
+     #if {${character[mapping]}}
+     {
+          @var_save{i};
+          #variable {i} {%2};
+          #replace {i} {below} {down};
+          #replace {i} {above} {up};
+          #replace {i} {to the } {};
+          #line substitute variables #regexp {%1} {{.+} {.+}}{#map exit {@dA{$i}} {command} {open &2 $i;$i}};
+          #line substitute variables #else {#map exit {@dA{$i}} {command} {open %2 $i;$i}};
+          #unvariable {i}@var_restore{i}
      }
 }
 {9}

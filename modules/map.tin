@@ -40,7 +40,7 @@
           #map get {roomexits} {EXIT_LIST};
           #foreach {*{EXIT_LIST[]}} {EXIT}
           {
-               #if {!&{MSDP_ROOM_EXITS[@aD{$EXIT}]} || {${MSDP_ROOM_EXITS[@aD{$EXIT}]}} == {{\?|C|}}}
+               #if {!&{MSDP_ROOM_EXITS[@aD{$EXIT}]}}
                {
                     #map unlink @dA{$EXIT}
                }
