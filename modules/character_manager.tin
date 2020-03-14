@@ -39,11 +39,13 @@
           #unvariable {MSDP_%*};
           #class {${msdpOldList[CHARACTER_NAME]}} {write} {${HOME}/${msdpOldList[CHARACTER_NAME]}};
           #class {${msdpOldList[CHARACTER_NAME]}} {close};
+          #class {msdp} {open};
           #local {i} {};
           #foreach {*{msdpOldList[]}} {i}
           {
                #variable {MSDP_$i} {${msdpOldList[$i]}}
           };
+          #class {msdp} {close};
           #variable {copying} {0};
           #class {${MSDP_CHARACTER_NAME}} {open}
      }
@@ -145,8 +147,6 @@
                     #class {character_$z} {close}
                }
           };
-          #unvariable z;
-          #unvariable script;
           @var_restore{script};
           @var_restore{z};
           NOTIFY All character modules reloaded
@@ -281,7 +281,9 @@
      {
           #nop {Hook name: characterName};
           #nop {Hook args: character name.};
-          #if {{${OLD_MSDP_CHARACTER_NAME}} != {} && {$OLD_MSDP_CHARACTER_NAME} != {%1}}
+          @var_save{script};
+          @var_save{z};
+          #if {{${OLD_MSDP_CHARACTER_NAME}} != {NONE} && {$OLD_MSDP_CHARACTER_NAME} != {%1}}
           {
                #variable {historyPath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.history};
                #replace {historyPath} {\\} {};
@@ -291,50 +293,50 @@
                #unvariable {MSDP_%*};
                #class {${OLD_MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
                #class {${OLD_MSDP_CHARACTER_NAME}} {kill};
+               #class {msdp} {open};
                #local {i} {};
                #foreach {*{msdpOldList[]}} {i}
                {
                     #variable {MSDP_$i} {${msdpOldList[$i]}}
                };
+               #class {msdp} {close};
                #variable {copying} {0};
                #variable {oldAffects} {};
                #variable {rangedCombat} {0};
                #variable {autoQueue} {};
                #variable {lastDequeue} {};
-               #variable {lastDequeueTimestamp} {2147483647}
-          };
-          #if {${cspam}}
-          {
-               #class {applied_spam_settings} {kill}
-          };
-          #if {${character[mapping]}}
-          {
-               #map write $HOME/map/msdp.map;
-               #map destroy world
-          };
-          #nop {unload any old character classes};
-          #variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.modules};
-          #replace {modpath} {\\} {};
-          @var_save{script};
-          @var_save{z};
-          #script {script} {if [ ! -d "$modpath" ] ; then mkdir "$modpath" ; fi ; for module in $(find "$modpath/" -maxdepth 1 -iname "*.tin"); do echo "$(basename "$module" .tin)";done};
-          #foreach {${script[%*]}} {z}
-          {
-               #if {&{c_${z}Shutdown}}
+               #variable {lastDequeueTimestamp} {2147483647};
+               #if {${cspam}}
                {
-                    ${c_${z}Shutdown}
-               }
-          };
-          #script {for module in $(find "$modpath/" -maxdepth 1 -iname "*.tin"); do echo "#class {$(basename "$module" .tin)} {kill}";done};
-          #script {script} {if [ ! -d "$HOME/modules/" ] ; then mkdir "$HOME/modules/" ; cp modules/config.txt "$HOME/modules/config.tin" ; fi ; for module in $(find "$HOME/modules/" -maxdepth 1 -iname "*.tin"); do echo "$(basename "$module" .tin)";done};
-          #foreach {${script[%*]}} {z}
-          {
-               #if {&{c_${z}Shutdown}}
+                    #class {applied_spam_settings} {kill}
+               };
+               #if {${character[mapping]}}
                {
-                    ${c_${z}Shutdown}
-               }
+                    #map write $HOME/map/msdp.map;
+                    #map destroy world
+               };
+               #nop {unload any old character classes};
+               #variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.modules};
+               #replace {modpath} {\\} {};
+               #script {script} {if [ ! -d "$modpath" ] ; then mkdir "$modpath" ; fi ; for module in $(find "$modpath/" -maxdepth 1 -iname "*.tin"); do echo "$(basename "$module" .tin)";done};
+               #foreach {${script[%*]}} {z}
+               {
+                    #if {&{c_${z}Shutdown}}
+                    {
+                         ${c_${z}Shutdown}
+                    }
+               };
+               #script {for module in $(find "$modpath/" -maxdepth 1 -iname "*.tin"); do echo "#class {character_$(basename "$module" .tin)} {kill}";done};
+               #script {script} {if [ ! -d "$HOME/modules/" ] ; then mkdir "$HOME/modules/" ; cp modules/config.txt "$HOME/modules/config.tin" ; fi ; for module in $(find "$HOME/modules/" -maxdepth 1 -iname "*.tin"); do echo "$(basename "$module" .tin)";done};
+               #foreach {${script[%*]}} {z}
+               {
+                    #if {&{c_${z}Shutdown}}
+                    {
+                         ${c_${z}Shutdown}
+                    }
+               };
+               #script {for module in $(find "$HOME/modules/" -maxdepth 1 -iname "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {kill}";done}
           };
-          #script {for module in $(find "$HOME/modules/" -maxdepth 1 -iname "*.tin") ; do echo "#class {$(basename "$module" .tin)} {kill}";done};
           #nop {Make sure the character file exists so there's no error on read.};
           #system {if ! [ -f "$HOME/%1" ] && [ "%1" != "" ] ; then echo "#nop" > "$HOME/%1" ; fi};
           #variable {OLD_MSDP_CHARACTER_NAME} {%1};
@@ -371,6 +373,7 @@
           };
           #nop {Load personal modules.};
           #script {if [ ! -d "$HOME/%1.modules" ]; then mkdir "$HOME/%1.modules/" ; fi ; for module in $(find "$HOME/%1.modules" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done};
+          #script {script} {for module in $(find "$HOME/modules/" -maxdepth 1 -iname "*.tin") ; do echo "$(basename "$module" .tin)";done};
           #foreach {${script[%*]}} {z}
           {
                #if {&{c_${z}Startup}}
@@ -395,8 +398,6 @@
                     look
                }
           };
-          #unvariable z;
-          #unvariable script;
           @var_restore{script};
           @var_restore{z};
           #class {%1} {open};
@@ -424,6 +425,7 @@
 #TICKER           {csave}  {#if {{$MSDP_CHARACTER_NAME} == {$OLD_MSDP_CHARACTER_NAME}}{CSAVE}}                                          {90}
 
 #VARIABLE         {OLD_MSDP}  {}
+#VARIABLE         {OLD_MSDP_CHARACTER_NAME}     {NONE}
 #VARIABLE         {checkingRanged}  {0}
 #VARIABLE         {copying}  {0}
 

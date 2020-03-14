@@ -233,7 +233,6 @@
                };
                #elseif {$rowsNeeded > $rows / 8}
                {
-                    #unvariable {script};
                     @var_restore{script};
                     NOTIFY Error: notification too long -- $rowsNeeded rows.;
                     #return
@@ -252,12 +251,9 @@
                     {
                          #showme {@separator{}} {$counter}
                     };
-                    #unvariable counter;
                     @var_restore{counter}
                };
-               #unvariable z;
                @var_restore{z};
-               #unvariable script;
                @var_restore{script}
           }
      }

@@ -87,7 +87,7 @@
           #replace {i} {to the } {};
           #line substitute variables #regexp {%1} {{.+} {.+}}{#map exit {@dA{$i}} {command} {open &2 $i;$i}};
           #line substitute variables #else {#map exit {@dA{$i}} {command} {open %2 $i;$i}};
-          #unvariable {i}@var_restore{i}
+          @var_restore{i}
      }
 }
 {9}
