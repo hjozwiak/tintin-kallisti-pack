@@ -88,16 +88,15 @@
           {
                #if {{%1} == {{kill|reload}}}
                {
+NOTIFY Killing class %2;
                     #if {&{%2Shutdown}}
                     {
                          ${%2Shutdown}
                     };
-                    #class {%2} {kill};
-                    NOTIFY Class %2 has been killed.
+                    #class {%2} {kill}
                };
                #if {{%1} == {{load|reload}}}
                {
-                    NOTIFY Loading modules/%2.tin.;
                     #class {%2} {read} {modules/%2.tin};
                     #if {&{%2Startup}}
                     {
@@ -105,7 +104,8 @@
                          ${%2Startup};
                          #class {%2} {close}
                     };
-                    #class {$MSDP_CHARACTER_NAME} {open}
+                    #class {$MSDP_CHARACTER_NAME} {open};
+NOTIFY Loaded class %2
                }
           };
           #else

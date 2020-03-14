@@ -78,8 +78,6 @@
 #FUNCTION {fold}
 {
      @var_save{script};
-     #nop {Not sure why var_save is not working, for now just clear it manually.};
-     #variable {script} {};
      @var_save{characters};
      #list {characters} {explode} {%1};
      @var_save{y};
@@ -264,7 +262,7 @@
 
 #FUNCTION {var_save}
 {
-     #if {&{%1]}}
+     #if {&{%1}}
      {
           #variable {varList[%1]} {${%1}};
           #variable {%1} {}
@@ -272,4 +270,6 @@
      #return #nop
 }
 
+
+#VARIABLE         {varList}  {}
 
