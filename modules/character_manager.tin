@@ -389,7 +389,7 @@
           #if {${cspam}}
           {
                #class {applied_spam_settings} {read} {modules/spam.rules};
-               #class {$MSDP_CHARACTER_NAME} {open};
+               #class {%1} {open};
                NOTIFY Client side spam filters applied.
           };
           #if {${character[mapping]}}
@@ -430,7 +430,6 @@
 #TICKER           {csave}  {#if {{$MSDP_CHARACTER_NAME} == {$OLD_MSDP_CHARACTER_NAME}}{CSAVE}}                                          {90}
 
 #VARIABLE         {OLD_MSDP}  {}
-#VARIABLE         {OLD_MSDP_CHARACTER_NAME}     {}
 #VARIABLE         {checkingRanged}  {0}
 #VARIABLE         {copying}  {0}
 
