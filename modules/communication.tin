@@ -221,9 +221,9 @@
                     #variable {splitLines} {1}
                };
                #local {rowsNeeded} {1};
-               @var_save{script};
-               #variable {script} {@fold{%1}};
-               #list {script} {size} {rowsNeeded};
+               @var_save{lines};
+               #variable {lines} {@fold{%1}};
+               #list {lines} {size} {rowsNeeded};
                #local {rows} {};
                #screen get rows rows;
                #if {$rowsNeeded > $currentSplitRows && $rowsNeeded <= $rows / 8}
@@ -233,15 +233,15 @@
                };
                #elseif {$rowsNeeded > $rows / 8}
                {
-                    @var_restore{script};
+                    @var_restore{lines};
                     NOTIFY Error: notification too long -- $rowsNeeded rows.;
                     #return
                };
                @var_save{z};
                #variable {z} {0};
-               #foreach {*{script[]}} {z}
+               #foreach {*{lines[]}} {z}
                {
-                    #line ignore #showme {${script[$z]}} {$z}
+                    #line ignore #showme {${lines[$z]}} {$z}
                };
                #if {$z < $currentSplitRows}
                {
@@ -254,7 +254,7 @@
                     @var_restore{counter}
                };
                @var_restore{z};
-               @var_restore{script}
+               @var_restore{lines}
           }
      }
 }

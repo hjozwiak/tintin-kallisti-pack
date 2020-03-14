@@ -78,6 +78,8 @@
 #FUNCTION {fold}
 {
      @var_save{script};
+     #nop {Not sure why var_save is not working, for now just clear it manually.};
+     #variable {script} {};
      @var_save{characters};
      #list {characters} {explode} {%1};
      @var_save{y};
