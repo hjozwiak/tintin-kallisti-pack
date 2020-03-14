@@ -22,17 +22,6 @@
 }
 {9}
 
-#ACTION {^You will not try to fight from ranged combat distance.  You will still need to ADVANCE on opponents who are attempting to use ranged combat in order to hit them.$}
-{
-     #variable {rangedCombat} {0};
-     #if {$checkingRanged}
-     {
-          #line gag;
-          ranged
-     }
-}
-{9}
-
 
 #ALIAS {^CSAVE$}
 {
