@@ -208,7 +208,7 @@
      {
           #case {{inline}}
           {
-               #echo {%s} {%1}
+               #line ignore #showme {%1}
           };
           #case {{notify-send}}
           {
@@ -242,7 +242,7 @@
                #variable {z} {0};
                #foreach {*{script[]}} {z}
                {
-                    #echo {{${script[$z]}} {$z}}
+                    #line ignore #showme {${script[$z]}} {$z}
                };
                #if {$z < $currentSplitRows}
                {

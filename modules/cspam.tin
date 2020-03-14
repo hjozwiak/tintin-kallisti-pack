@@ -71,13 +71,13 @@
           #class {applied_spam_settings} {read} {modules/spam.rules};
           #class {$MSDP_CHARACTER_NAME} {open};
           #variable {cspam} {1};
-          #echo {Client side spam filters applied.}
+          NOTIFY Client side spam filters applied.
      };
      #else
      {
           #class {applied_spam_settings} {kill};
           #variable {cspam} {0};
-          #echo {Client side spam filters removed.}
+          NOTIFY Client side spam filters removed.
      };
      CSAVE
 }

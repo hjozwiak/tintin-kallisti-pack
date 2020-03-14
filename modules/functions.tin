@@ -77,6 +77,8 @@
 
 #FUNCTION {fold}
 {
+     @var_save{script};
+     #variable {script} {};
      @var_save{characters};
      #variable {characters} {};
      #list {characters} {explode} {%1};

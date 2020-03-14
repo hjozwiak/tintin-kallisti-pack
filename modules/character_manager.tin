@@ -1,3 +1,18 @@
+#ACTION {^ %s*** PRESS ENTER ***$}
+{
+        #nop {Insert the enter command because repeat enter is on by default};
+        #history {insert} {#cr}
+}
+{9}
+
+#ACTION {^ %s--> Press <ENTER> to continue scrolling text, Q to quit (PAGES LEFT: 1) <--$}
+{
+        #nop {Insert the enter command because repeat enter is on by default};
+        #history {insert} {#cr}
+}
+{9}
+ 
+
 #ACTION {%*(PAGES LEFT: %d):$}
 {
      #if {{$MSDP_POSITION} == {Menu}}
@@ -199,9 +214,9 @@
 #ALIAS {^whoami$}
 {
      #echo {You are $MSDP_CHARACTER_NAME, the level $MSDP_LEVEL $MSDP_CLASS ($MSDP_RACE).};
-     #if {&{character.lastDeath}}
+     #if {&{character[lastDeath]}}
      {
-          #echo {${character.lastDeath}}
+          #echo {${character[lastDeath]}}
      }
 }
 {9}
@@ -212,12 +227,12 @@
      {
           #case {{audioprompt}}
           {
-               #variable {character{audioprompt}} {1};
+               #variable {character[audioprompt]} {1};
                NOTIFY Audio prompt enabled.
           };
           #case {{beeps}}
           {
-               #variable {character{beeps}} {1};
+               #variable {character[beeps]} {1};
                NOTIFY Opponent condition beeps enabled.
           };
           #case {{noaudioprompt}}
@@ -294,6 +309,10 @@
                };
                #variable {copying} {0}
           };
+          #if {${cspam}}
+          {
+               #class {applied_spam_settings} {kill}
+          };
           #if {${character[mapping]}}
           {
                #map write $HOME/map/msdp.map;
@@ -369,9 +388,8 @@
           };
           #if {${cspam}}
           {
-               #class {%1} {close};
                #class {applied_spam_settings} {read} {modules/spam.rules};
-               #class {%1} {open};
+               #class {$MSDP_CHARACTER_NAME} {open};
                NOTIFY Client side spam filters applied.
           };
           #if {${character[mapping]}}

@@ -78,18 +78,15 @@
           };
           #unvariable {script};
           #unvariable {z};
-          NOTIFY All modules except msdp reloaded.
+          NOTIFY All modules except msdp reloaded.;
+          NOTIFY To reload MSDP you must close and reopen tintin.
      };
      #else
      {
           #nop {Kill, load, or reload a specified module.};
-          #if {{%1} == {{kill|reload}}}
+          #if {{%2} != {msdp}}
           {
-               #if {{%2} == {msdp}}
-               {
-                    NOTIFY Cowardly refusing to kill the msdp module. If you really want to do this, do it manually or close your client and restart.
-               };
-               #else
+               #if {{%1} == {{kill|reload}}}
                {
                     #if {&{%2Shutdown}}
                     {
@@ -97,19 +94,23 @@
                     };
                     #class {%2} {kill};
                     NOTIFY Class %2 has been killed.
+               };
+               #if {{%1} == {{load|reload}}}
+               {
+                    NOTIFY Loading modules/%2.tin.;
+                    #class {%2} {read} {modules/%2.tin};
+                    #if {&{%2Startup}}
+                    {
+                         #class {%2} {open};
+                         ${%2Startup};
+                         #class {%2} {close}
+                    };
+                    #class {$MSDP_CHARACTER_NAME} {open}
                }
           };
-          #if {{%1} == {{load|reload}}}
+          #else
           {
-               NOTIFY Loading modules/%2.tin.;
-               #class {%2} {read} {modules/%2.tin};
-               #if {&{%2Startup}}
-               {
-                    #class {%2} {open};
-                    ${%2Startup};
-                    #class {%2} {close}
-               };
-               #class {$MSDP_CHARACTER_NAME} {open}
+               NOTIFY Cowardly refusing to touch the msdp module. If you really want to do this, do it manually or close your client and restart.
           }
      }
 }
@@ -160,7 +161,7 @@
 #EVENT {SESSION CONNECTED}
 {
      SYNTH_PLAY connectedSound;
-     #nop {Set connected to true so if you accidently type login it won't try to login twice.};
+     #nop {Set connected to true so if you accidentally type login it won't try to login twice.};
      #variable {connected} {true};
      #nop {Create the log directory if it doesn't exist. Log files are based on date and time.};
      #script {logFilePath} {date +'log/%Y/%B/%d/'};

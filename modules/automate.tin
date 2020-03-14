@@ -433,6 +433,144 @@
 }
 {9}
 
+#ALIAS {^autoDequeue$}
+{
+     #local {i} {};
+     #list {autoQueue} {size} {i};
+     #if {$i > 0}
+     {
+          #foreach {${autoQueue[%*]}} {i}
+          {
+               #if {{${autoQueue[$i]}} == {{gt|say}%*}}
+               {
+                    ${autoQueue[$i]};
+                    #local {k} {};
+                    #list {autoQueue} {find} {$i} {k};
+                    #list {autoQueue} {delete} {$k};
+                    #continue
+               };
+               #if {{$MSDP_ROOM_VNUM} != {{13200|3001}}}
+               {
+                    #local {j} {};
+                    #if {$MSDP_OPPONENT_NUMBER > 0}
+                    {
+                         #list {autoCombatAllowed} {find} $i {j};
+                         #if {$j > 0}
+                         {
+                              #if {{${lastDequeue}} != {$i}}
+                              {
+                                   #variable {lastDequeue} {$i};
+                                   #format {lastDequeueTimestamp} {%T}
+                              };
+                              #local {currentTimestamp} {};
+                              #format {currentTimestamp} {%T};
+                              #if {$currentTimestamp - $lastDequeueTimestamp >= 60}
+                              {
+                                   #nop We've been trying to do this one at least a minute, bale out. They probably don't have the potions, etc.;
+                                   #local {k} {};
+                                   #list {autoQueue} {find} {$i} {k};
+                                   #list {autoQueue} {delete} {$k};
+                                   #variable {lastDequeue} {};
+                                   #variable {lastDequeueTimestamp} {2147483647};
+                                   #continue
+                              };
+                              #switch {{$i}}
+                              {
+                                   #case {{focus}}
+                                   {
+                                        focus ${auto[focus]}
+                                   };
+                                   #default
+                                   {
+                                        #if {{${auto[$i]}} == {1}}
+                                        {
+                                             $i
+                                        };
+                                        #else
+                                        {
+                                             ${auto[$i]}
+                                        }
+                                   }
+                              };
+                              #break
+                         };
+                         #else
+                         {
+                              #continue
+                         }
+                    };
+                    #else
+                    {
+                         #if {{${lastDequeue}} != {$i}}
+                         {
+                              #variable {lastDequeue} {$i};
+                              #format {lastDequeueTimestamp} {%T}
+                         };
+                         #local {currentTimestamp} {};
+                         #format {currentTimestamp} {%T};
+                         #if {$currentTimestamp - $lastDequeueTimestamp >= 60}
+                         {
+                              #nop We've been trying to do this one at least a minute, bale out. They probably don't have the potions, etc.;
+                              #local {k} {};
+                              #list {autoQueue} {find} {$i} {k};
+                              #list {autoQueue} {delete} {$k};
+                              #variable {lastDequeue} {};
+                              #variable {lastDequeueTimestamp} {2147483647};
+                              #continue
+                         };
+                         #switch {{$i}}
+                         {
+                              #case {{focus}}
+                              {
+                                   focus ${auto[focus]}
+                              };
+                              #case {{warpaint}}
+                              {
+                                   warpaint ${auto[warpaint]}
+                              };
+                              #case {{magicshield}}
+                              {
+                                   mshield
+                              };
+                              #case {{blade}}
+                              {
+                                   blades
+                              };
+                              #case {{eyes}}
+                              {
+                                   #if {{$MSDP_CLASS} == {Wizard}}
+                                   {
+                                        ceyes
+                                   };
+                                   #else
+                                   {
+                                        truesee
+                                   }
+                              };
+                              #case {{zombify}}
+                              {
+                                   zombieform
+                              };
+                              #default
+                              {
+                                   #if {{${auto[$i]}} == {1}}
+                                   {
+                                        $i
+                                   };
+                                   #else
+                                   {
+                                        ${auto[$i]}
+                                   }
+                              }
+                         };
+                         #break
+                    }
+               }
+          }
+     }
+}
+{9}
+
 #ALIAS {^buff$}
 {
      #local {i} {};
@@ -670,133 +808,6 @@
 }
 {9}
 
-#ALIAS {~autoDequeue$}
-{
-     #local {i} {};
-     #list {autoQueue} {size} {i};
-     #if {$i > 0 && {$MSDP_ROOM_VNUM} != {{13200|3001}}}
-     {
-          #foreach {${autoQueue[%*]}} {i}
-          {
-               #local {j} {};
-               #if {$MSDP_OPPONENT_NUMBER > 0}
-               {
-                    #list {autoCombatAllowed} {find} $i {j};
-                    #if {$j > 0}
-                    {
-                         #if {{${lastDequeue}} != {$i}}
-                         {
-                              #variable {lastDequeue} {$i};
-                              #format {lastDequeueTimestamp} {%T}
-                         };
-                         #local {currentTimestamp} {};
-                         #format {currentTimestamp} {%T};
-                         #if {$currentTimestamp - $lastDequeueTimestamp >= 60}
-                         {
-                              #nop We've been trying to do this one at least a minute, bale out. They probably don't have the potions, etc.;
-                              #local {k} {};
-                              #list {autoQueue} {find} {$i} {k};
-                              #list {autoQueue} {delete} {$k};
-                              #variable {lastDequeue} {};
-                              #variable {lastDequeueTimestamp} {2147483647};
-                              #continue
-                         };
-                         #switch {{$i}}
-                         {
-                              #case {{focus}}
-                              {
-                                   focus ${auto[focus]}
-                              };
-                              #default
-                              {
-                                   #if {{${auto[$i]}} == {1}}
-                                   {
-                                        $i
-                                   };
-                                   #else
-                                   {
-                                        ${auto[$i]}
-                                   }
-                              }
-                         };
-                         #break
-                    };
-                    #else
-                    {
-                         #continue
-                    }
-               };
-               #else
-               {
-                    #if {{${lastDequeue}} != {$i}}
-                    {
-                         #variable {lastDequeue} {$i};
-                         #format {lastDequeueTimestamp} {%T}
-                    };
-                    #local {currentTimestamp} {};
-                    #format {currentTimestamp} {%T};
-                    #if {$currentTimestamp - $lastDequeueTimestamp >= 60}
-                    {
-                         #nop We've been trying to do this one at least a minute, bale out. They probably don't have the potions, etc.;
-                         #local {k} {};
-                         #list {autoQueue} {find} {$i} {k};
-                         #list {autoQueue} {delete} {$k};
-                         #variable {lastDequeue} {};
-                         #variable {lastDequeueTimestamp} {2147483647};
-                         #continue
-                    };
-                    #switch {{$i}}
-                    {
-                         #case {{focus}}
-                         {
-                              focus ${auto[focus]}
-                         };
-                         #case {{warpaint}}
-                         {
-                              warpaint ${auto[warpaint]}
-                         };
-                         #case {{magicshield}}
-                         {
-                              mshield
-                         };
-                         #case {{blade}}
-                         {
-                              blades
-                         };
-                         #case {{eyes}}
-                         {
-                              #if {{$MSDP_CLASS} == {Wizard}}
-                              {
-                                   ceyes
-                              };
-                              #else
-                              {
-                                   truesee
-                              }
-                         };
-                         #case {{zombify}}
-                         {
-                              zombieform
-                         };
-                         #default
-                         {
-                              #if {{${auto[$i]}} == {1}}
-                              {
-                                   $i
-                              };
-                              #else
-                              {
-                                   ${auto[$i]}
-                              }
-                         }
-                    };
-                    #break
-               }
-          }
-     }
-}
-{9}
-
 
 #EVENT {VARIABLE UPDATE MSDP_AFFECTS}
 {
@@ -826,7 +837,8 @@
                {
                     #variable {lastDequeue} {};
                     #variable {lastDequeueTimestamp} {2147483647};
-                    #list {autoQueue} {delete} {$j}
+                    #list {autoQueue} {delete} {$j};
+                    @do_hook{affectUp;$k}
                }
           };
           #nop #local {tmpKeys} {};
@@ -847,7 +859,8 @@
                     };
                     #if {&{auto[$k]}}
                     {
-                         #list {autoQueue} {add} {$k}
+                         #list {autoQueue} {add} {$k};
+                         @do_hook{affectDown;$k}
                     }
                }
           };
