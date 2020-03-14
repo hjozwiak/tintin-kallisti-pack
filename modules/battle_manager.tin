@@ -446,12 +446,6 @@
 }
 {9}
 
-#ACTION {^You will not try to fight from ranged combat distance.  You will still need to ADVANCE on opponents who are attempting to use ranged combat in order to hit them.$}
-{
-     #variable {rangedCombat} {0}
-}
-{9}
-
 #ACTION {^You {now follow|stop following} %w.$}
 {
      #nop Hook name is groupStart or groupEnd.;
@@ -997,5 +991,10 @@
 }
 
 
+#VARIABLE         {OLD_MSDP_OPPONENT_NAME}    {}
+#VARIABLE         {battle_manager}  {}
 #VARIABLE         {groupMemberList}  {}
+#VARIABLE         {leader}  {}
+#VARIABLE         {onDeath}  {}
+#VARIABLE         {rangedCombat}  {0}
 

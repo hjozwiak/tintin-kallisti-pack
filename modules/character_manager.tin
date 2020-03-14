@@ -1,18 +1,3 @@
-#ACTION {^ %s*** PRESS ENTER ***$}
-{
-        #nop {Insert the enter command because repeat enter is on by default};
-        #history {insert} {#cr}
-}
-{9}
-
-#ACTION {^ %s--> Press <ENTER> to continue scrolling text, Q to quit (PAGES LEFT: 1) <--$}
-{
-        #nop {Insert the enter command because repeat enter is on by default};
-        #history {insert} {#cr}
-}
-{9}
- 
-
 #ACTION {%*(PAGES LEFT: %d):$}
 {
      #if {{$MSDP_POSITION} == {Menu}}
@@ -23,8 +8,23 @@
 }
 {9}
 
+#ACTION {^ %s*** PRESS ENTER ***$}
+{
+     #nop {Insert the enter command because repeat enter is on by default};
+     #history {insert} {#cr}
+}
+{9}
+
+#ACTION {^ %s--> Press <ENTER> to continue scrolling text, Q to quit (PAGES LEFT: 1) <--$}
+{
+     #nop {Insert the enter command because repeat enter is on by default};
+     #history {insert} {#cr}
+}
+{9}
+
 #ACTION {^You will not try to fight from ranged combat distance.  You will still need to ADVANCE on opponents who are attempting to use ranged combat in order to hit them.$}
 {
+     #variable {rangedCombat} {0};
      #if {$checkingRanged}
      {
           #line gag;
@@ -307,7 +307,12 @@
                {
                     #variable {MSDP_$i} {${msdpOldList[$i]}}
                };
-               #variable {copying} {0}
+               #variable {copying} {0};
+               #variable {oldAffects} {};
+               #variable {rangedCombat} {0};
+               #variable {autoQueue} {};
+               #variable {lastDequeue} {};
+               #variable {lastDequeueTimestamp} {2147483647}
           };
           #if {${cspam}}
           {
