@@ -542,7 +542,7 @@
                };
                #format {battle_manager[tmp3]} {%m.%s} {$count + 1} {${battle_manager[tmp]}};
                #list {auto%1List} {add} {${battle_manager[tmp3]}};
-               #echo {You are already automatically %1ing ${battle_manager[tmp]}. Adding as ${battle_manager[tmp3]}.}
+               #echo {You are already automatically %1ing ${battle_manager[tmp]}. Adding as ${battle_manager[tmp3]}. If you are automatically adding people as they enter the group, you should also remove them when they leave or this could cause issues.}
           };
           #else
           {
@@ -865,7 +865,7 @@
                #variable {subleaders} {$newSubleaders}
           };
           #nop {Ugh, these loops probably need optimizations at some point.};
-          #foreach {*{groupMemberList[]}} {i}
+          #foreach {${groupMemberList[%*]}} {i}
           {
                #list {oldGroupMemberList} {find} {$i} {j};
                #if {$j == 0}
@@ -875,7 +875,7 @@
                     @do_hook{groupAdd;$i}
                }
           };
-          #foreach {*{oldGroupMemberList[]}} {i}
+          #foreach {${oldGroupMemberList[%*]}} {i}
           {
                #list {groupMemberList} {find} {$i} {j};
                #if {$j == 0}
