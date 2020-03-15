@@ -404,8 +404,8 @@
 
 #ALIAS {^noautoheal%s {me|self}$}
 {
-     #unvariable {autoHealSelf};
-     #echo {You will no longer try to heal yourself automatically.};
+     #unvariable {autoHealMount};
+     #echo {You will no longer try to heal your mount automatically.};
      CSAVE
 }
 {8}
@@ -436,6 +436,30 @@
 #ALIAS {^autoDequeue$}
 {
      #local {i} {};
+     #list {autoQueue} {size} {i};
+     #if {$i > 0}
+     {
+          #foreach {${autoQueue[%*]}} {i}
+          {
+               #local {j} {};
+               #local {k} {};
+               #if {&{MSDP_AFFECTS[$i]}}
+               {
+                    #list {autoQueue} {find} {$i} {k};
+                    #list {autoQueue} {delete} {$k};
+                    #continue
+               };
+               #foreach {*{autoMappings[]}} {j}
+               {
+                    #if {{${autoMappings[$j]}} == {$i} && &{MSDP_AFFECTS[$j]}}
+                    {
+                         #list {autoQueue} {find} {$i} {k};
+                         #list {autoQueue} {delete} {$k};
+                         #break
+                    }
+               }
+          }
+     };
      #list {autoQueue} {size} {i};
      #if {$i > 0}
      {
@@ -538,13 +562,17 @@
                               };
                               #case {{eyes}}
                               {
-                                   #if {{$MSDP_CLASS} == {Wizard}}
+                                   #if {{$MSDP_CLASS} == {Wizard} && {${auto[$i]}} == {1}}
                                    {
                                         ceyes
                                    };
-                                   #else
+                                   #elseif {{${auto[$i]}} == {1}}
                                    {
                                         truesee
+                                   };
+                                   #else
+                                   {
+                                        ${auto[$i]}
                                    }
                               };
                               #case {{zombify}}
@@ -574,45 +602,58 @@
 #ALIAS {^buff$}
 {
      #local {i} {};
-     #foreach {aura;barkskin;bless;eyes;ffire;focus;prayer;sanc;shape;vigor;warcry;warpaint} {i}
+     @var_save{tmp};
+     #list {tmp} {create} {${autoMappings[%*]}};
+     #foreach {${autoCombatAllowed[%*]}} {i}
+     {
+          #local {j} {};
+          #list {tmp} {find} {$i} {j};
+          #if {$j == 0}
+          {
+               #list {tmp} {add} {$i}
+          }
+     };
+     #foreach {${bufExtras[%*]}} {i}
+     {
+          #local {j} {};
+          #list {tmp} {find} {$i} {j};
+          #if {$j == 0}
+          {
+               #list {tmp} {add} {$i}
+          }
+     };
+     #foreach {${tmp[%*]}} {i}
      {
           #if {&{auto[$i]}}
           {
                #switch {{$i}}
                {
-                    #case {{{bless|prayer|warcry}}}
-                    {
-                         $i
-                    };
-                    #case {{eyes}}
-                    {
-                         true
-                    };
-                    #case {{focus}}
-                    {
-                         $i ${auto[$i]}
-                    };
                     #case {{shape}}
                     {
-                         #switch {{${MSDP_CLASS}}}
+                         #local {string} {${auto[shape]}};
+                         #if {{$MSDP_CLASS} == {Druid}}
                          {
-                              #case {{Druid}}
-                              {
-                                   shapechange ${auto[$i]}
-                              };
-                              #default
-                              {
-                                   mortify ${auto[$i]}
-                              }
-                         }
+                              #variable {string} {shapechange ${auto[shape]}}
+                         };
+                         #elseif {{$MSDP_CLASS} == {Necromancer}}
+                         {
+                              #variable {string} {mortify ${auto[shape]}}
+                         };
+                         $string
                     };
                     #default
                     {
-                         ${auto[$i]}
+                         #local {j} {};
+                         #list {autoQueue} {find} {$i} {j};
+                         #if {$j == 0}
+                         {
+                              #list {autoQueue} {add} {$i}
+                         }
                     }
                }
           }
-     }
+     };
+     @var_restore{tmp}
 }
 {9}
 
@@ -725,7 +766,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{acidshield.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
+#ALIAS {^{noauto|auto}{acidshield.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
 {
      #if {{%0} == {noauto%*}}
      {
@@ -789,10 +830,10 @@
      {
           #if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
           {
-               #if {!${breakout}}
+               #if {!${spam[breakout]}}
                {
                     breakout;
-                    #variable breakout 1 spamset breakout 15
+                    spamset breakout 15
                };
                #if {!&{character[recall]}}
                {
@@ -919,8 +960,10 @@
 #VARIABLE         {autoCombatAllowed}  {{1}{focus}{2}{warcry}{3}{bushido}}
 #VARIABLE         {autoMappings}  {{blade barrier}{blade}{corpse visage}{cvisage}{crystal eyes}{eyes}{divine armor}{darmor}{divine shield}{dshield}{faerie fire}{ffire}{grim ward}{grimward}{magic shield}{magicshield}{protection from death}{pfd}{sanctuary}{sanc}{shroud of darkness}{shroud}{spirit of bushido}{bushido}{spiritual guardian}{spirit}{true seeing}{eyes}{unholy aura}{aura}{wraithform}{wraith}}
 #VARIABLE         {autoQueue}  {}
+#VARIABLE         {bufExtras}  {{1}{acidshield}{2}{blur}{3}{barkskin}{4}{bless}{5}{haste}{6}{prayer}{7}{shape}{8}{strength}{9}{vigor}{10}{warpaint}}
 #VARIABLE         {lastDequeue}  {}
 #VARIABLE         {lastDequeueTimestamp}  {2147483647}
+#VARIABLE         {manualWerewolf}  {0}
 #VARIABLE         {oldAffects}  {}
 #VARIABLE         {tetherable}  {1}
 
