@@ -95,7 +95,7 @@
      #nop {Hook name playerDeath};
      #nop {Hook args: none.};
      #unvariable {leader};
-     #if {${auto[relogin]}}
+     #if {&{auto[relogin]}}
      {
           ${auto[relogin]}
      };
@@ -173,8 +173,6 @@
 {
      #nop {Hook name is trackEnd.};
      #nop {Hook args track of target.};
-     #local {i} {};
-     #local {j} {};
      #if {&{auto[track]}}
      {
           @do_hook{trackEnd};
@@ -312,47 +310,6 @@
      @do_hook{trackFail;${auto[track]}};
      @do_hook{trackLose;${auto[track]}};
      #unvariable {auto[track]}
-}
-{9}
-
-#ACTION {^{No one seems to be listening right now|You feel the need to renew your prayers to God}.$}
-{
-     #if {${auto[prayer]}}
-     {
-          #if {$MSDP_OPPONENT_NUMBER == 0}
-          {
-               prayer
-          };
-          #else
-          {
-               #list {onDeath} {add} {prayer}
-          }
-     }
-}
-{9}
-
-#ACTION {^{Nothing happened|Your shield stops glowing with divine energy}.$}
-{
-     #if {&{auto[dshield]}}
-     {
-          #if {$MSDP_OPPONENT_NUMBER == 0}
-          {
-               dshield
-          };
-          #else
-          {
-               #list {onDeath} {add} {dshield}
-          }
-     }
-}
-{9}
-
-#ACTION {^{The spirit of Bushido is no longer with you|You fail to connect with the spirit}.$}
-{
-     #if {${auto[bushido]}}
-     {
-          bushido
-     }
 }
 {9}
 
@@ -766,7 +723,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{acidshield.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
+#ALIAS {^{noauto|auto}{acidshield.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin.*|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
 {
      #if {{%0} == {noauto%*}}
      {
