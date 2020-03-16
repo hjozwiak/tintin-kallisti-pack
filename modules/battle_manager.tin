@@ -1,4 +1,4 @@
-#ACTION {^%1 seems to shrivel and age as {he|she|it} is touched by %*'s sickly glowing hand.$}
+#ACTION {%1 seems to shrivel and age as {he|she|it} is touched by %3's sickly glowing hand.$}
 {
      @combat_action{%1;%3}
 }
