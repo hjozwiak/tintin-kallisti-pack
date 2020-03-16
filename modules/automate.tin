@@ -1,18 +1,23 @@
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
+     #nop {Hook name: locked};
+     #nop {Hook args: %1 name of door that can be unlocked.};
      #unvariable {auto[track]};
+     @var_save{tmp};
+     #regexp {%1} {{.*} {.*}}
+     {
+          #variable {tmp} {&2 %2}
+     };
+     #else
+     {
+          #variable {tmp} {%1 %2}
+     };
      #if {&{auto[pick]}}
      {
-          #regexp {%1} {{.*} {.*}}
-          {
-               #variable {auto[pick]} {&2 %2}
-          };
-          #else
-          {
-               #variable {auto[pick]} {%1 %2}
-          };
-          pick ${auto[pick]}
-     }
+          pick ${tmp}
+     };
+     @do_hook{locked;${tmp}};
+     @var_restore{tmp}
 }
 {9}
 
