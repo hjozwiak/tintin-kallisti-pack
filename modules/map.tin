@@ -20,13 +20,14 @@
           #map set roomterrain @cleanTerrain{$MSDP_ROOM_TERRAIN};
           #map set roomcolor <178>;
           #nop Create unmapped exits and color unexplored rooms red.;
-          #local {EXIT} {};
-          #local {EXIT_LIST} {};
+          @var_save{EXIT};
+          @var_save{EXIT_LIST};
           #map get {roomexits} {EXIT_LIST};
           #foreach {*MSDP_ROOM_EXITS[]} {EXIT}
           {
                #if {{$MSDP_ROOM_EXITS[$EXIT]} != {{\?|C|}} && ({${EXIT_LIST[@dA{$EXIT}]}} != {${MSDP_ROOM_EXITS[$EXIT]}} || !&{EXIT_LIST[@dA{$EXIT}]})}
                {
+                    #map {unlink} {@dA{$EXIT}};
                     #map dig {@dA{$EXIT}} {$MSDP_ROOM_EXITS[$EXIT]};
                     #nop #map link {@dA{$EXIT}} {$MSDP_ROOM_EXITS[$EXIT]} {both};
                     #local {EXIT_NAME} {};
@@ -44,7 +45,9 @@
                {
                     #map unlink @dA{$EXIT}
                }
-          }
+          };
+          @var_restore{EXIT};
+          @var_restore{EXIT_LIST}
      }
 }
 

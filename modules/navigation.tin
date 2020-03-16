@@ -25,7 +25,7 @@
      #replace {i} {to the } {};
      #nop {Hook name: closed.};
      #nop {Hook args: %1 name of door %2 direction.};
-     #line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i;@do_hook{closed;&2;$i}} {open %1 $i;@do_hook{closed;%1;$i}};
+     #line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i;@do_hook{closed;&2;$i};#map exit @dA{$i} command {open &2 $i;$i}} {open %1 $i;@do_hook{closed;%1;$i};#map exit @dA{$i} command {open %1 $i;$i}};
      #if {{${auto[track]}} != {}}
      {
           look
