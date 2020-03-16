@@ -149,7 +149,7 @@
 }
 {9}
 
-#ACTION {^{<|\x7B}%w: %*{>|\x7D} '%3'$}
+#ACTION {^{<|\x7B}%w: %*{>|\x7D} '%*'$}
 {
      #nop {Hook name varied, channel name, e.g. gossip.};
      #nop {Hook args %1 name %2 channel send.};
