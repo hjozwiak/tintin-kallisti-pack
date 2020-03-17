@@ -955,6 +955,10 @@
 
 #FUNCTION {combat_action}
 {
+     #nop {Do a hook for people that want to know if any opener has been used in the room.};
+     #nop {Hook name: combatOpener};
+     #nop {Hook args: %1 The person doing the opener %2 the person being opened on.};
+     @do_hook{combatOpener;%1;%2};
      #local {i} {0};
      #list {autorescueList} {find} {%1} {i};
      #if {$i != 0}
