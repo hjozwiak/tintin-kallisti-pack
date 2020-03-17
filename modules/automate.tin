@@ -180,10 +180,10 @@
      #nop {Hook args track of target.};
      #if {&{auto[track]}}
      {
-          @do_hook{trackEnd};
           SYNTH_PLAY notificationSound;
           #unvariable {auto[track]}
-     }
+     };
+     @do_hook{trackEnd}
 }
 {9}
 
@@ -290,10 +290,10 @@
      #nop {Hook args tracked target.};
      #if {&{auto[track]}}
      {
-          @do_hook{trackEnd};
           SYNTH_PLAY notificationSound;
           #unvariable {auto[track]}
-     }
+     };
+     @do_hook{trackEnd}
 }
 {9}
 
