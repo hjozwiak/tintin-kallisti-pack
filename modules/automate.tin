@@ -303,9 +303,9 @@
      {
           %1
      };
-     #nop {Hook name: trackDirections};
+     #nop {Hook name: trackDirection};
      #nop {Hook args: %1 direction the tracks are going.};
-     @do_hook{trackDirections;%1}
+     @do_hook{trackDirection;%1}
 }
 {9}
 
