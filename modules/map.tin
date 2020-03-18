@@ -69,27 +69,27 @@
 
 #FUNCTION {aD}
 {
-     #if {"%1" == "e"}
+     #if {{%1} == {e}}
      {
           #variable result east
      };
-     #elseif {"%1" == "w"}
+     #elseif {{%1} == {w}}
      {
           #variable result west
      };
-     #elseif {"%1" == "n"}
+     #elseif {{%1} == {n}}
      {
           #variable result north
      };
-     #elseif {"%1" == "s"}
+     #elseif {{%1} == {s}}
      {
           #variable result south
      };
-     #elseif {"%1" == "u"}
+     #elseif {{%1} == {u}}
      {
           #variable result up
      };
-     #elseif {"%1" == "d"}
+     #elseif {{%1} == {d}}
      {
           #variable result down
      };
@@ -108,27 +108,27 @@
 
 #FUNCTION {dA}
 {
-     #if {"%1" == "east"}
+     #if {{%1} == {east}}
      {
           #variable result e
      };
-     #elseif {"%1" == "west"}
+     #elseif {{%1} == {west}}
      {
           #variable result w
      };
-     #elseif {"%1" == "north"}
+     #elseif {{%1} == {north}}
      {
           #variable result n
      };
-     #elseif {"%1" == "south"}
+     #elseif {{%1} == {south}}
      {
           #variable result s
      };
-     #elseif {"%1" == "up"}
+     #elseif {{%1} == {up}}
      {
           #variable result u
      };
-     #elseif {"%1" == "down"}
+     #elseif {{%1} == {down}}
      {
           #variable result d
      };
