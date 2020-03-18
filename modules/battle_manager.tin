@@ -609,6 +609,17 @@
 }
 {9}
 
+#ALIAS {^hpa$}
+{
+     @var_save{i};
+     #foreach {${MSDP_GROUP[%*]}} {i}
+     {
+          #showme {${i[name]}: ${i[health]}%}
+     };
+     @var_restore{i}
+}
+{9}
+
 #ALIAS {^noauto{heal|rescue|refresh}$}
 {
      #list {auto%1List} {clear};
