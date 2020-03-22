@@ -177,8 +177,16 @@
 
 #FUNCTION {percent}
 {
-     #math {result} {(${%1} / ${%1_MAX}) * 100.0};
-     #format {result} {%d} {$result}
+     #if {&{%1} && &{%1_MAX}}
+     {
+          #math {result} {(${%1} / ${%1_MAX}) * 100.0};
+          #format {result} {%d} {$result}
+     };
+     #else
+     {
+          #math {result} {(%1 / %2) * 100.0};
+          #format {result} {%d} {$result}
+     }
 }
 
 #FUNCTION {pretty_print_number}
