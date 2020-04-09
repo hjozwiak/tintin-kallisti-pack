@@ -1,3 +1,9 @@
+#ACTION {%1 seems to shrivel and age as {he|she|it} is touched by %3's sickly glowing hand.$}
+{
+     @combat_action{%1;%3}
+}
+{1}
+
 #ACTION {%1 advances on you!$}
 {
      #nop {Hook name is rangedEnd	};
@@ -197,7 +203,6 @@
      {
           ${auto[rescueCommand]} $target
      };
-     #unvariable {target};
      @var_restore{target}
 }
 {9}
@@ -229,38 +234,6 @@
 }
 {9}
 
-#ACTION {^%S stops following %w.$}
-{
-     #nop Hook name is groupLeave.;
-     #nop Hook Arguments are group member name who left the group.;
-     #local {i} {};
-     #list {groupMemberList} {find} {%1} {i};
-     #if {$i > 0}
-     {
-          @do_hook{groupLeave;%1};
-          #list {groupMemberList} {delete} {$i}
-     }
-}
-{9}
-
-#ACTION {^%s%w %s[%S%s%d]%s(%*}
-{
-     #nop Hook name is groupAdd;
-     #nop Hook arguements are group member who joind.;
-     #local {i} {};
-     #list {groupMemberList} {find} {%2} {i};
-     #if {$i == 0}
-     {
-          @do_hook{groupAdd;%2};
-          #list {groupMemberList} {add} {%2}
-     };
-     #regexp {%0} {{.*}Leader{.}}
-     {
-          #if {{%2} != {$MSDP_CHARACTER_NAME}} {#variable {leader} {%2}}
-     }
-}
-{9}
-
 #ACTION {^%w attempts to backstab %2, but flies right through {her|him|it}.$}
 {
      @combat_action{%1;%2}
@@ -270,20 +243,6 @@
 #ACTION {^%w tries to backstab %2 but nearly cuts {her|his|its} own finger!$}
 {
      @combat_action{%1;%2}
-}
-{9}
-
-#ACTION {^%w {(?:\('\w+'\) )?}is now a group member %*.$}
-{
-     #nop {Hook name: groupAdd.};
-     #nop {Hook args: person added to group.};
-     #local {i} {};
-     #list {groupMemberList} {find} {%1} {i};
-     #if {$i == 0}
-     {
-          @do_hook{groupAdd;%1};
-          #list {groupMemberList} {add} {%1}
-     }
 }
 {9}
 
@@ -459,15 +418,12 @@
      {
           #if {{%2} == {$leader}}
           {
-               @do_hook{groupEnd};
-               #list {groupMemberList} {clear};
-               #unvariable {leader}
+               @do_hook{groupEnd}
           }
      };
      #else
      {
-          @do_hook{groupEnd};
-          #variable {leader} {%2}
+          @do_hook{groupStart}
      }
 }
 {9}
@@ -487,18 +443,28 @@
 }
 {8}
 
+#ALIAS {^GENERATE_RENEW_LIFE_TICKER$}
+{
+     #unticker {renewLife};
+     #ticker {renewLife} {#if {&{auto[renewLife]} && @percent{MSDP_HEALTH} <= ${auto[renewLife]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[renewLife]}} {spamset renewLife 2;renewlife}} {1}
+}
+{9}
+
 #ALIAS {^POPULATE_%w_LIST$}
 {
+     #nop {Clear the list, so we don't end up with more duplicates than there are actually in the group.};
+     #nop {See the auto<%1> add alias for info on the duplication code.};
+     #variable {auto%1List} {clear};
      #local {i} {};
      #local {j} {};
      #list {groupMemberList} {size} {i};
      #if {$i > 0}
      {
-          #foreach {*{groupMemberList[]}} {j}
+          #foreach {${groupMemberList[%*]}} {j}
           {
-               #if {{${groupMemberList[$j]}} != {${MSDP_CHARACTER_NAME}}}
+               #if {{$j} != {${MSDP_CHARACTER_NAME}}}
                {
-                    auto%1 add ${groupMemberList[$j]}
+                    auto%1 add $j
                }
           }
      };
@@ -520,10 +486,17 @@
 }
 {9}
 
-#ALIAS {^auto{heal|rescue|refresh} %s{add|remove} %s%w$}
+#ALIAS {^auto{heal|rescue|refresh} %s{add|remove} %s%S$}
 {
      #local {i} {};
-     #format {battle_manager[tmp]} {%n} {%5};
+     #regexp {%5} {{\d+}.{.+}}
+     {
+          #format {battle_manager[tmp]} {%d.%n} {&1} {&2}
+     };
+     #else
+     {
+          #format {battle_manager[tmp]} {%n} {%5}
+     };
      #list {auto%1List} {find} {${battle_manager[tmp]}} {i};
      #if {{%3} == {remove}}
      {
@@ -534,14 +507,48 @@
           #else
           {
                #list {auto%1List} {delete} {$i};
-               #echo {You are no longer automatically %1ing ${battle_manager[tmp]}.}
+               #echo {You are no longer automatically %1ing ${battle_manager[tmp]}.};
+               #nop {Look for duplicates, and renumber them.};
+               #regexp {${battle_manager[tmp]}} {{\d+}.{.+}}
+               {
+                    #format {battle_manager[tmp]} {%n} {&2};#format {battle_manager[tmp2]} {%d} {&1}
+               };
+               #else
+               {
+                    #format {battle_manager[tmp2]} {%d} {1}
+               };
+               #foreach {*{auto%1List[]}} {i}
+               {
+                    #regexp {${auto%1List[$i]}} {{\d+}.{.+}}
+                    {
+                         #if {&1 > ${battle_manager[tmp2]} && {&2} == {${battle_manager[tmp]}}} {#if {&1 == 2} {#format {auto%1List[$i]} {%s} {${battle_manager[tmp]}}};#else {#format {auto%1List[$i]} {%m.%s} {&1 - 1} {${battle_manager[tmp]}}}}
+                    }
+               }
           }
      };
      #else
      {
           #if {$i != 0}
           {
-               #echo {You are already automatically %1ing ${battle_manager[tmp]}.}
+               #local {count} {0};
+               #regexp {${battle_manager[tmp]}} {{\d+}.{.+}}
+               {
+                    #format {battle_manager[tmp]} {%n} {&2};#format {battle_manager[tmp2]} {%d} {&1}
+               };
+               #else
+               {
+                    #format {battle_manager[tmp2]} {%d} {1}
+               };
+               #foreach {*{auto%1List[]}} {i}
+               {
+                    #if {{${auto%1List[$i]}} == {%d.${battle_manager[tmp]}} || {${auto%1List[$i]}} == {${battle_manager[tmp]}}}
+                    {
+                         #math {count} {$count + 1}
+                    }
+               };
+               #format {battle_manager[tmp3]} {%m.%s} {$count + 1} {${battle_manager[tmp]}};
+               #list {auto%1List} {add} {${battle_manager[tmp3]}};
+               #echo {You are already automatically %1ing ${battle_manager[tmp]}. Adding as ${battle_manager[tmp3]}. If you are automatically adding people as they enter the group, you should also remove them when they leave or this could cause issues.}
           };
           #else
           {
@@ -599,6 +606,17 @@
                he%1 ${autohealList[$j]}
           }
      }
+}
+{9}
+
+#ALIAS {^hpa$}
+{
+     @var_save{i};
+     #foreach {${MSDP_GROUP[%*]}} {i}
+     {
+          #showme {${i[name]}: ${i[health]}%}
+     };
+     @var_restore{i}
 }
 {9}
 
@@ -664,6 +682,18 @@
                #break
           }
      };
+     #if {!$found}
+     {
+          #format {target} {%l} {%2};
+          #foreach {*{MSDP_GROUP[]}} {i}
+          {
+               #if {{${MSDP_GROUP[$i][name]}} == {$target%*}}
+               {
+                    #variable {found} {1};
+                    #break
+               }
+          }
+     };
      #if {$found}
      {
           #switch {{%1}}
@@ -710,6 +740,28 @@
 }
 {9}
 
+#ALIAS {^{no|}autorenewlife{(?: \d+)?}$}
+{
+     #if {{%1} == {no}}
+     {
+          NOTIFY Auto renew life disabled.;
+          #unvariable {auto[renewLife]};
+          #unticker {renewLife}
+     };
+     #else
+     {
+          #local {hp} {75};
+          #regexp {%2} {{ +}{\d+}}
+          {
+               #var {hp} {&2}
+          };
+          NOTIFY Auto renew life enabled at $hp%% health.;
+          #variable {auto[renewLife]} {$hp};
+          GENERATE_RENEW_LIFE_TICKER
+     }
+}
+{9}
+
 #ALIAS {chainattack %1}
 {
      #variable {character[chainAttack]} {%1};
@@ -729,9 +781,13 @@
           @var_save{target};
           @var_save{newLeader};
           @var_save{newSubleaders};
+          @var_save{oldGroupMemberList};
           #nop #local {i} {};
           #variable {newLeader} {};
           #variable {newSubleaders} {};
+          #nop {It's probably easier to clear the group member list on every update of msdp group since we're looping through the whole thing anyway. Save it to a temporary variable so we can compare for hooks.};
+          #variable {oldGroupMemberList} {$groupMemberList};
+          #variable {groupMemberList} {};
           #foreach {*{tmp[]}} {i}
           {
                #if {${tmp[$i][is_leader]} && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME}}
@@ -742,11 +798,8 @@
                {
                     #list {newSubleaders} {add} {${tmp[$i][name]}}
                };
-               #list {groupMemberList} {find} {${tmp[$i][name]}} {j};
-               #if {$j == 0}
-               {
-                    #list {groupMemberList} {add} {${tmp[$i][name]}}
-               };
+               #nop {Don't bother checking if they're in the list, since we cleared it.};
+               #list {groupMemberList} {add} {${tmp[$i][name]}};
                #nop #local {j} {};
                #list {autohealList} {find} {${tmp[$i][name]}} {j};
                #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}]} && ${tmp[$i][health]} <= 80 && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
@@ -828,18 +881,34 @@
           {
                #variable {subleaders} {$newSubleaders}
           };
-          #unvariable {tmp};
-          #unvariable {i};
-          #unvariable {j};
-          #unvariable {newLeader};
-          #unvariable {newSubleaders};
-          #unvariable {target};
+          #nop {Ugh, these loops probably need optimizations at some point.};
+          #foreach {${groupMemberList[%*]}} {i}
+          {
+               #list {oldGroupMemberList} {find} {$i} {j};
+               #if {$j == 0}
+               {
+                    #nop {Hook name: groupAdd.};
+                    #nop {Hook args: %1 who joined the group.};
+                    @do_hook{groupAdd;$i}
+               }
+          };
+          #foreach {${oldGroupMemberList[%*]}} {i}
+          {
+               #list {groupMemberList} {find} {$i} {j};
+               #if {$j == 0}
+               {
+                    #nop {Hook name: groupLeave.};
+                    #nop {Hook args: %1 who left the group.};
+                    @do_hook{groupLeave;$i}
+               }
+          };
           @var_restore{newLeader};
           @var_restore{newSubleaders};
           @var_restore{target};
           @var_restore{i};
           @var_restore{j};
           @var_restore{tmp};
+          @var_restore{oldGroupMemberList};
           #nop {Hook name is groupVariable};
           #nop {Hook argument is %1 variable contents.};
           @do_hook{groupVariable;%1}
@@ -849,7 +918,19 @@
           #nop {The group has been disbanded or you are otherwise no longer in a group, remove leader and subleader variables and clear group members.};
           #unvariable {leader};
           #unvariable {subleaders};
-          #variable {groupMemberList} {}
+          @var_save{i};
+          #nop {Just send a blanket groupLeave event for everyone in the list, in case people have autoheal automatically adding members, etc.};
+          #foreach {${groupMemberList[%*]}} {i}
+          {
+               #nop {Hook name: groupLeave};
+               #nop {Hook args: %1 who left the group.};
+               @do_hook{groupLeave;$i}
+          };
+          @var_restore{i};
+          #variable {groupMemberList} {};
+          #nop {Hook name is groupVariable};
+          #nop {Hook argument is %1 variable contents.};
+          @do_hook{groupVariable;%1}
      }
 }
 
@@ -885,6 +966,10 @@
 
 #FUNCTION {combat_action}
 {
+     #nop {Do a hook for people that want to know if any opener has been used in the room.};
+     #nop {Hook name: combatOpener};
+     #nop {Hook args: %1 The person doing the opener %2 the person being opened on.};
+     @do_hook{combatOpener;%1;%2};
      #local {i} {0};
      #list {autorescueList} {find} {%1} {i};
      #if {$i != 0}
@@ -956,5 +1041,9 @@
 }
 
 
+#VARIABLE         {OLD_MSDP_OPPONENT_NAME}    {}
+#VARIABLE         {battle_manager}  {}
 #VARIABLE         {groupMemberList}  {}
+#VARIABLE         {leader}  {}
+#VARIABLE         {onDeath}  {}
 

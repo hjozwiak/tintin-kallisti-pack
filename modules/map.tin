@@ -1,0 +1,145 @@
+#ACTION {~^\e[1;35m}
+{
+     #echo {VNUM: $MSDP_ROOM_VNUM AREA: $MSDP_AREA_NAME}
+}
+{9}
+
+
+#ALIAS {mapRoom}
+{
+     #variable {mappable} {0};
+     #if {!&{character[mapping]}}
+     {
+          #variable {character[mapping]} {0}
+     };
+     #if {${character[mapping]} && $MSDP_ROOM_VNUM != 0}
+     {
+          #map goto {$MSDP_ROOM_VNUM} {dig};
+          #map set roomarea $MSDP_AREA_NAME;
+          #map set roomname $MSDP_ROOM_NAME;
+          #map set roomterrain @cleanTerrain{$MSDP_ROOM_TERRAIN};
+          #map set roomcolor <178>;
+          #nop Create unmapped exits and color unexplored rooms red.;
+          @var_save{EXIT};
+          @var_save{EXIT_LIST};
+          #map get {roomexits} {EXIT_LIST};
+          #foreach {*MSDP_ROOM_EXITS[]} {EXIT}
+          {
+               #if {{$MSDP_ROOM_EXITS[$EXIT]} != {{\?|C|}} && ({${EXIT_LIST[@dA{$EXIT}]}} != {${MSDP_ROOM_EXITS[$EXIT]}} || !&{EXIT_LIST[@dA{$EXIT}]})}
+               {
+                    #map {unlink} {@dA{$EXIT}};
+                    #map dig {@dA{$EXIT}} {$MSDP_ROOM_EXITS[$EXIT]};
+                    #nop #map link {@dA{$EXIT}} {$MSDP_ROOM_EXITS[$EXIT]} {both};
+                    #local {EXIT_NAME} {};
+                    #map get {roomname} {EXIT_NAME} {$MSDP_ROOM_EXITS[$EXIT]};
+                    #if {{$EXIT_NAME} == {}}
+                    {
+                         #map set {roomcolor} {<118>} {$MSDP_ROOM_EXITS[$EXIT]}
+                    }
+               }
+          };
+          #map get {roomexits} {EXIT_LIST};
+          #foreach {*{EXIT_LIST[]}} {EXIT}
+          {
+               #if {!&{MSDP_ROOM_EXITS[@aD{$EXIT}]}}
+               {
+                    #map unlink @dA{$EXIT}
+               }
+          };
+          @var_restore{EXIT};
+          @var_restore{EXIT_LIST}
+     }
+}
+
+#ALIAS {^MAP_STARTUP}
+{
+     #map create 100000;
+     #map flag nofollow;
+     #map flag vtmap on;
+     #map flag static;
+     #map flag blockgraphics on;
+     #script {if [ ! -d "$HOME/map" ] ; then mkdir "$HOME/map";fi;if [ ! -f "$HOME/map/msdp.map" ] ; then cp map/msdp.map "$HOME/map";fi};
+     #map read $HOME/map/msdp.map;
+     #map terrain {Forest} {<228>♦} DENSE WIDE;
+     #map terrain {Field} {<128>·} DENSE WIDE;
+     #map terrain {Desert} {<cca>·} DENSE NARROW
+}
+{9}
+
+
+#FUNCTION {aD}
+{
+     #if {{%1} == {e}}
+     {
+          #variable result east
+     };
+     #elseif {{%1} == {w}}
+     {
+          #variable result west
+     };
+     #elseif {{%1} == {n}}
+     {
+          #variable result north
+     };
+     #elseif {{%1} == {s}}
+     {
+          #variable result south
+     };
+     #elseif {{%1} == {u}}
+     {
+          #variable result up
+     };
+     #elseif {{%1} == {d}}
+     {
+          #variable result down
+     };
+     #else
+     {
+          #variable result %1
+     }
+}
+
+#FUNCTION {cleanTerrain}
+{
+     #local {_tmp} {};
+     #format {_tmp} {%p} {%1};
+     #line sub var #line strip #var result $_tmp
+}
+
+#FUNCTION {dA}
+{
+     #if {{%1} == {east}}
+     {
+          #variable result e
+     };
+     #elseif {{%1} == {west}}
+     {
+          #variable result w
+     };
+     #elseif {{%1} == {north}}
+     {
+          #variable result n
+     };
+     #elseif {{%1} == {south}}
+     {
+          #variable result s
+     };
+     #elseif {{%1} == {up}}
+     {
+          #variable result u
+     };
+     #elseif {{%1} == {down}}
+     {
+          #variable result d
+     };
+     #else
+     {
+          #variable result %1
+     }
+}
+
+
+#VARIABLE         {mapEmbed}  {off}
+#VARIABLE         {mapFile}  {/tmp/kallisti-map}
+#VARIABLE         {mappable}  {0}
+

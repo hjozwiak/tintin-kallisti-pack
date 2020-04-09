@@ -1,185 +1,253 @@
 #ACTION {%1 {flies|leaves|swims} {down|east|north|south|up|west}.$}
 {
-	#nop {Hook name: leave};
-	#nop {Hook args: flee status 0 for no, 1 for yes.};
-	#nop {Hook args: name of leaveee.};
-	#nop {Hook args: direction they left.};
-	#if {{%1} == {${fleeString}}}
-	{
-		#variable {fleeString} {1}
-	};
-	#else
-	{
-		#variable {fleeString} {0}
-	};
-	@do_hook{leave;${fleeString};%1;%3};
-	#variable {fleeString} {}
+     #nop {Hook name: leave};
+     #nop {Hook args: flee status 0 for no, 1 for yes.};
+     #nop {Hook args: name of leaveee.};
+     #nop {Hook args: direction they left.};
+     #if {{%1} == {${fleeString}}}
+     {
+          #variable {fleeString} {1}
+     };
+     #else
+     {
+          #variable {fleeString} {0}
+     };
+     @do_hook{leave;${fleeString};%1;%3};
+     #variable {fleeString} {}
 }
 {9}
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
 {
-	#local {i} {%2};
-	#replace {i} {above} {up};
-	#replace {i} {below} {down};
-	#replace {i} {to the } {};
-#nop {Hook name: closed.};
-#nop {Hook args: %1 name of door %2 direction.};
-	#line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i;@do_hook{closed;&2;$i}} {open %1 $i;@do_hook{closed;%1;$i}};
-	#if {{${auto[track]}} != {}}
-	{
-		look
-	}
+     #local {i} {%2};
+     #replace {i} {above} {up};
+     #replace {i} {below} {down};
+     #replace {i} {to the } {};
+     #nop {Hook name: closed.};
+     #nop {Hook args: %1 name of door %2 direction.};
+     #line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i;@do_hook{closed;&2;$i};#map exit @dA{$i} command {open &2 $i;$i}} {open %1 $i;@do_hook{closed;%1;$i};#map exit @dA{$i} command {open %1 $i;$i}};
+     #if {{${auto[track]}} != {}}
+     {
+          look
+     }
 }
 {9}
 
 #ACTION {^%1 {flies in|arrives|swims in} {from|from the} %3.$}
 {
-	#nop {Hook name: arrive};
-	#nop {Hook args: name of arrivee.};
-	#nop {Hook args: direction from which they arrived.};
-	@do_hook{arrive;%1;%4}
+     #nop {Hook name: arrive};
+     #nop {Hook args: name of arrivee.};
+     #nop {Hook args: direction from which they arrived.};
+     @do_hook{arrive;%1;%4}
 }
 {9}
 
 #ACTION {^%w enters %2.$}
 {
-	#if {{%1} == {$leader}}
-	{
-		#regexp {%2} {{.*} {.*}} {enter &2};
-		#else
-		{
-			enter %2
-		}
-	}
+     #if {{%1} == {$leader}}
+     {
+          #regexp {%2} {{.*} {.*}}
+          {
+               enter &2
+          };
+          #else
+          {
+               enter %2
+          }
+     }
 }
 {9}
 
 #ACTION {^Alas, you cannot go {down|east|north|south|up|west}...$}
 {
-	#nop {Hook name: bump};
-	#nop {Hook arg: direction that is blocked.};
-	SYNTH_PLAY cannot_go_%1;
-	@do_hook{bump;%1}
+     #nop {Hook name: bump};
+     #nop {Hook arg: direction that is blocked.};
+     SYNTH_PLAY cannot_go_%1;
+     @do_hook{bump;%1}
 }
 {9}
 
 #ACTION {^The lock springs open.$}
 {
-	#if {{${auto[track]}} != {}}
-	{
-		look
-	}
+     #if {{${auto[track]}} != {}}
+     {
+          look
+     }
+}
+{9}
+
+#ACTION {^You open the %* {to the .+|above|below}.$}
+{
+     #if {${character[mapping]}}
+     {
+          @var_save{i};
+          #variable {i} {%2};
+          #replace {i} {below} {down};
+          #replace {i} {above} {up};
+          #replace {i} {to the } {};
+          #line substitute variables #regexp {%1} {{.+} {.+}}{#map exit {@dA{$i}} {command} {open &2 $i;$i}};
+          #line substitute variables #else {#map exit {@dA{$i}} {command} {open %2 $i;$i}};
+          @var_restore{i}
+     }
 }
 {9}
 
 #ACTION {^You seem to be unable to pick this lock.$}
 {
-	#unvariable {auto[track]}
+     #unvariable {auto[track]}
 }
 {9}
+
 
 #ALIAS {%i{^news}}
 {
-	#nop {This is in navigation.tin because it technically overrides a speedwalk.};
-	#send {%0}
+     #nop {This is in navigation.tin because it technically overrides a speedwalk.};
+     #send {%0}
 }
 {9}
 
+
 #EVENT {VARIABLE UPDATE MSDP_AREA_NAME}
 {
-	#if {{%1} != {} && !$copying}
-	{
-		#nop {Hook name: areaName};
-		#nop {Hook args: the area's name.};
-		@do_hook{areaName;%1}
-	}
+     #if {{%1} != {} && !$copying}
+     {
+          #nop {Hook name: areaName};
+          #nop {Hook args: the area's name.};
+          @do_hook{areaName;%1}
+     }
 }
 
 #EVENT {VARIABLE UPDATE MSDP_ROOM_EXITS}
 {
-	#if {{%1} != {} && !$copying}
-	{
-		#local {i} {};
-		#local {j} {};
-		#if {{%1} != {}}
-		{
-			#foreach {%1} {i}
-			{
-				#if {{$i} == {{down|east|north|south|up|west}}}
-				{
-					#format {j} {%n} {$i}
-				};
-				#if {{$i} == {C}}
-				{
-					SYNTH_PLAY door${j}
-				}
-			}
-		}
-	}
+     #if {{%1} != {} && !$copying}
+     {
+          #local {i} {};
+          #local {j} {};
+          #if {{%1} != {}}
+          {
+               #foreach {%1} {i}
+               {
+                    #if {{$i} == {{down|east|north|south|up|west}}}
+                    {
+                         #format {j} {%n} {$i}
+                    };
+                    #if {{$i} == {C}}
+                    {
+                         SYNTH_PLAY door${j}
+                    }
+               }
+          };
+          @do_hook{exitsVariable;%1}
+     }
 }
 
 #EVENT {VARIABLE UPDATE MSDP_ROOM_NAME}
 {
-	#if {{%1} != {} && !$copying}
-	{
-		#nop {Hook name: roomName};
-		#nop {Hook args: the rooms name.};
-		@do_hook{roomName;%1}
-	}
+     #if {{%1} != {} && !$copying}
+     {
+          #nop {Hook name: roomName};
+          #nop {Hook args: the rooms name.};
+          @do_hook{roomName;%1}
+     }
+}
+
+#EVENT {VARIABLE UPDATE MSDP_ROOM_TERRAIN}
+{
+     #nop {Hook name: roomTerrain};
+     #nop {Hook args: %1 terrains};
+     #if {{%1} != {} && !${copying}}
+     {
+          @do_hook{roomTerrain;%1}
+     }
 }
 
 #EVENT {VARIABLE UPDATE MSDP_ROOM_VNUM}
 {
-	#if {{%1} != {} && !$copying}
-	{
-		#nop {Hook name: roomNumber};
-		#nop {Hook args: the rooms vnum.};
-		#variable {fleeString} {};
-		@do_hook{roomNumber;%1}
-	}
+     #if {{%1} != {} && !$copying}
+     {
+          #nop {Hook name: roomNumber};
+          #nop {Hook args: the rooms vnum.};
+          #variable {fleeString} {};
+          #variable {mappable} {1};
+          @do_hook{roomNumber;%1}
+     }
 }
+
+
+#FUNCTION {reverse}
+{
+     #nop {takes one argument, the direction to get the opposite of.};
+     #if {{%1} == {{?:w(?:e(?:s(?:t)?)?)?}}}
+     {
+          #return east
+     };
+     #elseif {{%1} == {{?:e(?:a(?:s(?:t)?)?)?}}}
+     {
+          #return west
+     };
+     #elseif {{%1} == {{?:up?}}}
+     {
+          #return down
+     };
+     #elseif {{%1} == {{?:d(?:o(?:w(?:n)?)?)?}}}
+     {
+          #return up
+     };
+     #elseif {{%1} == {{?:s(?:o(?:u(?:t(?:h)?)?)?)?}}}
+     {
+          #return north
+     };
+     #elseif {{%1} == {{?:n(?:o(?:r(?:t(?:h)?)?)?)?}}}
+     {
+          #return south
+     };
+     #return #nop
+}
+
 
 #MACRO {\e,}
 {
-	s
+     s
 }
 
 #MACRO {\e<}
 {
-	down
+     down
 }
 
 #MACRO {\eI}
 {
-	up
+     up
 }
 
 #MACRO {\eK}
 {
-	#ignore {sub} {on};
-	scan;
-	localecho silent_do #ignore sub off
+     #ignore {sub} {on};
+     scan;
+     localecho silent_do #ignore sub off
 }
 
 #MACRO {\ei}
 {
-	n
+     n
 }
 
 #MACRO {\ej}
 {
-	w
+     w
 }
 
 #MACRO {\ek}
 {
-	scan
+     scan
 }
 
 #MACRO {\el}
 {
-	e
+     e
 }
 
+
+#VARIABLE         {fleeString}  {}
 #VARIABLE         {gagScan}  {0}
+

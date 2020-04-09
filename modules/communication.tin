@@ -105,20 +105,6 @@
 }
 {9}
 
-#ACTION {^{<|\x7B}%w: %2{>|\x7D} '%3'$}
-{
-     #nop {Hook name varied, channel name, e.g. gossip.};
-     #nop {Hook args %1 name %2 channel send.};
-     #local {channelName} {%2};
-     #format {channelName} {%l} {$channelName};
-     Channel_Event %1 %0;
-     #if {{%3} != {$MSDP_CHARACTER_NAME}}
-     {
-          @do_hook{${channelName};%3;%5}
-     }
-}
-{9}
-
 #ACTION {^<Gemote> %1}
 {
      Channel_Event Gossip %0;
@@ -160,6 +146,20 @@
      #nop {Hook args: chat message.};
      Channel_Event Chat %0;
      @do_hook{chat;%1}
+}
+{9}
+
+#ACTION {^{<|\x7B}%w: %*{>|\x7D} '%*'$}
+{
+     #nop {Hook name varied, channel name, e.g. gossip.};
+     #nop {Hook args %1 name %2 channel send.};
+     #local {channelName} {%2};
+     #format {channelName} {%l} {$channelName};
+     Channel_Event %1 %0;
+     #if {{%3} != {$MSDP_CHARACTER_NAME}}
+     {
+          @do_hook{${channelName};%3;%5}
+     }
 }
 {9}
 
@@ -208,7 +208,7 @@
      {
           #case {{inline}}
           {
-               #echo {%s} {%1}
+               #line ignore #showme {%1}
           };
           #case {{notify-send}}
           {
@@ -216,7 +216,45 @@
           };
           #default
           {
-               #draw {tile} {1} {1} {1} {-1} {%1}
+               #if {!&{splitLines}}
+               {
+                    #variable {splitLines} {1}
+               };
+               #local {rowsNeeded} {1};
+               @var_save{lines};
+               #variable {lines} {@fold{%1}};
+               #list {lines} {size} {rowsNeeded};
+               #local {rows} {};
+               #screen get rows rows;
+               #if {$rowsNeeded > $currentSplitRows && $rowsNeeded <= $rows / 8}
+               {
+                    #split {$rowsNeeded} {$splitLines};
+                    #variable {currentSplitRows} {$rowsNeeded}
+               };
+               #elseif {$rowsNeeded > $rows / 8}
+               {
+                    @var_restore{lines};
+                    NOTIFY Error: notification too long -- $rowsNeeded rows.;
+                    #return
+               };
+               @var_save{z};
+               #variable {z} {0};
+               #foreach {*{lines[]}} {z}
+               {
+                    #line ignore #showme {${lines[$z]}} {$z}
+               };
+               #if {$z < $currentSplitRows}
+               {
+                    @var_save{counter};
+                    #math {counter} {$z + 1};
+                    #loop {$counter} {$currentSplitRows} {counter}
+                    {
+                         #showme {@separator{}} {$counter}
+                    };
+                    @var_restore{counter}
+               };
+               @var_restore{z};
+               @var_restore{lines}
           }
      }
 }
@@ -261,6 +299,14 @@
 }
 {9}
 
+#ALIAS {^splitlines %d$}
+{
+     #split {$currentSplitRows} {%1};
+     NOTIFY Bottom split lines set to %1;
+     #variable {splitLines} {%1}
+}
+{9}
+
 #ALIAS {^view %s%w$}
 {
      #format {i} {%n} {%2};
@@ -281,6 +327,7 @@
      }
 }
 {9}
+
 
 #FUNCTION {pimp}
 {
@@ -500,8 +547,10 @@
      #showme {Channel buffer set to $channelBuffer[$channelBufferIndex]}
 }
 
+
 #VARIABLE         {awayMessage}  {false}
 #VARIABLE         {channel}  {}
 #VARIABLE         {channelBuffer}  {{1}{All}{2}{Advice}{3}{Barter}{4}{Gossip}{5}{GroupTell}{6}{Info}{7}{Kingdom}{8}{Music}{9}{Rude}{10}{Say}{11}{Tell}{12}{Chat}{13}{cchat}{14}{Code}{15}{Hero}}
 #VARIABLE         {channelBufferIndex}  {1}
+#VARIABLE         {currentSplitRows}  {1}
 

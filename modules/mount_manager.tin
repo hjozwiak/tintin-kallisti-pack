@@ -157,7 +157,7 @@
           }
      }
 }
-{1}
+{9}
 
 #ALIAS {^tether %*}
 {
@@ -186,7 +186,7 @@
 
 #EVENT {VARIABLE UPDATE MSDP_MOUNT_HEALTH}
 {
-     #if {{%1} != {} && {${MSDP_CHARACTER_NAME}} != {} && !$copying && &{MSDP_MOUNT_HEALTH_MAX} && {$MSDP_MOUNT_HEALTH_MAX} != {0} && {$MSDP_MOUNT_HEALTH_MAX} != {}}
+     #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying && &{MSDP_MOUNT_HEALTH_MAX} && {$MSDP_MOUNT_HEALTH_MAX} != {0} && {$MSDP_MOUNT_HEALTH_MAX} != {}}
      {
           #delay {0.25} {#if {&{MSDP_MOUNT_HEALTH_MAX} && {$MSDP_MOUNT_HEALTH_MAX} != {0} && {$MSDP_MOUNT_HEALTH_MAX} != {}} {#if {!&{character[audioprompt]}}{#variable {character[audioprompt]} {1}};#math {audioprompt[mounthealth]} {(%1 / $MSDP_MOUNT_HEALTH_MAX) *100.0};#if {${audioprompt[mounthealth]} < 100}{#format {audioprompt[mounthealth]} {%d} {${audioprompt[mounthealth]} - ${audioprompt[mounthealth]} % 10};#if {${audioprompt[mounthealth]} != ${audioprompt[oldMountHealth]} && ${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{mounthealth${audioprompt[mounthealth]}}}{SYNTH_PLAY mounthealth${audioprompt[mounthealth]};#variable {audioprompt[oldMountHealth]} {${audioprompt[mounthealth]}}}}}};#if {&{autoHealMountPercent}} {#if {@percent{MSDP_MOUNT_HEALTH} < ${autoHealMountPercent} && !${spam[healmount]}} {${autoHealMount} ${character[mount]};spamset healmount 6}}}
      }
@@ -194,7 +194,7 @@
 
 #EVENT {VARIABLE UPDATE MSDP_MOUNT_STAMINA}
 {
-     #if {{%1} != {} && {${MSDP_CHARACTER_NAME}} != {} && !$copying && &{MSDP_MOUNT_STAMINA_MAX} && {$MSDP_MOUNT_STAMINA_MAX} != {0} && {$MSDP_MOUNT_STAMINA_MAX} != {}}
+     #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying && &{MSDP_MOUNT_STAMINA_MAX} && {$MSDP_MOUNT_STAMINA_MAX} != {0} && {$MSDP_MOUNT_STAMINA_MAX} != {}}
      {
           #delay {0.25} {#math {audioprompt[mountmovement]} {(%1 / $MSDP_MOUNT_STAMINA_MAX) *100.0};#if {${audioprompt[mountmovement]} < 100}{#format {audioprompt[mountmovement]} {%d} {${audioprompt[mountmovement]} - ${audioprompt[mountmovement]} % 10};#if {${audioprompt[mountmovement]} != ${audioprompt[oldMountMovement]}}{#if {${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{mountmovement${audioprompt[mountmovement]}}}{SYNTH_PLAY mountmovement${audioprompt[mountmovement]};#variable {audioprompt[oldMountMovement]} {${audioprompt[mountmovement]}}}}}}}
      }

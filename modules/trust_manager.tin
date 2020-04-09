@@ -1,140 +1,144 @@
 #ACTION {^%w %2tells you, ':%3'$}
 {
-	#local {accountName} {%2};
-	#replace {accountName} {{\(|\)| }} {};
-	#if {@is_friend{$accountName} && !@is_friend{%1} && {%1} != {{Someone|someone}}}
-	{
-		friend add %1
-	};
-	Channel_Event Tell %0;
-	#if {@is_friend{%1}}
-	{
-		#switch {{%3}}
-		{
-			#case {{where}}
-			{
-				reply $MSDP_ROOM_NAME
-			};
-			#default
-			{
-				@trust_exec{%3}
-			}
-		}
-	}
+     #local {accountName} {%2};
+     #replace {accountName} {{\(|\)| }} {};
+     #if {@is_friend{$accountName} && !@is_friend{%1} && {%1} != {{Someone|someone}}}
+     {
+          friend add %1
+     };
+     Channel_Event Tell %0;
+     #if {@is_friend{%1} || @is_friend{$accountName}}
+     {
+          #switch {{%3}}
+          {
+               #case {{where}}
+               {
+                    reply $MSDP_ROOM_NAME
+               };
+               #default
+               {
+                    @trust_exec{%3}
+               }
+          }
+     }
 }
 {7}
 
 #ACTION {^**%w: '%S %3'$}
 {
-	#nop {See communication.tin for groupTell hook info.};
-	Channel_Event GroupTell %0;
-	#if {@is_friend{%1} && {%2} == {{${MSDP_CHARACTER_NAME}|all}}}
-	{
-		@trust_exec{%3}
-	};
-	@do_hook{groupTell;%1;'%2 %3'}
+     #nop {See communication.tin for groupTell hook info.};
+     Channel_Event GroupTell %0;
+     #if {@is_friend{%1} && {%2} == {{${MSDP_CHARACTER_NAME}|all}}}
+     {
+          @trust_exec{%3}
+     };
+     @do_hook{groupTell;%1;'%2 %3'}
 }
 {7}
 
 #ACTION {^%w beckons you to follow.$}
 {
-	#if {!&{leader}}
-	{
-		#if {${auto[follow]}}
-		{
-			#if {@is_friend{%1}}
-			{
-				follow %1
-			}
-		}
-	}
+     #if {!&{leader}}
+     {
+          #if {${auto[follow]}}
+          {
+               #if {@is_friend{%1}}
+               {
+                    follow %1
+               }
+          }
+     }
 }
 {9}
 
+
 #ALIAS {^friend %s{add|remove} %s%w$}
 {
-	#local {f} {};
-	#local {i} {0};
-	#format {f} {%n} {%4};
-	#list {friends} {find} {${f}} {i};
-	#if {{%2} == {remove}}
-	{
-		#if {$i != 0}
-		{
-			#list {friends} {delete} {$i};
-			#echo {${f} removed from your friends list.};
-			CSAVE
-		};
-		#else
-		{
-			#echo {${f} is not currently in your friends list.}
-		}
-	};
-	#else
-	{
-		#if {$i == 0}
-		{
-			#list {friends} {add} {${f}};
-			#echo {${f} added to your friends list.};
-			CSAVE
-		};
-		#else
-		{
-			#echo {${f} is already in your friends list.}
-		}
-	}
+     #local {f} {};
+     #local {i} {0};
+     #format {f} {%n} {%4};
+     #list {friends} {find} {${f}} {i};
+     #if {{%2} == {remove}}
+     {
+          #if {$i != 0}
+          {
+               #list {friends} {delete} {$i};
+               #echo {${f} removed from your friends list.};
+               CSAVE
+          };
+          #else
+          {
+               #echo {${f} is not currently in your friends list.}
+          }
+     };
+     #else
+     {
+          #if {$i == 0}
+          {
+               #list {friends} {add} {${f}};
+               #echo {${f} added to your friends list.};
+               CSAVE
+          };
+          #else
+          {
+               #echo {${f} is already in your friends list.}
+          }
+     }
 }
 {9}
 
 #ALIAS {^frien{d|ds} %slist$}
 {
-	#local {i} {};
-	#local {j} {};
-	#echo {People in your friends list:};
-	#list {friends} {size} {i};
-	#if {$i > 0}
-	{
-		#foreach {*{friends[]}} {j}
-		{
-			#echo {${friends[$j]}}
-		}
-	}
+     #local {i} {};
+     #local {j} {};
+     #echo {People in your friends list:};
+     #list {friends} {size} {i};
+     #if {$i > 0}
+     {
+          #foreach {*{friends[]}} {j}
+          {
+               #echo {${friends[$j]}}
+          }
+     }
 }
 {9}
 
+
 #FUNCTION {is_friend}
 {
-	#local {f} {};
-	#format {f} {%n} {%1};
-	#list {friends} {find} {${f}} {i};
-	#if {$i > 0}
-	{
-		#variable {result} {1}
-	};
-	#else
-	{
-		#variable {result} {0}
-	}
+     #local {f} {};
+     #format {f} {%n} {%1};
+     #list {friends} {find} {${f}} {i};
+     #if {$i > 0}
+     {
+          #variable {result} {1}
+     };
+     #else
+     {
+          #variable {result} {0}
+     }
 }
 
 #FUNCTION {trust_exec}
 {
-	#local {f} {};
-	#format {f} {%l} {%0};
-	#local {deniedList} {hardc|outl|gem|friend|ste|homa|#};
-	#switch {{${f}}}
-	{
-		#case {{{.*;.*}}}
-		{
-			#return #nop
-		};
-		#case {{{\s*(?:$deniedList)}%*}}
-		{
-			#return #nop
-		};
-		#default
-		{
-			#return %0
-		}
-	}
+     #local {f} {};
+     #format {f} {%l} {%0};
+     #local {deniedList} {hardc|outl|gem|friend|ste|homa|#};
+     #switch {{${f}}}
+     {
+          #case {{{.*;.*}}}
+          {
+               #return #nop
+          };
+          #case {{{\s*(?:$deniedList)}%*}}
+          {
+               #return #nop
+          };
+          #default
+          {
+               #return %0
+          }
+     }
 }
+
+

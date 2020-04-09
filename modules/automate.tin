@@ -1,29 +1,35 @@
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
+     #nop {Hook name: locked};
+     #nop {Hook args: %1 name of door that can be unlocked.};
      #unvariable {auto[track]};
+     @var_save{tmp};
+     #regexp {%1} {{.*} {.*}}
+     {
+          #variable {tmp} {&2 %2}
+     };
+     #else
+     {
+          #variable {tmp} {%1 %2}
+     };
      #if {&{auto[pick]}}
      {
-          #regexp {%1} {{.*} {.*}}
-          {
-               #variable {auto[pick]} {&2 %2}
-          };
-          #else
-          {
-               #variable {auto[pick]} {%1 %2}
-          };
-          pick ${auto[pick]}
-     }
+          pick ${tmp}
+     };
+     @do_hook{locked;${tmp}};
+     @var_restore{tmp}
 }
 {9}
 
-#ACTION {^%S%2[ %3Bank %4]$}
+#ACTION {^%S{[^[]+}{(?: \[ .+ \]){1,2}}$}
 {
-     #if {${auto[deposit]}}
+     #regexp {%3} {%*Bank%*}
      {
-          #if {$MSDP_GOLD > 0}
-          {
-               deposit all
-          }
+          #if {${auto[deposit]} && $MSDP_GOLD > 0} {deposit all}
+     };
+     #if {$mappable}
+     {
+          mapRoom
      }
 }
 {9}
@@ -94,7 +100,7 @@
      #nop {Hook name playerDeath};
      #nop {Hook args: none.};
      #unvariable {leader};
-     #if {${auto[relogin]}}
+     #if {&{auto[relogin]}}
      {
           ${auto[relogin]}
      };
@@ -172,14 +178,12 @@
 {
      #nop {Hook name is trackEnd.};
      #nop {Hook args track of target.};
-     #local {i} {};
-     #local {j} {};
      #if {&{auto[track]}}
      {
-          @do_hook{trackEnd};
           SYNTH_PLAY notificationSound;
           #unvariable {auto[track]}
-     }
+     };
+     @do_hook{trackEnd}
 }
 {9}
 
@@ -286,10 +290,10 @@
      #nop {Hook args tracked target.};
      #if {&{auto[track]}}
      {
-          @do_hook{trackEnd};
           SYNTH_PLAY notificationSound;
           #unvariable {auto[track]}
-     }
+     };
+     @do_hook{trackEnd}
 }
 {9}
 
@@ -298,7 +302,10 @@
      #if {&{auto[track]}}
      {
           %1
-     }
+     };
+     #nop {Hook name: trackDirection};
+     #nop {Hook args: %1 direction the tracks are going.};
+     @do_hook{trackDirection;%1}
 }
 {9}
 
@@ -314,54 +321,6 @@
 }
 {9}
 
-#ACTION {^{No one seems to be listening right now|You feel the need to renew your prayers to God}.$}
-{
-     #if {${auto[prayer]}}
-     {
-          #if {$MSDP_OPPONENT_NUMBER == 0}
-          {
-               prayer
-          };
-          #else
-          {
-               #list {onDeath} {add} {prayer}
-          }
-     }
-}
-{9}
-
-#ACTION {^{Nothing happened|Your shield stops glowing with divine energy}.$}
-{
-     #if {&{auto[dshield]}}
-     {
-          #if {$MSDP_OPPONENT_NUMBER == 0}
-          {
-               dshield
-          };
-          #else
-          {
-               #list {onDeath} {add} {dshield}
-          }
-     }
-}
-{9}
-
-#ACTION {^{The spirit of Bushido is no longer with you|You fail to connect with the spirit}.$}
-{
-     #if {${auto[bushido]}}
-     {
-          bushido
-     }
-}
-{9}
-
-
-#ALIAS {^{wer|were|werew|werewo|werewol|werewolf}$}
-{
-     #variable {manualWerewolf} {1};
-     #send {werewolf}
-}
-{1}
 
 #ALIAS {^autoheal%s {me|self} %3 %d$}
 {
@@ -410,8 +369,8 @@
 
 #ALIAS {^noautoheal%s {me|self}$}
 {
-     #unvariable {autoHealSelf};
-     #echo {You will no longer try to heal yourself automatically.};
+     #unvariable {autoHealMount};
+     #echo {You will no longer try to heal your mount automatically.};
      CSAVE
 }
 {8}
@@ -439,48 +398,227 @@
 }
 {9}
 
+#ALIAS {^autoDequeue$}
+{
+     #local {i} {};
+     #list {autoQueue} {size} {i};
+     #if {$i > 0}
+     {
+          #foreach {${autoQueue[%*]}} {i}
+          {
+               #local {j} {};
+               #local {k} {};
+               #if {&{MSDP_AFFECTS[$i]}}
+               {
+                    #list {autoQueue} {find} {$i} {k};
+                    #list {autoQueue} {delete} {$k};
+                    #continue
+               };
+               #foreach {*{autoMappings[]}} {j}
+               {
+                    #if {{${autoMappings[$j]}} == {$i} && &{MSDP_AFFECTS[$j]}}
+                    {
+                         #list {autoQueue} {find} {$i} {k};
+                         #list {autoQueue} {delete} {$k};
+                         #break
+                    }
+               }
+          }
+     };
+     #list {autoQueue} {size} {i};
+     #if {$i > 0}
+     {
+          #foreach {${autoQueue[%*]}} {i}
+          {
+               #if {{${autoQueue[$i]}} == {{gt|say}%*}}
+               {
+                    ${autoQueue[$i]};
+                    #local {k} {};
+                    #list {autoQueue} {find} {$i} {k};
+                    #list {autoQueue} {delete} {$k};
+                    #continue
+               };
+               #if {{$MSDP_ROOM_VNUM} != {{13200|3001}}}
+               {
+                    #local {j} {};
+                    #if {$MSDP_OPPONENT_NUMBER > 0}
+                    {
+                         #list {autoCombatAllowed} {find} $i {j};
+                         #if {$j > 0}
+                         {
+                              #if {{${lastDequeue}} != {$i}}
+                              {
+                                   #variable {lastDequeue} {$i};
+                                   #format {lastDequeueTimestamp} {%T}
+                              };
+                              #local {currentTimestamp} {};
+                              #format {currentTimestamp} {%T};
+                              #if {$currentTimestamp - $lastDequeueTimestamp >= 60}
+                              {
+                                   #nop We've been trying to do this one at least a minute, bale out. They probably don't have the potions, etc.;
+                                   #local {k} {};
+                                   #list {autoQueue} {find} {$i} {k};
+                                   #list {autoQueue} {delete} {$k};
+                                   #variable {lastDequeue} {};
+                                   #variable {lastDequeueTimestamp} {2147483647};
+                                   #continue
+                              };
+                              #switch {{$i}}
+                              {
+                                   #case {{focus}}
+                                   {
+                                        focus ${auto[focus]}
+                                   };
+                                   #default
+                                   {
+                                        #if {{${auto[$i]}} == {1}}
+                                        {
+                                             $i
+                                        };
+                                        #else
+                                        {
+                                             ${auto[$i]}
+                                        }
+                                   }
+                              };
+                              #break
+                         };
+                         #else
+                         {
+                              #continue
+                         }
+                    };
+                    #else
+                    {
+                         #if {{${lastDequeue}} != {$i}}
+                         {
+                              #variable {lastDequeue} {$i};
+                              #format {lastDequeueTimestamp} {%T}
+                         };
+                         #local {currentTimestamp} {};
+                         #format {currentTimestamp} {%T};
+                         #if {$currentTimestamp - $lastDequeueTimestamp >= 60}
+                         {
+                              #nop We've been trying to do this one at least a minute, bale out. They probably don't have the potions, etc.;
+                              #local {k} {};
+                              #list {autoQueue} {find} {$i} {k};
+                              #list {autoQueue} {delete} {$k};
+                              #variable {lastDequeue} {};
+                              #variable {lastDequeueTimestamp} {2147483647};
+                              #continue
+                         };
+                         #switch {{$i}}
+                         {
+                              #case {{focus}}
+                              {
+                                   focus ${auto[focus]}
+                              };
+                              #case {{warpaint}}
+                              {
+                                   warpaint ${auto[warpaint]}
+                              };
+                              #case {{magicshield}}
+                              {
+                                   mshield
+                              };
+                              #case {{blade}}
+                              {
+                                   blades
+                              };
+                              #case {{eyes}}
+                              {
+                                   #if {{$MSDP_CLASS} == {Wizard} && {${auto[$i]}} == {1}}
+                                   {
+                                        ceyes
+                                   };
+                                   #elseif {{${auto[$i]}} == {1}}
+                                   {
+                                        truesee
+                                   };
+                                   #else
+                                   {
+                                        ${auto[$i]}
+                                   }
+                              };
+                              #case {{zombify}}
+                              {
+                                   zombieform
+                              };
+                              #default
+                              {
+                                   #if {{${auto[$i]}} == {1}}
+                                   {
+                                        $i
+                                   };
+                                   #else
+                                   {
+                                        ${auto[$i]}
+                                   }
+                              }
+                         };
+                         #break
+                    }
+               }
+          }
+     }
+}
+{9}
+
 #ALIAS {^buff$}
 {
      #local {i} {};
-     #foreach {aura;barkskin;bless;eyes;ffire;focus;prayer;sanc;shape;vigor;warcry;warpaint} {i}
+     @var_save{tmp};
+     #list {tmp} {create} {${autoMappings[%*]}};
+     #foreach {${autoCombatAllowed[%*]}} {i}
+     {
+          #local {j} {};
+          #list {tmp} {find} {$i} {j};
+          #if {$j == 0}
+          {
+               #list {tmp} {add} {$i}
+          }
+     };
+     #foreach {${bufExtras[%*]}} {i}
+     {
+          #local {j} {};
+          #list {tmp} {find} {$i} {j};
+          #if {$j == 0}
+          {
+               #list {tmp} {add} {$i}
+          }
+     };
+     #foreach {${tmp[%*]}} {i}
      {
           #if {&{auto[$i]}}
           {
                #switch {{$i}}
                {
-                    #case {{{bless|prayer|warcry}}}
-                    {
-                         $i
-                    };
-                    #case {{eyes}}
-                    {
-                         true
-                    };
-                    #case {{focus}}
-                    {
-                         $i ${auto[$i]}
-                    };
                     #case {{shape}}
                     {
-                         #switch {{${MSDP_CLASS}}}
+                         #local {string} {${auto[shape]}};
+                         #if {{$MSDP_CLASS} == {Druid}}
                          {
-                              #case {{Druid}}
-                              {
-                                   shapechange ${auto[$i]}
-                              };
-                              #default
-                              {
-                                   mortify ${auto[$i]}
-                              }
-                         }
+                              #variable {string} {shapechange ${auto[shape]}}
+                         };
+                         #elseif {{$MSDP_CLASS} == {Necromancer}}
+                         {
+                              #variable {string} {mortify ${auto[shape]}}
+                         };
+                         $string
                     };
                     #default
                     {
-                         ${auto[$i]}
+                         #local {j} {};
+                         #list {autoQueue} {find} {$i} {j};
+                         #if {$j == 0}
+                         {
+                              #list {autoQueue} {add} {$i}
+                         }
                     }
                }
           }
-     }
+     };
+     @var_restore{tmp}
 }
 {9}
 
@@ -593,7 +731,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{acidshield.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvissage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
+#ALIAS {^{noauto|auto}{acidshield.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin.*|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
 {
      #if {{%0} == {noauto%*}}
      {
@@ -633,6 +771,13 @@
 }
 {9}
 
+#ALIAS {^{wer|were|werew|werewo|werewol|werewolf}$}
+{
+     #variable {manualWerewolf} {1};
+     #send {werewolf}
+}
+{9}
+
 #ALIAS {^{~|/} %1}
 {
      #echo {You are now using %1 to recall out of combat.};
@@ -650,10 +795,10 @@
      {
           #if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
           {
-               #if {!${breakout}}
+               #if {!${spam[breakout]}}
                {
                     breakout;
-                    #variable breakout 1 spamset breakout 15
+                    spamset breakout 15
                };
                #if {!&{character[recall]}}
                {
@@ -669,137 +814,10 @@
 }
 {9}
 
-#ALIAS {~autoDequeue$}
-{
-     #local {i} {};
-     #list {autoQueue} {size} {i};
-     #if {$i > 0 && {$MSDP_ROOM_VNUM} != {{13200|3001}}}
-     {
-          #foreach {${autoQueue[%*]}} {i}
-          {
-               #local {j} {};
-               #if {$MSDP_OPPONENT_NUMBER > 0}
-               {
-                    #list {autoCombatAllowed} {find} $i {j};
-                    #if {$j > 0}
-                    {
-                         #if {{${lastDequeue}} != {$i}}
-                         {
-                              #variable {lastDequeue} {$i};
-                              #format {lastDequeueTimestamp} {%T}
-                         };
-                         #local {currentTimestamp} {};
-                         #format {currentTimestamp} {%T};
-                         #if {$currentTimestamp - $lastDequeueTimestamp >= 60}
-                         {
-                              #nop We've been trying to do this one at least a minute, bale out. They probably don't have the potions, etc.;
-                              #local {k} {};
-                              #list {autoQueue} {find} {$i} {k};
-                              #list {autoQueue} {delete} {$k};
-                              #variable {lastDequeue} {};
-                              #variable {lastDequeueTimestamp} {2147483647};
-                              #continue
-                         };
-                         #switch {{$i}}
-                         {
-                              #case {{focus}}
-                              {
-                                   focus ${auto[focus]}
-                              };
-                              #default
-                              {
-                                   #if {{${auto[$i]}} == {1}}
-                                   {
-                                        $i
-                                   };
-                                   #else
-                                   {
-                                        ${auto[$i]}
-                                   }
-                              }
-                         };
-                         #break
-                    };
-                    #else
-                    {
-                         #continue
-                    }
-               };
-               #else
-               {
-                    #if {{${lastDequeue}} != {$i}}
-                    {
-                         #variable {lastDequeue} {$i};
-                         #format {lastDequeueTimestamp} {%T}
-                    };
-                    #local {currentTimestamp} {};
-                    #format {currentTimestamp} {%T};
-                    #if {$currentTimestamp - $lastDequeueTimestamp >= 60}
-                    {
-                         #nop We've been trying to do this one at least a minute, bale out. They probably don't have the potions, etc.;
-                         #local {k} {};
-                         #list {autoQueue} {find} {$i} {k};
-                         #list {autoQueue} {delete} {$k};
-                         #variable {lastDequeue} {};
-                         #variable {lastDequeueTimestamp} {2147483647};
-                         #continue
-                    };
-                    #switch {{$i}}
-                    {
-                              #case {{focus}}
-                              {
-                                   focus ${auto[focus]}
-                              };
-                         #case {{warpaint}}
-                         {
-                              warpaint ${auto[warpaint]}
-                         };
-                         #case {{magicshield}}
-                         {
-                              mshield
-                         };
-                         #case {{blade}}
-                         {
-                              blades
-                         };
-                         #case {{eyes}}
-                         {
-                              #if {{$MSDP_CLASS} == {Wizard}}
-                              {
-                                   ceyes
-                              };
-                              #else
-                              {
-                                   truesee
-                              }
-                         };
-                         #case {{zombify}}
-                         {
-                              zombieform
-                         };
-                         #default
-                         {
-                              #if {{${auto[$i]}} == {1}}
-                              {
-                                   $i
-                              };
-                              #else
-                              {
-                                   ${auto[$i]}
-                              }
-                         }
-                    };
-                    #break
-               }
-          }
-     }
-}
-{9}
-
 
 #EVENT {VARIABLE UPDATE MSDP_AFFECTS}
 {
-     #if {{$MSDP_CHARACTER_NAME} != {} && !${copying}}
+     #if {{$MSDP_CHARACTER_NAME} != {} && &{MSDP_CHARACTER_NAME} && !${copying}}
      {
           #variable {tmp} {%1};
           #local {i} {};
@@ -825,7 +843,8 @@
                {
                     #variable {lastDequeue} {};
                     #variable {lastDequeueTimestamp} {2147483647};
-                    #list {autoQueue} {delete} {$j}
+                    #list {autoQueue} {delete} {$j};
+                    @do_hook{affectUp;$k}
                }
           };
           #nop #local {tmpKeys} {};
@@ -846,7 +865,8 @@
                     };
                     #if {&{auto[$k]}}
                     {
-                         #list {autoQueue} {add} {$k}
+                         #list {autoQueue} {add} {$k};
+                         @do_hook{affectDown;$k}
                     }
                }
           };
@@ -855,6 +875,16 @@
           #unvariable {oldAffectsKeys};
           #unvariable {tmpKeys};
           #unvariable {mappingKeys}
+     }
+}
+
+#EVENT {VARIABLE UPDATE MSDP_HERO_POINTS}
+{
+     #if {{%1} != {} && !$copying}
+     {
+          #nop {Hook name: heroPoints};
+          #nop {Hook args: %1 current hero points %2 OLD hero points.};
+          @do_hook{heroPoints;%1;$MSDP_HERO_POINTS}
      }
 }
 
@@ -893,6 +923,12 @@
 
 #VARIABLE         {at}  {}
 #VARIABLE         {autoCombatAllowed}  {{1}{focus}{2}{warcry}{3}{bushido}}
-#VARIABLE         {autoMappings}  {{blade barrier}{blade}{corpse vissage}{cvissage}{crystal eyes}{eyes}{divine armor}{darmor}{divine shield}{dshield}{faerie fire}{ffire}{grim ward}{grimward}{magic shield}{magicshield}{protection from death}{pfd}{sanctuary}{sanc}{shroud of darkness}{shroud}{spirit of bushido}{bushido}{spiritual guardian}{spirit}{true seeing}{eyes}{unholy aura}{aura}}
+#VARIABLE         {autoMappings}  {{blade barrier}{blade}{corpse visage}{cvisage}{crystal eyes}{eyes}{divine armor}{darmor}{divine shield}{dshield}{faerie fire}{ffire}{grim ward}{grimward}{magic shield}{magicshield}{protection from death}{pfd}{sanctuary}{sanc}{shroud of darkness}{shroud}{spirit of bushido}{bushido}{spiritual guardian}{spirit}{true seeing}{eyes}{unholy aura}{aura}{wraithform}{wraith}}
+#VARIABLE         {autoQueue}  {}
+#VARIABLE         {bufExtras}  {{1}{acidshield}{2}{blur}{3}{barkskin}{4}{bless}{5}{haste}{6}{prayer}{7}{shape}{8}{strength}{9}{vigor}{10}{warpaint}}
+#VARIABLE         {lastDequeue}  {}
+#VARIABLE         {lastDequeueTimestamp}  {2147483647}
+#VARIABLE         {manualWerewolf}  {0}
+#VARIABLE         {oldAffects}  {}
 #VARIABLE         {tetherable}  {1}
 
