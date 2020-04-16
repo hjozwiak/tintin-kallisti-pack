@@ -1,133 +1,139 @@
 #ACTION {^--+  Congratulations, you are now level %d!  +--%s}
 {
-	#nop {To get around the backslash character appearing in posts that end with a variable followed by a period, do this};
-	#variable {socialmedia[msg]} {$MSDP_CHARACTER_NAME is now a level %1 $MSDP_CLASS. ${socialmedia[hashtag]} ${socialmedia[url]}};
-	#replace {socialmedia[msg]} {\\} {};
-	POST ${socialmedia[msg]}
+     #nop {To get around the backslash character appearing in posts that end with a variable followed by a period, do this};
+     #variable {socialmedia[msg]} {$MSDP_CHARACTER_NAME is now a level %1 $MSDP_CLASS. ${socialmedia[hashtag]} ${socialmedia[url]}};
+     #replace {socialmedia[msg]} {\\} {};
+     POST ${socialmedia[msg]}
 }
 {9}
 
 #ACTION {^Congratulations, you have achieved notable status in the realms!%sYou receive %2!$}
 {
-	POST $MSDP_CHARACTER_NAME achieved notable status in the realms and received %2! ${socialmedia[hashtag]} ${socialmedia[url]}
+     POST $MSDP_CHARACTER_NAME achieved notable status in the realms and received %2! ${socialmedia[hashtag]} ${socialmedia[url]}
 }
 {9}
 
 #ACTION {^You are now ranked #%1 on the %2 top%3 list.$}
 {
-	POST $MSDP_CHARACTER_NAME is now ranked #%1 on the %2 top%3 list. ${socialmedia[hashtag]} ${socialmedia[url]}
+     POST $MSDP_CHARACTER_NAME is now ranked #%1 on the %2 top%3 list. ${socialmedia[hashtag]} ${socialmedia[url]}
 }
 {9}
 
 #ACTION {^You lose %d experience, %d MaxHp, %d MaxMana, and %d MaxStamina.%*}
 {
-	#if {!${spam.death}}
-	{
-		POST $MSDP_CHARACTER_NAME was killed by $OLD_MSDP_OPPONENT_NAME and lost %1 exp, %2 hps, %3 mana, and %4 stamina. ${socialmedia[hashtag]} ${socialmedia[url]};
-		spamset death 600
-	};
-	#variable {character.lastDeath} {You were last killed by $OLD_MSDP_OPPONENT_NAME and lost %1  exp, %2 hps, %3 mana, and %4 stamina.};
-	CSAVE
+     #if {!${spam.death}}
+     {
+          POST $MSDP_CHARACTER_NAME was killed by $OLD_MSDP_OPPONENT_NAME and lost %1 exp, %2 hps, %3 mana, and %4 stamina. ${socialmedia[hashtag]} ${socialmedia[url]};
+          spamset death 600
+     };
+     #variable {character.lastDeath} {You were last killed by $OLD_MSDP_OPPONENT_NAME and lost %1  exp, %2 hps, %3 mana, and %4 stamina.};
+     CSAVE
 }
 {9}
 
 #ACTION {^You now have meta'd a total of %d sessions.$}
 {
-	#if {%1 % 25 == 0}
-	{
-		POST $MSDP_CHARACTER_NAME has meta'd a total of %1 sessions. ${socialmedia[hashtag]} ${socialmedia[url]}
-	}
+     #if {%1 % 50 == 0}
+     {
+          POST $MSDP_CHARACTER_NAME has meta'd a total of %1 sessions. ${socialmedia[hashtag]} ${socialmedia[url]}
+     }
 }
 {9}
 
 #ACTION {^Your a shard of the legends crumbles to dust!$}
 {
-	POST $MSDP_CHARACTER_NAME redeemed a shard of the legends! ${socialmedia[hashtag]} ${socialmedia[url]}
+     POST $MSDP_CHARACTER_NAME redeemed a shard of the legends! ${socialmedia[hashtag]} ${socialmedia[url]}
 }
 {9}
 
 #ACTION {^{Lamp Oil|Lapis Lazuli|Mithril|Pygmy Pigs|Rordack Cheese|Siege Equipment|Weapons} stocks paid you a dividend of %d gold.$}
 {
-	POST %1 stocks paid $MSDP_CHARACTER_NAME a dividend of %2 gold. ${socialmedia[hashtag]} ${socialmedia[url]}
+     #if {%2 >= 100000}
+     {
+          POST %1 stocks paid $MSDP_CHARACTER_NAME a dividend of %2 gold. ${socialmedia[hashtag]} ${socialmedia[url]}
+     }
 }
 {9}
 
+
 #ALIAS {^POST %1}
 {
-	#if {$twitter}
-	{
-		#system {oysttyer -silent -norc -status="%1" &> /dev/null&}
-	};
-	#if {$mastodon}
-	{
-		#system {madonctl toot "%1" &> /dev/null&}
-	};
-	#if {$gnusocial}
-	{
-		#if {!&{gusername} || !&{gpassword}}
-		{
-			NOTIFY Before you can post, you need to set your username and password. To do so please type ginfo username@node.ext password.;
-			#break
-		};
-		#if {!&{gurl}}
-		{
-			#variable {gurl} {http://2mb.social}
-		};
-		#if {!&{gnuSocialMudGroup}}
-		{
-			#variable {gnuSocialMudGroup} {muds}
-		};
-		#system {curl -s -u "$gusername:$gpassword" --data-binary status="$(echo -e "%1") !$gnuSocialMudGroup" -d source="tintin-kallisti-pack" $gurl/api/statuses/update.xml &> /dev/null&}
-	}
+     #if {$twitter}
+     {
+          #system {oysttyer -silent -norc -status="%1" &> /dev/null&}
+     };
+     #if {$mastodon}
+     {
+          #system {madonctl toot "%1" &> /dev/null&}
+     };
+     #if {$gnusocial}
+     {
+          #if {!&{gusername} || !&{gpassword}}
+          {
+               NOTIFY Before you can post, you need to set your username and password. To do so please type ginfo username@node.ext password.;
+               #break
+          };
+          #if {!&{gurl}}
+          {
+               #variable {gurl} {http://2mb.social}
+          };
+          #if {!&{gnuSocialMudGroup}}
+          {
+               #variable {gnuSocialMudGroup} {muds}
+          };
+          #system {curl -s -u "$gusername:$gpassword" --data-binary status="$(echo -e "%1") !$gnuSocialMudGroup" -d source="tintin-kallisti-pack" $gurl/api/statuses/update.xml &> /dev/null&}
+     }
 }
 {9}
 
 #ALIAS {^ginfo %S@%S %s%4$}
 {
-	#variable {gusername} {%1};
-	#variable {gurl} {https://%2};
-	#variable {gpassword} {%4};
-	NOTIFY Now posting to GNU Social as %1@%2.;
-	#history {delete}
+     #variable {gusername} {%1};
+     #variable {gurl} {https://%2};
+     #variable {gpassword} {%4};
+     NOTIFY Now posting to GNU Social as %1@%2.;
+     #history {delete}
 }
 {9}
 
 #ALIAS {^{gnusocial||mastodon|twitter|nognusocial|nomastodon|notwitter}$}
 {
-	#switch {{%0}}
-	{
-		#case {{gnusocial}}
-		{
-			#variable {gnusocial} {1};
-			NOTIFY Achievements will now be posted to GNU Social. Remember to set your information with ginfo webfinger password.
-		};
-		#case {{nognusocial}}
-		{
-			#unvariable {gnusocial};
-			NOTIFY Achievements will no longer be posted to GNU Social.
-		};
-		#case {{mastodon}}
-		{
-			#variable {mastodon} {1};
-			NOTIFY Achievements will now be posted to Mastodon. You will need to have madonctl installed and configured.
-		};
-		#case {{nomastodon}}
-		{
-			#unvariable {mastodon};
-			NOTIFY Achievements will no longer be posted to Mastodon.
-		};
-		#case {{twitter}}
-		{
-			#variable {twitter} {1};
-			NOTIFY Achievements will now be posted to Twitter. You will need to have oysttyer installed and configured.
-		};
-		#case {{notwitter}}
-		{
-			#unvariable {twitter};
-			NOTIFY Achievements will no longer be posted to Twitter.
-		}
-	}
+     #switch {{%0}}
+     {
+          #case {{gnusocial}}
+          {
+               #variable {gnusocial} {1};
+               NOTIFY Achievements will now be posted to GNU Social. Remember to set your information with ginfo webfinger password.
+          };
+          #case {{nognusocial}}
+          {
+               #unvariable {gnusocial};
+               NOTIFY Achievements will no longer be posted to GNU Social.
+          };
+          #case {{mastodon}}
+          {
+               #variable {mastodon} {1};
+               NOTIFY Achievements will now be posted to Mastodon. You will need to have madonctl installed and configured.
+          };
+          #case {{nomastodon}}
+          {
+               #unvariable {mastodon};
+               NOTIFY Achievements will no longer be posted to Mastodon.
+          };
+          #case {{twitter}}
+          {
+               #variable {twitter} {1};
+               NOTIFY Achievements will now be posted to Twitter. You will need to have oysttyer installed and configured.
+          };
+          #case {{notwitter}}
+          {
+               #unvariable {twitter};
+               NOTIFY Achievements will no longer be posted to Twitter.
+          }
+     }
 }
 {9}
 
+
 #VARIABLE         {socialmedia}  {{hashtag}{#LoK}{url}{http://kallistimud.com}}
+
