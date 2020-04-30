@@ -467,7 +467,7 @@
      NOTIFY $msg.
 }
 
-#MACRO {\e\x7B}
+#MACRO {\e_}
 {
      #nop {Music player volume down.};
      #switch {{${music[player]}}}
@@ -505,7 +505,7 @@
      }
 }
 
-#MACRO {\e\x7D}
+#MACRO {\e+}
 {
      #nop {Increase music player volume};
      #switch {{${music[player]}}}

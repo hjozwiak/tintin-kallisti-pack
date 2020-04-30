@@ -46,16 +46,6 @@
 }
 {9}
 
-#ACTION {^{Lamp Oil|Lapis Lazuli|Mithril|Pygmy Pigs|Rordack Cheese|Siege Equipment|Weapons} stocks paid you a dividend of %d gold.$}
-{
-     #if {%2 >= 100000}
-     {
-          POST %1 stocks paid $MSDP_CHARACTER_NAME a dividend of %2 gold. ${socialmedia[hashtag]} ${socialmedia[url]}
-     }
-}
-{9}
-
-
 #ALIAS {^POST %1}
 {
      #if {$twitter}
