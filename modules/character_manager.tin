@@ -302,7 +302,6 @@
                #class {msdp} {close};
                #variable {copying} {0};
                #variable {oldAffects} {};
-               #variable {rangedCombat} {0};
                #variable {autoQueue} {};
                #variable {lastDequeue} {};
                #variable {lastDequeueTimestamp} {2147483647};
@@ -412,12 +411,6 @@
           #nop {Hook name is position};
           #nop {Hook args: new position.};
           @do_hook{position;%1};
-          #if {{%1} != {Menu} && {$MSDP_POSITION} == {Menu} && ${auto[range]}}
-          {
-               #variable {checkingRanged} {1};
-               ranged;
-               #delay {2} {#var {checkingRanged} {0}}
-          }
      }
 }
 
@@ -426,6 +419,5 @@
 
 #VARIABLE         {OLD_MSDP}  {}
 #VARIABLE         {OLD_MSDP_CHARACTER_NAME}     {NONE}
-#VARIABLE         {checkingRanged}  {0}
 #VARIABLE         {copying}  {0}
 

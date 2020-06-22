@@ -4,16 +4,6 @@
 }
 {1}
 
-#ACTION {%1 advances on you!$}
-{
-     #nop {Hook name is rangedEnd	};
-     #nop {Hook args: name of thing that advanced on you.};
-     #variable {rangedCombat} {0};
-     SYNTH_PLAY warningSound;
-     @do_hook{rangedEnd;%1}
-}
-{9}
-
 #ACTION {%1 attempts to impale %2, but flies right through {him|her|it}.$}
 {
      @combat_action{%1;%2}
@@ -281,15 +271,6 @@
 }
 {9}
 
-#ACTION {^Ok, you will try to fight from ranged combat distance.$}
-{
-     #nop {Hook name is rangedStart	};
-     #nop {Hook args: none.};
-     #variable {rangedCombat} {1};
-     @do_hook{rangedStart}
-}
-{9}
-
 #ACTION {^Redemption!  {You feel more holey|You gain \d+ (?:hitpoints|mana|stamina)}.$}
 {
      #nop {Hook name: redemption.};
@@ -402,12 +383,6 @@
           };
           ${auto[rescueCommand]} ${autorescueList[$i]}
      }
-}
-{9}
-
-#ACTION {^You will not try to fight from ranged combat distance.  You will still need to ADVANCE on opponents who are attempting to use ranged combat in order to hit them.$}
-{
-     #variable {rangedCombat} {0}
 }
 {9}
 
@@ -955,11 +930,29 @@
      #nop {hook args: Number of opponents};
      #if {{%1} != {} && !$copying}
      {
-          #if {${auto[range]} && !${rangedCombat} && %1 == 0}
+          #if {${auto[range]} && !${MSDP_RANGED} && %1 == 0}
           {
                range
           };
           @do_hook{opponentNumber;%1}
+     }
+}
+
+#EVENT {VARIABLE UPDATE MSDP_RANGED}
+{
+     #if {&{MSDP_RANGED} && %1 == 0 && $MSDP_RANGED == 1}
+     {
+          #nop {Hook name is rangedEnd	};
+          #nop {Hook args: name of thing that advanced on you.};
+          SYNTH_PLAY warningSound;
+          @do_hook{rangedEnd;%1}
+     };
+     #if {&{MSDP_RANGED} && %1 == 1 && $MSDP_RANGED == 0}
+     {
+          #nop {Hook name is rangedStart	};
+          #nop {Hook args: none.};
+          #variable {rangedCombat} {1};
+          @do_hook{rangedStart}
      }
 }
 
