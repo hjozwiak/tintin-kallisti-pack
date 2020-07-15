@@ -13,15 +13,20 @@ soundpackURL='http://kallistimud.com/files/msppack.zip'
 soundpackPath="$1"
 
 get_soundpack() {
-  # Recreate soundpack directory.
-  rm -rf "$soundpackPath"
-  mkdir -p "$soundpackPath"
   # Create a safe place to download the file
   if [[ "$(uname -s)" == "Darwin" ]];then
     local zipFile="$(mktemp /tmp/XXXXXX.zip)"
     else
     local zipFile="$(mktemp -p /tmp XXXXXX.zip)"
   fi
+  # check to make sure the zip file actually can properly be downloaded
+  if ! curl -s -I --connect-timeout 5 "$soundpackURL" | grep -q 'Content-Type: application/zip' ; then
+    echo "Error downloading sounds, zip file appears to currently be undownloadable. Please try again later."
+    exit 1
+  fi
+  # Recreate soundpack directory.
+  rm -rf "$soundpackPath"
+  mkdir -p "$soundpackPath"
   # Get the zip file
   curl -s --connect-timeout 5 "$soundpackURL" -o "$zipFile"
   # md5sum the file so we can check for updates.
