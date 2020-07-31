@@ -745,6 +745,7 @@
 {9}
 
 
+
 #EVENT {VARIABLE UPDATE MSDP_GROUP}
 {
      #if {{%1} != {} && !$copying}
@@ -779,7 +780,7 @@
                #list {autohealList} {find} {${tmp[$i][name]}} {j};
                #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}]} && ${tmp[$i][health]} <= 80 && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
                {
-                    spamset heal${tmp[$i][name]} 6;
+                    spamset heal${tmp[$i][name]} 2;
                     #switch {{${MSDP_CLASS}}}
                     {
                          #case {{Paladin}}
@@ -813,7 +814,7 @@
                               }
                          }
                     };
-                    #if {((${tmp[$i][health]} <= 70 && {${heal[moderate]}} == {{fh(((e)?a)?l)?|c(((a)?s)?t)? 'fu((((((u)?l)?l)? )?h)?e)?a)?l)?'}}) || (${tmp[$i][health]} <= 80 && {${heal[moderate]}} != {{fh(((e)?a)?l)?|c(((a)?s)?t)? 'fu((((((u)?l)?l)? )?h)?e)?a)?l)?'}})) && ${tmp[$i][health]} > 50 && {${heal[moderate]}} != {#nop}}
+                    #if {((${tmp[$i][health]} <= 70 && {${heal[moderate]}} == {{fh(?:e(?:a(?:l)?)?)?|c(?:a(?:s(?:t)?)?)? 'fu(?:l(?:l(?: (?:h(?:e(?:a(?:l)?)?)?)?)?)?)?'}}) || (${tmp[$i][health]} <= 80 && {${heal[moderate]}} != {{fh(?:e(?:a(?:l)?)?)?|c(?:a(?:s(?:t)?)?)? 'fu(?:l(?:l(?: (?:h(?:e(?:a(?:l)?)?)?)?)?)?)?'}})) && ${tmp[$i][health]} > 50 && {${heal[moderate]}} != {#nop}}
                     {
                          #nop {moderately hurt.};
                          #send {${heal[moderate]} ${tmp[$i][name]}}
@@ -843,7 +844,7 @@
                     #list {autorefreshList} {find} {${tmp[$i][name]}} {j};
                     #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[refresh${tmp[$i][name]}]} && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
                     {
-                         spamset refresh${tmp[$i][name]} 6;
+                         spamset refresh${tmp[$i][name]} 4;
                          #send {${auto[refreshGroup]} ${tmp[$i][name]}}
                     }
                }
@@ -1032,6 +1033,7 @@
      };
      #return #nop
 }
+
 
 
 #VARIABLE         {OLD_MSDP_OPPONENT_NAME}    {}
