@@ -315,8 +315,14 @@
      #nop {Hook args hunted target.};
      #nop {Hook name is trackLose.};
      #nop {Hook args hunted target.};
-     @do_hook{trackFail;${auto[track]}};
-     @do_hook{trackLose;${auto[track]}};
+     #if {{%1} == {lose}}
+     {
+          @do_hook{trackLose;${auto[track]}}
+     };
+     #else
+     {
+          @do_hook{trackFail;${auto[track]}}
+     };
      #unvariable {auto[track]}
 }
 {9}
@@ -815,6 +821,7 @@
 {9}
 
 
+
 #EVENT {VARIABLE UPDATE MSDP_AFFECTS}
 {
      #if {{$MSDP_CHARACTER_NAME} != {} && &{MSDP_CHARACTER_NAME} && !${copying}}
@@ -917,6 +924,7 @@
           }
      }
 }
+
 
 
 #TICKER           {autoQueue}  {autoDequeue}  {6}
