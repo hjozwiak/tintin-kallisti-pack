@@ -888,7 +888,8 @@
           #nop {Hook argument is none, but please use variable $groupVariable to access the contents.};
           @var_save{groupVariable};
           #variable {groupVariable} {$tmp};
-          @do_hook{groupVariable}@var_restore{tmp};
+          @do_hook{groupVariable};
+          @var_restore{tmp};
           @var_restore{groupVariable}
      };
      #elseif {!$copying}
