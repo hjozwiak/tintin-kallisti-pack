@@ -326,7 +326,7 @@
 }
 {9}
 
-#ACTION {^You receive your reward for the kill, %1}
+#ACTION {^You receive {your reward for the kill,|a reduced reward for a frequent kill, only} %1}
 {
      #nop {Hook name is mobDeath.};
      #nop {Hook args all text for rewoard for the kill.};
