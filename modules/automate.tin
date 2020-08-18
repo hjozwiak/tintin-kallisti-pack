@@ -845,6 +845,7 @@
                {
                     #variable {k} {$i}
                };
+               #replace {k} {|} {;};
                #local {l} {};
                #foreach {$k} {l}
                {
@@ -874,6 +875,7 @@
                     {
                          #variable {k} {$i}
                     };
+                    #replace {k} {|} {;};
                     #local {l} {};
                     #foreach {$k} {l}
                     {
