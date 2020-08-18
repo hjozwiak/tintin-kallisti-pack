@@ -422,7 +422,7 @@
                };
                #foreach {*{autoMappings[]}} {j}
                {
-                    #if {{${autoMappings[$j]}} == {$i} && &{MSDP_AFFECTS[$j]}}
+                    #if {{$i} == {{${autoMappings[$j]}}} && &{MSDP_AFFECTS[$j]}}
                     {
                          #list {autoQueue} {find} {$i} {k};
                          #list {autoQueue} {delete} {$k};
@@ -737,7 +737,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{acidshield.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin.*|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
+#ALIAS {^{noauto|auto}{acidshield.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|invisibility|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin.*|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|uinvis|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
 {
      #if {{%0} == {noauto%*}}
      {
@@ -845,13 +845,17 @@
                {
                     #variable {k} {$i}
                };
-               #list {autoQueue} {find} {$k} {j};
-               #if {$j != 0}
+               #local {l} {};
+               #foreach {$k} {l}
                {
-                    #variable {lastDequeue} {};
-                    #variable {lastDequeueTimestamp} {2147483647};
-                    #list {autoQueue} {delete} {$j};
-                    @do_hook{affectUp;$k}
+                    #list {autoQueue} {find} {$l} {j};
+                    #if {$j != 0}
+                    {
+                         #variable {lastDequeue} {};
+                         #variable {lastDequeueTimestamp} {2147483647};
+                         #list {autoQueue} {delete} {$j};
+                         @do_hook{affectUp;$l}
+                    }
                }
           };
           #nop #local {tmpKeys} {};
@@ -870,10 +874,14 @@
                     {
                          #variable {k} {$i}
                     };
-                    #if {&{auto[$k]}}
+                    #local {l} {};
+                    #foreach {$k} {l}
                     {
-                         #list {autoQueue} {add} {$k};
-                         @do_hook{affectDown;$k}
+                         #if {&{auto[$l]}}
+                         {
+                              #list {autoQueue} {add} {$l};
+                              @do_hook{affectDown;$l}
+                         }
                     }
                }
           };
@@ -931,7 +939,7 @@
 
 #VARIABLE         {at}  {}
 #VARIABLE         {autoCombatAllowed}  {{1}{focus}{2}{warcry}{3}{bushido}}
-#VARIABLE         {autoMappings}  {{blade barrier}{blade}{corpse visage}{cvisage}{crystal eyes}{eyes}{divine armor}{darmor}{divine shield}{dshield}{faerie fire}{ffire}{grim ward}{grimward}{magic shield}{magicshield}{protection from death}{pfd}{sanctuary}{sanc}{shroud of darkness}{shroud}{spirit of bushido}{bushido}{spiritual guardian}{spirit}{true seeing}{eyes}{unholy aura}{aura}{wraithform}{wraith}}
+#VARIABLE         {autoMappings}  {{blade barrier}{blade}{corpse visage}{cvisage}{crystal eyes}{eyes}{divine armor}{darmor}{divine shield}{dshield}{faerie fire}{ffire}{grim ward}{grimward}{invisibility}{shroud|invisibility}{invisibility to undead}{uinvis}{magic shield}{magicshield}{protection from death}{pfd}{sanctuary}{sanc}{shroud of darkness}{shroud}{spirit of bushido}{bushido}{spiritual guardian}{spirit}{true seeing}{eyes}{unholy aura}{aura}{wraithform}{wraith}}
 #VARIABLE         {autoQueue}  {}
 #VARIABLE         {bufExtras}  {{1}{acidshield}{2}{blur}{3}{barkskin}{4}{bless}{5}{haste}{6}{prayer}{7}{shape}{8}{strength}{9}{vigor}{10}{warpaint}}
 #VARIABLE         {lastDequeue}  {}
