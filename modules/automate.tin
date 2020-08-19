@@ -927,11 +927,14 @@
 {
      #if {{%1} != {} && !$copying}
      {
+          #nop {Hook name: worldTime};
+          #nop {Hook args: Time in 24 hour format.};
           #if {&{at[%1]}}
           {
                @strip_braces{${at[%1]}};
                #unvariable {at[%1]}
-          }
+          };
+          @do_hook{worldTime;%1}
      }
 }
 
