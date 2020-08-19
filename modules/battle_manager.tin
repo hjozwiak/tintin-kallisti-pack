@@ -326,7 +326,7 @@
 }
 {9}
 
-#ACTION {^You receive your reward for the kill, %1}
+#ACTION {^You receive {your reward for the kill,|a reduced reward for a frequent kill, only} %1}
 {
      #nop {Hook name is mobDeath.};
      #nop {Hook args all text for rewoard for the kill.};
@@ -883,11 +883,14 @@
           @var_restore{target};
           @var_restore{i};
           @var_restore{j};
-          @var_restore{tmp};
           @var_restore{oldGroupMemberList};
           #nop {Hook name is groupVariable};
-          #nop {Hook argument is %1 variable contents.};
-          @do_hook{groupVariable;%1}
+          #nop {Hook argument is none, but please use variable $groupVariable to access the contents.};
+          @var_save{groupVariable};
+          #variable {groupVariable} {$tmp};
+          @do_hook{groupVariable};
+          @var_restore{tmp};
+          @var_restore{groupVariable}
      };
      #elseif {!$copying}
      {

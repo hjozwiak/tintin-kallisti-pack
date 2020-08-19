@@ -1,94 +1,109 @@
 #ALIAS {MSDP_CONFIGURE %1,%2}
 {
-	#local {i} {};
-	#local {index} {1};
-	#list {MSDP_VALUES} {create} {%2};
-	#send {$IAC$SB$PROTOCOL_MSDP\};
-	#foreach {%1} {i}
-	{
-		#send {${VAR}${i}${VAL}${MSDP_VALUES[$index]}\};
-		#math {index} {$index+1}
-	};
-	#send {$IAC$SE\}
+     #local {i} {};
+     #local {index} {1};
+     #list {MSDP_VALUES} {create} {%2};
+     #send {$IAC$SB$PROTOCOL_MSDP\};
+     #foreach {%1} {i}
+     {
+          #send {${VAR}${i}${VAL}${MSDP_VALUES[$index]}\};
+          #math {index} {$index+1}
+     };
+     #send {$IAC$SE\}
 }
 {9}
 
 #ALIAS {MSDP_LIST}
 {
-	#send {$IAC$SB$PROTOCOL_MSDP${VAR}LIST${VAL}REPORTABLE_VARIABLES$IAC$SE\}
+     #send {$IAC$SB$PROTOCOL_MSDP${VAR}LIST${VAL}REPORTABLE_VARIABLES$IAC$SE\}
 }
 {9}
 
 #ALIAS {MSDP_REPORT}
 {
-	#local {i} {};
-	#variable {result} {$IAC$SB$PROTOCOL_MSDP${VAR}REPORT};
-	#foreach {*{MSDP_REPORTABLE_VARIABLES[]}} {i}
-	{
-		#variable {result} {${result}${VAL}${MSDP_REPORTABLE_VARIABLES[${i}]}}
-	};
-	#send {$result$IAC$SE\}
+     #local {i} {};
+     #variable {result} {$IAC$SB$PROTOCOL_MSDP${VAR}REPORT};
+     #foreach {*{MSDP_REPORTABLE_VARIABLES[]}} {i}
+     {
+          #variable {result} {${result}${VAL}${MSDP_REPORTABLE_VARIABLES[${i}]}}
+     };
+     #send {$result$IAC$SE\}
 }
 {9}
 
 #ALIAS {MSDP_SEND %*}
 {
-	#send {$IAC$SB$PROTOCOL_MSDP${VAR}SEND${VAL}%1$IAC$SE\}
+     #send {$IAC$SB$PROTOCOL_MSDP${VAR}SEND${VAL}%1$IAC$SE\}
 }
 {9}
 
 #ALIAS {^MSDP$}
 {
-	#if {${PROTOCOL[%0]}}
-	{
-		#echo {%0 enabled.}
-	};
-	#else
-	{
-		#echo {%0 disabled.}
-	}
+     #if {${PROTOCOL[%0]}}
+     {
+          #echo {%0 enabled.}
+     };
+     #else
+     {
+          #echo {%0 disabled.}
+     }
 }
 {9}
 
+
+
 #EVENT {IAC SB MSDP}
 {
-	#nop Save all variables in an MSDP list.;
-#if {!&{MSDP_%0}} {
-#class {msdp} {open}
-};
-	#variable {MSDP_%0} {%1};
-#class {msdp} {close};
-	#variable {msdpOldList[%0]} {%1};
-	#switch {{%0}}
-	{
-		#case {{PLAY_SOUND}}
-		{
-			PLAY %1
-		};
-		#case {{REPORTABLE_VARIABLES}}
-		{
-			MSDP_REPORT
-		}
-	}
+     #nop Save all variables in an MSDP list.;
+     #if {!&{MSDP_%0}}
+     {
+          #class {msdp} {open}
+     };
+     #variable {MSDP_%0} {%1};
+     #class {msdp} {close};
+     #variable {msdpOldList[%0]} {%1};
+     #switch {{%0}}
+     {
+          #case {{PLAY_SOUND}}
+          {
+               PLAY %1
+          };
+          #case {{REPORTABLE_VARIABLES}}
+          {
+               MSDP_REPORT
+          };
+          #case {{EXPERIENCE}}
+          {
+               #if {%1 < 0}
+               {
+                    #math {MSDP_EXPERIENCE} { (2 * $MAXINT) + %1 + 2 };
+                    #variable {msdpOldList[%0]} {$MSDP_EXPERIENCE};
+                    #nop {Needed to show correct amount of xp if it goes above 2147483647 (kallisti bug)}
+               }
+          }
+     }
 }
 
 #EVENT {IAC SB MSDP IAC SE}
 {
-	#nop
+     #nop
 }
 
 #EVENT {IAC WILL MSDP}
 {
-	#send {$IAC$DO$PROTOCOL_MSDP\};
-	MSDP_LIST;
-	#nop {Uncomment the next line to use MSDP for sound instead of MSP};
-	#nop {MSDP_CONFIGURE sound,1};
-	#variable {PROTOCOL[MSDP]} {1}
+     #send {$IAC$DO$PROTOCOL_MSDP\};
+     MSDP_LIST;
+     #nop {Uncomment the next line to use MSDP for sound instead of MSP};
+     #nop {MSDP_CONFIGURE sound,1};
+     #variable {PROTOCOL[MSDP]} {1}
 }
+
+
 
 #VARIABLE         {DO}  {ý}
 #VARIABLE         {DONT}  {þ}
 #VARIABLE         {IAC}  {ÿ}
+#VARIABLE         {MAXINT}  {2147483647}
 #VARIABLE         {PROTOCOL}  {{MSDP}{0}}
 #VARIABLE         {PROTOCOL_MSDP}  {E}
 #VARIABLE         {SB}  {ú}
@@ -98,3 +113,4 @@
 #VARIABLE         {WILL}  {û}
 #VARIABLE         {WONT}  {ü}
 #VARIABLE         {msdpOldList}  {}
+
