@@ -737,7 +737,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{acidshield.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|invisibility|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin.*|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|uinvis|vdrain(?: +\d+)?|vigor.*|warcry|warpaint.*|werewolf|wraith|zombify}$}
+#ALIAS {^{noauto|auto}{acidshield.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|focus.*|follow|grimward.*|haste.*|holysteed|invisibility|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin.*|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|uinvis|vdrain(?: +\d+)?|vigor.*|viscera(?: +\d+)?|warcry|warpaint.*|werewolf|wraith|zombify}$}
 {
      #if {{%0} == {noauto%*}}
      {

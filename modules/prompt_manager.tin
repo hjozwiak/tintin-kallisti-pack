@@ -1,10 +1,142 @@
+#ALIAS {^HEALTH_EVENT %d$}
+{
+     #if {!&{character[audioprompt]}}
+     {
+          #variable {character[audioprompt]} {1}
+     };
+     #math {audioprompt[health]} {(%1 / $MSDP_HEALTH_MAX) *100.0};
+     #if {${audioprompt[health]} < 100}
+     {
+          #format {audioprompt[health]} {%d} {${audioprompt[health]} - ${audioprompt[health]} % 10};
+          #if {${audioprompt[health]} != ${audioprompt[oldHealth]} && ${character[audioprompt]} && ${MSP[SOUND]} }
+          {
+               #if {&{health${audioprompt[health]}}}
+               {
+                    SYNTH_PLAY health${audioprompt[health]};
+                    #variable {audioprompt[oldHealth]} {${audioprompt[health]}}
+               }
+          }
+     };
+     #nop {Use the autorecall command if hp is below the specified %};
+     #if {!&{auto[recallPercent]}}
+     {
+          #variable {auto[recallPercent]} {20};
+          CSAVE
+     };
+     #if {(%1 / $MSDP_HEALTH_MAX) * 100.0 <= ${auto[recallPercent]} && $MSDP_OPPONENT_NUMBER > 0}
+     {
+          #if {!${spam[recall]}}
+          {
+               #if {&{auto[recall]}}
+               {
+                    #if {!${spam[breakout]}}
+                    {
+                         breakout;
+                         spamset breakout 10
+                    };
+                    ${auto[recall]};
+                    spamset recall
+               }
+          }
+     };
+     #nop {Use the autoheal self command if hp is below the specified %};
+     #if {!&{autoHealSelfPercent}}
+     {
+          #variable {autoHealSelfPercent} {50};
+          CSAVE
+     };
+     #if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= $autoHealSelfPercent}
+     {
+          #if {&{autoHealSelf} && !${spam[healSelf]}}
+          {
+               spamset healSelf 2;
+               ${autoHealSelf}
+          }
+     };
+     #local {hp} {};
+     #math {hp} {(%1 / $MSDP_HEALTH_MAX) * 100.00};
+     #format {hp} {%d} {$hp};
+     @do_hook{hpPercent;$hp}
+}
+{9}
+
+#ALIAS {^MANA_EVENT %d$}
+{
+     #if {!&{character[audioprompt]}}
+     {
+          #variable {character[audioprompt]} {1}
+     };
+     #math {audioprompt[mana]} {(%1 / $MSDP_MANA_MAX) *100.0};
+     #if {${audioprompt[mana]} < 100}
+     {
+          #format {audioprompt[mana]} {%d} {${audioprompt[mana]} - ${audioprompt[mana]} % 10};
+          #if {${audioprompt[mana]} != ${audioprompt[oldMana]} && ${character[audioprompt]} && ${MSP[SOUND]} }
+          {
+               #if {&{mana${audioprompt[mana]}}}
+               {
+                    SYNTH_PLAY mana${audioprompt[mana]};
+                    #variable {audioprompt[oldMana]} {${audioprompt[mana]}}
+               }
+          }
+     };
+     #local {mana} {};
+     #math {mana} {(%1 / $MSDP_MANA_MAX) * 100.00};
+     #format {mana} {%d} {$mana};
+     @do_hook{manaPercent;$mana}
+}
+{9}
+
+#ALIAS {^STAMINA_EVENT %d$}
+{
+     #if {!&{character[audioprompt]}}
+     {
+          #variable {character[audioprompt]} {1}
+     };
+     #math {audioprompt[stamina]} {(%1 / $MSDP_STAMINA_MAX) *100.0};
+     #if {${audioprompt[stamina]} < 100}
+     {
+          #format {audioprompt[stamina]} {%d} {${audioprompt[stamina]} - ${audioprompt[stamina]} % 10};
+          #if {${audioprompt[stamina]} != ${audioprompt[oldMovement]} && ${character[audioprompt]} && ${MSP[SOUND]} }
+          {
+               #if {&{movement${audioprompt[stamina]}}}
+               {
+                    SYNTH_PLAY movement${audioprompt[stamina]};
+                    #variable {audioprompt[oldStamina]} {${audioprompt[stamina]}}
+               }
+          }
+     };
+     #if {!&{auto[refreshPercent]}}
+     {
+          #variable {auto[refreshPercent]} {50};
+          CSAVE
+     };
+     #if {(%1 / $MSDP_STAMINA_MAX) * 100.0 <= ${auto[refreshPercent]}}
+     {
+          #if {!${spam[refreshSelf]}}
+          {
+               #if {&{auto[refresh]}}
+               {
+                    spamset refreshSelf 2;
+                    ${auto[refresh]}
+               }
+          }
+     };
+     #local {stamina} {};
+     #math {stamina} {(%1 / $MSDP_STAMINA_MAX) * 100.00};
+     #format {stamina} {%d} {$stamina};
+     @do_hook{staminaPercent;$stamina}
+}
+{9}
+
+
+
 #EVENT {VARIABLE UPDATE MSDP_HEALTH}
 {
      #nop {hook name: hpPercent};
      #nop {hook args: The percent of hp you currently have.};
      #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying}
      {
-          #delay {0.25} {	#if {!&{character[audioprompt]}}{#variable {character[audioprompt]} {1}};#math {audioprompt[health]} {(%1 / $MSDP_HEALTH_MAX) *100.0};#if {${audioprompt[health]} < 100}{#format {audioprompt[health]} {%d} {${audioprompt[health]} - ${audioprompt[health]} % 10};#if {${audioprompt[health]} != ${audioprompt[oldHealth]} && ${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{health${audioprompt[health]}}}{SYNTH_PLAY health${audioprompt[health]};#variable {audioprompt[oldHealth]} {${audioprompt[health]}}}}};#nop {Use the autorecall command if hp is below the specified %};#if {!&{auto[recallPercent]}}{#variable {auto[recallPercent]} {20};CSAVE};#if {(%1 / $MSDP_HEALTH_MAX) * 100.0 <= ${auto[recallPercent]} && $MSDP_OPPONENT_NUMBER > 0}{#if {!${spam[recall]}}{#if {&{auto[recall]}}{#if {!${spam[breakout]}}{breakout;spamset breakout 10};${auto[recall]};spamset recall}}};#nop {Use the autoheal self command if hp is below the specified %};#if {!&{autoHealSelfPercent}}{#variable {autoHealSelfPercent} {50};CSAVE};#if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= $autoHealSelfPercent}{#if {&{autoHealSelf} && !${spam[healSelf]}}{spamset healSelf 2;${autoHealSelf}}};#local {hp} {};#math {hp} {(%1 / $MSDP_HEALTH_MAX) * 100.00};#format {hp} {%d} {$hp};@do_hook{hpPercent;$hp}}
+          #delay {0.25} {HEALTH_EVENT %1}
      }
 }
 
@@ -14,7 +146,7 @@
      #nop {hook args: The percent of mana you currently have.};
      #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying}
      {
-          #delay {0.25} {#math {audioprompt[mana]} {(%1 / $MSDP_MANA_MAX) *100.0};#if {${audioprompt[mana]} < 100}{#format {audioprompt[mana]} {%d} {${audioprompt[mana]} - ${audioprompt[mana]} % 10};#if {${audioprompt[mana]} != ${audioprompt[oldMana]}}{#if {${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{mana${audioprompt[mana]}}}{SYNTH_PLAY mana${audioprompt[mana]};#variable {audioprompt[oldMana]} {${audioprompt[mana]}}}}}};#local {mana} {};#math {mana} {(%1 / $MSDP_MANA_MAX) * 100.00};#format {mana} {%d} {$mana};@do_hook{manaPercent;$mana}}
+          #delay {0.25} {MANA_EVENT %1}
      }
 }
 
@@ -42,11 +174,11 @@
      #nop {hook args: The percent of stamina you currently have.};
      #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying}
      {
-          #delay {0.25} {#math {audioprompt[movement]} {(%1 / $MSDP_STAMINA_MAX) *100.0};#if {${audioprompt[movement]} < 100}{#format {audioprompt[movement]} {%d} {${audioprompt[movement]} - ${audioprompt[movement]} % 10};#if {${audioprompt[movement]} != ${audioprompt[oldMovement]}}{#if {${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{movement${audioprompt[movement]}}}{SYNTH_PLAY movement${audioprompt[movement]};#variable {audioprompt[oldMovement]} {${audioprompt[movement]}}}}}};#if {&{auto[refreshPercent]}} {#if {@percent{MSDP_STAMINA} < ${auto[refreshPercent]}} {#if {&{auto[refresh]}} {${autoRefresh]}}}};#local {stamina} {};#math {stamina} {(%1 / $MSDP_STAMINA_MAX) * 100.00};#format {stamina} {%d} {$stamina};@do_hook{staminaPercent;$stamina}}
+          #delay {0.25} {STAMINA_EVENT %1}
      }
 }
 
 
 
-#VARIABLE         {audioprompt}  {{oldHealth}{0}{oldMana}{0}{oldMovement}{0}}
+#VARIABLE         {audioprompt}  {{oldHealth}{0}{oldMana}{0}{oldStamina}{0}}
 
