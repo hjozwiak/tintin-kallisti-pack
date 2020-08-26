@@ -96,7 +96,7 @@
      #if {${audioprompt[stamina]} < 100}
      {
           #format {audioprompt[stamina]} {%d} {${audioprompt[stamina]} - ${audioprompt[stamina]} % 10};
-          #if {${audioprompt[stamina]} != ${audioprompt[oldMovement]} && ${character[audioprompt]} && ${MSP[SOUND]} }
+          #if {${audioprompt[stamina]} != ${audioprompt[oldStamina]} && ${character[audioprompt]} && ${MSP[SOUND]} }
           {
                #if {&{movement${audioprompt[stamina]}}}
                {
