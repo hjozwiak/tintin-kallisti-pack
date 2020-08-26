@@ -455,18 +455,17 @@
                               #if {{${lastDequeue}} != {$i}}
                               {
                                    #variable {lastDequeue} {$i};
-                                   #format {lastDequeueTimestamp} {%T}
+                                   #variable {lastDequeueTimes} {-1}
                               };
-                              #local {currentTimestamp} {};
-                              #format {currentTimestamp} {%T};
-                              #if {$currentTimestamp - $lastDequeueTimestamp >= 60}
+                              #math {lastDequeueTimes} {$lastDequeueTimes + 1};
+                              #if {$lastDequeueTimes > 10}
                               {
-                                   #nop We've been trying to do this one at least a minute, bale out. They probably don't have the potions, etc.;
+                                   #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
                                    #local {k} {};
                                    #list {autoQueue} {find} {$i} {k};
                                    #list {autoQueue} {delete} {$k};
                                    #variable {lastDequeue} {};
-                                   #variable {lastDequeueTimestamp} {2147483647};
+                                   #variable {lastDequeueTimes} {0};
                                    #continue
                               };
                               #switch {{$i}}
@@ -499,18 +498,17 @@
                          #if {{${lastDequeue}} != {$i}}
                          {
                               #variable {lastDequeue} {$i};
-                              #format {lastDequeueTimestamp} {%T}
+                              #variable {lastDequeueTimes} {-1}
                          };
-                         #local {currentTimestamp} {};
-                         #format {currentTimestamp} {%T};
-                         #if {$currentTimestamp - $lastDequeueTimestamp >= 60}
+                         #math {lastDequeueTimes} {$lastDequeueTimes + 1};
+                         #if {$lastDequeueTimes > 10}
                          {
-                              #nop We've been trying to do this one at least a minute, bale out. They probably don't have the potions, etc.;
+                              #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
                               #local {k} {};
                               #list {autoQueue} {find} {$i} {k};
                               #list {autoQueue} {delete} {$k};
                               #variable {lastDequeue} {};
-                              #variable {lastDequeueTimestamp} {2147483647};
+                              #variable {lastDequeueTimes} {0};
                               #continue
                          };
                          #switch {{$i}}
@@ -853,7 +851,7 @@
                     #if {$j != 0}
                     {
                          #variable {lastDequeue} {};
-                         #variable {lastDequeueTimestamp} {2147483647};
+                         #variable {lastDequeueTimes} {-1};
                          #list {autoQueue} {delete} {$j};
                          @do_hook{affectUp;$l}
                     }
@@ -948,7 +946,7 @@
 #VARIABLE         {autoQueue}  {}
 #VARIABLE         {bufExtras}  {{1}{acidshield}{2}{blur}{3}{barkskin}{4}{bless}{5}{haste}{6}{prayer}{7}{shape}{8}{strength}{9}{vigor}{10}{warpaint}}
 #VARIABLE         {lastDequeue}  {}
-#VARIABLE         {lastDequeueTimestamp}  {2147483647}
+#VARIABLE         {lastDequeueTimes}  {-1}
 #VARIABLE         {manualWerewolf}  {0}
 #VARIABLE         {oldAffects}  {}
 #VARIABLE         {tetherable}  {1}
