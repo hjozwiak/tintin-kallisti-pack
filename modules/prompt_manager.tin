@@ -1,4 +1,4 @@
-#ALIAS {^HEALTH_EVENT %d$}
+#ALIAS {^HEALTH_EVENT {-?\d+}$}
 {
      #if {!&{character[audioprompt]}}
      {
@@ -60,7 +60,7 @@
 }
 {9}
 
-#ALIAS {^MANA_EVENT %d$}
+#ALIAS {^MANA_EVENT {-?\d+}$}
 {
      #if {!&{character[audioprompt]}}
      {
@@ -86,7 +86,7 @@
 }
 {9}
 
-#ALIAS {^STAMINA_EVENT %d$}
+#ALIAS {^STAMINA_EVENT {-?\d+}$}
 {
      #if {!&{character[audioprompt]}}
      {
