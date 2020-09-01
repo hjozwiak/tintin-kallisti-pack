@@ -432,7 +432,7 @@
           }
      };
      #list {autoQueue} {size} {i};
-     #if {$i > 0}
+     #if {$i > 0 && {$MSDP_POSITION} == {{Fighting|Standing|Mounted|Flying|Swimming}}}
      {
           #foreach {${autoQueue[%*]}} {i}
           {
