@@ -479,7 +479,7 @@
                                    #variable {lastDequeueTimes} {0};
                                    #continue
                               };
-                              #nop {Hook name: pre<name of auto> E.G. prefocus.};
+                              #nop {Hook name: pre<name of auto> E.G. preFocus.};
                               #nop {Hook args: None.};
                               #nop {Note: Use the affectUp hook to undo any temporary actions.};
                               @do_hook{pre$i};
@@ -526,7 +526,7 @@
                               #variable {lastDequeueTimes} {0};
                               #continue
                          };
-                         #nop {Hook name: pre<name of auto> E.G. prefocus.};
+                         #nop {Hook name: pre<name of auto> E.G. preFocus.};
                          #nop {Hook args: None.};
                          #nop {Note: Use the affectUp hook to undo any temporary actions.};
                          @do_hook{pre$i};
