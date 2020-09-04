@@ -137,11 +137,11 @@
                     %1 ${auto[shape]}
                }
           };
-          #case {{{magic shield|blur|blade barrier|shroud of darkness|wraithform}}}
+          #case {{{magic shield|blur|blade barrier|shroud of darkness|wraithform|fireshield|iceshield|acidshield|invisibility to undead|invisibility}}}
           {
                cast '%1'
           };
-          #case {{{vampiric drain|energy drain}}}
+          #case {{{vampiric drain|energy drain|viscera drain}}}
           {
                cast '%1' corpse
           };
@@ -241,10 +241,17 @@
                {
                     #case {{Druid}}
                     {
+                         @do_hook{preshapechange};
                          shapechange ${auto[shape]}
+                    };
+                    #case {{Demoniac}}
+                    {
+                         @do_hook{predemonform};
+                         demonform ${auto[shape]}
                     };
                     #default
                     {
+                         @do_hook{premortify};
                          mortify ${auto[shape]}
                     }
                }
@@ -255,11 +262,15 @@
                {
                     #case {{Druid}}
                     {
-                         #list {onDeath} {add} {shapechange ${auto[shape]}}
+                         #list {onDeath} {add} {@do_hook{preshapechange};shapechange ${auto[shape]}}
+                    };
+                    #case {{Demoniac}}
+                    {
+                         #list {onDeath} {add} {@do_hook{predemonform};demonform ${auto[shape]}}
                     };
                     #default
                     {
-                         #list {onDeath} {add} {mortify ${auto[shape]}}
+                         #list {onDeath} {add} {@do_hook{premortify};mortify ${auto[shape]}}
                     }
                }
           }
@@ -468,7 +479,7 @@
                                    #variable {lastDequeueTimes} {0};
                                    #continue
                               };
-                              #nop {Hook name: pre<name of auto> E.G. preFocus.};
+                              #nop {Hook name: pre<name of auto> E.G. prefocus.};
                               #nop {Hook args: None.};
                               #nop {Note: Use the affectUp hook to undo any temporary actions.};
                               @do_hook{pre$i};
@@ -515,7 +526,7 @@
                               #variable {lastDequeueTimes} {0};
                               #continue
                          };
-                         #nop {Hook name: pre<name of auto> E.G. preFocus.};
+                         #nop {Hook name: pre<name of auto> E.G. prefocus.};
                          #nop {Hook args: None.};
                          #nop {Note: Use the affectUp hook to undo any temporary actions.};
                          @do_hook{pre$i};
@@ -615,6 +626,15 @@
                          #elseif {{$MSDP_CLASS} == {Necromancer}}
                          {
                               #variable {string} {mortify ${auto[shape]}}
+                         };
+                         #elseif {{$MSDP_CLASS} == {Demoniac}}
+                         {
+                              #variable {string} {demonform ${auto[shape]}}
+                         };
+                         #local {string2} {};
+                         #regexp {$string} {{.+?} {.+?}}
+                         {
+                              @do_hook{pre&1}
                          };
                          $string
                     };
