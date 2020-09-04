@@ -1,3 +1,9 @@
+#ACTION {^You resume your natural form.$}
+{
+     #variable {manualShape} {1}
+}
+{1}
+
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
      #nop {Hook name: locked};
@@ -231,53 +237,6 @@
 }
 {9}
 
-#ACTION {^Your body returns to its natural form}
-{
-     #if {&{auto[shape]}}
-     {
-          #if {$MSDP_OPPONENT_NUMBER == 0}
-          {
-               #switch {{${MSDP_CLASS}}}
-               {
-                    #case {{Druid}}
-                    {
-                         @do_hook{preshapechange};
-                         shapechange ${auto[shape]}
-                    };
-                    #case {{Demoniac}}
-                    {
-                         @do_hook{predemonform};
-                         demonform ${auto[shape]}
-                    };
-                    #default
-                    {
-                         @do_hook{premortify};
-                         mortify ${auto[shape]}
-                    }
-               }
-          };
-          #else
-          {
-               #switch {{${MSDP_CLASS}}}
-               {
-                    #case {{Druid}}
-                    {
-                         #list {onDeath} {add} {@do_hook{preshapechange};shapechange ${auto[shape]}}
-                    };
-                    #case {{Demoniac}}
-                    {
-                         #list {onDeath} {add} {@do_hook{predemonform};demonform ${auto[shape]}}
-                    };
-                    #default
-                    {
-                         #list {onDeath} {add} {@do_hook{premortify};mortify ${auto[shape]}}
-                    }
-               }
-          }
-     }
-}
-{9}
-
 #ACTION {^Your mount sees: {The holy blessing bestowed by your rider is no more|The ability to fly leaves you}.$}
 {
      #if {&{auto[holysteed]} && !${spam[holysteed]}}
@@ -482,7 +441,10 @@
                               #nop {Hook name: pre<name of auto> E.G. preFocus.};
                               #nop {Hook args: None.};
                               #nop {Note: Use the affectUp hook to undo any temporary actions.};
-                              @do_hook{pre$i};
+                              #if {$lastDequeueTimes == 0}
+                              {
+                                   @do_hook{pre$i}
+                              };
                               #switch {{$i}}
                               {
                                    #case {{focus}}
@@ -529,7 +491,10 @@
                          #nop {Hook name: pre<name of auto> E.G. preFocus.};
                          #nop {Hook args: None.};
                          #nop {Note: Use the affectUp hook to undo any temporary actions.};
-                         @do_hook{pre$i};
+                         #if {$lastDequeueTimes == 0 && {$i} != {shape} || ({$i} == {shape} && !$manualShape)}
+                         {
+                              @do_hook{pre$i}
+                         };
                          #switch {{$i}}
                          {
                               #case {{focus}}
@@ -566,6 +531,27 @@
                               #case {{zombify}}
                               {
                                    zombieform
+                              };
+                              #case {{shape}}
+                              {
+                                   #if {!$manualShape}
+                                   {
+                                        #switch {{${MSDP_CLASS}}}
+                                        {
+                                             #case {{Druid}}
+                                             {
+                                                  shapechange ${auto[shape]}
+                                             };
+                                             #case {{Demoniac}}
+                                             {
+                                                  demonform ${auto[shape]}
+                                             };
+                                             #default
+                                             {
+                                                  mortify ${auto[shape]}
+                                             }
+                                        }
+                                   }
                               };
                               #default
                               {
@@ -614,39 +600,15 @@
      {
           #if {&{auto[$i]}}
           {
-               #switch {{$i}}
+               #local {j} {};
+               #list {autoQueue} {find} {$i} {j};
+               #if {$j == 0}
                {
-                    #case {{shape}}
-                    {
-                         #local {string} {${auto[shape]}};
-                         #if {{$MSDP_CLASS} == {Druid}}
-                         {
-                              #variable {string} {shapechange ${auto[shape]}}
-                         };
-                         #elseif {{$MSDP_CLASS} == {Necromancer}}
-                         {
-                              #variable {string} {mortify ${auto[shape]}}
-                         };
-                         #elseif {{$MSDP_CLASS} == {Demoniac}}
-                         {
-                              #variable {string} {demonform ${auto[shape]}}
-                         };
-                         #local {string2} {};
-                         #regexp {$string} {{.+?} {.+?}}
-                         {
-                              @do_hook{pre&1}
-                         };
-                         $string
-                    };
-                    #default
-                    {
-                         #local {j} {};
-                         #list {autoQueue} {find} {$i} {j};
-                         #if {$j == 0}
-                         {
-                              #list {autoQueue} {add} {$i}
-                         }
-                    }
+                    #list {autoQueue} {add} {$i}
+               };
+               #if {{$i} == {shape} && $manualShape}
+               {
+                    #variable {manualShape} {0}
                }
           }
      };
@@ -881,7 +843,11 @@
                          #variable {lastDequeue} {};
                          #variable {lastDequeueTimes} {-1};
                          #list {autoQueue} {delete} {$j};
-                         @do_hook{affectUp;$l}
+                         @do_hook{affectUp;$l};
+                         #if {{$l} == {shape}}
+                         {
+                              #variable {manualShape} {0}
+                         }
                     }
                }
           };
@@ -970,11 +936,12 @@
 
 #VARIABLE         {at}  {}
 #VARIABLE         {autoCombatAllowed}  {{1}{focus}{2}{warcry}{3}{bushido}}
-#VARIABLE         {autoMappings}  {{blade barrier}{blade}{corpse visage}{cvisage}{crystal eyes}{eyes}{divine armor}{darmor}{divine shield}{dshield}{faerie fire}{ffire}{grim ward}{grimward}{invisibility}{shroud|invisibility}{invisibility to undead}{uinvis}{magic shield}{magicshield}{protection from death}{pfd}{sanctuary}{sanc}{shroud of darkness}{shroud}{spirit of bushido}{bushido}{spiritual guardian}{spirit}{true seeing}{eyes}{unholy aura}{aura}{wraithform}{wraith}}
+#VARIABLE         {autoMappings}  {{blade barrier}{blade}{corpse visage}{cvisage}{crystal eyes}{eyes}{divine armor}{darmor}{divine shield}{dshield}{faerie fire}{ffire}{grim ward}{grimward}{invisibility}{shroud|invisibility}{invisibility to undead}{uinvis}{magic shield}{magicshield}{protection from death}{pfd}{sanctuary}{sanc}{shapechange}{shape}{shroud of darkness}{shroud}{spirit of bushido}{bushido}{spiritual guardian}{spirit}{true seeing}{eyes}{unholy aura}{aura}{wraithform}{wraith}}
 #VARIABLE         {autoQueue}  {}
 #VARIABLE         {bufExtras}  {{1}{acidshield}{2}{blur}{3}{barkskin}{4}{bless}{5}{haste}{6}{prayer}{7}{shape}{8}{strength}{9}{vigor}{10}{warpaint}{11}{fireshield}{12}{iceshield}}
 #VARIABLE         {lastDequeue}  {}
 #VARIABLE         {lastDequeueTimes}  {-1}
+#VARIABLE         {manualShape}  {0}
 #VARIABLE         {manualWerewolf}  {0}
 #VARIABLE         {oldAffects}  {}
 #VARIABLE         {tetherable}  {1}
