@@ -1,6 +1,6 @@
 #ACTION {^[+ The way to %1 is %w.%*+]$}
 {
-     #delay {0.25} {%2}
+     #line oneshot #ticker {move} {%2} {0.25}
 }
 {9}
 

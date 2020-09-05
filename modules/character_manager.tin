@@ -256,7 +256,7 @@
           {
                MAP_STARTUP
           };
-          #delay {0.05} {mapRoom};
+          #line oneshot #ticker {mapRoom} {mapRoom} {0.05};
           #variable {character[mapping]} {1};
           NOTIFY Mapping enabled.
      }

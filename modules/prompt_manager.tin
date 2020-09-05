@@ -136,7 +136,7 @@
      #nop {hook args: The percent of hp you currently have.};
      #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying}
      {
-          #delay {0.25} {HEALTH_EVENT %1}
+          #line oneshot #ticker {health} {HEALTH_EVENT %1} {0.25}
      }
 }
 
@@ -146,7 +146,7 @@
      #nop {hook args: The percent of mana you currently have.};
      #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying}
      {
-          #delay {0.25} {MANA_EVENT %1}
+          #line oneshot #ticker {mana} {MANA_EVENT %1} {0.25}
      }
 }
 
@@ -174,7 +174,7 @@
      #nop {hook args: The percent of stamina you currently have.};
      #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying}
      {
-          #delay {0.25} {STAMINA_EVENT %1}
+          #line oneshot #ticker {stamina} {STAMINA_EVENT %1} {0.25}
      }
 }
 

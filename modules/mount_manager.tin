@@ -252,7 +252,7 @@
 {
      #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying && &{MSDP_MOUNT_HEALTH_MAX} && {$MSDP_MOUNT_HEALTH_MAX} != {0} && {$MSDP_MOUNT_HEALTH_MAX} != {}}
      {
-          #delay {0.25} {MOUNT_HEALTH_EVENT %1}
+          #line oneshot #ticker {mountHealth} {MOUNT_HEALTH_EVENT %1} {0.25}
      }
 }
 
@@ -260,7 +260,7 @@
 {
      #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying && &{MSDP_MOUNT_STAMINA_MAX} && {$MSDP_MOUNT_STAMINA_MAX} != {0} && {$MSDP_MOUNT_STAMINA_MAX} != {}}
      {
-          #delay {0.25} {MOUNT_STAMINA_EVENT %1}
+          #line oneshot #ticker {mountStamina} {MOUNT_STAMINA_EVENT %1} {0.25}
      }
 }
 
