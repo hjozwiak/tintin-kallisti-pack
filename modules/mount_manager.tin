@@ -143,6 +143,78 @@
 {9}
 
 
+#ALIAS {^MOUNT_HEALTH_EVENT %d$}
+{
+     #if {&{MSDP_MOUNT_HEALTH_MAX} && {$MSDP_MOUNT_HEALTH_MAX} != {0} && {$MSDP_MOUNT_HEALTH_MAX} != {}}
+     {
+          #if {!&{character[audioprompt]}}
+          {
+               #variable {character[audioprompt]} {1}
+          };
+          #math {audioprompt[mounthealth]} {(%1 / $MSDP_MOUNT_HEALTH_MAX) *100.0};
+          #if {${audioprompt[mounthealth]} < 100}
+          {
+               #format {audioprompt[mounthealth]} {%d} {${audioprompt[mounthealth]} - ${audioprompt[mounthealth]} % 10};
+               #if {${audioprompt[mounthealth]} != ${audioprompt[oldMountHealth]} && ${character[audioprompt]} && ${MSP[SOUND]}}
+               {
+                    #if {&{mounthealth${audioprompt[mounthealth]}}}
+                    {
+                         SYNTH_PLAY mounthealth${audioprompt[mounthealth]};
+                         #variable {audioprompt[oldMountHealth]} {${audioprompt[mounthealth]}}
+                    }
+               }
+          }
+     };
+     #if {&{autoHealMountPercent}}
+     {
+          #if {(%1 / $MSDP_MOUNT_HEALTH_MAX) * 100.0 < ${autoHealMountPercent} && !${spam[healmount]}}
+          {
+               ${autoHealMount} ${character[mount]};
+               spamset healmount 6
+          }
+     };
+     #local {mhealth} {};
+     #format {mhealth} {%d} {(%1 / $MSDP_MOUNT_HEALTH_MAX) * 100.0};
+     @do_hook{mountHealthPercent;$mhealth}
+}
+{9}
+
+#ALIAS {^MOUNT_STAMINA_EVENT %d$}
+{
+     #if {&{MSDP_MOUNT_STAMINA_MAX} && {$MSDP_MOUNT_STAMINA_MAX} != {0} && {$MSDP_MOUNT_STAMINA_MAX} != {}}
+     {
+          #if {!&{character[audioprompt]}}
+          {
+               #variable {character[audioprompt]} {1}
+          };
+          #math {audioprompt[mountstamina]} {(%1 / $MSDP_MOUNT_STAMINA_MAX) *100.0};
+          #if {${audioprompt[mountstamina]} < 100}
+          {
+               #format {audioprompt[mountstamina]} {%d} {${audioprompt[mountstamina]} - ${audioprompt[mountstamina]} % 10};
+               #if {${audioprompt[mountstamina]} != ${audioprompt[oldMountStamina]} && ${character[audioprompt]} && ${MSP[SOUND]}}
+               {
+                    #if {&{mountmovement${audioprompt[mountstamina]}}}
+                    {
+                         SYNTH_PLAY mountmovement${audioprompt[mountstamina]};
+                         #variable {audioprompt[oldMountStamina]} {${audioprompt[mountstamina]}}
+                    }
+               }
+          }
+     };
+     #local {mstamina} {};
+     #format {mstamina} {%d} {(%1 / $MSDP_MOUNT_STAMINA_MAX) * 100.0};
+     @do_hook{mountStaminaPercent;$mstamina}
+}
+{9}
+
+#ALIAS {^tether %*}
+{
+     #variable {tethering} {1};
+     #variable {tetherMob} {%1};
+     #send {%0}
+}
+{9}
+
 #ALIAS {^{mmv|mhp}$}
 {
      #switch {{%0}}
@@ -156,14 +228,6 @@
                show mount_health
           }
      }
-}
-{9}
-
-#ALIAS {^tether %*}
-{
-     #variable {tethering} {1};
-     #variable {tetherMob} {%1};
-     #send {%0}
 }
 {9}
 
@@ -188,7 +252,7 @@
 {
      #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying && &{MSDP_MOUNT_HEALTH_MAX} && {$MSDP_MOUNT_HEALTH_MAX} != {0} && {$MSDP_MOUNT_HEALTH_MAX} != {}}
      {
-          #delay {0.25} {#if {&{MSDP_MOUNT_HEALTH_MAX} && {$MSDP_MOUNT_HEALTH_MAX} != {0} && {$MSDP_MOUNT_HEALTH_MAX} != {}} {#if {!&{character[audioprompt]}}{#variable {character[audioprompt]} {1}};#math {audioprompt[mounthealth]} {(%1 / $MSDP_MOUNT_HEALTH_MAX) *100.0};#if {${audioprompt[mounthealth]} < 100}{#format {audioprompt[mounthealth]} {%d} {${audioprompt[mounthealth]} - ${audioprompt[mounthealth]} % 10};#if {${audioprompt[mounthealth]} != ${audioprompt[oldMountHealth]} && ${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{mounthealth${audioprompt[mounthealth]}}}{SYNTH_PLAY mounthealth${audioprompt[mounthealth]};#variable {audioprompt[oldMountHealth]} {${audioprompt[mounthealth]}}}}}};#if {&{autoHealMountPercent}} {#if {@percent{MSDP_MOUNT_HEALTH} < ${autoHealMountPercent} && !${spam[healmount]}} {${autoHealMount} ${character[mount]};spamset healmount 6}}}
+          #line oneshot #ticker {mountHealth} {MOUNT_HEALTH_EVENT %1} {0.25}
      }
 }
 
@@ -196,7 +260,7 @@
 {
      #if {{%1} != {} && &{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {} && !$copying && &{MSDP_MOUNT_STAMINA_MAX} && {$MSDP_MOUNT_STAMINA_MAX} != {0} && {$MSDP_MOUNT_STAMINA_MAX} != {}}
      {
-          #delay {0.25} {#math {audioprompt[mountmovement]} {(%1 / $MSDP_MOUNT_STAMINA_MAX) *100.0};#if {${audioprompt[mountmovement]} < 100}{#format {audioprompt[mountmovement]} {%d} {${audioprompt[mountmovement]} - ${audioprompt[mountmovement]} % 10};#if {${audioprompt[mountmovement]} != ${audioprompt[oldMountMovement]}}{#if {${character[audioprompt]} && ${MSP[SOUND]}}{#if {&{mountmovement${audioprompt[mountmovement]}}}{SYNTH_PLAY mountmovement${audioprompt[mountmovement]};#variable {audioprompt[oldMountMovement]} {${audioprompt[mountmovement]}}}}}}}
+          #line oneshot #ticker {mountStamina} {MOUNT_STAMINA_EVENT %1} {0.25}
      }
 }
 

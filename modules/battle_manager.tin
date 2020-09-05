@@ -341,7 +341,11 @@
           #list {onDeath} {clear}
      };
      @do_hook{mobDeath;%1};
-     #nop {if edrain or vdrain are enabled they are set to 1 unless specified, so set the default to 50% instead.};
+     #nop {if viscera, edrain or vdrain are enabled they are set to 1 unless specified, so set the default to 50% instead.};
+     #if {${auto[viscera]} == 1}
+     {
+          #variable {auto[viscera]} {50}
+     };
      #if {${auto[edrain]} == 1}
      {
           #variable {auto[edrain]} {50}
@@ -350,8 +354,14 @@
      {
           #variable {auto[vdrain]} {50}
      };
-     #nop {Vdrain takes precedence because it restores hp.};
-     #if {${auto[vdrain]} >= @percent{MSDP_HEALTH} || ${auto[vdrain]} >= @percent{MSDP_STAMINA}}
+     #nop {viscera takes precedence because it restores everything.};
+     #nop {Vdrain takes second precedence because it restores hp.};
+     #nop {No viscera/vdrain? No problem! We can edrain.};
+     #if {${auto[viscera]} >= @percent{MSDP_HEALTH} || ${auto[viscera]} >= @percent{MSDP_STAMINA} || ${auto[viscera]} >= @percent{MSDP_MANA}}
+     {
+          viscera corpse
+     };
+     #elseif {${auto[vdrain]} >= @percent{MSDP_HEALTH} || ${auto[vdrain]} >= @percent{MSDP_STAMINA}}
      {
           vdrain corpse
      };

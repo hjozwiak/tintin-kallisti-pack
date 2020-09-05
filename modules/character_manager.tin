@@ -256,7 +256,7 @@
           {
                MAP_STARTUP
           };
-          #delay {0.05} {mapRoom};
+          #line oneshot #ticker {mapRoom} {mapRoom} {0.05};
           #variable {character[mapping]} {1};
           NOTIFY Mapping enabled.
      }
@@ -372,7 +372,7 @@
           };
           #nop {Load personal modules.};
           #script {if [ ! -d "$HOME/%1.modules" ]; then mkdir "$HOME/%1.modules/" ; fi ; for module in $(find "$HOME/%1.modules" -maxdepth 1 -name "*.tin") ; do echo "#class {character_$(basename "$module" .tin)} {read} {$module}";done};
-          #script {script} {for module in $(find "$HOME/modules/" -maxdepth 1 -iname "*.tin") ; do echo "$(basename "$module" .tin)";done};
+          #script {script} {for module in $(find "$HOME/%1.modules/" -maxdepth 1 -iname "*.tin") ; do echo "$(basename "$module" .tin)";done};
           #foreach {${script[%*]}} {z}
           {
                #if {&{c_${z}Startup}}
