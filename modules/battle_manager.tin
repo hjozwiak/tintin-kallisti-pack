@@ -927,10 +927,10 @@
 {
      #nop {hook name: opponentName};
      #nop {hook args: Name of opponent you ar currently fighting};
-     #if {{%1} != {} && !$copying}
+     #if {({%1} != {} || {$OLD_MSDP_OPPONENT_NAME} != {}) && !$copying}
      {
           #variable {OLD_MSDP_OPPONENT_NAME} {%1};
-          #if {${auto[join]}}
+          #if {${auto[join]} && {%1} != {}}
           {
                order followers join $MSDP_CHARACTER_NAME
           };
