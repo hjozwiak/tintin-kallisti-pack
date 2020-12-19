@@ -33,7 +33,7 @@
 }
 {9}
 
-#ACTION {^%1 {flies in|arrives|swims in} {from|from the} %3.$}
+#ACTION {^%* {sneaks in|arrives|flies in|rides in.*|swims in|enters} from {(?:the )?}{above|east|north|south|west|below}.$
 {
      #nop {Hook name: arrive};
      #nop {Hook args: name of arrivee.};
