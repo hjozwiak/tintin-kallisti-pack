@@ -368,6 +368,13 @@
      #elseif {${auto[edrain]} >= @percent{MSDP_MANA}}
      {
           edrain corpse
+     };
+     #else
+     {
+          #nop Viscera, vdrain, nor edrain fired, fire a noDrain hook and call it a day.;
+          #nop Hook name: noDrain;
+          #nop Hook args: none;
+          @do_hook{noDrain}
      }
 }
 {9}
