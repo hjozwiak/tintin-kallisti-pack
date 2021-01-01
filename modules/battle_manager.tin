@@ -1,763 +1,763 @@
 #ACTION {%1 seems to shrivel and age as {he|she|it} is touched by %3's sickly glowing hand.$}
 {
-     @combat_action{%1;%3}
+    @combat_action{%1;%3}
 }
 {1}
 
 #ACTION {%1 attempts to impale %2, but flies right through {him|her|it}.$}
 {
-     @combat_action{%1;%2}
+    @combat_action{%1;%2}
 }
 {9}
 
 #ACTION {%1 attempts to impale %2, but fumbles {her|his|its} weapon!$}
 {
-     @combat_action{%1;%2}
+    @combat_action{%1;%2}
 }
 {9}
 
 #ACTION {%1 charges madly into %2, but can't budge {her|him|it}.$}
 {
-     @combat_action{%1;%2}
+    @combat_action{%1;%2}
 }
 {9}
 
 #ACTION {%1 diverts {her|his|its} attention to %w.$}
 {
-     #local {i} {};
-     #list {autorescueList} {find} {%2} {i};
-     #if {$i != 0}
-     {
-          #if {!&{auto[rescueCommand]}}
-          {
-               #variable {auto[rescueCommand]} {rescue}
-          };
-          ${auto[rescueCommand]} ${autorescueList[$i]}
-     }
+    #local {i} {};
+    #list {autorescueList} {find} {%2} {i};
+    #if {$i != 0}
+    {
+        #if {!&{auto[rescueCommand]}}
+        {
+            #variable {auto[rescueCommand]} {rescue}
+        };
+        ${auto[rescueCommand]} ${autorescueList[$i]}
+    }
 }
 {9}
 
 #ACTION {%1 flies from your grasp.$}
 {
-     #nop {Hook name: disarmed.};
-     #nop {Hook args: name of weapon.};
-     #regexp {%1} {{.*} {.*}}
-     {
-          hold &2;wield &2
-     };
-     #else
-     {
-          hold %1;
-          wield %1
-     };
-     @do_hook{disarmed;%1}
+    #nop {Hook name: disarmed.};
+    #nop {Hook args: name of weapon.};
+    #regexp {%1} {{.*} {.*}}
+    {
+        hold &2;wield &2
+    };
+    #else
+    {
+        hold %1;
+        wield %1
+    };
+    @do_hook{disarmed;%1}
 }
 {9}
 
 #ACTION {%1 grabs you around the neck. You cannot breathe{!|! \(\d* damage\)}$}
 {
-     wake
+    wake
 }
 {9}
 
 #ACTION {%1 impales %2 in {her|his|its} chest, %4 screams in pain.$}
 {
-     @combat_action{%1;%2}
+    @combat_action{%1;%2}
 }
 {9}
 
 #ACTION {%1 panics and attempts to flee!$}
 {
-     #variable {fleeString} {%1}
+    #variable {fleeString} {%1}
 }
 {9}
 
 #ACTION {%1 picks you up by the neck and throws you out of the room.$}
 {
-     #nop {Hook name is roomTossed	};
-     #nop {Hook args: name of thing that tossed you.};
-     #if {&{leader}}
-     {
-          gt &byTossed!
-     };
-     @do_hook{roomTossed;%1}
+    #nop {Hook name is roomTossed	};
+    #nop {Hook args: name of thing that tossed you.};
+    #if {&{leader}}
+    {
+        gt &byTossed!
+    };
+    @do_hook{roomTossed;%1}
 }
 {9}
 
 #ACTION {%1 places something in the back of %2, resulting in a gush of blood!$}
 {
-     @combat_action{%1;%2}
+    @combat_action{%1;%2}
 }
 {9}
 
 #ACTION {%1 screams insanely and charges into %2!$}
 {
-     @combat_action{%1;%2}
+    @combat_action{%1;%2}
 }
 {9}
 
 #ACTION {%1 strikes a pressure point on %2's neck, causing {her|him|it} to crumple...$}
 {
-     @combat_action{%1;%2}
+    @combat_action{%1;%2}
 }
 {9}
 
 #ACTION {%1 tosses %2 to the ground.$}
 {
-     @combat_action{%1;%2}
+    @combat_action{%1;%2}
 }
 {9}
 
 #ACTION {%1 trips as {he|it|she} charges into %3!$}
 {
-     @combat_action{%1;%3}
+    @combat_action{%1;%3}
 }
 {9}
 
 #ACTION {%1 winces in pain as %2's dragonstrike drains him.$}
 {
-     @combat_action{%1;%2}
+    @combat_action{%1;%2}
+}
+{9}
+
+#ACTION {^%1 attempts to backstab %2, but flies right through {her|him|it}.$}
+{
+    @combat_action{%1;%2}
 }
 {9}
 
 #ACTION {^%1 is {moderately hurt|severely hurt|near death|incapacitated .*|stunned .*|mortally wounded .*}.$}
 {
-     #switch {{%2}}
-     {
-          #case {{incapacitated%*}}
-          {
-               @do_hook{incapacitated;%1}
-          };
-          #case {{stunned%*}}
-          {
-               @do_hook{stunned;%1}
-          };
-          #case {{mortally wounded%*}}
-          {
-               @do_hook{morted;%1}
-          }
-     };
-     #local {i} {};
-     #local {j} {};
-     @var_save{target};
-     #variable {target} {%1};
-     #regexp {$target} {{.*} {.*}}
-     {
-          #format {target} {%n} {&2}
-     };
-     #list {autohealList} {find} {$target} {i};
-     #if {$i != 0}
-     {
-          #switch {{${MSDP_CLASS}}}
-          {
-               #case {{Paladin}}
-               {
-                    #foreach {moderate;severe;nearDeath;incapacitated;;stunned;morted} {j}
+    #switch {{%2}}
+    {
+        #case {{incapacitated%*}}
+        {
+            @do_hook{incapacitated;%1}
+        };
+        #case {{stunned%*}}
+        {
+            @do_hook{stunned;%1}
+        };
+        #case {{mortally wounded%*}}
+        {
+            @do_hook{morted;%1}
+        }
+    };
+    #local {i} {};
+    #local {j} {};
+    @var_save{target};
+    #variable {target} {%1};
+    #regexp {$target} {{.*} {.*}}
+    {
+        #format {target} {%n} {&2}
+    };
+    #list {autohealList} {find} {$target} {i};
+    #if {$i != 0}
+    {
+        #switch {{${MSDP_CLASS}}}
+        {
+            #case {{Paladin}}
+            {
+                #foreach {moderate;severe;nearDeath;incapacitated;;stunned;morted} {j}
+                {
+                    #if {!&{heal[$j]}}
                     {
-                         #if {!&{heal[$j]}}
-                         {
-                              #variable {heal[$j]} {lay}
-                         }
+                        #variable {heal[$j]} {lay}
                     }
-               };
-               #default
-               {
-                    #foreach {moderate;severe;nearDeath;incapacitated;stunned;morted} {j}
+                }
+            };
+            #default
+            {
+                #foreach {moderate;severe;nearDeath;incapacitated;stunned;morted} {j}
+                {
+                    #if {!&{heal[$j]}}
                     {
-                         #if {!&{heal[$j]}}
-                         {
-                              #variable {heal[$j]} {heal}
-                         }
+                        #variable {heal[$j]} {heal}
                     }
-               }
-          };
-          #switch {{%2}}
-          {
-               #nop {Moved to a variable update. #case {{moderately hurt}}{${heal[moderate]} $target};#case {{severely hurt}}{${heal[severe]} $target};#case {{near death}}{${heal[nearDeath]} $target}};
-               #case {{incapacitated%*}}
-               {
-                    ${heal[incapacitated]} $target
-               };
-               #case {{stunned%*}}
-               {
-                    ${heal[stunned]} $target
-               };
-               #case {{mortally wounded%*}}
-               {
-                    ${heal[morted]} $target
-               }
-          }
-     };
-     #list {autorescueList} {find} {$target} {i};
-     #if {$i != 0}
-     {
-          ${auto[rescueCommand]} $target
-     };
-     @var_restore{target}
+                }
+            }
+        };
+        #switch {{%2}}
+        {
+            #nop {Moved to a variable update. #case {{moderately hurt}}{${heal[moderate]} $target};#case {{severely hurt}}{${heal[severe]} $target};#case {{near death}}{${heal[nearDeath]} $target}};
+            #case {{incapacitated%*}}
+            {
+                ${heal[incapacitated]} $target
+            };
+            #case {{stunned%*}}
+            {
+                ${heal[stunned]} $target
+            };
+            #case {{mortally wounded%*}}
+            {
+                ${heal[morted]} $target
+            }
+        }
+    };
+    #list {autorescueList} {find} {$target} {i};
+    #if {$i != 0}
+    {
+        ${auto[rescueCommand]} $target
+    };
+    @var_restore{target}
 }
 {9}
 
 #ACTION {^%1 lands an assassination strike in the back of %2, resulting in a massive gush of blood!$}
 {
-     @combat_action{%1;%2}
+    @combat_action{%1;%2}
 }
 {9}
 
 #ACTION {^%1 tries to assassinate %2 but nearly cuts {her|his|its} own finger!$}
 {
-     @combat_action{%1;%2}
+    @combat_action{%1;%2}
+}
+{9}
+
+#ACTION {^%1 tries to backstab %2 but nearly cuts {her|his|its} own finger!$}
+{
+    @combat_action{%1;%2}
 }
 {9}
 
 #ACTION {^%S heals %w's wounds.$}
 {
-     #local {i} {};
-     #list {autorescueList} {find} {%2} {i};
-     #if {$i != 0}
-     {
-          #if {!&{auto[rescueCommand]}}
-          {
-               #variable {auto[rescueCommand]} {rescue}
-          };
-          ${auto[rescueCommand]} ${autorescueList[$i]}
-     }
-}
-{9}
-
-#ACTION {^%w attempts to backstab %2, but flies right through {her|him|it}.$}
-{
-     @combat_action{%1;%2}
-}
-{9}
-
-#ACTION {^%w tries to backstab %2 but nearly cuts {her|his|its} own finger!$}
-{
-     @combat_action{%1;%2}
+    #local {i} {};
+    #list {autorescueList} {find} {%2} {i};
+    #if {$i != 0}
+    {
+        #if {!&{auto[rescueCommand]}}
+        {
+            #variable {auto[rescueCommand]} {rescue}
+        };
+        ${auto[rescueCommand]} ${autorescueList[$i]}
+    }
 }
 {9}
 
 #ACTION {^Assimilation...  {You feel more unholy|You gain \d+ (?:hitpoints|mana|stamina)}.$}
 {
-     #nop {Hook name: assimilation.};
-     #nop {Hook args: number gained.};
-     #nop {Hook args: Type of gain, e.g. mana.};
-     #regexp {%1} {You gain {\d+} {hitpoints|mana|stamina}}
-     {
-          @do_hook{assimilation;&1;&2}
-     };
-     #else
-     {
-          @do_hook{assimilation;0;alignment}
-     }
+    #nop {Hook name: assimilation.};
+    #nop {Hook args: number gained.};
+    #nop {Hook args: Type of gain, e.g. mana.};
+    #regexp {%1} {You gain {\d+} {hitpoints|mana|stamina}}
+    {
+        @do_hook{assimilation;&1;&2}
+    };
+    #else
+    {
+        @do_hook{assimilation;0;alignment}
+    }
 }
 {9}
 
 #ACTION {^Looks like its not quite %1's bedtime.$}
 {
-     #local {i} {};
-     #local {j} {};
-     #list {autorescueList} {size} {i};
-     #if {$i > 0}
-     {
-          #foreach {*{autorescueList[]}} {j}
-          {
-               #if {!&{auto[rescueCommand]}}
-               {
-                    #variable {auto[rescueCommand]} {rescue}
-               };
-               ${auto[rescueCommand]} ${autorescueList[$j]}
-          }
-     }
+    #local {i} {};
+    #local {j} {};
+    #list {autorescueList} {size} {i};
+    #if {$i > 0}
+    {
+        #foreach {*{autorescueList[]}} {j}
+        {
+            #if {!&{auto[rescueCommand]}}
+            {
+                #variable {auto[rescueCommand]} {rescue}
+            };
+            ${auto[rescueCommand]} ${autorescueList[$j]}
+        }
+    }
 }
 {9}
 
 #ACTION {^Redemption!  {You feel more holey|You gain \d+ (?:hitpoints|mana|stamina)}.$}
 {
-     #nop {Hook name: redemption.};
-     #nop {Hook args: number gained.};
-     #nop {Hook args: Type of gain, e.g. mana.};
-     #regexp {%1} {You gain {\d+} {hitpoints|mana|stamina}}
-     {
-          @do_hook{redemption;&1;&2}
-     };
-     #else
-     {
-          @do_hook{redemption;0;alignment}
-     }
+    #nop {Hook name: redemption.};
+    #nop {Hook args: number gained.};
+    #nop {Hook args: Type of gain, e.g. mana.};
+    #regexp {%1} {You gain {\d+} {hitpoints|mana|stamina}}
+    {
+        @do_hook{redemption;&1;&2}
+    };
+    #else
+    {
+        @do_hook{redemption;0;alignment}
+    }
 }
 {9}
 
 #ACTION {^SEEK SHELTER AT ONCE!%s%w has begun to sing.$}
 {
-     #local {i} {};
-     #list {autorescueList} {find} {%1} {i};
-     #if {$i != 0}
-     {
-          #if {!&{auto[rescueCommand]}}
-          {
-               #variable {auto[rescueCommand]} {rescue}
-          };
-          ${auto[rescueCommand]} ${autorescueList[$i]}
-     }
+    #local {i} {};
+    #list {autorescueList} {find} {%1} {i};
+    #if {$i != 0}
+    {
+        #if {!&{auto[rescueCommand]}}
+        {
+            #variable {auto[rescueCommand]} {rescue}
+        };
+        ${auto[rescueCommand]} ${autorescueList[$i]}
+    }
 }
 {9}
 
 #ACTION {^You call upon the forces of nature to heal yourself.$}
 {
-     spamset recall 20
+    spamset recall 20
 }
 {9}
 
-#ACTION {^You join the fight with %w.$}
+#ACTION {^You join the fight with %1.$}
 {
-     #nop {Hook name: join};
-     #nop {Hook args: None};
-     @do_hook{join};
-     #local {i} {};
-     #list {autorescueList} {find} {%1} {i};
-     #if {$i != 0}
-     {
-          #if {!&{auto[rescueCommand]}}
-          {
-               #variable {auto[rescueCommand]} {rescue}
-          };
-          ${auto[rescueCommand]} ${autorescueList[$i]}
-     }
+    #nop {Hook name: join};
+    #nop {Hook args: None};
+    @do_hook{join};
+    #local {i} {};
+    #list {autorescueList} {find} {%1} {i};
+    #if {$i != 0}
+    {
+        #if {!&{auto[rescueCommand]}}
+        {
+            #variable {auto[rescueCommand]} {rescue}
+        };
+        ${auto[rescueCommand]} ${autorescueList[$i]}
+    }
 }
 {9}
 
 #ACTION {^You receive {your reward for the kill,|a reduced reward for a frequent kill, only} %1}
 {
-     #nop {Hook name is mobDeath.};
-     #nop {Hook args all text for rewoard for the kill.};
-     #local {i} {};
-     #local {j} {};
-     #if {{${onDeath}} != {}}
-     {
-          #foreach {*{onDeath[]}} {j}
-          {
-               ${onDeath[$j]}
-          };
-          #list {onDeath} {clear}
-     };
-     @do_hook{mobDeath;%1};
-     #nop {if viscera, edrain or vdrain are enabled they are set to 1 unless specified, so set the default to 50% instead.};
-     #if {${auto[viscera]} == 1}
-     {
-          #variable {auto[viscera]} {50}
-     };
-     #if {${auto[edrain]} == 1}
-     {
-          #variable {auto[edrain]} {50}
-     };
-     #if {${auto[vdrain]} == 1}
-     {
-          #variable {auto[vdrain]} {50}
-     };
-     #nop {viscera takes precedence because it restores everything.};
-     #nop {Vdrain takes second precedence because it restores hp.};
-     #nop {No viscera/vdrain? No problem! We can edrain.};
-     #if {${auto[viscera]} >= @percent{MSDP_HEALTH} || ${auto[viscera]} >= @percent{MSDP_STAMINA} || ${auto[viscera]} >= @percent{MSDP_MANA}}
-     {
-          viscera corpse
-     };
-     #elseif {${auto[vdrain]} >= @percent{MSDP_HEALTH} || ${auto[vdrain]} >= @percent{MSDP_STAMINA}}
-     {
-          vdrain corpse
-     };
-     #elseif {${auto[edrain]} >= @percent{MSDP_MANA}}
-     {
-          edrain corpse
-     };
-     #else
-     {
-          #nop Viscera, vdrain, nor edrain fired, fire a noDrain hook and call it a day.;
-          #nop Hook name: noDrain;
-          #nop Hook args: none;
-          @do_hook{noDrain}
-     }
+    #nop {Hook name is mobDeath.};
+    #nop {Hook args all text for rewoard for the kill.};
+    #local {i} {};
+    #local {j} {};
+    #if {{${onDeath}} != {}}
+    {
+        #foreach {*{onDeath[]}} {j}
+        {
+            ${onDeath[$j]}
+        };
+        #list {onDeath} {clear}
+    };
+    @do_hook{mobDeath;%1};
+    #nop {if viscera, edrain or vdrain are enabled they are set to 1 unless specified, so set the default to 50% instead.};
+    #if {${auto[viscera]} == 1}
+    {
+        #variable {auto[viscera]} {50}
+    };
+    #if {${auto[edrain]} == 1}
+    {
+        #variable {auto[edrain]} {50}
+    };
+    #if {${auto[vdrain]} == 1}
+    {
+        #variable {auto[vdrain]} {50}
+    };
+    #nop {viscera takes precedence because it restores everything.};
+    #nop {Vdrain takes second precedence because it restores hp.};
+    #nop {No viscera/vdrain? No problem! We can edrain.};
+    #if {${auto[viscera]} >= @percent{MSDP_HEALTH} || ${auto[viscera]} >= @percent{MSDP_STAMINA} || ${auto[viscera]} >= @percent{MSDP_MANA}}
+    {
+        viscera corpse
+    };
+    #elseif {${auto[vdrain]} >= @percent{MSDP_HEALTH} || ${auto[vdrain]} >= @percent{MSDP_STAMINA}}
+    {
+        vdrain corpse
+    };
+    #elseif {${auto[edrain]} >= @percent{MSDP_MANA}}
+    {
+        edrain corpse
+    };
+    #else
+    {
+        #nop Viscera, vdrain, nor edrain fired, fire a noDrain hook and call it a day.;
+        #nop Hook name: noDrain;
+        #nop Hook args: none;
+        @do_hook{noDrain}
+    }
 }
 {9}
 
-#ACTION {^You take %w's position in the formation.$}
+#ACTION {^You take %1's position in the formation.$}
 {
-     #if {!&{auto[rescueCommand]}}
-     {
-          #variable {auto[rescueCommand]} {rescue}
-     };
-     ${auto[rescueCommand]} %1
+    #if {!&{auto[rescueCommand]}}
+    {
+        #variable {auto[rescueCommand]} {rescue}
+    };
+    ${auto[rescueCommand]} %1
 }
 {9}
 
 #ACTION {^You try but are unable to head off {her|his|its} opponent.$}
 {
-     #local {i} {};
-     #foreach {*{autorescueList[]}} {i}
-     {
-          #if {!&{auto[rescueCommand]}}
-          {
-               #variable {auto[rescueCommand]} {rescue}
-          };
-          ${auto[rescueCommand]} ${autorescueList[$i]}
-     }
+    #local {i} {};
+    #foreach {*{autorescueList[]}} {i}
+    {
+        #if {!&{auto[rescueCommand]}}
+        {
+            #variable {auto[rescueCommand]} {rescue}
+        };
+        ${auto[rescueCommand]} ${autorescueList[$i]}
+    }
 }
 {9}
 
 #ACTION {^You {now follow|stop following} %w.$}
 {
-     #nop Hook name is groupStart or groupEnd.;
-     #if {{%1} == {stop following}}
-     {
-          #if {{%2} == {$leader}}
-          {
-               @do_hook{groupEnd}
-          }
-     };
-     #else
-     {
-          @do_hook{groupStart}
-     }
+    #nop Hook name is groupStart or groupEnd.;
+    #if {{%1} == {stop following}}
+    {
+        #if {{%2} == {$leader}}
+        {
+            @do_hook{groupEnd}
+        }
+    };
+    #else
+    {
+        @do_hook{groupStart}
+    }
 }
 {9}
 
 
 #ALIAS {^auto{heal|rescue|refresh} {add|remove} {all|group}$}
 {
-     #list {auto%1List} {clear};
-     #if {{%2} == {remove}}
-     {
-          #echo {You are no longer %1ing anyone.}
-     };
-     #else
-     {
-          POPULATE_%1_LIST
-     }
+    #list {auto%1List} {clear};
+    #if {{%2} == {remove}}
+    {
+        #echo {You are no longer %1ing anyone.}
+    };
+    #else
+    {
+        POPULATE_%1_LIST
+    }
 }
 {8}
 
 #ALIAS {^GENERATE_RENEW_LIFE_TICKER$}
 {
-     #unticker {renewLife};
-     #ticker {renewLife} {#if {&{auto[renewLife]} && @percent{MSDP_HEALTH} <= ${auto[renewLife]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[renewLife]}} {spamset renewLife 2;renewlife}} {1}
+    #unticker {renewLife};
+    #ticker {renewLife} {#if {&{auto[renewLife]} && @percent{MSDP_HEALTH} <= ${auto[renewLife]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[renewLife]}} {spamset renewLife 2;renewlife}} {1}
 }
 {9}
 
 #ALIAS {^POPULATE_%w_LIST$}
 {
-     #nop {Clear the list, so we don't end up with more duplicates than there are actually in the group.};
-     #nop {See the auto<%1> add alias for info on the duplication code.};
-     #variable {auto%1List} {clear};
-     #local {i} {};
-     #local {j} {};
-     #list {groupMemberList} {size} {i};
-     #if {$i > 0}
-     {
-          #foreach {${groupMemberList[%*]}} {j}
-          {
-               #if {{$j} != {${MSDP_CHARACTER_NAME}}}
-               {
-                    auto%1 add $j
-               }
-          }
-     };
-     auto%1
+    #nop {Clear the list, so we don't end up with more duplicates than there are actually in the group.};
+    #nop {See the auto<%1> add alias for info on the duplication code.};
+    #list {auto%1List} {clear};
+    #local {i} {};
+    #local {j} {};
+    #list {groupMemberList} {size} {i};
+    #if {$i > 0}
+    {
+        #foreach {${groupMemberList[%*]}} {j}
+        {
+            #if {{$j} != {${MSDP_CHARACTER_NAME}}}
+            {
+                auto%1 add $j
+            }
+        }
+    };
+    auto%1
 }
 {9}
 
 #ALIAS {^autorefreshgroup %*}
 {
-     #variable {auto[refreshGroup]} {%1};
-     #showme {You will refresh your group with %1. Use autorefresh add or remove to manage who is refreshed.}
+    #variable {auto[refreshGroup]} {%1};
+    #showme {You will refresh your group with %1. Use autorefresh add or remove to manage who is refreshed.}
 }
 {9}
 
 #ALIAS {^autorescuecommand %*}
 {
-     #variable {auto[rescueCommand]} {%1};
-     #showme {You will rescue with %1. Use autorescue add or remove to manage who is rescued.}
+    #variable {auto[rescueCommand]} {%1};
+    #showme {You will rescue with %1. Use autorescue add or remove to manage who is rescued.}
 }
 {9}
 
 #ALIAS {^auto{heal|rescue|refresh} %s{add|remove} %s%S$}
 {
-     #local {i} {};
-     #regexp {%5} {{\d+}.{.+}}
-     {
-          #format {battle_manager[tmp]} {%d.%n} {&1} {&2}
-     };
-     #else
-     {
-          #format {battle_manager[tmp]} {%n} {%5}
-     };
-     #list {auto%1List} {find} {${battle_manager[tmp]}} {i};
-     #if {{%3} == {remove}}
-     {
-          #if {$i == 0}
-          {
-               #echo {You are not currently automatically %1ing ${battle_manager[tmp]}.}
-          };
-          #else
-          {
-               #list {auto%1List} {delete} {$i};
-               #echo {You are no longer automatically %1ing ${battle_manager[tmp]}.};
-               #nop {Look for duplicates, and renumber them.};
-               #regexp {${battle_manager[tmp]}} {{\d+}.{.+}}
-               {
-                    #format {battle_manager[tmp]} {%n} {&2};#format {battle_manager[tmp2]} {%d} {&1}
-               };
-               #else
-               {
-                    #format {battle_manager[tmp2]} {%d} {1}
-               };
-               #foreach {*{auto%1List[]}} {i}
-               {
-                    #regexp {${auto%1List[$i]}} {{\d+}.{.+}}
-                    {
-                         #if {&1 > ${battle_manager[tmp2]} && {&2} == {${battle_manager[tmp]}}} {#if {&1 == 2} {#format {auto%1List[$i]} {%s} {${battle_manager[tmp]}}};#else {#format {auto%1List[$i]} {%m.%s} {&1 - 1} {${battle_manager[tmp]}}}}
-                    }
-               }
-          }
-     };
-     #else
-     {
-          #if {$i != 0}
-          {
-               #local {count} {0};
-               #regexp {${battle_manager[tmp]}} {{\d+}.{.+}}
-               {
-                    #format {battle_manager[tmp]} {%n} {&2};#format {battle_manager[tmp2]} {%d} {&1}
-               };
-               #else
-               {
-                    #format {battle_manager[tmp2]} {%d} {1}
-               };
-               #foreach {*{auto%1List[]}} {i}
-               {
-                    #if {{${auto%1List[$i]}} == {%d.${battle_manager[tmp]}} || {${auto%1List[$i]}} == {${battle_manager[tmp]}}}
-                    {
-                         #math {count} {$count + 1}
-                    }
-               };
-               #format {battle_manager[tmp3]} {%m.%s} {$count + 1} {${battle_manager[tmp]}};
-               #list {auto%1List} {add} {${battle_manager[tmp3]}};
-               #echo {You are already automatically %1ing ${battle_manager[tmp]}. Adding as ${battle_manager[tmp3]}. If you are automatically adding people as they enter the group, you should also remove them when they leave or this could cause issues.}
-          };
-          #else
-          {
-               #list {auto%1List} {add} {${battle_manager[tmp]}};
-               #echo {You are now automatically %1ing ${battle_manager[tmp]}.}
-          }
-     }
+    #local {i} {};
+    #regexp {%5} {{\d+}.{.+}}
+    {
+        #format {battle_manager[tmp]} {%d.%n} {&1} {&2}
+    };
+    #else
+    {
+        #format {battle_manager[tmp]} {%n} {%5}
+    };
+    #list {auto%1List} {find} {${battle_manager[tmp]}} {i};
+    #if {{%3} == {remove}}
+    {
+        #if {$i == 0}
+        {
+            #echo {You are not currently automatically %1ing ${battle_manager[tmp]}.}
+        };
+        #else
+        {
+            #list {auto%1List} {delete} {$i};
+            #echo {You are no longer automatically %1ing ${battle_manager[tmp]}.};
+            #nop {Look for duplicates, and renumber them.};
+            #regexp {${battle_manager[tmp]}} {{\d+}.{.+}}
+            {
+                #format {battle_manager[tmp]} {%n} {&2};#format {battle_manager[tmp2]} {%d} {&1}
+            };
+            #else
+            {
+                #format {battle_manager[tmp2]} {%d} {1}
+            };
+            #foreach {*{auto%1List[]}} {i}
+            {
+                #regexp {${auto%1List[$i]}} {{\d+}.{.+}}
+                {
+                    #if {&1 > ${battle_manager[tmp2]} && {&2} == {${battle_manager[tmp]}}} {#if {&1 == 2} {#format {auto%1List[$i]} {%s} {${battle_manager[tmp]}}};#else {#format {auto%1List[$i]} {%m.%s} {&1 - 1} {${battle_manager[tmp]}}}}
+                }
+            }
+        }
+    };
+    #else
+    {
+        #if {$i != 0}
+        {
+            #local {count} {0};
+            #regexp {${battle_manager[tmp]}} {{\d+}.{.+}}
+            {
+                #format {battle_manager[tmp]} {%n} {&2};#format {battle_manager[tmp2]} {%d} {&1}
+            };
+            #else
+            {
+                #format {battle_manager[tmp2]} {%d} {1}
+            };
+            #foreach {*{auto%1List[]}} {i}
+            {
+                #if {{${auto%1List[$i]}} == {%d.${battle_manager[tmp]}} || {${auto%1List[$i]}} == {${battle_manager[tmp]}}}
+                {
+                    #math {count} {$count + 1}
+                }
+            };
+            #format {battle_manager[tmp3]} {%m.%s} {$count + 1} {${battle_manager[tmp]}};
+            #list {auto%1List} {add} {${battle_manager[tmp3]}};
+            #echo {You are already automatically %1ing ${battle_manager[tmp]}. Adding as ${battle_manager[tmp3]}. If you are automatically adding people as they enter the group, you should also remove them when they leave or this could cause issues.}
+        };
+        #else
+        {
+            #list {auto%1List} {add} {${battle_manager[tmp]}};
+            #echo {You are now automatically %1ing ${battle_manager[tmp]}.}
+        }
+    }
 }
 {9}
 
 #ALIAS {^auto{heal|rescue|refresh}$}
 {
-     #local {i} {};
-     #local {j} {};
-     #echo {You are currently automatically %1ing:};
-     #list {auto%1List} {size} {i};
-     #if {$i > 0}
-     {
-          #foreach {*{auto%1List[]}} {j}
-          {
-               #echo {${auto%1List[$j]}}
-          }
-     };
-     #local {tmp} {};
-     #format {tmp} {%n} {%1};
-     #if {&{auto${tmp}Self} && &{auto${tmp}SelfPercent}}
-     {
-          #echo {Yourself with: ${auto${tmp}Self} at ${auto${tmp}SelfPercent} percent.}
-     }
+    #local {i} {};
+    #local {j} {};
+    #echo {You are currently automatically %1ing:};
+    #list {auto%1List} {size} {i};
+    #if {$i > 0}
+    {
+        #foreach {*{auto%1List[]}} {j}
+        {
+            #echo {${auto%1List[$j]}}
+        }
+    };
+    #local {tmp} {};
+    #format {tmp} {%n} {%1};
+    #if {&{auto${tmp}Self} && &{auto${tmp}SelfPercent}}
+    {
+        #echo {Yourself with: ${auto${tmp}Self} at ${auto${tmp}SelfPercent} percent.}
+    }
 }
 {9}
 
 #ALIAS {^flee}
 {
-     #if {$MSDP_OPPONENT_NUMBER > 0}
-     {
-          #send {%0}
-     }
+    #if {$MSDP_OPPONENT_NUMBER > 0}
+    {
+        #send {%0}
+    }
 }
 {9}
 
 #ALIAS {^he{a|al} %sall$}
 {
-     #local {i} {};
-     #local {j} {};
-     #list {autohealList} {size} {i};
-     #if {$i == 0}
-     {
-          #echo {No one to heal}
-     };
-     #else
-     {
-          #foreach {*{autohealList[]}} {j}
-          {
-               he%1 ${autohealList[$j]}
-          }
-     }
+    #local {i} {};
+    #local {j} {};
+    #list {autohealList} {size} {i};
+    #if {$i == 0}
+    {
+        #echo {No one to heal}
+    };
+    #else
+    {
+        #foreach {*{autohealList[]}} {j}
+        {
+            he%1 ${autohealList[$j]}
+        }
+    }
 }
 {9}
 
 #ALIAS {^hpa$}
 {
-     @var_save{i};
-     #foreach {${MSDP_GROUP[%*]}} {i}
-     {
-          #showme {${i[name]}: ${i[health]}%}
-     };
-     @var_restore{i}
+    @var_save{i};
+    #foreach {${MSDP_GROUP[%*]}} {i}
+    {
+        #showme {${i[name]}: ${i[health]}%}
+    };
+    @var_restore{i}
 }
 {9}
 
 #ALIAS {^noauto{heal|rescue|refresh}$}
 {
-     #list {auto%1List} {clear};
-     #echo {You are no longer %1ing anyone.}
+    #list {auto%1List} {clear};
+    #echo {You are no longer %1ing anyone.}
 }
 {9}
 
 #ALIAS {^res{c|cu|cue} %sall$}
 {
-     #local {i} {};
-     #local {j} {};
-     #list {autorescueList} {size} {i};
-     #if {$i == 0}
-     {
-          #echo {No one to rescue}
-     };
-     #else
-     {
-          #foreach {*{autorescueList[]}} {j}
-          {
-               ${auto[rescueCommand]} ${autorescueList[$j]}
-          }
-     }
+    #local {i} {};
+    #local {j} {};
+    #list {autorescueList} {size} {i};
+    #if {$i == 0}
+    {
+        #echo {No one to rescue}
+    };
+    #else
+    {
+        #foreach {*{autorescueList[]}} {j}
+        {
+            ${auto[rescueCommand]} ${autorescueList[$j]}
+        }
+    }
 }
 {9}
 
 #ALIAS {^{gl|gla|glan|glanc|glance} %s{all|group}$}
 {
-     #local {i} {};
-     #local {j} {};
-     #list {groupMemberList} {size} {i};
-     #if {$i > 0}
-     {
-          #foreach {*{groupMemberList[]}} {j}
-          {
-               #if {{${groupMemberList[$j]}} != {$MSDP_CHARACTER_NAME}}
-               {
-                    glance ${groupMemberList[$j]}
-               }
-          }
-     };
-     #else
-     {
-          #echo {No one to glance at.}
-     }
+    #local {i} {};
+    #local {j} {};
+    #list {groupMemberList} {size} {i};
+    #if {$i > 0}
+    {
+        #foreach {*{groupMemberList[]}} {j}
+        {
+            #if {{${groupMemberList[$j]}} != {$MSDP_CHARACTER_NAME}}
+            {
+                glance ${groupMemberList[$j]}
+            }
+        }
+    };
+    #else
+    {
+        #echo {No one to glance at.}
+    }
 }
 {9}
 
 #ALIAS {^{mv|hp|mn} %w$}
 {
-     #local {target} {};
-     #format {target} {%n} {%2};
-     #local {found} {0};
-     #local {i} {};
-     #foreach {*{MSDP_GROUP[]}} {i}
-     {
-          #if {{${MSDP_GROUP[$i][name]}} == {$target%*}}
-          {
-               #variable {found} {1};
-               #break
-          }
-     };
-     #if {!$found}
-     {
-          #format {target} {%l} {%2};
-          #foreach {*{MSDP_GROUP[]}} {i}
-          {
-               #if {{${MSDP_GROUP[$i][name]}} == {$target%*}}
-               {
-                    #variable {found} {1};
-                    #break
-               }
-          }
-     };
-     #if {$found}
-     {
-          #switch {{%1}}
-          {
-               #case {{hp}}
-               {
-                    #showme {%1: ${MSDP_GROUP[$i][health]}%}
-               };
-               #case {{mn}}
-               {
-                    #showme {%1: ${MSDP_GROUP[$i][mana]}%}
-               };
-               #case {{mv}}
-               {
-                    #showme {%1: ${MSDP_GROUP[$i][stamina]}%}
-               }
-          }
-     };
-     #else
-     {
-          #showme {Not found in your group.}
-     }
+    #local {target} {};
+    #format {target} {%n} {%2};
+    #local {found} {0};
+    #local {i} {};
+    #foreach {*{MSDP_GROUP[]}} {i}
+    {
+        #if {{${MSDP_GROUP[$i][name]}} == {$target%*}}
+        {
+            #variable {found} {1};
+            #break
+        }
+    };
+    #if {!$found}
+    {
+        #format {target} {%l} {%2};
+        #foreach {*{MSDP_GROUP[]}} {i}
+        {
+            #if {{${MSDP_GROUP[$i][name]}} == {$target%*}}
+            {
+                #variable {found} {1};
+                #break
+            }
+        }
+    };
+    #if {$found}
+    {
+        #switch {{%1}}
+        {
+            #case {{hp}}
+            {
+                #showme {%1: ${MSDP_GROUP[$i][health]}%}
+            };
+            #case {{mn}}
+            {
+                #showme {%1: ${MSDP_GROUP[$i][mana]}%}
+            };
+            #case {{mv}}
+            {
+                #showme {%1: ${MSDP_GROUP[$i][stamina]}%}
+            }
+        }
+    };
+    #else
+    {
+        #showme {Not found in your group.}
+    }
 }
 {9}
 
 #ALIAS {^{noc|c}hainattack$}
 {
-     #if {{%0} == {nochainattack}}
-     {
-          #unvariable {character[chainAttack]};
-          #echo {Chain attack cleared.}
-     };
-     #else
-     {
-          #if {&{character[chainAttack]}}
-          {
-               #echo {You are currently trying to join battles using ${character[chainAttack]}.}
-          };
-          #else
-          {
-               #echo {You have no chain attack set.}
-          }
-     }
+    #if {{%0} == {nochainattack}}
+    {
+        #unvariable {character[chainAttack]};
+        #echo {Chain attack cleared.}
+    };
+    #else
+    {
+        #if {&{character[chainAttack]}}
+        {
+            #echo {You are currently trying to join battles using ${character[chainAttack]}.}
+        };
+        #else
+        {
+            #echo {You have no chain attack set.}
+        }
+    }
 }
 {9}
 
 #ALIAS {^{no|}autorenewlife{(?: \d+)?}$}
 {
-     #if {{%1} == {no}}
-     {
-          NOTIFY Auto renew life disabled.;
-          #unvariable {auto[renewLife]};
-          #unticker {renewLife}
-     };
-     #else
-     {
-          #local {hp} {75};
-          #regexp {%2} {{ +}{\d+}}
-          {
-               #var {hp} {&2}
-          };
-          NOTIFY Auto renew life enabled at $hp%% health.;
-          #variable {auto[renewLife]} {$hp};
-          GENERATE_RENEW_LIFE_TICKER
-     }
+    #if {{%1} == {no}}
+    {
+        NOTIFY Auto renew life disabled.;
+        #unvariable {auto[renewLife]};
+        #unticker {renewLife}
+    };
+    #else
+    {
+        #local {hp} {75};
+        #regexp {%2} {{ +}{\d+}}
+        {
+            #var {hp} {&2}
+        };
+        NOTIFY Auto renew life enabled at $hp%% health.;
+        #variable {auto[renewLife]} {$hp};
+        GENERATE_RENEW_LIFE_TICKER
+    }
 }
 {9}
 
 #ALIAS {chainattack %1}
 {
-     #variable {character[chainAttack]} {%1};
-     #echo {You will now try to join battle using %1.}
+    #variable {character[chainAttack]} {%1};
+    #echo {You will now try to join battle using %1.}
 }
 {9}
 
@@ -765,300 +765,310 @@
 
 #EVENT {VARIABLE UPDATE MSDP_GROUP}
 {
-     #if {{%1} != {} && !$copying}
-     {
-          @var_save{tmp};
-          #variable {tmp} {%1};
-          @var_save{i};
-          @var_save{j};
-          @var_save{target};
-          @var_save{newLeader};
-          @var_save{newSubleaders};
-          @var_save{oldGroupMemberList};
-          #nop #local {i} {};
-          #variable {newLeader} {};
-          #variable {newSubleaders} {};
-          #nop {It's probably easier to clear the group member list on every update of msdp group since we're looping through the whole thing anyway. Save it to a temporary variable so we can compare for hooks.};
-          #variable {oldGroupMemberList} {$groupMemberList};
-          #variable {groupMemberList} {};
-          #foreach {*{tmp[]}} {i}
-          {
-               #if {${tmp[$i][is_leader]} && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME}}
-               {
-                    #variable {newLeader} {${tmp[$i][name]}}
-               };
-               #if {${tmp[$i][is_subleader]}}
-               {
-                    #list {newSubleaders} {add} {${tmp[$i][name]}}
-               };
-               #nop {Don't bother checking if they're in the list, since we cleared it.};
-               #list {groupMemberList} {add} {${tmp[$i][name]}};
-               #nop #local {j} {};
-               #list {autohealList} {find} {${tmp[$i][name]}} {j};
-               #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}]} && ${tmp[$i][health]} <= 80 && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
-               {
-                    spamset heal${tmp[$i][name]} 2;
-                    #switch {{${MSDP_CLASS}}}
+    #if {{%1} != {} && !$copying}
+    {
+        @var_save{tmp};
+        #variable {tmp} {%1};
+        @var_save{i};
+        @var_save{j};
+        @var_save{target};
+        @var_save{newLeader};
+        @var_save{newSubleaders};
+        @var_save{oldGroupMemberList};
+        #nop #local {i} {};
+        #variable {newLeader} {};
+        #variable {newSubleaders} {};
+        #nop {It's probably easier to clear the group member list on every update of msdp group since we're looping through the whole thing anyway. Save it to a temporary variable so we can compare for hooks.};
+        #variable {oldGroupMemberList} {$groupMemberList};
+        #variable {groupMemberList} {};
+        #foreach {*{tmp[]}} {i}
+        {
+            #if {${tmp[$i][is_leader]} && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME}}
+            {
+                #variable {newLeader} {${tmp[$i][name]}}
+            };
+            #if {${tmp[$i][is_subleader]}}
+            {
+                #list {newSubleaders} {add} {${tmp[$i][name]}}
+            };
+            #nop {Don't bother checking if they're in the list, since we cleared it.};
+            #list {groupMemberList} {add} {${tmp[$i][name]}};
+            #nop #local {j} {};
+            #list {autohealList} {find} {${tmp[$i][name]}} {j};
+            #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}]} && ${tmp[$i][health]} <= 80 && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
+            {
+                spamset heal${tmp[$i][name]} 2;
+                #switch {{${MSDP_CLASS}}}
+                {
+                    #case {{Paladin}}
                     {
-                         #case {{Paladin}}
-                         {
-                              #foreach {moderate;severe;nearDeath;incapacitated;;stunned;morted} {j}
-                              {
-                                   #if {!&{heal[$j]}}
-                                   {
-                                        #variable {heal[$j]} {lay}
-                                   }
-                              }
-                         };
-                         #case {{Valkyrie}}
-                         {
-                              #foreach {moderate;severe;nearDeath;incapacitated;;stunned;morted} {j}
-                              {
-                                   #if {!&{heal[$j]}}
-                                   {
-                                        #variable {heal[$j]} {wio}
-                                   }
-                              }
-                         };
-                         #default
-                         {
-                              #foreach {moderate;severe;nearDeath;incapacitated;stunned;morted} {j}
-                              {
-                                   #if {!&{heal[$j]}}
-                                   {
-                                        #variable {heal[$j]} {heal}
-                                   }
-                              }
-                         }
+                        #foreach {moderate;severe;nearDeath;incapacitated;;stunned;morted} {j}
+                        {
+                            #if {!&{heal[$j]}}
+                            {
+                                #variable {heal[$j]} {lay}
+                            }
+                        }
                     };
-                    #if {((${tmp[$i][health]} <= 70 && {${heal[moderate]}} == {{fh(?:e(?:a(?:l)?)?)?|c(?:a(?:s(?:t)?)?)? 'fu(?:l(?:l(?: (?:h(?:e(?:a(?:l)?)?)?)?)?)?)?'}}) || (${tmp[$i][health]} <= 80 && {${heal[moderate]}} != {{fh(?:e(?:a(?:l)?)?)?|c(?:a(?:s(?:t)?)?)? 'fu(?:l(?:l(?: (?:h(?:e(?:a(?:l)?)?)?)?)?)?)?'}})) && ${tmp[$i][health]} > 50 && {${heal[moderate]}} != {#nop}}
+                    #case {{Valkyrie}}
                     {
-                         #nop {moderately hurt.};
-                         #send {${heal[moderate]} ${tmp[$i][name]}}
+                        #foreach {moderate;severe;nearDeath;incapacitated;;stunned;morted} {j}
+                        {
+                            #if {!&{heal[$j]}}
+                            {
+                                #variable {heal[$j]} {wio}
+                            }
+                        }
                     };
-                    #elseif {${tmp[$i][health]} <= 50 && ${tmp[$i][health]} > 20 && {${heal[severe]}} != {#nop}}
+                    #default
                     {
-                         #nop {severely hurt.};
-                         #send {${heal[severe]} ${tmp[$i][name]}}
-                    };
-                    #elseif {${tmp[$i][health]} <= 20 && ${tmp[$i][health]} > 0 && {${heal[nearDeath]}} != {#nop}}
-                    {
-                         #nop {near death.};
-                         #send {${heal[nearDeath]} ${tmp[$i][name]}}
-                    };
-                    #elseif {${tmp[$i][health]} <= 0 && {${heal[morted]}} != {#nop}}
-                    {
-                         #nop {Use morted as a last ditch effort, in case the trigger doesn't work.};
-                         #send {${heal[morted]} ${tmp[$i][name]}}
+                        #foreach {moderate;severe;nearDeath;incapacitated;stunned;morted} {j}
+                        {
+                            #if {!&{heal[$j]}}
+                            {
+                                #variable {heal[$j]} {heal}
+                            }
+                        }
                     }
-               };
-               #if {${tmp[$i][stamina]} < 65 && @percent{MSDP_MANA} > 75}
-               {
-                    #if {!&{auto[refreshGroup]} || {${auto[refreshGroup]}} == {}}
-                    {
-                         #variable {auto[refreshGroup]} {refresh}
-                    };
-                    #list {autorefreshList} {find} {${tmp[$i][name]}} {j};
-                    #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[refresh${tmp[$i][name]}]} && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
-                    {
-                         spamset refresh${tmp[$i][name]} 4;
-                         #send {${auto[refreshGroup]} ${tmp[$i][name]}}
-                    }
-               }
-          };
-          #if {{$newLeader} != {} && {$newLeader} != {$leader}}
-          {
-               #variable {leader} {$newLeader}
-          };
-          #if {{$newSubleaders} != {} && {$newSubleaders} != {$subleaders}}
-          {
-               #variable {subleaders} {$newSubleaders}
-          };
-          #nop {Ugh, these loops probably need optimizations at some point.};
-          #foreach {${groupMemberList[%*]}} {i}
-          {
-               #list {oldGroupMemberList} {find} {$i} {j};
-               #if {$j == 0}
-               {
-                    #nop {Hook name: groupAdd.};
-                    #nop {Hook args: %1 who joined the group.};
-                    @do_hook{groupAdd;$i}
-               }
-          };
-          #foreach {${oldGroupMemberList[%*]}} {i}
-          {
-               #list {groupMemberList} {find} {$i} {j};
-               #if {$j == 0}
-               {
-                    #nop {Hook name: groupLeave.};
-                    #nop {Hook args: %1 who left the group.};
-                    @do_hook{groupLeave;$i}
-               }
-          };
-          @var_restore{newLeader};
-          @var_restore{newSubleaders};
-          @var_restore{target};
-          @var_restore{i};
-          @var_restore{j};
-          @var_restore{oldGroupMemberList};
-          #nop {Hook name is groupVariable};
-          #nop {Hook argument is none, but please use variable $groupVariable to access the contents.};
-          @var_save{groupVariable};
-          #variable {groupVariable} {$tmp};
-          @do_hook{groupVariable};
-          @var_restore{tmp};
-          @var_restore{groupVariable}
-     };
-     #elseif {!$copying}
-     {
-          #nop {The group has been disbanded or you are otherwise no longer in a group, remove leader and subleader variables and clear group members.};
-          #unvariable {leader};
-          #unvariable {subleaders};
-          @var_save{i};
-          #nop {Just send a blanket groupLeave event for everyone in the list, in case people have autoheal automatically adding members, etc.};
-          #foreach {${groupMemberList[%*]}} {i}
-          {
-               #nop {Hook name: groupLeave};
-               #nop {Hook args: %1 who left the group.};
-               @do_hook{groupLeave;$i}
-          };
-          @var_restore{i};
-          #variable {groupMemberList} {};
-          #nop {Hook name is groupVariable};
-          #nop {Hook argument is %1 variable contents.};
-          @do_hook{groupVariable;%1}
-     }
+                };
+                #if {((${tmp[$i][health]} <= 70 && {${heal[moderate]}} == {{fh(?:e(?:a(?:l)?)?)?|c(?:a(?:s(?:t)?)?)? 'fu(?:l(?:l(?: (?:h(?:e(?:a(?:l)?)?)?)?)?)?)?'}}) || (${tmp[$i][health]} <= 80 && {${heal[moderate]}} != {{fh(?:e(?:a(?:l)?)?)?|c(?:a(?:s(?:t)?)?)? 'fu(?:l(?:l(?: (?:h(?:e(?:a(?:l)?)?)?)?)?)?)?'}})) && ${tmp[$i][health]} > 50 && {${heal[moderate]}} != {#nop}}
+                {
+                    #nop {moderately hurt.};
+                    #send {${heal[moderate]} ${tmp[$i][name]}}
+                };
+                #elseif {${tmp[$i][health]} <= 50 && ${tmp[$i][health]} > 20 && {${heal[severe]}} != {#nop}}
+                {
+                    #nop {severely hurt.};
+                    #send {${heal[severe]} ${tmp[$i][name]}}
+                };
+                #elseif {${tmp[$i][health]} <= 20 && ${tmp[$i][health]} > 0 && {${heal[nearDeath]}} != {#nop}}
+                {
+                    #nop {near death.};
+                    #send {${heal[nearDeath]} ${tmp[$i][name]}}
+                };
+                #elseif {${tmp[$i][health]} <= 0 && {${heal[morted]}} != {#nop}}
+                {
+                    #nop {Use morted as a last ditch effort, in case the trigger doesn't work.};
+                    #send {${heal[morted]} ${tmp[$i][name]}}
+                }
+            };
+            #if {${tmp[$i][stamina]} < 65 && @percent{MSDP_MANA} > 75}
+            {
+                #if {!&{auto[refreshGroup]} || {${auto[refreshGroup]}} == {}}
+                {
+                    #variable {auto[refreshGroup]} {refresh}
+                };
+                #list {autorefreshList} {find} {${tmp[$i][name]}} {j};
+                #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[refresh${tmp[$i][name]}]} && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
+                {
+                    spamset refresh${tmp[$i][name]} 4;
+                    #send {${auto[refreshGroup]} ${tmp[$i][name]}}
+                }
+            }
+        };
+        #if {{$newLeader} != {} && {$newLeader} != {$leader}}
+        {
+            #variable {leader} {$newLeader}
+        };
+        #if {{$newSubleaders} != {} && {$newSubleaders} != {$subleaders}}
+        {
+            #variable {subleaders} {$newSubleaders}
+        };
+        #nop {Ugh, these loops probably need optimizations at some point.};
+        #foreach {${groupMemberList[%*]}} {i}
+        {
+            #list {oldGroupMemberList} {find} {$i} {j};
+            #if {$j == 0}
+            {
+                #nop {Hook name: groupAdd.};
+                #nop {Hook args: %1 who joined the group.};
+                @do_hook{groupAdd;$i}
+            }
+        };
+        #foreach {${oldGroupMemberList[%*]}} {i}
+        {
+            #list {groupMemberList} {find} {$i} {j};
+            #if {$j == 0}
+            {
+                #nop {Hook name: groupLeave.};
+                #nop {Hook args: %1 who left the group.};
+                @do_hook{groupLeave;$i}
+            }
+        };
+        @var_restore{newLeader};
+        @var_restore{newSubleaders};
+        @var_restore{target};
+        @var_restore{i};
+        @var_restore{j};
+        @var_restore{oldGroupMemberList};
+        #nop {Hook name is groupVariable};
+        #nop {Hook argument is none, but please use variable $groupVariable to access the contents.};
+        @var_save{groupVariable};
+        #variable {groupVariable} {$tmp};
+        @do_hook{groupVariable};
+        @var_restore{tmp};
+        @var_restore{groupVariable}
+    };
+    #elseif {!$copying}
+    {
+        #nop {The group has been disbanded or you are otherwise no longer in a group, remove leader and subleader variables and clear group members.};
+        #unvariable {leader};
+        #unvariable {subleaders};
+        @var_save{i};
+        #nop {Just send a blanket groupLeave event for everyone in the list, in case people have autoheal automatically adding members, etc.};
+        #foreach {${groupMemberList[%*]}} {i}
+        {
+            #nop {Hook name: groupLeave};
+            #nop {Hook args: %1 who left the group.};
+            @do_hook{groupLeave;$i}
+        };
+        @var_restore{i};
+        #variable {groupMemberList} {};
+        #nop {Hook name is groupVariable};
+        #nop {Hook argument is %1 variable contents.};
+        @do_hook{groupVariable;%1}
+    }
 }
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_NAME}
 {
-     #nop {hook name: opponentName};
-     #nop {hook args: Name of opponent you ar currently fighting};
-     #if {({%1} != {} || {$OLD_MSDP_OPPONENT_NAME} != {}) && !$copying}
-     {
-          #variable {OLD_MSDP_OPPONENT_NAME} {%1};
-          #if {${auto[join]} && {%1} != {}}
-          {
-               order followers join $MSDP_CHARACTER_NAME
-          };
-          @do_hook{opponentName;%1}
-     }
+    #nop {hook name: opponentName};
+    #nop {hook args: Name of opponent you ar currently fighting};
+    #if {({%1} != {} || {$OLD_MSDP_OPPONENT_NAME} != {}) && !$copying}
+    {
+        #variable {OLD_MSDP_OPPONENT_NAME} {%1};
+        #if {${auto[join]} && {%1} != {}}
+        {
+            order followers join $MSDP_CHARACTER_NAME
+        };
+        @do_hook{opponentName;%1}
+    }
 }
 
 #EVENT {VARIABLE UPDATE MSDP_OPPONENT_NUMBER}
 {
-     #nop {hook name: opponentNumber};
-     #nop {hook args: Number of opponents};
-     #if {{%1} != {} && !$copying}
-     {
-          #if {${auto[range]} && !${MSDP_RANGED} && %1 == 0}
-          {
-               range
-          };
-          @do_hook{opponentNumber;%1}
-     }
+    #nop {hook name: opponentNumber};
+    #nop {hook args: Number of opponents};
+    #if {{%1} != {} && !$copying}
+    {
+        #if {${auto[range]} && !${MSDP_RANGED} && %1 == 0}
+        {
+            range
+        };
+        @do_hook{opponentNumber;%1}
+    }
 }
 
 #EVENT {VARIABLE UPDATE MSDP_RANGED}
 {
-     #if {&{MSDP_RANGED} && %1 == 0 && $MSDP_RANGED == 1}
-     {
-          #nop {Hook name is rangedEnd	};
-          #nop {Hook args: name of thing that advanced on you.};
-          SYNTH_PLAY warningSound;
-          @do_hook{rangedEnd;%1}
-     };
-     #if {&{MSDP_RANGED} && %1 == 1 && $MSDP_RANGED == 0}
-     {
-          #nop {Hook name is rangedStart	};
-          #nop {Hook args: none.};
-          #variable {rangedCombat} {1};
-          @do_hook{rangedStart}
-     }
+    #if {&{MSDP_RANGED} && %1 == 0 && $MSDP_RANGED == 1}
+    {
+        #nop {Hook name is rangedEnd	};
+        #nop {Hook args: name of thing that advanced on you.};
+        SYNTH_PLAY warningSound;
+        @do_hook{rangedEnd;%1}
+    };
+    #if {&{MSDP_RANGED} && %1 == 1 && $MSDP_RANGED == 0}
+    {
+        #nop {Hook name is rangedStart	};
+        #nop {Hook args: none.};
+        #variable {rangedCombat} {1};
+        @do_hook{rangedStart}
+    }
 }
 
 
 #FUNCTION {combat_action}
 {
-     #nop {Do a hook for people that want to know if any opener has been used in the room.};
-     #nop {Hook name: combatOpener};
-     #nop {Hook args: %1 The person doing the opener %2 the person being opened on.};
-     @do_hook{combatOpener;%1;%2};
-     #local {i} {0};
-     #list {autorescueList} {find} {%1} {i};
-     #if {$i != 0}
-     {
-          #if {!&{auto[rescueCommand]}}
-          {
-               #variable {auto[rescueCommand]} {rescue}
-          };
-          ${auto[rescueCommand]} ${autorescueList[$i]}
-     };
-     #else
-     {
-          #list {groupMemberList} {find} {%1} {i};
-          #if {$i > 0}
-          {
-               #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[chainattack]}}
-               {
-                    spamset chainattack 2;
-                    #regexp {%2} {{.*} {.*}}
-                    {
-                         ${character[chainAttack]} &2
-                    };
-                    #else
-                    {
-                         ${character[chainAttack]} %2
-                    }
-               };
-               #elseif {!${spam[chainattack]}}
-               {
-                    spamset chainattack 2;
-                    join %1
-               }
-          }
-     };
-     #list {autorescueList} {find} {%2} {i};
-     #if {$i != 0}
-     {
-          #if {!&{auto[rescueCommand]}}
-          {
-               #variable {auto[rescueCommand]} {rescue}
-          };
-          ${auto[rescueCommand]} ${autorescueList[$i]}
-     };
-     #else
-     {
-          #list {groupMemberList} {find} {%2} {i};
-          #if {$i > 0}
-          {
-               #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[chainattack]}}
-               {
-                    spamset chainattack 2;
-                    #regexp {%1} {{.*} {.*}}
-                    {
-                         ${character[chainAttack]} &2
-                    };
-                    #else
-                    {
-                         ${character[chainAttack]} %1
-                    }
-               };
-               #elseif {!${spam[chainattack]} && $MSDP_OPPONENT_NUMBER == 0}
-               {
-                    spamset chainattack 2;
-                    join %2
-               }
-          }
-     };
-     #return #nop
+    #nop {Do a hook for people that want to know if any opener has been used in the room.};
+    #nop {Hook name: combatOpener};
+    #nop {Hook args: %1 The person doing the opener %2 the person being opened on.};
+    @do_hook{combatOpener;%1;%2};
+    #local {follower} {0};
+    #if {{%1} == {{.+ \(your follower\)}} || {%1} == {{.+ \(follower of $leader\)}}}
+    {
+        #variable {follower} {1}
+    };
+    #local {i} {0};
+    #list {autorescueList} {find} {%1} {i};
+    #if {$i != 0}
+    {
+        #if {!&{auto[rescueCommand]}}
+        {
+            #variable {auto[rescueCommand]} {rescue}
+        };
+        ${auto[rescueCommand]} ${autorescueList[$i]}
+    };
+    #else
+    {
+        #list {groupMemberList} {find} {%1} {i};
+        #if {$i > 0 || $follower}
+        {
+            #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[chainattack]}}
+            {
+                spamset chainattack 2;
+                #regexp {%2} {{.*} {.*}}
+                {
+                    ${character[chainAttack]} &2
+                };
+                #else
+                {
+                    ${character[chainAttack]} %2
+                }
+            };
+            #elseif {!${spam[chainattack]}}
+            {
+                spamset chainattack 2;
+                join %1
+            }
+        }
+    };
+    #variable {follower} {0};
+    #if {{%2} == {{.+ \(your follower\)}} || {%2} == {{.+ \(follower of $leader\)}}}
+    {
+        #variable {follower} {1}
+    };
+    #list {autorescueList} {find} {%2} {i};
+    #if {$i != 0}
+    {
+        #if {!&{auto[rescueCommand]}}
+        {
+            #variable {auto[rescueCommand]} {rescue}
+        };
+        ${auto[rescueCommand]} ${autorescueList[$i]}
+    };
+    #else
+    {
+        #list {groupMemberList} {find} {%2} {i};
+        #if {$i > 0 || $follower}
+        {
+            #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[chainattack]}}
+            {
+                spamset chainattack 2;
+                #regexp {%1} {{.*} {.*}}
+                {
+                    ${character[chainAttack]} &2
+                };
+                #else
+                {
+                    ${character[chainAttack]} %1
+                }
+            };
+            #elseif {!${spam[chainattack]} && $MSDP_OPPONENT_NUMBER == 0}
+            {
+                spamset chainattack 2;
+                join %2
+            }
+        }
+    };
+    #return #nop
 }
 
 
 
-#VARIABLE         {OLD_MSDP_OPPONENT_NAME}    {}
-#VARIABLE         {battle_manager}  {}
-#VARIABLE         {groupMemberList}  {}
-#VARIABLE         {leader}  {}
-#VARIABLE         {onDeath}  {}
+#VARIABLE {OLD_MSDP_OPPONENT_NAME} {}
+#VARIABLE {battle_manager} {}
+#VARIABLE {groupMemberList} {}
+#VARIABLE {leader} {}
+#VARIABLE {onDeath} {}
 
