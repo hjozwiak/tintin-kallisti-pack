@@ -12,7 +12,7 @@
      {
           #variable {character[mapping]} {0}
      };
-     #if {${character[mapping]} && $MSDP_ROOM_VNUM != 0}
+     #if {${character[mapping]} && {$MSDP_ROOM_VNUM} != {0} && {$MSDP_ROOM_VNUM} != {?}}
      {
           #map goto {$MSDP_ROOM_VNUM} {dig};
           #map set roomarea $MSDP_AREA_NAME;
@@ -25,7 +25,7 @@
           #map get {roomexits} {EXIT_LIST};
           #foreach {*MSDP_ROOM_EXITS[]} {EXIT}
           {
-               #if {{$MSDP_ROOM_EXITS[$EXIT]} != {{\?|C|}} && ({${EXIT_LIST[@dA{$EXIT}]}} != {${MSDP_ROOM_EXITS[$EXIT]}} || !&{EXIT_LIST[@dA{$EXIT}]})}
+               #if {{$MSDP_ROOM_EXITS[$EXIT]} != {{\?|C|L|}} && ({${EXIT_LIST[@dA{$EXIT}]}} != {${MSDP_ROOM_EXITS[$EXIT]}} || !&{EXIT_LIST[@dA{$EXIT}]})}
                {
                     #map {unlink} {@dA{$EXIT}};
                     #map dig {@dA{$EXIT}} {$MSDP_ROOM_EXITS[$EXIT]};
