@@ -78,11 +78,11 @@
     {ant farm} {2s4e10s1e}
     {ant hill} {2s7e5s10e1n}
     {arachnos} {2s14w2s1w1u}
-    {archipelago} {3s2e1s\;book archipelago}
+    {archipelago} {3s2e1s;book archipelago}
     {arena} {3s4e5s1e}
     {arlinder} {2s14e26n13e3s3e4s}
     {asgaard} {2s7e25n1e4n1e1n2w2s1u}
-    {atoll} {2s4w9s2e15s\;open gate\;3w6s2w1s3w1ds1e5s4w2s}
+    {atoll} {2s4w9s2e15s;open gate;3w6s2w1s3w1ds1e5s4w2s}
     {badlands} {3s2e2s5e1n1e1n1e1n1n10e8s}
     {baramon ingrol} {2s7w9s5w1s}
     {barovia} {2s7e24n1w}
@@ -100,7 +100,7 @@
     {callidyrr village} {2s7w4n8w2n1e}
     {carnival} {10n1e}
     {cathedral} {4n2w1s2w1s}
-    {chessboard} {3s5w\;open gate south\;1s1w\;open door  w1e1st\;3w\;open door south\;1s1u}
+    {chessboard} {3s5w;open gate south;1s1w;open door  w1e1st;3w;open door south;1s1u}
     {circus} {2s7w4n8w1s}
     {citadel} {2s7e5s2e3s1e1s4e3n}
     {crystal palace} {3s2e2s5e1n1e1n1e2n10e1n1e7n}
@@ -108,7 +108,7 @@
     {darkfriends} {3s2w1s}
     {darkport} {3s2e2s15w4n}
     {desert} {3s2e2s5e1n1e1n1e2n10e}
-    {desoy} {2s14e26n13e2s\;open door\;1e2n1w1s1d}
+    {desoy} {2s14e26n13e2s;open door;1e2n1w1s1d}
     {disorder} {3s2e2s5e5s2w1s3e1e1s1w1s1s1n1n1e1n1d}
     {dragon realm} {2s7e23n2e1n}
     {drow} {3s2e2s1e4e1n1e1n1e2n2e4e1n1e1n2d}
@@ -118,8 +118,8 @@
     {elven court} {2s7w4n4w1s}
     {estrianna} {2s14w4s1w1s6w3s1e}
     {evermore} {2s4w9s2e15s}
-    {evermore castle} {2s4w9s2e15s\;open gate\;3w2s7w4n3w1s2w2s1e1s}
-    {faerie} {2s7w3n\;enter mu1shroom}
+    {evermore castle} {2s4w9s2e15s;open gate;3w2s7w4n3w1s2w2s1e1s}
+    {faerie} {2s7w3n;enter mu1shroom}
     {falcon} {2s7w4n9w}
     {fells of skarpsky} {3s4w7s2e12s1w1w2n2w1n3w2s1w1s}
     {flooded forest} {2s4w7s2e8s1e3s3e1s1w1s3e1u}
@@ -136,7 +136,7 @@
     {grimmbal} {2s7e27n1e}
     {hahn dor forest} {2s6w}
     {halladar's keep} {2s14e25n13e3n3w2n1w}
-    {hell} {2s7e5s3e\;open gate\;1e1e5n}
+    {hell} {2s7e5s3e;open gate;1e1e5n}
     {high tower of sorcery} {2s9w1s2w1s2w1s1w1s1w1n1w2n3w3s1w1s1n}
     {hillsborough} {2s7w4n2w4n}
     {inferno} {2s7w4n2w6n8e1n2e1n}
@@ -147,16 +147,16 @@
     {magistrada} {3s2e2s6w1n1w1n}
     {mahn-tor} {2s7e5s2e1s}
     {manor} {2s5e1n}
-    {manor warren} {2s5e1n\;open manor\;2n2e2n3w1d}
-    {meta} {2s14w\;enter opening\;1w}
-    {moathouse} {2s7e13s1w1s7w3n3w1n1u\;open gate\;1w3n7w1n1w1n3w2n}
+    {manor warren} {2s5e1n;open manor;2n2e2n3w1d}
+    {meta} {2s14w;enter opening;1w}
+    {moathouse} {2s7e13s1w1s7w3n3w1n1u;open gate;1w3n7w1n1w1n3w2n}
     {moonglow castle} {2s7e5s8e}
     {moria} {2s7e32n5e1n1e2n2e1s1e1s2e1s}
     {museum} {2s7e5s5e5n}
     {mystical forest} {17n1e}
     {mystics} {2s7e12s7e}
-    {nebelwald} {2s7e13s1w1s7w3n3w1n1u\;open gate\;1w4n8w1n4w1n2w}
-    {necromancer island} {2s4w9s2e15s\;open gate\;3w6s2w1s3w1ds1e5s6w1s11w6n}
+    {nebelwald} {2s7e13s1w1s7w3n3w1n1u;open gate;1w4n8w1n4w1n2w}
+    {necromancer island} {2s4w9s2e15s;open gate;3w6s2w1s3w1ds1e5s6w1s11w6n}
     {necromancer king} {3s2e2s5e1n1e1n1e2n10e1n2w}
     {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n}
     {niatachel} {3s2e2s5e1n1e1n1e2n10e3s1w}
@@ -181,12 +181,12 @@
     {swamps} {2s7e6s}
     {tarusk} {2s7e24n1w2n9w1s2w2s1n1e1s1e2s1w1s1w1n1e1s2w2n1e1u}
     {tavenen forest} {2s14e12n}
-    {tellurian discordia} {2s4w9s2e15s\;open gate\;3w6s2w1s3w1ds1e5s4w6s1e1s1e2s1e1ds1w1s2w}
+    {tellurian discordia} {2s4w9s2e15s;open gate;3w6s2w1s3w1ds1e5s4w6s1e1s1e2s1e1ds1w1s2w}
     {thalos} {3s2e2s5e1n1e1n1e2n10e4s1w}
     {tol morlyg} {2s14e26n16e2n4e6s4e2n2e1s1e1s1e2s1w}
     {tombs of tarin} {2s14w2n1w2n2e1n}
     {tombs of the damned} {2s7e23n10e2s4e8s4w2n1de1d}
-    {trein} {3s2e1s\;book trein}
+    {trein} {3s2e1s;book trein}
     {underworld} {3s3e1s}
     {valencia nina} {2s7e24n1w1n1e1s}
     {whispering hills} {2s4w7s2e17s1e}
