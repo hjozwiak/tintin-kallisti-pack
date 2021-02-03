@@ -1,4 +1,4 @@
-#ACTION {^< %1{>|>\s*}$}
+#ACTION {^< {[^<>]+}{>|>\s*}$}
 {
      #if {${character[prompt]} == 1}
      {
