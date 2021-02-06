@@ -725,7 +725,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{acidshield.*|alacrity.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|fireshield.*|focus.*|follow|grimward.*|haste.*|holysteed|iceshield.*|invisibility|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin.*|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|uinvis|vdrain(?: +\d+)?|vigor.*|viscera(?: +\d+)?|warcry|warpaint.*|werewolf|wraith|vivify.*|zombify}$}
+#ALIAS {^{noauto|auto}{staticfield|acidshield.*|alacrity.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|fireshield.*|focus.*|follow|grimward.*|haste.*|holysteed|iceshield.*|invisibility|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin.*|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|uinvis|vdrain(?: +\d+)?|vigor.*|viscera(?: +\d+)?|warcry|warpaint.*|werewolf|wraith|vivify.*|zombify}$}
 {
      #if {{%0} == {noauto%*}}
      {
@@ -936,7 +936,7 @@
 
 #VARIABLE         {at}  {}
 #VARIABLE         {autoCombatAllowed}  {{1}{focus}{2}{warcry}{3}{bushido}}
-#VARIABLE         {autoMappings}  {{alacrity}{alacrity}{blade barrier}{blade}{corpse visage}{cvisage}{crystal eyes}{eyes}{divine armor}{darmor}{divine shield}{dshield}{faerie fire}{ffire}{grim ward}{grimward}{invisibility}{shroud|invisibility}{invisibility to undead}{uinvis}{magic shield}{magicshield}{protection from death}{pfd}{sanctuary}{sanc}{shapechange}{shape}{shroud of darkness}{shroud}{spirit of bushido}{bushido}{spiritual guardian}{spirit}{true seeing}{eyes}{unholy aura}{aura}{wraithform}{wraith}{vivify}{vivify}}
+#VARIABLE         {autoMappings}  {{static field}{staticfield}{alacrity}{alacrity}{blade barrier}{blade}{corpse visage}{cvisage}{crystal eyes}{eyes}{divine armor}{darmor}{divine shield}{dshield}{faerie fire}{ffire}{grim ward}{grimward}{invisibility}{shroud|invisibility}{invisibility to undead}{uinvis}{magic shield}{magicshield}{protection from death}{pfd}{sanctuary}{sanc}{shapechange}{shape}{shroud of darkness}{shroud}{spirit of bushido}{bushido}{spiritual guardian}{spirit}{true seeing}{eyes}{unholy aura}{aura}{wraithform}{wraith}{vivify}{vivify}}
 #VARIABLE         {autoQueue}  {}
 #VARIABLE         {bufExtras}  {{1}{acidshield}{2}{blur}{3}{barkskin}{4}{bless}{5}{haste}{6}{prayer}{7}{shape}{8}{strength}{9}{vigor}{10}{warpaint}{11}{fireshield}{12}{iceshield}}
 #VARIABLE         {lastDequeue}  {}

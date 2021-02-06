@@ -1,6 +1,6 @@
 #ALIAS {^CREATE_MACRO %.$}
 {
-     #macro {\e%1} {#if {&keyProfile[${keySetName}][%1]}{$keyProfile[${keySetName}][%1]}}
+     #macro {\e%1} {#if {&{keyProfile[${keySetName}][%1]}}{$keyProfile[${keySetName}][%1]}}
 }
 {9}
 
