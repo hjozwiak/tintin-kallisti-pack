@@ -120,7 +120,7 @@
 #EVENT {DAY}
 {
     #log {off};
-    @open_log{}
+    @open_log{${MSDP_ACCOUNT_NAME}}
 }
 
 #EVENT {HOUR}
@@ -175,18 +175,22 @@
     SYNTH_PLAY connectedSound;
     #nop {Set connected to true so if you accidentally type login it won't try to login twice.};
     #variable {connected} {true};
-    @open_log{};
     #foreach {*{goto[]}} {i}
     {
         #tab {$i}
     }
 }
 
+#EVENT {VARIABLE UPDATE MSDP_ACCOUNT_NAME}
+{
+    @open_log{%1}
+}
+
 
 #FUNCTION {open_log}
 {
-    #nop {Create the log directory if it doesn't exist. Log files are based on date and time.};
-    #script {logFilePath} {date +'log/%Y/%B/'};
+    #nop {Create the log directory if it doesn't exist. Log files are based on account name and date.};
+    #script {logFilePath} {echo -n "log/%1/"; date +'%Y/%B/'};
     #variable {logFilePath} {${HOME}/${logFilePath[1]}};
     #script {logFileName} {date +'%d.log'};
     #system {mkdir -p $logFilePath};
