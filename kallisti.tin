@@ -125,8 +125,7 @@
 
 #EVENT {HOUR}
 {
-    #script {logDate} {date '+%X'};
-    #line {log} {${logFilePath}${logFileName[1]}} {${logDate[1]}}
+    #script {logDate} {date '+%X'}
 }
 
 #EVENT {PROGRAM START}
