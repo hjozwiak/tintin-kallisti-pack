@@ -1,181 +1,204 @@
 #ACTION {^Wrong password.$}
 {
-     #system {play -qV0 wrong-password.wav gain ${MSP[VOLUME]} &> /dev/null &}
+    #system {play -qV0 wrong-password.wav gain ${MSP[VOLUME]} &> /dev/null &}
 }
 {9}
 
 
 #ALIAS {^{build|test|login}$}
 {
-     #if {{%0} == {build}}
-     {
-          #nop {Change to the builder port.};
-          #variable {mudPort} {4005}
-     };
-     #if {{%0} == {test}}
-     {
-          #nop {Change to the test port.};
-          #variable {mudPort} {4069}
-     };
-     #if {!&{connected}}
-     {
-          #if {$mudPort == 3102 || $mudPort == 3110}
-          {
-               #ssl {$mudSessionName} {$mudAddress} {$mudPort}
-          };
-          #else
-          {
-               #session {$mudSessionName} {$mudAddress} {$mudPort}
-          }
-     };
-     #else
-     {
-          #send {%0}
-     }
+    #if {{%0} == {build}}
+    {
+        #nop {Change to the builder port.};
+        #variable {mudPort} {4005}
+    };
+    #if {{%0} == {test}}
+    {
+        #nop {Change to the test port.};
+        #variable {mudPort} {4069}
+    };
+    #if {!&{connected}}
+    {
+        #if {$mudPort == 3102 || $mudPort == 3110}
+        {
+            #ssl {$mudSessionName} {$mudAddress} {$mudPort}
+        };
+        #else
+        {
+            #session {$mudSessionName} {$mudAddress} {$mudPort}
+        }
+    };
+    #else
+    {
+        #send {%0}
+    }
 }
 {8}
 
 #ALIAS {^CLEAN$}
 {
-     #script {for module in modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill}";done};
-     #unvariable {HOME};
-     #unvariable {result};
-     #showme {Cleaned environment of classes.}
+    #script {for module in modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {kill}";done};
+    #unvariable {HOME};
+    #unvariable {result};
+    #showme {Cleaned environment of classes.}
 }
 {9}
 
 #ALIAS {^CMOTD$}
 {
-     #echo {@separator{}};
-     #system {fold -w $(tput cols) -s MOTD};
-     #echo {@separator{}}
+    #echo {@separator{}};
+    #system {fold -w $(tput cols) -s MOTD};
+    #echo {@separator{}}
 }
 {9}
 
 #ALIAS {^mod{kill|load|reload} %S$}
 {
-     CSAVE;
-     #nop {reload all modules};
-     #if {{%0} == {modreload all}}
-     {
-          #script {script} {for module in modules/*.tin ; do echo "$(basename "$module" .tin)";done};
-          #foreach {${script[%*]}} {z}
-          {
-               #if {&{${z}Shutdown}}
-               {
-                    ${${z}Shutdown}
-               }
-          };
-          #script {for module in modules/*.tin ; do if [ "$module" != "modules/msdp.tin" ] ; then echo "#class {$(basename "$module" .tin)} {kill};#class {$(basename "$module" .tin)} {read} {$module}";fi;done};
-          #foreach {${script[%*]}} {z}
-          {
-               #if {&{${z}Startup}}
-               {
-                    #class {$z} {open};
-                    ${${z}Startup};
-                    #class {$z} {close}
-               }
-          };
-          #unvariable {script};
-          #unvariable {z};
-          NOTIFY All modules except msdp reloaded.;
-          NOTIFY To reload MSDP you must close and reopen tintin.
-     };
-     #else
-     {
-          #nop {Kill, load, or reload a specified module.};
-          #if {{%2} != {msdp}}
-          {
-               #if {{%1} == {{kill|reload}}}
-               {
-NOTIFY Killing class %2;
-                    #if {&{%2Shutdown}}
-                    {
-                         ${%2Shutdown}
-                    };
-                    #class {%2} {kill}
-               };
-               #if {{%1} == {{load|reload}}}
-               {
-                    #class {%2} {read} {modules/%2.tin};
-                    #if {&{%2Startup}}
-                    {
-                         #class {%2} {open};
-                         ${%2Startup};
-                         #class {%2} {close}
-                    };
-                    #class {$MSDP_CHARACTER_NAME} {open};
-NOTIFY Loaded class %2
-               }
-          };
-          #else
-          {
-               NOTIFY Cowardly refusing to touch the msdp module. If you really want to do this, do it manually or close your client and restart.
-          }
-     }
+    CSAVE;
+    #nop {reload all modules};
+    #if {{%0} == {modreload all}}
+    {
+        #script {script} {for module in modules/*.tin ; do echo "$(basename "$module" .tin)";done};
+        #foreach {${script[%*]}} {z}
+        {
+            #if {&{${z}Shutdown}}
+            {
+                ${${z}Shutdown}
+            }
+        };
+        #script {for module in modules/*.tin ; do if [ "$module" != "modules/msdp.tin" ] ; then echo "#class {$(basename "$module" .tin)} {kill};#class {$(basename "$module" .tin)} {read} {$module}";fi;done};
+        #foreach {${script[%*]}} {z}
+        {
+            #if {&{${z}Startup}}
+            {
+                #class {$z} {open};
+                ${${z}Startup};
+                #class {$z} {close}
+            }
+        };
+        #unvariable {script};
+        #unvariable {z};
+        NOTIFY All modules except msdp reloaded.;
+        NOTIFY To reload MSDP you must close and reopen tintin.
+    };
+    #else
+    {
+        #nop {Kill, load, or reload a specified module.};
+        #if {{%2} != {msdp}}
+        {
+            #if {{%1} == {{kill|reload}}}
+            {
+                NOTIFY Killing class %2;
+                #if {&{%2Shutdown}}
+                {
+                    ${%2Shutdown}
+                };
+                #class {%2} {kill}
+            };
+            #if {{%1} == {{load|reload}}}
+            {
+                #class {%2} {read} {modules/%2.tin};
+                #if {&{%2Startup}}
+                {
+                    #class {%2} {open};
+                    ${%2Startup};
+                    #class {%2} {close}
+                };
+                #class {$MSDP_CHARACTER_NAME} {open};
+                NOTIFY Loaded class %2
+            }
+        };
+        #else
+        {
+            NOTIFY Cowardly refusing to touch the msdp module. If you really want to do this, do it manually or close your client and restart.
+        }
+    }
 }
 {9}
 
 
+#EVENT {DAY}
+{
+    #log {off};
+    @open_log{${MSDP_ACCOUNT_NAME}}
+}
+
+#EVENT {HOUR}
+{
+    #script {logDate} {date '+%X'};
+    #line {log} {${logFilePath}${logFileName[1]}} {${logDate[1]}}
+}
+
 #EVENT {PROGRAM START}
 {
-     #nop {Clear the screen so that generic startup messages are not shown.};
-     #system {clear};
-     #nop {Set scrollable region to all but the top line and bottom two lines.};
-     #local {cols} {};
-     #local {rows} {};
-     #screen get rows rows;
-     #screen get cols cols;
-     #math {rows} {$rows - 2};
-     #nop #screen {scroll} {2} {1} {$rows} {$cols};
-     #split {1} {1};
-     #nop {Set the home directory variable.};
-     #script {HOME} {if [ -z "$XDG_CONFIG_HOME" ] ; then if ! [ -d "$HOME/.config/${tintinPackName}/" ] ; then mkdir -p "$HOME/.config/${tintinPackName}";fi;echo -n "$HOME/.config/${tintinPackName}";else if ! [ -d "$XDG_CONFIG_HOME/${tintinPackName}/" ] ; then mkdir -p "$XDG_CONFIG_HOME/-${tintinPackName}/";fi;echo -n "$XDG_CONFIG_HOME/${tintinPackName}";fi};
-     #variable {HOME} {${HOME[1]}};
-     #replace {HOME} {-n } {};
-     #nop {Run the soundpack_manager script.};
-     #system {scripts/soundpack_manager.sh ${HOME}/sounds};
-     #nop {Load all the .tin files in the modules directory in classes named after the module name.};
-     #script {for module in modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {read} {$module}";done};
-     #script {script} {for module in modules/*.tin ; do echo "$(basename "$module" .tin)";done};
-     #foreach {${script[%*]}} {z}
-     {
-          #if {&{${z}Startup}}
-          {
-               #class {$z} {open};
-               ${${z}Startup};
-               #class {$z} {close}
-          }
-     };
-     #showme {@separator{}} {1};
-     #showme {@separator{}} {-2};
-     #nop {Display intro message.};
-     #echo {@separator{}};
-     #system {fold -w $(tput cols) -s MOTD};
-     #echo {@separator{}};
-     #echo {To get started type login};
-     #unvariable script;
-     #unvariable z
+    #nop {Clear the screen so that generic startup messages are not shown.};
+    #system {clear};
+    #nop {Set scrollable region to all but the top line and bottom two lines.};
+    #local {cols} {};
+    #local {rows} {};
+    #screen get rows rows;
+    #screen get cols cols;
+    #math {rows} {$rows - 2};
+    #nop #screen {scroll} {2} {1} {$rows} {$cols};
+    #split {1} {1};
+    #nop {Set the home directory variable.};
+    #script {HOME} {if [ -z "$XDG_CONFIG_HOME" ] ; then if ! [ -d "$HOME/.config/${tintinPackName}/" ] ; then mkdir -p "$HOME/.config/${tintinPackName}";fi;echo -n "$HOME/.config/${tintinPackName}";else if ! [ -d "$XDG_CONFIG_HOME/${tintinPackName}/" ] ; then mkdir -p "$XDG_CONFIG_HOME/-${tintinPackName}/";fi;echo -n "$XDG_CONFIG_HOME/${tintinPackName}";fi};
+    #variable {HOME} {${HOME[1]}};
+    #replace {HOME} {-n } {};
+    #nop {Run the soundpack_manager script.};
+    #system {scripts/soundpack_manager.sh ${HOME}/sounds};
+    #nop {Load all the .tin files in the modules directory in classes named after the module name.};
+    #script {for module in modules/*.tin ; do echo "#class {$(basename "$module" .tin)} {read} {$module}";done};
+    #script {script} {for module in modules/*.tin ; do echo "$(basename "$module" .tin)";done};
+    #foreach {${script[%*]}} {z}
+    {
+        #if {&{${z}Startup}}
+        {
+            #class {$z} {open};
+            ${${z}Startup};
+            #class {$z} {close}
+        }
+    };
+    #showme {@separator{}} {1};
+    #showme {@separator{}} {-2};
+    #nop {Display intro message.};
+    #echo {@separator{}};
+    #system {fold -w $(tput cols) -s MOTD};
+    #echo {@separator{}};
+    #echo {To get started type login};
+    #unvariable script;
+    #unvariable z
 }
 
 #EVENT {SESSION CONNECTED}
 {
-     SYNTH_PLAY connectedSound;
-     #nop {Set connected to true so if you accidentally type login it won't try to login twice.};
-     #variable {connected} {true};
-     #nop {Create the log directory if it doesn't exist. Log files are based on date and time.};
-     #script {logFilePath} {date +'log/%Y/%B/%d/'};
-     #variable {logFilePath} {${HOME}/${logFilePath[1]}};
-     #script {logFileName} {date +'%I_%M%p.log'};
-     #system {mkdir -p $logFilePath};
-     #log {overwrite} {${logFilePath}${logFileName[1]}};
-     #foreach {*{goto[]}} {i}
-     {
-          #tab {$i}
-     }
+    SYNTH_PLAY connectedSound;
+    #nop {Set connected to true so if you accidentally type login it won't try to login twice.};
+    #variable {connected} {true};
+    #foreach {*{goto[]}} {i}
+    {
+        #tab {$i}
+    }
+}
+
+#EVENT {VARIABLE UPDATE MSDP_ACCOUNT_NAME}
+{
+    @open_log{%1}
 }
 
 
-#VARIABLE         {motd}  {}
-#VARIABLE         {tintinPackName}  {tintin-kallisti-pack}
+#FUNCTION {open_log}
+{
+    #nop {Create the log directory if it doesn't exist. Log files are based on account name and date.};
+    #script {logFilePath} {echo -n "log/%1/"; date +'%Y/%B/'};
+    #variable {logFilePath} {${HOME}/${logFilePath[1]}};
+    #script {logFileName} {date +'%d.log'};
+    #system {mkdir -p $logFilePath};
+    #log {append} {${logFilePath}${logFileName[1]}};
+    #return
+}
+
+
+#VARIABLE {motd} {}
+#VARIABLE {tintinPackName} {tintin-kallisti-pack}
 
