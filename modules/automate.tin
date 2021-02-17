@@ -1,810 +1,810 @@
 #ACTION {^You resume your natural form.$}
 {
-     #variable {manualShape} {1}
+    #variable {manualShape} {1}
 }
 {1}
 
 #ACTION {%1 to the {east|down|north|south|west|up} seems to be locked.$}
 {
-     #nop {Hook name: locked};
-     #nop {Hook args: %1 name of door that can be unlocked.};
-     #unvariable {auto[track]};
-     @var_save{tmp};
-     #regexp {%1} {{.*} {.*}}
-     {
-          #variable {tmp} {&2 %2}
-     };
-     #else
-     {
-          #variable {tmp} {%1 %2}
-     };
-     #if {&{auto[pick]}}
-     {
-          pick ${tmp}
-     };
-     @do_hook{locked;${tmp}};
-     @var_restore{tmp}
+    #nop {Hook name: locked};
+    #nop {Hook args: %1 name of door that can be unlocked.};
+    #unvariable {auto[track]};
+    @var_save{tmp};
+    #regexp {%1} {{.*} {.*}}
+    {
+        #variable {tmp} {&2 %2}
+    };
+    #else
+    {
+        #variable {tmp} {%1 %2}
+    };
+    #if {&{auto[pick]}}
+    {
+        pick ${tmp}
+    };
+    @do_hook{locked;${tmp}};
+    @var_restore{tmp}
 }
 {9}
 
 #ACTION {^%S{[^[]+}{(?: \[ .+ \]){1,2}}$}
 {
-     #regexp {%3} {%*Bank%*}
-     {
-          #if {${auto[deposit]} && $MSDP_GOLD > 0} {deposit all}
-     };
-     #if {$mappable}
-     {
-          mapRoom
-     }
+    #regexp {%3} {%*Bank%*}
+    {
+        #if {${auto[deposit]} && $MSDP_GOLD > 0} {deposit all}
+    };
+    #if {$mappable}
+    {
+        mapRoom
+    }
 }
 {9}
 
 #ACTION {^%ssilent_do %1}
 {
-     #line {gag};
-     %1
+    #line {gag};
+    %1
 }
 {9}
 
 #ACTION {^%w marks %w for death.$}
 {
-     #local {i} {0};
-     #if {&{subleaders}}
-     {
-          #list {subleaders} {find} {%1} {i}
-     };
-     #if {{%1} == {$leader} || $i > 0}
-     {
-          #if {&{auto[poke]}}
-          {
-               #regexp {${auto[poke]}} {{.*?};{.*}}
-               {
-                    &1 %2;&2
-               };
-               #else
-               {
-                    ${auto[poke]} %2
-               }
-          }
-     }
+    #local {i} {0};
+    #if {&{subleaders}}
+    {
+        #list {subleaders} {find} {%1} {i}
+    };
+    #if {{%1} == {$leader} || $i > 0}
+    {
+        #if {&{auto[poke]}}
+        {
+            #regexp {${auto[poke]}} {{.*?};{.*}}
+            {
+                &1 %2;&2
+            };
+            #else
+            {
+                ${auto[poke]} %2
+            }
+        }
+    }
 }
 {9}
 
 #ACTION {^%w {pokes|points at} %S$}
 {
-     #local {i} {0};
-     #if {&{subleaders}}
-     {
-          #list {subleaders} {find} {%1} {i}
-     };
-     #if {{%1} == {$leader} || $i > 0}
-     {
-          #if {&{auto[poke]}}
-          {
-               #regexp {${auto[poke]}} {{.*?};{.*}}
-               {
-                    &1 %3;&2
-               };
-               #else
-               {
-                    ${auto[poke]} %3
-               }
-          }
-     }
+    #local {i} {0};
+    #if {&{subleaders}}
+    {
+        #list {subleaders} {find} {%1} {i}
+    };
+    #if {{%1} == {$leader} || $i > 0}
+    {
+        #if {&{auto[poke]}}
+        {
+            #regexp {${auto[poke]}} {{.*?};{.*}}
+            {
+                &1 %3;&2
+            };
+            #else
+            {
+                ${auto[poke]} %3
+            }
+        }
+    }
 }
 {9}
 
 #ACTION {^The meta-sage does a nifty move, and removes all your affecting spells.$}
 {
-     #variable {manualWerewolf} {1}
+    #variable {manualWerewolf} {1}
 }
 {9}
 
 #ACTION {^You are dead! %sBetter luck next time...$}
 {
-     #nop {Hook name playerDeath};
-     #nop {Hook args: none.};
-     #unvariable {leader};
-     #if {&{auto[relogin]}}
-     {
-          ${auto[relogin]}
-     };
-     @do_hook{playerDeath}
+    #nop {Hook name playerDeath};
+    #nop {Hook args: none.};
+    #unvariable {leader};
+    #if {&{auto[relogin]}}
+    {
+        ${auto[relogin]}
+    };
+    @do_hook{playerDeath}
 }
 {9}
 
 #ACTION {^You had better stand up first.$}
 {
-     #if {$MSDP_OPPONENT_NUMBER > 0}
-     {
-          stand
-     }
+    #if {$MSDP_OPPONENT_NUMBER > 0}
+    {
+        stand
+    }
 }
 {9}
 
 #ACTION {^You just can't concentrate enough.$}
 {
-     #line {gag};
-     meditate
+    #line {gag};
+    meditate
 }
 {9}
 
 #ACTION {^You lost concentration casting '%1'!$}
 {
-     #nop {Hook name  concentration.};
-     #nop {Hook args: the item on which you were concentrating, e.g. shapechange.};
-     #switch {{%1}}
-     {
-          #case {{shapechange}}
-          {
-               #if {&{auto[shape]}}
-               {
-                    %1 ${auto[shape]}
-               }
-          };
-          #case {{{magic shield|blur|blade barrier|shroud of darkness|wraithform|fireshield|iceshield|acidshield|invisibility to undead|invisibility}}}
-          {
-               cast '%1'
-          };
-          #case {{{vampiric drain|energy drain|viscera drain}}}
-          {
-               cast '%1' corpse
-          };
-          #default
-          {
-               #if {${auto[recast]}}
-               {
-                    !
-               }
-          }
-     };
-     @do_hook{concentration;%1}
+    #nop {Hook name  concentration.};
+    #nop {Hook args: the item on which you were concentrating, e.g. shapechange.};
+    #switch {{%1}}
+    {
+        #case {{shapechange}}
+        {
+            #if {&{auto[shape]}}
+            {
+                %1 ${auto[shape]}
+            }
+        };
+        #case {{{magic shield|blur|blade barrier|shroud of darkness|wraithform|fireshield|iceshield|acidshield|invisibility to undead|invisibility}}}
+        {
+            cast '%1'
+        };
+        #case {{{vampiric drain|energy drain|viscera drain}}}
+        {
+            cast '%1' corpse
+        };
+        #default
+        {
+            #if {${auto[recast]}}
+            {
+
+            }
+        }
+    };
+    @do_hook{concentration;%1}
 }
 {9}
 
 #ACTION {^You must be sitting to concentrate.$}
 {
-     #if {{$MSDP_POSITION} != {Fighting}}
-     {
-          #line {gag};
-          #if {&{character[mount]}}
-          {
-               dismount;
-               tether ${character[mount]};
-               #variable {tetherable} {0};
-               #line oneshot #ticker {tether} {#var {tetherable} {1}} {3}
-          };
-          #line oneshot #ticker {med} {sit;meditate} {3}
-     }
+    #if {{$MSDP_POSITION} != {Fighting}}
+    {
+        #line {gag};
+        #if {&{character[mount]}}
+        {
+            dismount;
+            tether ${character[mount]};
+            #variable {tetherable} {0};
+            #line oneshot #ticker {tether} {#var {tetherable} {1}} {3}
+        };
+        #line oneshot #ticker {med} {sit;meditate} {3}
+    }
 }
 {9}
 
 #ACTION {^You start searching for tracks but then realize your target is right here!$}
 {
-     #nop {Hook name is trackEnd.};
-     #nop {Hook args track of target.};
-     #if {&{auto[track]}}
-     {
-          SYNTH_PLAY notificationSound;
-          #unvariable {auto[track]}
-     };
-     @do_hook{trackEnd}
+    #nop {Hook name is trackEnd.};
+    #nop {Hook args track of target.};
+    #if {&{auto[track]}}
+    {
+        SYNTH_PLAY notificationSound;
+        #unvariable {auto[track]}
+    };
+    @do_hook{trackEnd}
 }
 {9}
 
 #ACTION {^You wake and sit up.$}
 {
-     stand
+    stand
 }
 {9}
 
 #ACTION {^You work your way to your knees.$}
 {
-     stand
+    stand
 }
 {9}
 
 #ACTION {^You {change|polymorph} in to the form of a %1.$}
 {
-     #if {&{auto[shape]}}
-     {
-          #regexp {%1} {{.*} {.*}}
-          {
-               #if {{${auto[shape]}} != {&1}} {autoshape &1}
-          };
-          #else
-          {
-               #if {{${auto[shape]}} != {%1}}
-               {
-                    autoshape %1
-               }
-          }
-     }
+    #if {&{auto[shape]}}
+    {
+        #regexp {%1} {{.*} {.*}}
+        {
+            #if {{${auto[shape]}} != {&1}} {autoshape &1}
+        };
+        #else
+        {
+            #if {{${auto[shape]}} != {%1}}
+            {
+                autoshape %1
+            }
+        }
+    }
 }
 {9}
 
 #ACTION {^You're {coated in ACID|on FIRE}, {it eats away at|the flames burn} your skin!}
 {
-     #if {${auto[tumble]}}
-     {
-          #if {!&{spam[tumble]}}
-          {
-               tumble;
-               spamset tumble
-          }
-     }
+    #if {${auto[tumble]}}
+    {
+        #if {!&{spam[tumble]}}
+        {
+            tumble;
+            spamset tumble
+        }
+    }
 }
 {9}
 
 #ACTION {^Your mount sees: {The holy blessing bestowed by your rider is no more|The ability to fly leaves you}.$}
 {
-     #if {&{auto[holysteed]} && !${spam[holysteed]}}
-     {
-          spamset holysteed;
-          #if {$MSDP_OPPONENT_NUMBER == 0}
-          {
-               holysteed ${character[mount]}
-          };
-          #else
-          {
-               #list {onDeath} {add} {holysteed ${character[mount]}}
-          }
-     }
+    #if {&{auto[holysteed]} && !${spam[holysteed]}}
+    {
+        spamset holysteed;
+        #if {$MSDP_OPPONENT_NUMBER == 0}
+        {
+            holysteed ${character[mount]}
+        };
+        #else
+        {
+            #list {onDeath} {add} {holysteed ${character[mount]}}
+        }
+    }
 }
 {9}
 
 #ACTION {^[* You found your target! *]$}
 {
-     #nop {Hook name is trackEnd.};
-     #nop {Hook args tracked target.};
-     #if {&{auto[track]}}
-     {
-          SYNTH_PLAY notificationSound;
-          #unvariable {auto[track]}
-     };
-     @do_hook{trackEnd}
+    #nop {Hook name is trackEnd.};
+    #nop {Hook args tracked target.};
+    #if {&{auto[track]}}
+    {
+        SYNTH_PLAY notificationSound;
+        #unvariable {auto[track]}
+    };
+    @do_hook{trackEnd}
 }
 {9}
 
 #ACTION {^[* You see your target's tracks leading %1. *]$}
 {
-     #if {&{auto[track]}}
-     {
-          %1
-     };
-     #nop {Hook name: trackDirection};
-     #nop {Hook args: %1 direction the tracks are going.};
-     @do_hook{trackDirection;%1}
+    #if {&{auto[track]}}
+    {
+        %1
+    };
+    #nop {Hook name: trackDirection};
+    #nop {Hook args: %1 direction the tracks are going.};
+    @do_hook{trackDirection;%1}
 }
 {9}
 
 #ACTION {^[* You {fail to find|lose} the tracks. *]$}
 {
-     #nop {Hook name is trackFail.};
-     #nop {Hook args hunted target.};
-     #nop {Hook name is trackLose.};
-     #nop {Hook args hunted target.};
-     #if {{%1} == {lose}}
-     {
-          @do_hook{trackLose;${auto[track]}}
-     };
-     #else
-     {
-          @do_hook{trackFail;${auto[track]}}
-     };
-     #unvariable {auto[track]}
+    #nop {Hook name is trackFail.};
+    #nop {Hook args hunted target.};
+    #nop {Hook name is trackLose.};
+    #nop {Hook args hunted target.};
+    #if {{%1} == {lose}}
+    {
+        @do_hook{trackLose;${auto[track]}}
+    };
+    #else
+    {
+        @do_hook{trackFail;${auto[track]}}
+    };
+    #unvariable {auto[track]}
 }
 {9}
 
 
 #ALIAS {^autoheal%s {me|self} %3 %d$}
 {
-     #variable {autoHealSelf} {@strip_braces{%3}};
-     #variable {autoHealSelfPercent} {%4};
-     #echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.};
-     CSAVE
+    #variable {autoHealSelf} {@strip_braces{%3}};
+    #variable {autoHealSelfPercent} {%4};
+    #echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.};
+    CSAVE
 }
 {7}
 
 #ALIAS {^autoheal%smount %3 %d$}
 {
-     #variable {autoHealMount} {@strip_braces{%3}};
-     #variable {autoHealMountPercent} {%4};
-     #echo {You will automatically heal your mount using: $autoHealMount when its health is at or below ${autoHealMountPercent} percent.};
-     CSAVE
+    #variable {autoHealMount} {@strip_braces{%3}};
+    #variable {autoHealMountPercent} {%4};
+    #echo {You will automatically heal your mount using: $autoHealMount when its health is at or below ${autoHealMountPercent} percent.};
+    CSAVE
 }
 {7}
 
 #ALIAS {^autoheal%s {me|self} %3}
 {
-     #variable {autoHealSelf} {@strip_braces{%3}};
-     #variable {autoHealSelfPercent} {50};
-     #echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.};
-     CSAVE
+    #variable {autoHealSelf} {@strip_braces{%3}};
+    #variable {autoHealSelfPercent} {50};
+    #echo {You will automatically heal yourself using: $autoHealSelf when your health is at or below ${autoHealSelfPercent} percent.};
+    CSAVE
 }
 {8}
 
 #ALIAS {^autoheal%smount %3}
 {
-     #variable {autoHealMount} {@strip_braces{%3}};
-     #variable {autoHealMountPercent} {50};
-     #echo {You will automatically heal your mount using: $autoHealMount when its health is at or below ${autoHealMountPercent} percent.};
-     CSAVE
+    #variable {autoHealMount} {@strip_braces{%3}};
+    #variable {autoHealMountPercent} {50};
+    #echo {You will automatically heal your mount using: $autoHealMount when its health is at or below ${autoHealMountPercent} percent.};
+    CSAVE
 }
 {8}
 
 #ALIAS {^autorecall %1 %d$}
 {
-     #variable {auto[recall]} {@strip_braces{%1}};
-     #variable {auto[recallPercent]} {%2};
-     #echo {Autorecall enabled at ${auto[recallPercent]} percent health.};
-     CSAVE
+    #variable {auto[recall]} {@strip_braces{%1}};
+    #variable {auto[recallPercent]} {%2};
+    #echo {Autorecall enabled at ${auto[recallPercent]} percent health.};
+    CSAVE
 }
 {8}
 
 #ALIAS {^noautoheal%s {me|self}$}
 {
-     #unvariable {autoHealMount};
-     #echo {You will no longer try to heal your mount automatically.};
-     CSAVE
+    #unvariable {autoHealMount};
+    #echo {You will no longer try to heal your mount automatically.};
+    CSAVE
 }
 {8}
 
 #ALIAS {^%ddo %2 %S$}
 {
-     #loop {1} {%1} {i}
-     {
-          %2 $i.%3
-     }
+    #loop {1} {%1} {i}
+    {
+        %2 $i.%3
+    }
 }
 {9}
 
 #ALIAS {^at %s%d %3}
 {
-     #if {%2 < 0 || %2 > 23}
-     {
-          #echo {Invalid time specified. Time must be from 0, 12:00AM, to 23, 11:00PM.}
-     };
-     #else
-     {
-          #variable {at[%2]} {%3};
-          #echo {Ok, at %2:00, "%3" will be executed.}
-     }
+    #if {%2 < 0 || %2 > 23}
+    {
+        #echo {Invalid time specified. Time must be from 0, 12:00AM, to 23, 11:00PM.}
+    };
+    #else
+    {
+        #variable {at[%2]} {%3};
+        #echo {Ok, at %2:00, "%3" will be executed.}
+    }
 }
 {9}
 
 #ALIAS {^autoDequeue$}
 {
-     #local {i} {};
-     #list {autoQueue} {size} {i};
-     #if {$i > 0 && {$MSDP_POSITION} == {{Fighting|Standing|Mounted|Flying|Swimming}}}
-     {
-          #foreach {${autoQueue[%*]}} {i}
-          {
-               #local {j} {};
-               #local {k} {};
-               #if {&{MSDP_AFFECTS[$i]}}
-               {
+    #local {i} {};
+    #list {autoQueue} {size} {i};
+    #if {$i > 0 && {$MSDP_POSITION} == {{Fighting|Standing|Mounted|Flying|Swimming}}}
+    {
+        #foreach {${autoQueue[%*]}} {i}
+        {
+            #local {j} {};
+            #local {k} {};
+            #if {&{MSDP_AFFECTS[$i]}}
+            {
+                #list {autoQueue} {find} {$i} {k};
+                #list {autoQueue} {delete} {$k};
+                #continue
+            };
+            #foreach {*{autoMappings[]}} {j}
+            {
+                #if {{$i} == {{${autoMappings[$j]}}} && &{MSDP_AFFECTS[$j]}}
+                {
                     #list {autoQueue} {find} {$i} {k};
                     #list {autoQueue} {delete} {$k};
-                    #continue
-               };
-               #foreach {*{autoMappings[]}} {j}
-               {
-                    #if {{$i} == {{${autoMappings[$j]}}} && &{MSDP_AFFECTS[$j]}}
+                    #break
+                }
+            }
+        }
+    };
+    #list {autoQueue} {size} {i};
+    #if {$i > 0 && {$MSDP_POSITION} == {{Fighting|Standing|Mounted|Flying|Swimming}}}
+    {
+        #foreach {${autoQueue[%*]}} {i}
+        {
+            #if {{${autoQueue[$i]}} == {{gt|say}%*}}
+            {
+                ${autoQueue[$i]};
+                #local {k} {};
+                #list {autoQueue} {find} {$i} {k};
+                #list {autoQueue} {delete} {$k};
+                #continue
+            };
+            #if {{$MSDP_ROOM_VNUM} != {{13200|3001}}}
+            {
+                #local {j} {};
+                #if {$MSDP_OPPONENT_NUMBER > 0}
+                {
+                    #list {autoCombatAllowed} {find} $i {j};
+                    #if {$j > 0}
                     {
-                         #list {autoQueue} {find} {$i} {k};
-                         #list {autoQueue} {delete} {$k};
-                         #break
-                    }
-               }
-          }
-     };
-     #list {autoQueue} {size} {i};
-     #if {$i > 0 && {$MSDP_POSITION} == {{Fighting|Standing|Mounted|Flying|Swimming}}}
-     {
-          #foreach {${autoQueue[%*]}} {i}
-          {
-               #if {{${autoQueue[$i]}} == {{gt|say}%*}}
-               {
-                    ${autoQueue[$i]};
-                    #local {k} {};
-                    #list {autoQueue} {find} {$i} {k};
-                    #list {autoQueue} {delete} {$k};
-                    #continue
-               };
-               #if {{$MSDP_ROOM_VNUM} != {{13200|3001}}}
-               {
-                    #local {j} {};
-                    #if {$MSDP_OPPONENT_NUMBER > 0}
-                    {
-                         #list {autoCombatAllowed} {find} $i {j};
-                         #if {$j > 0}
-                         {
-                              #if {{${lastDequeue}} != {$i}}
-                              {
-                                   #variable {lastDequeue} {$i};
-                                   #variable {lastDequeueTimes} {-1}
-                              };
-                              #math {lastDequeueTimes} {$lastDequeueTimes + 1};
-                              #if {$lastDequeueTimes > 10}
-                              {
-                                   #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
-                                   #local {k} {};
-                                   #list {autoQueue} {find} {$i} {k};
-                                   #list {autoQueue} {delete} {$k};
-                                   #variable {lastDequeue} {};
-                                   #variable {lastDequeueTimes} {0};
-                                   #continue
-                              };
-                              #nop {Hook name: pre<name of auto> E.G. preFocus.};
-                              #nop {Hook args: None.};
-                              #nop {Note: Use the affectUp hook to undo any temporary actions.};
-                              #if {$lastDequeueTimes == 0}
-                              {
-                                   @do_hook{pre$i}
-                              };
-                              #switch {{$i}}
-                              {
-                                   #case {{focus}}
-                                   {
-                                        focus ${auto[focus]}
-                                   };
-                                   #default
-                                   {
-                                        #if {{${auto[$i]}} == {1}}
-                                        {
-                                             $i
-                                        };
-                                        #else
-                                        {
-                                             ${auto[$i]}
-                                        }
-                                   }
-                              };
-                              #break
-                         };
-                         #else
-                         {
-                              #continue
-                         }
+                        #if {{${lastDequeue}} != {$i}}
+                        {
+                            #variable {lastDequeue} {$i};
+                            #variable {lastDequeueTimes} {-1}
+                        };
+                        #math {lastDequeueTimes} {$lastDequeueTimes + 1};
+                        #if {$lastDequeueTimes > 10}
+                        {
+                            #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
+                            #local {k} {};
+                            #list {autoQueue} {find} {$i} {k};
+                            #list {autoQueue} {delete} {$k};
+                            #variable {lastDequeue} {};
+                            #variable {lastDequeueTimes} {0};
+                            #continue
+                        };
+                        #nop {Hook name: pre<name of auto> E.G. preFocus.};
+                        #nop {Hook args: None.};
+                        #nop {Note: Use the affectUp hook to undo any temporary actions.};
+                        #if {$lastDequeueTimes == 0}
+                        {
+                            @do_hook{pre$i}
+                        };
+                        #switch {{$i}}
+                        {
+                            #case {{focus}}
+                            {
+                                focus ${auto[focus]}
+                            };
+                            #default
+                            {
+                                #if {{${auto[$i]}} == {1}}
+                                {
+                                    $i
+                                };
+                                #else
+                                {
+                                    ${auto[$i]}
+                                }
+                            }
+                        };
+                        #break
                     };
                     #else
                     {
-                         #if {{${lastDequeue}} != {$i}}
-                         {
-                              #variable {lastDequeue} {$i};
-                              #variable {lastDequeueTimes} {-1}
-                         };
-                         #math {lastDequeueTimes} {$lastDequeueTimes + 1};
-                         #if {$lastDequeueTimes > 10}
-                         {
-                              #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
-                              #local {k} {};
-                              #list {autoQueue} {find} {$i} {k};
-                              #list {autoQueue} {delete} {$k};
-                              #variable {lastDequeue} {};
-                              #variable {lastDequeueTimes} {0};
-                              #continue
-                         };
-                         #nop {Hook name: pre<name of auto> E.G. preFocus.};
-                         #nop {Hook args: None.};
-                         #nop {Note: Use the affectUp hook to undo any temporary actions.};
-                         #if {$lastDequeueTimes == 0 && {$i} != {shape} || ({$i} == {shape} && !$manualShape)}
-                         {
-                              @do_hook{pre$i}
-                         };
-                         #switch {{$i}}
-                         {
-                              #case {{focus}}
-                              {
-                                   focus ${auto[focus]}
-                              };
-                              #case {{warpaint}}
-                              {
-                                   warpaint ${auto[warpaint]}
-                              };
-                              #case {{magicshield}}
-                              {
-                                   mshield
-                              };
-                              #case {{blade}}
-                              {
-                                   blades
-                              };
-                              #case {{eyes}}
-                              {
-                                   #if {{$MSDP_CLASS} == {Wizard} && {${auto[$i]}} == {1}}
-                                   {
-                                        ceyes
-                                   };
-                                   #elseif {{${auto[$i]}} == {1}}
-                                   {
-                                        truesee
-                                   };
-                                   #else
-                                   {
-                                        ${auto[$i]}
-                                   }
-                              };
-                              #case {{zombify}}
-                              {
-                                   zombieform
-                              };
-                              #case {{shape}}
-                              {
-                                   #if {!$manualShape}
-                                   {
-                                        #switch {{${MSDP_CLASS}}}
-                                        {
-                                             #case {{Druid}}
-                                             {
-                                                  shapechange ${auto[shape]}
-                                             };
-                                             #case {{Demoniac}}
-                                             {
-                                                  demonform ${auto[shape]}
-                                             };
-                                             #default
-                                             {
-                                                  mortify ${auto[shape]}
-                                             }
-                                        }
-                                   }
-                              };
-                              #default
-                              {
-                                   #if {{${auto[$i]}} == {1}}
-                                   {
-                                        $i
-                                   };
-                                   #else
-                                   {
-                                        ${auto[$i]}
-                                   }
-                              }
-                         };
-                         #break
+                        #continue
                     }
-               }
-          }
-     }
+                };
+                #else
+                {
+                    #if {{${lastDequeue}} != {$i}}
+                    {
+                        #variable {lastDequeue} {$i};
+                        #variable {lastDequeueTimes} {-1}
+                    };
+                    #math {lastDequeueTimes} {$lastDequeueTimes + 1};
+                    #if {$lastDequeueTimes > 10}
+                    {
+                        #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
+                        #local {k} {};
+                        #list {autoQueue} {find} {$i} {k};
+                        #list {autoQueue} {delete} {$k};
+                        #variable {lastDequeue} {};
+                        #variable {lastDequeueTimes} {0};
+                        #continue
+                    };
+                    #nop {Hook name: pre<name of auto> E.G. preFocus.};
+                    #nop {Hook args: None.};
+                    #nop {Note: Use the affectUp hook to undo any temporary actions.};
+                    #if {$lastDequeueTimes == 0 && {$i} != {shape} || ({$i} == {shape} && !$manualShape)}
+                    {
+                        @do_hook{pre$i}
+                    };
+                    #switch {{$i}}
+                    {
+                        #case {{focus}}
+                        {
+                            focus ${auto[focus]}
+                        };
+                        #case {{warpaint}}
+                        {
+                            warpaint ${auto[warpaint]}
+                        };
+                        #case {{magicshield}}
+                        {
+                            mshield
+                        };
+                        #case {{blade}}
+                        {
+                            blades
+                        };
+                        #case {{eyes}}
+                        {
+                            #if {{$MSDP_CLASS} == {Wizard} && {${auto[$i]}} == {1}}
+                            {
+                                ceyes
+                            };
+                            #elseif {{${auto[$i]}} == {1}}
+                            {
+                                truesee
+                            };
+                            #else
+                            {
+                                ${auto[$i]}
+                            }
+                        };
+                        #case {{zombify}}
+                        {
+                            zombieform
+                        };
+                        #case {{shape}}
+                        {
+                            #if {!$manualShape}
+                            {
+                                #switch {{${MSDP_CLASS}}}
+                                {
+                                    #case {{Druid}}
+                                    {
+                                        shapechange ${auto[shape]}
+                                    };
+                                    #case {{Demoniac}}
+                                    {
+                                        demonform ${auto[shape]}
+                                    };
+                                    #default
+                                    {
+                                        mortify ${auto[shape]}
+                                    }
+                                }
+                            }
+                        };
+                        #default
+                        {
+                            #if {{${auto[$i]}} == {1}}
+                            {
+                                $i
+                            };
+                            #else
+                            {
+                                ${auto[$i]}
+                            }
+                        }
+                    };
+                    #break
+                }
+            }
+        }
+    }
 }
 {9}
 
 #ALIAS {^buff$}
 {
-     #local {i} {};
-     @var_save{tmp};
-     #list {tmp} {create} {${autoMappings[%*]}};
-     #foreach {${autoCombatAllowed[%*]}} {i}
-     {
-          #local {j} {};
-          #list {tmp} {find} {$i} {j};
-          #if {$j == 0}
-          {
-               #list {tmp} {add} {$i}
-          }
-     };
-     #foreach {${bufExtras[%*]}} {i}
-     {
-          #local {j} {};
-          #list {tmp} {find} {$i} {j};
-          #if {$j == 0}
-          {
-               #list {tmp} {add} {$i}
-          }
-     };
-     #foreach {${tmp[%*]}} {i}
-     {
-          #if {&{auto[$i]}}
-          {
-               #local {j} {};
-               #list {autoQueue} {find} {$i} {j};
-               #if {$j == 0}
-               {
-                    #list {autoQueue} {add} {$i}
-               };
-               #if {{$i} == {shape} && $manualShape}
-               {
-                    #variable {manualShape} {0}
-               }
-          }
-     };
-     @var_restore{tmp}
+    #local {i} {};
+    @var_save{tmp};
+    #list {tmp} {create} {${autoMappings[%*]}};
+    #foreach {${autoCombatAllowed[%*]}} {i}
+    {
+        #local {j} {};
+        #list {tmp} {find} {$i} {j};
+        #if {$j == 0}
+        {
+            #list {tmp} {add} {$i}
+        }
+    };
+    #foreach {${bufExtras[%*]}} {i}
+    {
+        #local {j} {};
+        #list {tmp} {find} {$i} {j};
+        #if {$j == 0}
+        {
+            #list {tmp} {add} {$i}
+        }
+    };
+    #foreach {${tmp[%*]}} {i}
+    {
+        #if {&{auto[$i]}}
+        {
+            #local {j} {};
+            #list {autoQueue} {find} {$i} {j};
+            #if {$j == 0}
+            {
+                #list {autoQueue} {add} {$i}
+            };
+            #if {{$i} == {shape} && $manualShape}
+            {
+                #variable {manualShape} {0}
+            }
+        }
+    };
+    @var_restore{tmp}
 }
 {9}
 
 #ALIAS {^heal.settings$}
 {
-     #local {i} {};
-     #foreach {moderate;severe;nearDeath;incapacitated;stunned;morted} {i}
-     {
-          #if {!&{heal[$i]}}
-          {
-               #echo {heal[$i] is not set yet.}
-          };
-          #else
-          {
-               #if {{${heal[$i]}} != {#nop}}
-               {
-                    #echo {Healing at $i set to ${heal[$i]}.}
-               };
-               #else
-               {
-                    #echo {Healing at $i is disabled.}
-               }
-          }
-     }
+    #local {i} {};
+    #foreach {moderate;severe;nearDeath;incapacitated;stunned;morted} {i}
+    {
+        #if {!&{heal[$i]}}
+        {
+            #echo {heal[$i] is not set yet.}
+        };
+        #else
+        {
+            #if {{${heal[$i]}} != {#nop}}
+            {
+                #echo {Healing at $i set to ${heal[$i]}.}
+            };
+            #else
+            {
+                #echo {Healing at $i is disabled.}
+            }
+        }
+    }
 }
 {9}
 
 #ALIAS {^heal.{moderate|severe|nearDeath|incapacitated|stunned|morted} %2}
 {
-     #variable {heal[%1]} {@strip_braces{%2}};
-     #echo {heal.%1 set to ${heal[%1]}.};
-     CSAVE
+    #variable {heal[%1]} {@strip_braces{%2}};
+    #echo {heal.%1 set to ${heal[%1]}.};
+    CSAVE
 }
 {9}
 
 #ALIAS {^no/$}
 {
-     #echo {recall settings restored to default.};
-     #unvariable {character[recall]}
+    #echo {recall settings restored to default.};
+    #unvariable {character[recall]}
 }
 {9}
 
 #ALIAS {^noheal.{moderate|severe|nearDeath|incapacitated|stunned|morted}$}
 {
-     #variable {heal[%1]} {#nop};
-     #echo {heal.%1 disabled.};
-     CSAVE
+    #variable {heal[%1]} {#nop};
+    #echo {heal.%1 disabled.};
+    CSAVE
 }
 {9}
 
 #ALIAS {^p %s%S$}
 {
-     emote pokes %2
+    emote pokes %2
 }
 {9}
 
 #ALIAS {^{autorefresh .+(?: \d+)?|noautorefresh}$}
 {
-     #if {{%0} == {autorefresh%*}}
-     {
-          #regexp {%0} {autorefresh {.+} {\d+}}
-          {
-               #var {auto[refreshPercent]} {&2};#var {auto[refresh]} {&1}
-          };
-          #else
-          {
-               #regexp {%0} {autorefresh {.+}}
-               {
-                    #var {auto[refreshPercent]} {50};#var {auto[refresh]} {&1}
-               }
-          };
-          #showme {Autorefresh enabled. Using "${auto[refresh]}" to refresh at ${auto[refreshPercent]}%.}
-     };
-     #else
-     {
-          #unvariable {auto[refreshPercent]};
-          #unvariable {auto[refresh]};
-          #showme {Autorefresh disabled.}
-     }
+    #if {{%0} == {autorefresh%*}}
+    {
+        #regexp {%0} {autorefresh {.+} {\d+}}
+        {
+            #var {auto[refreshPercent]} {&2};#var {auto[refresh]} {&1}
+        };
+        #else
+        {
+            #regexp {%0} {autorefresh {.+}}
+            {
+                #var {auto[refreshPercent]} {50};#var {auto[refresh]} {&1}
+            }
+        };
+        #showme {Autorefresh enabled. Using "${auto[refresh]}" to refresh at ${auto[refreshPercent]}%.}
+    };
+    #else
+    {
+        #unvariable {auto[refreshPercent]};
+        #unvariable {auto[refresh]};
+        #showme {Autorefresh disabled.}
+    }
 }
 {9}
 
 #ALIAS {^{auto|character}.%w$}
 {
-     #local {variable} {%0};
-     #replace {variable} {.} {[};
-     #local {variable} {${variable}]};
-     #if {&{${variable}}}
-     {
-          #switch {{${${variable}}}}
-          {
-               #case {{0}}
-               {
-                    #echo {auto-%2 is disabled.}
-               };
-               #case {{1}}
-               {
-                    #echo {auto-%2 is enabled.}
-               };
-               #default
-               {
-                    #echo {%1 %2 is set to  ${${variable}}.}
-               }
-          }
-     };
-     #else
-     {
-          #echo {No preferences set for %1%2}
-     }
+    #local {variable} {%0};
+    #replace {variable} {.} {[};
+    #local {variable} {${variable}]};
+    #if {&{${variable}}}
+    {
+        #switch {{${${variable}}}}
+        {
+            #case {{0}}
+            {
+                #echo {auto-%2 is disabled.}
+            };
+            #case {{1}}
+            {
+                #echo {auto-%2 is enabled.}
+            };
+            #default
+            {
+                #echo {%1 %2 is set to  ${${variable}}.}
+            }
+        }
+    };
+    #else
+    {
+        #echo {No preferences set for %1%2}
+    }
 }
 {9}
 
-#ALIAS {^{noauto|auto}{staticfield|acidshield.*|alacrity.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|fireshield.*|focus.*|follow|grimward.*|haste.*|holysteed|iceshield.*|invisibility|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin.*|sanc.*|shape \w*|shroud|spirit|strength.*|tumble|uinvis|vdrain(?: +\d+)?|vigor.*|viscera(?: +\d+)?|warcry|warpaint.*|werewolf|wraith|vivify.*|zombify}$}
+#ALIAS {^{noauto|auto}{acidshield.*|alacrity.*|aura.*|blur|blade|barkskin.*|bless.*|bushido|cvisage.*|darmor.*|dshield|deposit|edrain(?: +\d+)?|eyes.*|ffire.*|fireshield.*|focus.*|follow|grimward.*|haste.*|holysteed|iceshield.*|invisibility|join|magicshield.*|pfd|pick|poke.*|prayer|range|recall.*|recast|relogin.*|sanc.*|shape \w*|shroud|spirit|staticfield|strength.*|tumble|uinvis|vdrain(?: +\d+)?|vigor.*|viscera(?: +\d+)?|warcry|warpaint.*|werewolf|wraith|vivify.*|zombify}$}
 {
-     #if {{%0} == {noauto%*}}
-     {
-          #echo {auto%2 disabled.};
-          #unvariable {auto[%2]}
-     };
-     #else
-     {
-          #regexp {%0} {auto{\w*} {.*}}
-          {
-               #echo {auto&1 set to &2.};#variable {auto[&1]} {@strip_braces{&2}}
-          };
-          #else
-          {
-               #variable {auto[%2]} {1};
-               #echo {auto%2 enabled.}
-          }
-     };
-     CSAVE
+    #if {{%0} == {noauto%*}}
+    {
+        #echo {auto%2 disabled.};
+        #unvariable {auto[%2]}
+    };
+    #else
+    {
+        #regexp {%0} {auto{\w*} {.*}}
+        {
+            #echo {auto&1 set to &2.};#variable {auto[&1]} {@strip_braces{&2}}
+        };
+        #else
+        {
+            #variable {auto[%2]} {1};
+            #echo {auto%2 enabled.}
+        }
+    };
+    CSAVE
 }
 {9}
 
 #ALIAS {^{notrack|track .*}$}
 {
-     #if {{%0} == {notrack}}
-     {
-          #unvariable {auto[track]};
-          hunt
-     };
-     #else
-     {
-          #regexp {%0} {track {.*}}
-          {
-               #variable {auto[track]} {&1};hunt &1
-          }
-     }
+    #if {{%0} == {notrack}}
+    {
+        #unvariable {auto[track]};
+        hunt
+    };
+    #else
+    {
+        #regexp {%0} {track {.*}}
+        {
+            #variable {auto[track]} {&1};hunt &1
+        }
+    }
 }
 {9}
 
 #ALIAS {^{wer|were|werew|werewo|werewol|werewolf}$}
 {
-     #variable {manualWerewolf} {1};
-     #send {werewolf}
+    #variable {manualWerewolf} {1};
+    #send {werewolf}
 }
 {9}
 
 #ALIAS {^{~|/} %1}
 {
-     #echo {You are now using %1 to recall out of combat.};
-     #variable {character[recall]} {%1}
+    #echo {You are now using %1 to recall out of combat.};
+    #variable {character[recall]} {%1}
 }
 {9}
 
 #ALIAS {^{~|/}$}
 {
-     #if {$MSDP_LEVEL < 20}
-     {
-          recall
-     };
-     #else
-     {
-          #if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
-          {
-               #if {!${spam[breakout]}}
-               {
-                    breakout;
-                    spamset breakout 15
-               };
-               #if {!&{character[recall]}}
-               {
-                    #variable {character[recall]} {recite recall;get recall out}
-               };
-               ${character[recall]}
-          };
-          #else
-          {
-               recall
-          }
-     }
+    #if {$MSDP_LEVEL < 20}
+    {
+        recall
+    };
+    #else
+    {
+        #if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
+        {
+            #if {!${spam[breakout]}}
+            {
+                breakout;
+                spamset breakout 15
+            };
+            #if {!&{character[recall]}}
+            {
+                #variable {character[recall]} {recite recall;get recall out}
+            };
+            ${character[recall]}
+        };
+        #else
+        {
+            recall
+        }
+    }
 }
 {9}
 
@@ -812,137 +812,180 @@
 
 #EVENT {VARIABLE UPDATE MSDP_AFFECTS}
 {
-     #if {{$MSDP_CHARACTER_NAME} != {} && &{MSDP_CHARACTER_NAME} && !${copying}}
-     {
-          #variable {tmp} {%1};
-          #local {i} {};
-          #local {j} {};
-          #local {k} {};
-          #nop #local {mappingKeys} {};
-          #list {mappingKeys} {create} {*{autoMappings[]}};
-          #nop #local {oldAffectsKeys} {};
-          #list {oldAffectsKeys} {create} {*{oldAffects[]}};
-          #foreach {*{tmp[]}} {i}
-          {
-               #list {mappingKeys} {find} {$i} {j};
-               #if {$j != 0}
-               {
+    #if {{$MSDP_CHARACTER_NAME} != {} && &{MSDP_CHARACTER_NAME} && !${copying}}
+    {
+        #variable {tmp} {%1};
+        #local {i} {};
+        #local {j} {};
+        #local {k} {};
+        #nop #local {mappingKeys} {};
+        #list {mappingKeys} {create} {*{autoMappings[]}};
+        #nop #local {oldAffectsKeys} {};
+        #list {oldAffectsKeys} {create} {*{oldAffects[]}};
+        #foreach {*{tmp[]}} {i}
+        {
+            #list {mappingKeys} {find} {$i} {j};
+            #if {$j != 0}
+            {
+                #variable {k} {${autoMappings[${mappingKeys[$j]}]}}
+            };
+            #else
+            {
+                #variable {k} {$i}
+            };
+            #replace {k} {|} {;};
+            #local {l} {};
+            #foreach {$k} {l}
+            {
+                #list {autoQueue} {find} {$l} {j};
+                #if {$j != 0}
+                {
+                    #variable {lastDequeue} {};
+                    #variable {lastDequeueTimes} {-1};
+                    #list {autoQueue} {delete} {$j};
+                    @do_hook{affectUp;$l};
+                    #if {{$l} == {shape}}
+                    {
+                        #variable {manualShape} {0}
+                    }
+                }
+            }
+        };
+        #nop #local {tmpKeys} {};
+        #list {tmpKeys} {create} {*{tmp[]}};
+        #foreach {${oldAffectsKeys[%*]}} {i}
+        {
+            #list {tmpKeys} {find} {$i} {j};
+            #if {$j == 0}
+            {
+                #list {mappingKeys} {find} {$i} {j};
+                #if {$j != 0}
+                {
                     #variable {k} {${autoMappings[${mappingKeys[$j]}]}}
-               };
-               #else
-               {
+                };
+                #else
+                {
                     #variable {k} {$i}
-               };
-               #replace {k} {|} {;};
-               #local {l} {};
-               #foreach {$k} {l}
-               {
-                    #list {autoQueue} {find} {$l} {j};
-                    #if {$j != 0}
+                };
+                #replace {k} {|} {;};
+                #local {l} {};
+                #foreach {$k} {l}
+                {
+                    #if {&{auto[$l]}}
                     {
-                         #variable {lastDequeue} {};
-                         #variable {lastDequeueTimes} {-1};
-                         #list {autoQueue} {delete} {$j};
-                         @do_hook{affectUp;$l};
-                         #if {{$l} == {shape}}
-                         {
-                              #variable {manualShape} {0}
-                         }
+                        #list {autoQueue} {add} {$l};
+                        @do_hook{affectDown;$l}
                     }
-               }
-          };
-          #nop #local {tmpKeys} {};
-          #list {tmpKeys} {create} {*{tmp[]}};
-          #foreach {${oldAffectsKeys[%*]}} {i}
-          {
-               #list {tmpKeys} {find} {$i} {j};
-               #if {$j == 0}
-               {
-                    #list {mappingKeys} {find} {$i} {j};
-                    #if {$j != 0}
-                    {
-                         #variable {k} {${autoMappings[${mappingKeys[$j]}]}}
-                    };
-                    #else
-                    {
-                         #variable {k} {$i}
-                    };
-                    #replace {k} {|} {;};
-                    #local {l} {};
-                    #foreach {$k} {l}
-                    {
-                         #if {&{auto[$l]}}
-                         {
-                              #list {autoQueue} {add} {$l};
-                              @do_hook{affectDown;$l}
-                         }
-                    }
-               }
-          };
-          #variable {oldAffects} {$tmp};
-          #unvariable {tmp};
-          #unvariable {oldAffectsKeys};
-          #unvariable {tmpKeys};
-          #unvariable {mappingKeys}
-     }
+                }
+            }
+        };
+        #variable {oldAffects} {$tmp};
+        #unvariable {tmp};
+        #unvariable {oldAffectsKeys};
+        #unvariable {tmpKeys};
+        #unvariable {mappingKeys}
+    }
 }
 
 #EVENT {VARIABLE UPDATE MSDP_HERO_POINTS}
 {
-     #if {{%1} != {} && !$copying}
-     {
-          #nop {Hook name: heroPoints};
-          #nop {Hook args: %1 current hero points %2 OLD hero points.};
-          @do_hook{heroPoints;%1;$MSDP_HERO_POINTS}
-     }
+    #if {{%1} != {} && !$copying}
+    {
+        #nop {Hook name: heroPoints};
+        #nop {Hook args: %1 current hero points %2 OLD hero points.};
+        @do_hook{heroPoints;%1;$MSDP_HERO_POINTS}
+    }
 }
 
 #EVENT {VARIABLE UPDATE MSDP_RACE}
 {
-     #nop {Hook name is race};
-     #nop {Hook args: new race.};
-     #if {{%1} != {} && !$copying}
-     {
-          #if {{%1} == {human} && &{auto[werewolf]} && $MSDP_LEVEL >= 50 && !&{manualWerewolf} && $MSDP_ROOM_VNUM != 13200}
-          {
-               werewolf
-          };
-          #elseif {{%1} == {{human|werewolf}} && &{manualWerewolf}}
-          {
-               #unvariable {manualWerewolf}
-          };
-          @do_hook{race;%1}
-     }
+    #nop {Hook name is race};
+    #nop {Hook args: new race.};
+    #if {{%1} != {} && !$copying}
+    {
+        #if {{%1} == {human} && &{auto[werewolf]} && $MSDP_LEVEL >= 50 && !&{manualWerewolf} && $MSDP_ROOM_VNUM != 13200}
+        {
+            werewolf
+        };
+        #elseif {{%1} == {{human|werewolf}} && &{manualWerewolf}}
+        {
+            #unvariable {manualWerewolf}
+        };
+        @do_hook{race;%1}
+    }
 }
 
 #EVENT {VARIABLE UPDATE MSDP_WORLD_TIME}
 {
-     #if {{%1} != {} && !$copying}
-     {
-          #nop {Hook name: worldTime};
-          #nop {Hook args: Time in 24 hour format.};
-          #if {&{at[%1]}}
-          {
-               @strip_braces{${at[%1]}};
-               #unvariable {at[%1]}
-          };
-          @do_hook{worldTime;%1}
-     }
+    #if {{%1} != {} && !$copying}
+    {
+        #nop {Hook name: worldTime};
+        #nop {Hook args: Time in 24 hour format.};
+        #if {&{at[%1]}}
+        {
+            @strip_braces{${at[%1]}};
+            #unvariable {at[%1]}
+        };
+        @do_hook{worldTime;%1}
+    }
 }
 
 
 
-#TICKER           {autoQueue}  {autoDequeue}  {6}
+#TICKER {autoQueue} {autoDequeue} {6}
 
-#VARIABLE         {at}  {}
-#VARIABLE         {autoCombatAllowed}  {{1}{focus}{2}{warcry}{3}{bushido}}
-#VARIABLE         {autoMappings}  {{static field}{staticfield}{alacrity}{alacrity}{blade barrier}{blade}{corpse visage}{cvisage}{crystal eyes}{eyes}{divine armor}{darmor}{divine shield}{dshield}{faerie fire}{ffire}{grim ward}{grimward}{invisibility}{shroud|invisibility}{invisibility to undead}{uinvis}{magic shield}{magicshield}{protection from death}{pfd}{sanctuary}{sanc}{shapechange}{shape}{shroud of darkness}{shroud}{spirit of bushido}{bushido}{spiritual guardian}{spirit}{true seeing}{eyes}{unholy aura}{aura}{wraithform}{wraith}{vivify}{vivify}}
-#VARIABLE         {autoQueue}  {}
-#VARIABLE         {bufExtras}  {{1}{acidshield}{2}{blur}{3}{barkskin}{4}{bless}{5}{haste}{6}{prayer}{7}{shape}{8}{strength}{9}{vigor}{10}{warpaint}{11}{fireshield}{12}{iceshield}}
-#VARIABLE         {lastDequeue}  {}
-#VARIABLE         {lastDequeueTimes}  {-1}
-#VARIABLE         {manualShape}  {0}
-#VARIABLE         {manualWerewolf}  {0}
-#VARIABLE         {oldAffects}  {}
-#VARIABLE         {tetherable}  {1}
+#VARIABLE {at} {}
+#VARIABLE {autoCombatAllowed}
+{
+    {1} {focus}
+    {2} {warcry}
+    {3} {bushido}
+}
+#VARIABLE {autoMappings}
+{
+    {blade barrier} {blade}
+    {corpse visage} {cvisage}
+    {crystal eyes} {eyes}
+    {divine armor} {darmor}
+    {divine shield} {dshield}
+    {faerie fire} {ffire}
+    {grim ward} {grimward}
+    {invisibility} {shroud|invisibility}
+    {invisibility to undead} {uinvis}
+    {magic shield} {magicshield}
+    {protection from death} {pfd}
+    {sanctuary} {sanc}
+    {shapechange} {shape}
+    {shroud of darkness} {shroud}
+    {spirit of bushido} {bushido}
+    {spiritual guardian} {spirit}
+    {static field} {staticfield}
+    {true seeing} {eyes}
+    {unholy aura} {aura}
+    {wraithform} {wraith}
+}
+#VARIABLE {autoQueue} {}
+#VARIABLE {bufExtras}
+{
+    {1} {acidshield}
+    {2} {blur}
+    {3} {barkskin}
+    {4} {bless}
+    {5} {haste}
+    {6} {prayer}
+    {7} {shape}
+    {8} {strength}
+    {9} {vigor}
+    {10} {warpaint}
+    {11} {fireshield}
+    {12} {iceshield}
+    {13} {vivify}
+    {14} {alacrity}
+}
+#VARIABLE {lastDequeue} {}
+#VARIABLE {lastDequeueTimes} {-1}
+#VARIABLE {manualShape} {0}
+#VARIABLE {manualWerewolf} {0}
+#VARIABLE {oldAffects} {}
+#VARIABLE {tetherable} {1}
 
