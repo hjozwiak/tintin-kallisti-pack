@@ -23,7 +23,7 @@
           #variable {auto[recallPercent]} {20};
           CSAVE
      };
-     #if {(%1 / $MSDP_HEALTH_MAX) * 100.0 <= ${auto[recallPercent]} && $MSDP_OPPONENT_NUMBER > 0}
+     #if {(%1 / $MSDP_HEALTH_MAX) * 100.00 <= ${auto[recallPercent]} && $MSDP_OPPONENT_NUMBER > 0}
      {
           #if {!${spam[recall]}}
           {
@@ -45,7 +45,7 @@
           #variable {autoHealSelfPercent} {50};
           CSAVE
      };
-     #if {(%1 / $MSDP_HEALTH_MAX) *100.0 <= $autoHealSelfPercent}
+     #if {(%1 / $MSDP_HEALTH_MAX) *100.00 <= $autoHealSelfPercent}
      {
           #if {&{autoHealSelf} && !${spam[healSelf]}}
           {
@@ -110,7 +110,7 @@
           #variable {auto[refreshPercent]} {50};
           CSAVE
      };
-     #if {(%1 / $MSDP_STAMINA_MAX) * 100.0 <= ${auto[refreshPercent]}}
+     #if {(%1 / $MSDP_STAMINA_MAX) * 100.00 <= ${auto[refreshPercent]}}
      {
           #if {!${spam[refreshSelf]}}
           {
