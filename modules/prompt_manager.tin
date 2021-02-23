@@ -25,11 +25,11 @@
      };
      #if {(%1 / $MSDP_HEALTH_MAX) * 100.00 <= ${auto[recallPercent]} && $MSDP_OPPONENT_NUMBER > 0}
      {
-          #if {!${spam[recall]}}
+          #if {!@is_spammed{recall}}
           {
                #if {&{auto[recall]}}
                {
-                    #if {!${spam[breakout]}}
+                    #if {!@is_spammed{breakout}}
                     {
                          breakout;
                          spamset breakout 10
@@ -47,7 +47,7 @@
      };
      #if {(%1 / $MSDP_HEALTH_MAX) *100.00 <= $autoHealSelfPercent}
      {
-          #if {&{autoHealSelf} && !${spam[healSelf]}}
+          #if {&{autoHealSelf} && !@is_spammed{healSelf}}
           {
                spamset healSelf 2;
                ${autoHealSelf}
@@ -112,7 +112,7 @@
      };
      #if {(%1 / $MSDP_STAMINA_MAX) * 100.00 <= ${auto[refreshPercent]}}
      {
-          #if {!${spam[refreshSelf]}}
+          #if {!@is_spammed{refreshSelf}}
           {
                #if {&{auto[refresh]}}
                {

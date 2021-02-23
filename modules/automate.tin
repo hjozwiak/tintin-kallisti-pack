@@ -228,7 +228,7 @@
 {
     #if {${auto[tumble]}}
     {
-        #if {!&{spam[tumble]}}
+        #if {!@is_spammed{tumble}}
         {
             tumble;
             spamset tumble
@@ -239,7 +239,7 @@
 
 #ACTION {^Your mount sees: {The holy blessing bestowed by your rider is no more|The ability to fly leaves you}.$}
 {
-    #if {&{auto[holysteed]} && !${spam[holysteed]}}
+    #if {&{auto[holysteed]} && !@is_spammed{holysteed}}
     {
         spamset holysteed;
         #if {$MSDP_OPPONENT_NUMBER == 0}
@@ -799,7 +799,7 @@
     {
         #if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
         {
-            #if {!${spam[breakout]}}
+            #if {!@is_spammed{breakout}}
             {
                 breakout;
                 spamset breakout 15
