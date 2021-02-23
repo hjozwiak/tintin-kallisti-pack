@@ -155,7 +155,7 @@
         {
             #if {${auto[recast]}}
             {
-
+                
             }
         }
     };
@@ -343,10 +343,20 @@
 }
 {8}
 
-#ALIAS {^noautoheal%s {me|self}$}
+#ALIAS {^noautoheal%s mount$}
 {
     #unvariable {autoHealMount};
+    #unvariable {autoHealMountPercent};
     #echo {You will no longer try to heal your mount automatically.};
+    CSAVE
+}
+{8}
+
+#ALIAS {^noautoheal%s {me|self}$}
+{
+    #unvariable {autoHealSelf};
+    #unvariable {autoHealSelfPercent};
+    #echo {You will no longer try to heal yourself automatically.};
     CSAVE
 }
 {8}
