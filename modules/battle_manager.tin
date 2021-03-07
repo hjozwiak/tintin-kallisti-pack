@@ -40,17 +40,22 @@
 #ACTION {%1 flies from your grasp.$}
 {
     #nop {Hook name: disarmed.};
-    #nop {Hook args: name of weapon.};
+    #nop {Hook args: name of weapon, suspected keyword of weapon.};
+    @var_save{weapon};
     #regexp {%1} {{.*} {.*}}
     {
-        hold &2;wield &2
+        #var {weapon} {&2}
     };
     #else
     {
-        hold %1;
-        wield %1
+        #variable {weapon} {%1}
     };
-    @do_hook{disarmed;%1}
+    #replace {weapon} {"} {};
+    #replace {weapon} {'} {};
+    hold $weapon;
+    wield $weapon;
+    @do_hook{disarmed;%1;$weapon};
+    @var_restore{weapon}
 }
 {9}
 
