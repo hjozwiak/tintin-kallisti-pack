@@ -52,6 +52,7 @@
     };
     #replace {weapon} {"} {};
     #replace {weapon} {'} {};
+    get $weapon;
     hold $weapon;
     wield $weapon;
     @do_hook{disarmed;%1;$weapon};
