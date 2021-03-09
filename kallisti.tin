@@ -192,10 +192,11 @@
     #nop {Create the log directory if it doesn't exist. Log files are based on account name and date.};
     #script {logFilePath} {echo -n "log/%1/"; date +'%Y/%B/'};
     #variable {logFilePath} {${HOME}/${logFilePath[1]}};
+    #replace {logFilePath} {-n } {};
     #script {logFileName} {date +'%d.log'};
     #system {mkdir -p $logFilePath};
     #log {append} {${logFilePath}${logFileName[1]}};
-    #return
+    #return {#nop}
 }
 
 
