@@ -1,18 +1,12 @@
 #ALIAS {^fortune %1}
 {
-	#regexp {%1} {{.*} {.*}} {#script {echo -n "&1 ";fortune -n 500 -s &2 | tr "[:space:]" " " | sed "s/%u2019/'/g"}} {#script {echo -n "%1 ";fortune -n 500 -s | tr "[:space:]" " "}}
+	#regexp {%1} {{.*} {.*}} {#script {/bin/echo -n "&1 ";fortune -n 500 -s &2 | tr "[:space:]" " " | sed "s/%u2019/'/g"}} {#script {echo -n "%1 ";fortune -n 500 -s | tr "[:space:]" " "}}
 }
 {9}
 
 #ALIAS {^{da|dat|date}$}
 {
 		#system {date +'%I:%M%p%n%A, %B %d, %Y'}
-}
-{9}
-
-#ALIAS {^{ft|fti|ftim|ftime|flit|flite|flite_|flite_ti|flite_tim|flite_time}$}
-{
-	#system {flite_time $(date +'%H:%M')&}
 }
 {9}
 

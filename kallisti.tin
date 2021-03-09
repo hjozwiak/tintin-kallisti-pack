@@ -31,7 +31,8 @@
     #else
     {
         #send {%0}
-    }
+    };
+#var {mudPort} {4000}
 }
 {8}
 
@@ -47,7 +48,7 @@
 #ALIAS {^CMOTD$}
 {
     #echo {@separator{}};
-    #system {fold -w $(tput cols) -s MOTD};
+    #script {IFS=$'\n' ; for x in $(fold -w $(tput cols) -s MOTD) ; do echo "#echo {$x};" ; done};
     #echo {@separator{}}
 }
 {9}
@@ -143,8 +144,9 @@
     #split {1} {1};
     #nop {Set the home directory variable.};
     #script {HOME} {if [ -z "$XDG_CONFIG_HOME" ] ; then if ! [ -d "$HOME/.config/${tintinPackName}/" ] ; then mkdir -p "$HOME/.config/${tintinPackName}";fi;echo -n "$HOME/.config/${tintinPackName}";else if ! [ -d "$XDG_CONFIG_HOME/${tintinPackName}/" ] ; then mkdir -p "$XDG_CONFIG_HOME/-${tintinPackName}/";fi;echo -n "$XDG_CONFIG_HOME/${tintinPackName}";fi};
+    #script {HOME} {if [ -z "$XDG_CONFIG_HOME" ] ; then echo "$HOME/.config/${tintinPackName}" ; else echo "$XDG_CONFIG_HOME/${tintinPackName}" ; fi}
     #variable {HOME} {${HOME[1]}};
-    #replace {HOME} {-n } {};
+    #system {mkdir -p "${HOME}"};
     #nop {Run the soundpack_manager script.};
     #system {scripts/soundpack_manager.sh ${HOME}/sounds};
     #nop {Load all the .tin files in the modules directory in classes named after the module name.};
@@ -163,7 +165,7 @@
     #showme {@separator{}} {-2};
     #nop {Display intro message.};
     #echo {@separator{}};
-    #system {fold -w $(tput cols) -s MOTD};
+    #script {IFS=$'\n' ; for x in $(fold -w $(tput cols) -s MOTD) ; do echo "#echo {$x};" ; done};
     #echo {@separator{}};
     #echo {To get started type login};
     #unvariable script;
@@ -190,9 +192,8 @@
 #FUNCTION {open_log}
 {
     #nop {Create the log directory if it doesn't exist. Log files are based on account name and date.};
-    #script {logFilePath} {echo -n "log/%1/"; date +'%Y/%B/'};
+    #script {logFilePath} {echo "log/%1/"; date +'%Y/%B/'};
     #variable {logFilePath} {${HOME}/${logFilePath[1]}};
-    #replace {logFilePath} {-n } {};
     #script {logFileName} {date +'%d.log'};
     #system {mkdir -p $logFilePath};
     #log {append} {${logFilePath}${logFileName[1]}};

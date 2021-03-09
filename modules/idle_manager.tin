@@ -10,13 +10,13 @@
 
 #ALIAS {^fortune %1}
 {
-	#script {echo -n "say ";fortune -sn1000 %1 | tr '[:space:];' ' '}
+	#script {/bin/echo -n "say ";fortune -sn1000 %1 | tr '[:space:];' ' '}
 }
 {9}
 
 #ALIAS {^fortune$}
 {
-	#script {echo -n "say ";fortune -sn1000 | tr '[:space:];' ' '}
+	#script {/bin/echo -n "say ";fortune -sn1000 | tr '[:space:];' ' '}
 }
 {9}
 
