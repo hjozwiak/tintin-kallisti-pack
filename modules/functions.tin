@@ -228,7 +228,7 @@
      #nop {Takes 1 optional argument, the separator string. The default is -.};
      #if {{%1} == {}}
      {
-          #script {result} {for x in $(seq $(tput cols)) ; do echo -n "-";done}
+          #script {result} {for x in $(seq $(tput cols)) ; do /bin/echo -n "-";done}
      };
      #else
      {
@@ -236,7 +236,7 @@
           #local {length} {@strlen{%1}};
           #script {columns} {tput cols};
           #math {columns} {${columns[1]} / ${length}};
-          #script {result} {for x in $(seq ${columns}) ; do echo -n "%1";done}
+          #script {result} {for x in $(seq ${columns}) ; do /bin/echo -n "%1";done}
      };
      #variable {result} {${result[1]}}
 }

@@ -29,7 +29,7 @@
      {
           #variable {historyPath} {${HOME}/${MSDP_CHARACTER_NAME}.history};
           #replace {historyPath} {\\} {};
-          #history {write} {$historyPath};
+          #line substitute variables #history {write} {$historyPath};
           #unvariable {historyPath};
           #if {${character[mapping]}}
           {
@@ -287,10 +287,19 @@
           {
                #variable {historyPath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.history};
                #replace {historyPath} {\\} {};
-               #history {write} {$historyPath};
+               #line substitute variables #history {write} {$historyPath};
                #unvariable {historyPath};
                #variable {copying} {1};
                #unvariable {MSDP_%*};
+               #if {${cspam}}
+               {
+                    #class {applied_spam_settings} {kill}
+               };
+               #if {${character[mapping]}}
+               {
+                    #map write $HOME/map/msdp.map;
+                    #map destroy world
+               };
                #class {${OLD_MSDP_CHARACTER_NAME}} {write} {${HOME}/${OLD_MSDP_CHARACTER_NAME}};
                #class {${OLD_MSDP_CHARACTER_NAME}} {kill};
                #class {msdp} {open};
@@ -305,15 +314,6 @@
                #variable {autoQueue} {};
                #variable {lastDequeue} {};
                #variable {lastDequeueTimestamp} {2147483647};
-               #if {${cspam}}
-               {
-                    #class {applied_spam_settings} {kill}
-               };
-               #if {${character[mapping]}}
-               {
-                    #map write $HOME/map/msdp.map;
-                    #map destroy world
-               };
                #nop {unload any old character classes};
                #variable {modpath} {${HOME}/${OLD_MSDP_CHARACTER_NAME}.modules};
                #replace {modpath} {\\} {};
@@ -347,6 +347,7 @@
           #nop {clear old hooks.};
           #unvariable {hook};
           #class {%1} {read} {${HOME}/%1};
+               #class {%1} {open};
           #if {&{splitLines}}
           {
                #split {$currentSplitRows} {$splitLines}

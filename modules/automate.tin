@@ -155,7 +155,7 @@
         {
             #if {${auto[recast]}}
             {
-
+                
             }
         }
     };
@@ -228,7 +228,7 @@
 {
     #if {${auto[tumble]}}
     {
-        #if {!&{spam[tumble]}}
+        #if {!@is_spammed{tumble}}
         {
             tumble;
             spamset tumble
@@ -239,7 +239,7 @@
 
 #ACTION {^Your mount sees: {The holy blessing bestowed by your rider is no more|The ability to fly leaves you}.$}
 {
-    #if {&{auto[holysteed]} && !${spam[holysteed]}}
+    #if {&{auto[holysteed]} && !@is_spammed{holysteed}}
     {
         spamset holysteed;
         #if {$MSDP_OPPONENT_NUMBER == 0}
@@ -298,6 +298,20 @@
 {9}
 
 
+#ALIAS {^auto{off|on}$}
+{
+    #if {{%1} == {off}}
+    {
+        #variable {auto[enabled]} {0}
+    };
+    #else
+    {
+        #variable {auto[enabled]} {1}
+    };
+    #showme {Automation is now %1.}
+}
+{1}
+
 #ALIAS {^autoheal%s {me|self} %3 %d$}
 {
     #variable {autoHealSelf} {@strip_braces{%3}};
@@ -343,10 +357,20 @@
 }
 {8}
 
-#ALIAS {^noautoheal%s {me|self}$}
+#ALIAS {^noautoheal%s mount$}
 {
     #unvariable {autoHealMount};
+    #unvariable {autoHealMountPercent};
     #echo {You will no longer try to heal your mount automatically.};
+    CSAVE
+}
+{8}
+
+#ALIAS {^noautoheal%s {me|self}$}
+{
+    #unvariable {autoHealSelf};
+    #unvariable {autoHealSelfPercent};
+    #echo {You will no longer try to heal yourself automatically.};
     CSAVE
 }
 {8}
@@ -376,196 +400,206 @@
 
 #ALIAS {^autoDequeue$}
 {
-    #local {i} {};
-    #list {autoQueue} {size} {i};
-    #if {$i > 0 && {$MSDP_POSITION} == {{Fighting|Standing|Mounted|Flying|Swimming}}}
+    #if {&{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {}}
     {
-        #foreach {${autoQueue[%*]}} {i}
+        #if {!&{auto[enabled]}}
         {
-            #local {j} {};
-            #local {k} {};
-            #if {&{MSDP_AFFECTS[$i]}}
-            {
-                #list {autoQueue} {find} {$i} {k};
-                #list {autoQueue} {delete} {$k};
-                #continue
-            };
-            #foreach {*{autoMappings[]}} {j}
-            {
-                #if {{$i} == {{${autoMappings[$j]}}} && &{MSDP_AFFECTS[$j]}}
-                {
-                    #list {autoQueue} {find} {$i} {k};
-                    #list {autoQueue} {delete} {$k};
-                    #break
-                }
-            }
-        }
-    };
-    #list {autoQueue} {size} {i};
-    #if {$i > 0 && {$MSDP_POSITION} == {{Fighting|Standing|Mounted|Flying|Swimming}}}
-    {
-        #foreach {${autoQueue[%*]}} {i}
+            #variable {auto[enabled]} {1}
+        };
+        #if {${auto[enabled]}}
         {
-            #if {{${autoQueue[$i]}} == {{gt|say}%*}}
+            #local {i} {};
+            #list {autoQueue} {size} {i};
+            #if {$i > 0 && {$MSDP_POSITION} == {{Fighting|Standing|Mounted|Flying|Swimming}}}
             {
-                ${autoQueue[$i]};
-                #local {k} {};
-                #list {autoQueue} {find} {$i} {k};
-                #list {autoQueue} {delete} {$k};
-                #continue
-            };
-            #if {{$MSDP_ROOM_VNUM} != {{13200|3001}}}
-            {
-                #local {j} {};
-                #if {$MSDP_OPPONENT_NUMBER > 0}
+                #foreach {${autoQueue[%*]}} {i}
                 {
-                    #list {autoCombatAllowed} {find} $i {j};
-                    #if {$j > 0}
+                    #local {j} {};
+                    #local {k} {};
+                    #if {&{MSDP_AFFECTS[$i]}}
                     {
-                        #if {{${lastDequeue}} != {$i}}
+                        #list {autoQueue} {find} {$i} {k};
+                        #list {autoQueue} {delete} {$k};
+                        #continue
+                    };
+                    #foreach {*{autoMappings[]}} {j}
+                    {
+                        #if {{$i} == {{${autoMappings[$j]}}} && &{MSDP_AFFECTS[$j]}}
                         {
-                            #variable {lastDequeue} {$i};
-                            #variable {lastDequeueTimes} {-1}
-                        };
-                        #math {lastDequeueTimes} {$lastDequeueTimes + 1};
-                        #if {$lastDequeueTimes > 10}
-                        {
-                            #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
-                            #local {k} {};
                             #list {autoQueue} {find} {$i} {k};
                             #list {autoQueue} {delete} {$k};
-                            #variable {lastDequeue} {};
-                            #variable {lastDequeueTimes} {0};
-                            #continue
-                        };
-                        #nop {Hook name: pre<name of auto> E.G. preFocus.};
-                        #nop {Hook args: None.};
-                        #nop {Note: Use the affectUp hook to undo any temporary actions.};
-                        #if {$lastDequeueTimes == 0}
-                        {
-                            @do_hook{pre$i}
-                        };
-                        #switch {{$i}}
-                        {
-                            #case {{focus}}
-                            {
-                                focus ${auto[focus]}
-                            };
-                            #default
-                            {
-                                #if {{${auto[$i]}} == {1}}
-                                {
-                                    $i
-                                };
-                                #else
-                                {
-                                    ${auto[$i]}
-                                }
-                            }
-                        };
-                        #break
-                    };
-                    #else
-                    {
-                        #continue
+                            #break
+                        }
                     }
-                };
-                #else
+                }
+            };
+            #list {autoQueue} {size} {i};
+            #if {$i > 0 && {$MSDP_POSITION} == {{Fighting|Standing|Mounted|Flying|Swimming}}}
+            {
+                #foreach {${autoQueue[%*]}} {i}
                 {
-                    #if {{${lastDequeue}} != {$i}}
+                    #if {{${autoQueue[$i]}} == {{gt|say}%*}}
                     {
-                        #variable {lastDequeue} {$i};
-                        #variable {lastDequeueTimes} {-1}
-                    };
-                    #math {lastDequeueTimes} {$lastDequeueTimes + 1};
-                    #if {$lastDequeueTimes > 10}
-                    {
-                        #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
+                        ${autoQueue[$i]};
                         #local {k} {};
                         #list {autoQueue} {find} {$i} {k};
                         #list {autoQueue} {delete} {$k};
-                        #variable {lastDequeue} {};
-                        #variable {lastDequeueTimes} {0};
                         #continue
                     };
-                    #nop {Hook name: pre<name of auto> E.G. preFocus.};
-                    #nop {Hook args: None.};
-                    #nop {Note: Use the affectUp hook to undo any temporary actions.};
-                    #if {$lastDequeueTimes == 0 && {$i} != {shape} || ({$i} == {shape} && !$manualShape)}
+                    #if {{$MSDP_ROOM_VNUM} != {{13200|3001}}}
                     {
-                        @do_hook{pre$i}
-                    };
-                    #switch {{$i}}
-                    {
-                        #case {{focus}}
+                        #local {j} {};
+                        #if {$MSDP_OPPONENT_NUMBER > 0}
                         {
-                            focus ${auto[focus]}
-                        };
-                        #case {{warpaint}}
-                        {
-                            warpaint ${auto[warpaint]}
-                        };
-                        #case {{magicshield}}
-                        {
-                            mshield
-                        };
-                        #case {{blade}}
-                        {
-                            blades
-                        };
-                        #case {{eyes}}
-                        {
-                            #if {{$MSDP_CLASS} == {Wizard} && {${auto[$i]}} == {1}}
+                            #list {autoCombatAllowed} {find} $i {j};
+                            #if {$j > 0}
                             {
-                                ceyes
-                            };
-                            #elseif {{${auto[$i]}} == {1}}
-                            {
-                                truesee
-                            };
-                            #else
-                            {
-                                ${auto[$i]}
-                            }
-                        };
-                        #case {{zombify}}
-                        {
-                            zombieform
-                        };
-                        #case {{shape}}
-                        {
-                            #if {!$manualShape}
-                            {
-                                #switch {{${MSDP_CLASS}}}
+                                #if {{${lastDequeue}} != {$i}}
                                 {
-                                    #case {{Druid}}
+                                    #variable {lastDequeue} {$i};
+                                    #variable {lastDequeueTimes} {-1}
+                                };
+                                #math {lastDequeueTimes} {$lastDequeueTimes + 1};
+                                #if {$lastDequeueTimes > 10}
+                                {
+                                    #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
+                                    #local {k} {};
+                                    #list {autoQueue} {find} {$i} {k};
+                                    #list {autoQueue} {delete} {$k};
+                                    #variable {lastDequeue} {};
+                                    #variable {lastDequeueTimes} {0};
+                                    #continue
+                                };
+                                #nop {Hook name: pre<name of auto> E.G. preFocus.};
+                                #nop {Hook args: None.};
+                                #nop {Note: Use the affectUp hook to undo any temporary actions.};
+                                #if {$lastDequeueTimes == 0}
+                                {
+                                    @do_hook{pre$i}
+                                };
+                                #switch {{$i}}
+                                {
+                                    #case {{focus}}
                                     {
-                                        shapechange ${auto[shape]}
-                                    };
-                                    #case {{Demoniac}}
-                                    {
-                                        demonform ${auto[shape]}
+                                        focus ${auto[focus]}
                                     };
                                     #default
                                     {
-                                        mortify ${auto[shape]}
+                                        #if {{${auto[$i]}} == {1}}
+                                        {
+                                            $i
+                                        };
+                                        #else
+                                        {
+                                            ${auto[$i]}
+                                        }
                                     }
-                                }
-                            }
-                        };
-                        #default
-                        {
-                            #if {{${auto[$i]}} == {1}}
-                            {
-                                $i
+                                };
+                                #break
                             };
                             #else
                             {
-                                ${auto[$i]}
+                                #continue
                             }
+                        };
+                        #else
+                        {
+                            #if {{${lastDequeue}} != {$i}}
+                            {
+                                #variable {lastDequeue} {$i};
+                                #variable {lastDequeueTimes} {-1}
+                            };
+                            #math {lastDequeueTimes} {$lastDequeueTimes + 1};
+                            #if {$lastDequeueTimes > 10}
+                            {
+                                #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
+                                #local {k} {};
+                                #list {autoQueue} {find} {$i} {k};
+                                #list {autoQueue} {delete} {$k};
+                                #variable {lastDequeue} {};
+                                #variable {lastDequeueTimes} {0};
+                                #continue
+                            };
+                            #nop {Hook name: pre<name of auto> E.G. preFocus.};
+                            #nop {Hook args: None.};
+                            #nop {Note: Use the affectUp hook to undo any temporary actions.};
+                            #if {$lastDequeueTimes == 0 && {$i} != {shape} || ({$i} == {shape} && !$manualShape)}
+                            {
+                                @do_hook{pre$i}
+                            };
+                            #switch {{$i}}
+                            {
+                                #case {{focus}}
+                                {
+                                    focus ${auto[focus]}
+                                };
+                                #case {{warpaint}}
+                                {
+                                    warpaint ${auto[warpaint]}
+                                };
+                                #case {{magicshield}}
+                                {
+                                    mshield
+                                };
+                                #case {{blade}}
+                                {
+                                    blades
+                                };
+                                #case {{eyes}}
+                                {
+                                    #if {{$MSDP_CLASS} == {Wizard} && {${auto[$i]}} == {1}}
+                                    {
+                                        ceyes
+                                    };
+                                    #elseif {{${auto[$i]}} == {1}}
+                                    {
+                                        truesee
+                                    };
+                                    #else
+                                    {
+                                        ${auto[$i]}
+                                    }
+                                };
+                                #case {{zombify}}
+                                {
+                                    zombieform
+                                };
+                                #case {{shape}}
+                                {
+                                    #if {!$manualShape}
+                                    {
+                                        #switch {{${MSDP_CLASS}}}
+                                        {
+                                            #case {{Druid}}
+                                            {
+                                                shapechange ${auto[shape]}
+                                            };
+                                            #case {{Demoniac}}
+                                            {
+                                                demonform ${auto[shape]}
+                                            };
+                                            #default
+                                            {
+                                                mortify ${auto[shape]}
+                                            }
+                                        }
+                                    }
+                                };
+                                #default
+                                {
+                                    #if {{${auto[$i]}} == {1}}
+                                    {
+                                        $i
+                                    };
+                                    #else
+                                    {
+                                        ${auto[$i]}
+                                    }
+                                }
+                            };
+                            #break
                         }
-                    };
-                    #break
+                    }
                 }
             }
         }
@@ -789,7 +823,7 @@
     {
         #if {$MSDP_OPPONENT_NUMBER > 0 || $MSDP_PARAGON_LEVEL < 50}
         {
-            #if {!${spam[breakout]}}
+            #if {!@is_spammed{breakout}}
             {
                 breakout;
                 spamset breakout 15

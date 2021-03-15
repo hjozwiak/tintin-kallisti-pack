@@ -71,7 +71,7 @@
 
 #MACRO {\cc}
 {
-     #if {!${spam[breakout]}}
+     #if {!@is_spammed{breakout}}
      {
           spamset breakout;
           breakout

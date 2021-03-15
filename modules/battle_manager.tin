@@ -40,17 +40,23 @@
 #ACTION {%1 flies from your grasp.$}
 {
     #nop {Hook name: disarmed.};
-    #nop {Hook args: name of weapon.};
+    #nop {Hook args: name of weapon, suspected keyword of weapon.};
+    @var_save{weapon};
     #regexp {%1} {{.*} {.*}}
     {
-        hold &2;wield &2
+        #var {weapon} {&2}
     };
     #else
     {
-        hold %1;
-        wield %1
+        #variable {weapon} {%1}
     };
-    @do_hook{disarmed;%1}
+    #replace {weapon} {"} {};
+    #replace {weapon} {'} {};
+    get $weapon;
+    hold $weapon;
+    wield $weapon;
+    @do_hook{disarmed;%1;$weapon};
+    @var_restore{weapon}
 }
 {9}
 
@@ -438,7 +444,7 @@
 #ALIAS {^GENERATE_RENEW_LIFE_TICKER$}
 {
     #unticker {renewLife};
-    #ticker {renewLife} {#if {&{auto[renewLife]} && @percent{MSDP_HEALTH} <= ${auto[renewLife]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[renewLife]}} {spamset renewLife 2;renewlife}} {1}
+    #ticker {renewLife} {#if {&{auto[renewLife]} && @percent{MSDP_HEALTH} <= ${auto[renewLife]} && $MSDP_OPPONENT_NUMBER == 0 && !is_spammed{renewLife}} {spamset renewLife 2;renewlife}} {1}
 }
 {9}
 
@@ -795,7 +801,7 @@
             #list {groupMemberList} {add} {${tmp[$i][name]}};
             #nop #local {j} {};
             #list {autohealList} {find} {${tmp[$i][name]}} {j};
-            #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[heal${tmp[$i][name]}]} && ${tmp[$i][health]} <= 80 && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
+            #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !@is_spammed{heal${tmp[$i][name]}} && ${tmp[$i][health]} <= 80 && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
             {
                 spamset heal${tmp[$i][name]} 2;
                 #switch {{${MSDP_CLASS}}}
@@ -859,7 +865,7 @@
                     #variable {auto[refreshGroup]} {refresh}
                 };
                 #list {autorefreshList} {find} {${tmp[$i][name]}} {j};
-                #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !${spam[refresh${tmp[$i][name]}]} && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
+                #if {$j > 0 && {${tmp[$i][name]}} != {$MSDP_CHARACTER_NAME} && !@is_spammed{refresh${tmp[$i][name]}} && {$MSDP_POSITION} == {{Flying|Mounted|Standing|Swimming|Fighting}} && {${tmp[$i][with_you]}} == {1}}
                 {
                     spamset refresh${tmp[$i][name]} 4;
                     #send {${auto[refreshGroup]} ${tmp[$i][name]}}
@@ -1004,7 +1010,7 @@
         #list {groupMemberList} {find} {%1} {i};
         #if {$i > 0 || $follower}
         {
-            #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[chainattack]}}
+            #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !@is_spammed{chainattack}}
             {
                 spamset chainattack 2;
                 #regexp {%2} {{.*} {.*}}
@@ -1016,7 +1022,7 @@
                     ${character[chainAttack]} %2
                 }
             };
-            #elseif {!${spam[chainattack]}}
+            #elseif {!@is_spammed{chainattack}}
             {
                 spamset chainattack 2;
                 join %1
@@ -1042,7 +1048,7 @@
         #list {groupMemberList} {find} {%2} {i};
         #if {$i > 0 || $follower}
         {
-            #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !${spam[chainattack]}}
+            #if {&{character[chainAttack]} && $MSDP_OPPONENT_NUMBER == 0 && !@is_spammed{chainattack}}
             {
                 spamset chainattack 2;
                 #regexp {%1} {{.*} {.*}}
@@ -1054,7 +1060,7 @@
                     ${character[chainAttack]} %1
                 }
             };
-            #elseif {!${spam[chainattack]} && $MSDP_OPPONENT_NUMBER == 0}
+            #elseif {!@is_spammed{chainattack} && $MSDP_OPPONENT_NUMBER == 0}
             {
                 spamset chainattack 2;
                 join %2

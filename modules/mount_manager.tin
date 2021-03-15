@@ -167,7 +167,7 @@
      };
      #if {&{autoHealMountPercent}}
      {
-          #if {(%1 / $MSDP_MOUNT_HEALTH_MAX) * 100.0 < ${autoHealMountPercent} && !${spam[healmount]}}
+          #if {(%1 / $MSDP_MOUNT_HEALTH_MAX) * 100.0 < ${autoHealMountPercent} && !@is_spammed{healmount}}
           {
                ${autoHealMount} ${character[mount]};
                spamset healmount 6
