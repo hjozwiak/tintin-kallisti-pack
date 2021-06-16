@@ -54,7 +54,7 @@
      };
      #if {$mastodon}
      {
-          #system {madonctl toot "%1" &> /dev/null&}
+          #system {toot post "%1" &> /dev/null&}
      };
      #if {$gnusocial}
      {
