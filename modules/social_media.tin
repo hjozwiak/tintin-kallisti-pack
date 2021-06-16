@@ -54,7 +54,7 @@
      };
      #if {$mastodon}
      {
-          #system {madonctl toot "%1" &> /dev/null&}
+          #system {toot post "%1" &> /dev/null&}
      };
      #if {$gnusocial}
      {
@@ -103,7 +103,7 @@
           #case {{mastodon}}
           {
                #variable {mastodon} {1};
-               NOTIFY Achievements will now be posted to Mastodon. You will need to have madonctl installed and configured.
+               NOTIFY Achievements will now be posted to Mastodon. You will need to have toot installed and configured.
           };
           #case {{nomastodon}}
           {
