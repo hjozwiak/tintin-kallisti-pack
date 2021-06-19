@@ -249,7 +249,7 @@ So, if you have a module in Jack.modules called awesome.tin, and you've just mad
 The pack supports posting some accomplishments to a few different social media platforms. The list of things that can be automatically posted is growing, but so far it will do every 10 meta sessions, when your position changes on a top 10 board, and when you level. Supported platforms are GNU Social, Mastodon, and Twitter. To enable type the following commands, prefix them with no to turn it off, as in nomastodon:
 
 - gnusocial: Built in support using curl. Set your info with ginfo you@gnusocial.domain PASSWORD
-- mastodon: Available if [madonctl][madonctl] is installed and configured.
+- mastodon: Available if [toot][toot] is installed and configured.
 - twitter: Available if [oysttyer][oysttyer] is installed and configured.
 
 
@@ -261,7 +261,8 @@ If you like our work and would like to donate, please take a look at [the Linux 
 [a11y]: https://www.bountysource.com/teams/linux-a11y
 [hjozwiak]: https://liberapay.com/hjozwiak/donate
 [kallisti]: http://kallistimud.com
-[madonctl]: https://github.com/McKael/madonctl
+[toot]: https://github.com/ihabunek/toot
+
 [oysttyer]: https://github.com/oysttyer/oysttyer
 [storm]: https://liberapay.com/stormdragon2976/donate 
 [tt++]: http://tintin.sf.net
