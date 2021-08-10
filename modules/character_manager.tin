@@ -348,10 +348,6 @@
           #unvariable {hook};
           #class {%1} {read} {${HOME}/%1};
                #class {%1} {open};
-          #if {&{splitLines}}
-          {
-               #split {$currentSplitRows} {$splitLines}
-          };
           #if {!&{auto}}
           {
                #nop {The auto variable isn't set, create it in the character class to prevent character modules using it from grabbing it and preventing saving.};

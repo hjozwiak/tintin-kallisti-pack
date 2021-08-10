@@ -202,7 +202,7 @@
 {
      #if {!&{character[notify]}}
      {
-          #variable {character[notify]} {top}
+          #variable {character[notify]} {inline}
      };
      #switch {{${character[notify]}}}
      {
