@@ -142,7 +142,6 @@
     #screen get cols cols;
     #math {rows} {$rows - 2};
     #nop #screen {scroll} {2} {1} {$rows} {$cols};
-    #split {1} {1};
     #nop {Set the home directory variable.};
     #line substitute escapes #script {HOME} {if [ -z "$XDG_CONFIG_HOME" ] ; then echo "$HOME/.config/${tintinPackName}" ; else echo "$XDG_CONFIG_HOME/${tintinPackName}" ; fi};
     #variable {HOME} {${HOME[1]}};
