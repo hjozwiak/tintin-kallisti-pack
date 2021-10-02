@@ -400,6 +400,9 @@
 
 #ALIAS {^autoDequeue$}
 {
+    #local {i} {};
+    #local {j} {};
+    #local {k} {};
     #if {&{MSDP_CHARACTER_NAME} && {${MSDP_CHARACTER_NAME}} != {}}
     {
         #if {!&{auto[enabled]}}
@@ -408,14 +411,14 @@
         };
         #if {${auto[enabled]}}
         {
-            #local {i} {};
+            #variable {i} {};
             #list {autoQueue} {size} {i};
             #if {$i > 0 && {$MSDP_POSITION} == {{Fighting|Standing|Mounted|Flying|Swimming}}}
             {
                 #foreach {${autoQueue[%*]}} {i}
                 {
-                    #local {j} {};
-                    #local {k} {};
+                    #variable {j} {};
+                    #variable {k} {};
                     #if {&{MSDP_AFFECTS[$i]}}
                     {
                         #list {autoQueue} {find} {$i} {k};
@@ -441,14 +444,14 @@
                     #if {{${autoQueue[$i]}} == {{gt|say}%*}}
                     {
                         ${autoQueue[$i]};
-                        #local {k} {};
+                        #variable {k} {};
                         #list {autoQueue} {find} {$i} {k};
                         #list {autoQueue} {delete} {$k};
                         #continue
                     };
                     #if {{$MSDP_ROOM_VNUM} != {{13200|3001}}}
                     {
-                        #local {j} {};
+                        #variable {j} {};
                         #if {$MSDP_OPPONENT_NUMBER > 0}
                         {
                             #list {autoCombatAllowed} {find} $i {j};
@@ -463,7 +466,7 @@
                                 #if {$lastDequeueTimes > 10}
                                 {
                                     #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
-                                    #local {k} {};
+                                    #variable {k} {};
                                     #list {autoQueue} {find} {$i} {k};
                                     #list {autoQueue} {delete} {$k};
                                     #variable {lastDequeue} {};
@@ -513,7 +516,7 @@
                             #if {$lastDequeueTimes > 10}
                             {
                                 #nop We've tried to do this one at least 10 times, bale out. They probably don't have the potions, etc.;
-                                #local {k} {};
+                                #variable {k} {};
                                 #list {autoQueue} {find} {$i} {k};
                                 #list {autoQueue} {delete} {$k};
                                 #variable {lastDequeue} {};
